@@ -10,7 +10,7 @@ jobs:
     outputs:
       code: ${{ steps.downstream.outputs.code }}
     steps:
-      - uses: actions/checkout@v4.2.1
+      - uses: actions/checkout@v5
         with:
           submodules: true
       - name: Get downstream (local) version code
@@ -25,7 +25,7 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - uses: actions/checkout@v4.2.1
+      - uses: actions/checkout@v5
         with:
           submodules: true
 
