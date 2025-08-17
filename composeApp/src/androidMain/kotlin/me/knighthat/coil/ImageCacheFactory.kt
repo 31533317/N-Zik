@@ -59,6 +59,8 @@ object ImageCacheFactory {
                     .error( R.drawable.noimage )
                     .fallback( R.drawable.image )
                     .diskCachePolicy( CachePolicy.ENABLED )
+                    .networkCachePolicy( CachePolicy.ENABLED )
+                    .memoryCachePolicy( CachePolicy.ENABLED )
                     .diskCache( DISK_CACHE )
                     .build()
      }
@@ -79,6 +81,9 @@ object ImageCacheFactory {
         val request = ImageRequest.Builder( appContext() )
                                                   .data( thumbnailUrl.thumbnail( THUMBNAIL_SIZE ) )
                                                   .diskCacheKey( thumbnailUrl )
+                                                  .diskCachePolicy( CachePolicy.ENABLED )
+                                                  .networkCachePolicy( CachePolicy.ENABLED )
+                                                  .memoryCachePolicy( CachePolicy.ENABLED )
                                                   .build()
 
         AsyncImage(
@@ -108,6 +113,9 @@ object ImageCacheFactory {
                                                   .data( thumbnailUrl.thumbnail( THUMBNAIL_SIZE ) )
                                                   .diskCacheKey( thumbnailUrl )
                                                   .transformations( transformations )
+                                                  .diskCachePolicy( CachePolicy.ENABLED )
+                                                  .networkCachePolicy( CachePolicy.ENABLED )
+                                                  .memoryCachePolicy( CachePolicy.ENABLED )
                                                   .build()
 
         AsyncImage(
@@ -140,6 +148,9 @@ object ImageCacheFactory {
                                                   .data( thumbnailUrl.thumbnail( THUMBNAIL_SIZE ) )
                                                   .diskCacheKey( thumbnailUrl )
                                                   .transformations( transformations )
+                                                  .diskCachePolicy( CachePolicy.ENABLED )
+                                                  .networkCachePolicy( CachePolicy.ENABLED )
+                                                  .memoryCachePolicy( CachePolicy.ENABLED )
                                                   .build()
 
         return rememberAsyncImagePainter(

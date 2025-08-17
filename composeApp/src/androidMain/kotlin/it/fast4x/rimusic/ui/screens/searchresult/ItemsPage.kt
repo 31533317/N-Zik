@@ -145,7 +145,7 @@ inline fun <T : Innertube.Item> ItemsPage(
                 }
 
                 items(
-                    items = itemsPage?.items ?: emptyList(),
+                    items = (itemsPage?.items ?: emptyList()).distinctBy { it.key },
                     key = Innertube.Item::key,
                     itemContent = itemContent
                 )
@@ -285,7 +285,7 @@ inline fun <T : Innertube.Item> ItemsGridPage(
                 }
 
                 items(
-                    itemsPage?.items ?: emptyList(),
+                    (itemsPage?.items ?: emptyList()).distinctBy { it.key },
                     key = { it.key },
                     itemContent = itemContent
                 )
