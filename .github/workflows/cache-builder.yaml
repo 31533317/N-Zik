@@ -99,7 +99,7 @@ jobs:
         run: touch composeApp/src/androidMain/res/raw/release_notes.txt
 
       - name: Cache Gradle dependencies & build cache
-        uses: actions/cache@v4.2.3
+        uses: actions/cache@v4.2.4
         with:
           path: |
             ~/.gradle/caches
