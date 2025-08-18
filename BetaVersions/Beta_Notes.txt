@@ -1,9 +1,9 @@
-🧪 BETA 1 – v1.6.2  
+🧪 BETA 1 – v1.6.7.1
 
-Date: 21/06/25  
+Date: 18/08/25  
 
 ⚠️ This beta may contain bugs and crashes. Auto-update is currently OFF!
 
 
-Bug Fixes:
-- Fixed an issue where "Ignore Silent" was not working, causing songs to fail loading.
+Optimization:
+- Optimized search results
