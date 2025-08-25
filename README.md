@@ -125,7 +125,7 @@ Here are the languages currently supported:
 # 📲 Installation
 
 **Stable versions are available here:**  
-[![GitHub](./assets/get-it-on/GitHub.png)](https://github.com/fast4x/RiGallery/releases/latest)  
+[![GitHub](./assets/get-it-on/GitHub.png)]https://github.com/NEVARLeVrai/N-Zik/releases/latest)  
 
 **Beta versions are available here:**  
 [![BetaVersions folder](./assets/get-it-on/GitHubBeta.png)](https://github.com/NEVARLeVrai/N-Zik/tree/main/BetaVersions)
