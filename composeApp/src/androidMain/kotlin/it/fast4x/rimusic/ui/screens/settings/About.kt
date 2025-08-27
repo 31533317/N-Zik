@@ -198,28 +198,28 @@ fun About() {
                                          colorPalette().accent.copy(alpha = 0.05f)
                                      )
                                  ),
-                                 shape = CircleShape
+                        shape = CircleShape
                              ),
                          contentAlignment = Alignment.Center
                      ) {
                          Image(
                              bitmap = APP_ICON_IMAGE_BITMAP,
-                             contentDescription = null,
+                    contentDescription = null,
                                      modifier = Modifier.size(28.dp)
-                         )
-                     }
+                )
+            }
 
                              Spacer(modifier = Modifier.height(12.dp))
 
                                          // App Name
-                     val pkgManager = appContext().packageManager
+            val pkgManager = appContext().packageManager
                      val appInfo = pkgManager.getApplicationInfo(appContext().packageName, 0)
-                     BasicText(
+            BasicText(
                          text = pkgManager.getApplicationLabel(appInfo).toString(),
-                         style = TextStyle(
+                style = TextStyle(
                                      fontSize = typography().l.bold.fontSize,
                                      fontWeight = typography().l.bold.fontWeight,
-                             color = colorPalette().text,
+                    color = colorPalette().text,
                              textAlign = TextAlign.Center
                          ),
                          modifier = Modifier.fillMaxWidth()
@@ -281,9 +281,9 @@ fun About() {
                               Spacer(modifier = Modifier.height(8.dp))
                               
                               // View Changelog Button
-                              Row(
-                                  horizontalArrangement = Arrangement.Center,
-                                  verticalAlignment = Alignment.CenterVertically,
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
                                   modifier = Modifier
                                       .fillMaxWidth()
                                       .clip(RoundedCornerShape(8.dp))
@@ -302,7 +302,7 @@ fun About() {
                                      modifier = Modifier.size(16.dp)
                                  )
                                  Spacer(modifier = Modifier.width(6.dp))
-                                 BasicText(
+            BasicText(
                                      text = stringResource(R.string.view_changelog_settings_title),
                                      style = typography().xs.semiBold.copy(
                                          color = colorPalette().textSecondary
@@ -354,8 +354,8 @@ fun About() {
                                         shape = CircleShape
                                     ),
                                 contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
+            ) {
+                Icon(
                                     painter = painterResource(R.drawable.update),
                                     tint = colorPalette().accent,
                                     contentDescription = null,
@@ -409,7 +409,7 @@ fun About() {
                                 
                                 Spacer(modifier = Modifier.height(8.dp))
                             } else {
-                                BasicText(
+                BasicText(
                                     text = stringResource(R.string.check_update),
                                     style = typography().xs.secondary.copy(
                                         textAlign = TextAlign.Center
@@ -595,21 +595,21 @@ fun About() {
                     )
 
                     ModernSettingsEntry(
-                        title = stringResource(R.string.report_an_issue),
-                        text = stringResource(R.string.you_will_be_redirected_to_github),
+            title = stringResource(R.string.report_an_issue),
+            text = stringResource(R.string.you_will_be_redirected_to_github),
                         icon = R.drawable.trending,
-                        onClick = {
-                            val issuePath = "/issues/new?assignees=&labels=bug&template=bug_report.yaml"
+            onClick = {
+                val issuePath = "/issues/new?assignees=&labels=bug&template=bug_report.yaml"
                             uriHandler.openUri(Repository.REPO_URL + issuePath)
-                        }
-                    )
+            }
+        )
 
                     ModernSettingsEntry(
-                        title = stringResource(R.string.request_a_feature_or_suggest_an_idea),
-                        text = stringResource(R.string.you_will_be_redirected_to_github),
+            title = stringResource(R.string.request_a_feature_or_suggest_an_idea),
+            text = stringResource(R.string.you_will_be_redirected_to_github),
                         icon = R.drawable.star_brilliant,
-                        onClick = {
-                            val issuePath = "/issues/new?assignees=&labels=feature_request&template=feature_request.yaml"
+            onClick = {
+                val issuePath = "/issues/new?assignees=&labels=feature_request&template=feature_request.yaml"
                             uriHandler.openUri(Repository.REPO_URL + issuePath)
                         }
                     )
@@ -710,8 +710,8 @@ fun About() {
                          Column(
                              modifier = Modifier.padding(start = 24.dp, top = 8.dp)
                          ) {
-                             SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
-                             ShowTranslators()
+        SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
+        ShowTranslators()
                          }
                      }
 
@@ -780,7 +780,7 @@ fun About() {
 
         LaunchedEffect(Unit) { changelogs.isActive = true }
         changelogs.Render()
-
+        
         LaunchedEffect(changelogs.isActive) {
             if (!changelogs.isActive) showChangelog.value = false
         }

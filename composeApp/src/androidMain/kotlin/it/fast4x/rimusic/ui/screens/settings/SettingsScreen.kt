@@ -2,6 +2,8 @@ package it.fast4x.rimusic.ui.screens.settings
 
 import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -14,11 +16,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -52,8 +58,12 @@ import it.fast4x.rimusic.ui.components.themed.IDialog
 import it.fast4x.rimusic.ui.components.themed.InputTextDialog
 import it.fast4x.rimusic.ui.components.themed.Slider
 import it.fast4x.rimusic.ui.components.themed.StringListDialog
-import it.fast4x.rimusic.ui.components.themed.Switch
 import it.fast4x.rimusic.ui.components.themed.ValueSelectorDialog
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import it.fast4x.rimusic.ui.components.themed.Switch
 import it.fast4x.rimusic.utils.color
 import it.fast4x.rimusic.utils.secondary
 import it.fast4x.rimusic.utils.semiBold
@@ -228,6 +238,99 @@ fun <T> ValueSelectorSettingsEntry(
             modifier = Modifier
                 .padding(start = 12.dp)
         )
+    }
+}
+
+
+@Composable
+fun OtherSwitchSettingEntry(
+    title: String,
+    text: String,
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    icon: Int,
+    modifier: Modifier = Modifier
+) {
+    var isPressed by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.95f else 1f,
+        animationSpec = tween(150),
+        label = "scale"
+    )
+    
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = { onCheckedChange(!isChecked) }),
+        color = Color.Transparent
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .scale(scale)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // Icon
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = colorPalette().accent.copy(alpha = 0.1f),
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        tint = colorPalette().accent,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+
+                // Content
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    BasicText(
+                        text = title,
+                        style = typography().s.semiBold.copy(
+                            color = colorPalette().text
+                        )
+                    )
+                    if (text.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        BasicText(
+                            text = text,
+                            style = typography().xs.copy(
+                                color = colorPalette().textSecondary
+                            )
+                        )
+                    }
+                }
+
+                // Switch Material 3 with theme colors
+                Switch(
+                    checked = isChecked,
+                    onCheckedChange = onCheckedChange,
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = colorPalette().textSecondary,
+                        checkedTrackColor = colorPalette().accent.copy(alpha = 0.3f),
+                        uncheckedThumbColor = colorPalette().textSecondary,
+                        uncheckedTrackColor = colorPalette().textSecondary.copy(alpha = 0.3f)
+                    )
+                )
+
+            }
+        }
     }
 }
 
