@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Restore your settings from file created by \"%s\"</string>
   <string name="title_import_migration_file">Import migration file</string>
   <string name="description_import_migration_file">For old users before conversion. \nUse old app to make a backup for migration</string>
-  <string name="description_app_not_installed_by_apk">App installed by an APK distributor should let its distributor update the app!</string>
+  <string name="description_app_not_installed_by_apk">Hvis du ser denne meldingen betyr det at bygget ditt ikke har blitt aktivert autooppdatert, oppdaterer du appen manuelt fra github</string>
   <string name="relative_listening_time">Relative Listening Time</string>
   <string name="added_to_dislikes">Disliked %s</string>
   <string name="removed_from_dislikes">Removed %s from dislikes</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Tilpassende</string>
   <string name="unknown_title">Ukjent tittel</string>
   <string name="unknown_artist">Ukjent artist</string>
+  <string name="never_checked">Aldri sjekket</string>
+  <string name="up_to_date">Opp til dato</string>
+  <string name="last_check_date">Siste sjekk</string>
+  <string name="auto_update_settings">Innstillinger for automatisk oppdatering</string>
+  <string name="auto_update_enabled">Aktivert</string>
+  <string name="auto_update_ask">Spør</string>
+  <string name="auto_update_disabled">Deaktivert</string>
 </resources>
