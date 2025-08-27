@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">从 \"%s \" 创建的文件恢复您的设置</string>
   <string name="title_import_migration_file">Import migration file</string>
   <string name="description_import_migration_file">For old users before conversion. \nUse old app to make a backup for migration</string>
-  <string name="description_app_not_installed_by_apk">If you see this message it means that your build doesnt have auto update enabled, pls update the app manually from github</string>
+  <string name="description_app_not_installed_by_apk">如果您看到此消息，它意味着您的构建没有启用自动更新，请手动从 github 更新应用程序</string>
   <string name="relative_listening_time">Relative Listening Time</string>
   <string name="added_to_dislikes">Disliked %s</string>
   <string name="removed_from_dislikes">Removed %s from dislikes</string>
@@ -1009,11 +1009,11 @@
   <string name="smart_recommendations_adaptive">自适应模式</string>
   <string name="unknown_title">未知标题</string>
   <string name="unknown_artist">未知艺人</string>
-  <string name="never_checked">Never checked</string>
-  <string name="up_to_date">Up to date</string>
-  <string name="last_check_date">Last check</string>
-  <string name="auto_update_settings">Auto update settings</string>
-  <string name="auto_update_enabled">Enabled</string>
-  <string name="auto_update_ask">Ask</string>
+  <string name="never_checked">从未检查</string>
+  <string name="up_to_date">最新的</string>
+  <string name="last_check_date">上次检查</string>
+  <string name="auto_update_settings">自动更新设置</string>
+  <string name="auto_update_enabled">已启用</string>
+  <string name="auto_update_ask">询问</string>
   <string name="auto_update_disabled">停用</string>
 </resources>
