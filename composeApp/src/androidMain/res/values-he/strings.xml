@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Restore your settings from file created by \"%s\"</string>
   <string name="title_import_migration_file">Import migration file</string>
   <string name="description_import_migration_file">For old users before conversion. \nUse old app to make a backup for migration</string>
-  <string name="description_app_not_installed_by_apk">App installed by an APK distributor should let its distributor update the app!</string>
+  <string name="description_app_not_installed_by_apk">If you see this message it means that your build doesnt have auto update enabled, pls update the app manually from github</string>
   <string name="relative_listening_time">Relative Listening Time</string>
   <string name="added_to_dislikes">Disliked %s</string>
   <string name="removed_from_dislikes">Removed %s from dislikes</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adaptive</string>
   <string name="unknown_title">Unknown Title</string>
   <string name="unknown_artist">Unknown Artist</string>
+  <string name="never_checked">Never checked</string>
+  <string name="up_to_date">Up to date</string>
+  <string name="last_check_date">Last check</string>
+  <string name="auto_update_settings">Auto update settings</string>
+  <string name="auto_update_enabled">מופעל</string>
+  <string name="auto_update_ask">שאל</string>
+  <string name="auto_update_disabled">מושבת</string>
 </resources>
