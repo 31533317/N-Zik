@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Restore your settings from file created by \"%s\"</string>
   <string name="title_import_migration_file">Import migration file</string>
   <string name="description_import_migration_file">For old users before conversion. \nUse old app to make a backup for migration</string>
-  <string name="description_app_not_installed_by_apk">App installed by an APK distributor should let its distributor update the app!</string>
+  <string name="description_app_not_installed_by_apk">Если вы видите это сообщение, это означает, что ваша сборка не имеет автоматического обновления, пожалуйста, обновите приложение вручную с github</string>
   <string name="relative_listening_time">Относительное время прослушивания</string>
   <string name="added_to_dislikes">Disliked %s</string>
   <string name="removed_from_dislikes">Removed %s from dislikes</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Адаптивный</string>
   <string name="unknown_title">Неизвестное название</string>
   <string name="unknown_artist">Неизвестный художник</string>
+  <string name="never_checked">Не проверять</string>
+  <string name="up_to_date">Актуально</string>
+  <string name="last_check_date">Последняя проверка</string>
+  <string name="auto_update_settings">Настройки автообновления</string>
+  <string name="auto_update_enabled">Включено</string>
+  <string name="auto_update_ask">Спрашивать</string>
+  <string name="auto_update_disabled">Отключено</string>
 </resources>
