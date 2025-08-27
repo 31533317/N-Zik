@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adaptive</string>
   <string name="unknown_title">Unknown Title</string>
   <string name="unknown_artist">Unknown Artist</string>
+  <string name="never_checked">Never checked</string>
+  <string name="up_to_date">Up to date</string>
+  <string name="last_check_date">Last check</string>
+  <string name="auto_update_settings">Auto update settings</string>
+  <string name="auto_update_enabled">Enabled</string>
+  <string name="auto_update_ask">Ask</string>
+  <string name="auto_update_disabled">Disabled</string>
 </resources>

@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">\"%s\" tarafından oluşturulan dosyadan ayarlarınızı geri yükleyin</string>
   <string name="title_import_migration_file">Taşıma dosyasını içe aktar</string>
   <string name="description_import_migration_file">Dönüşümden önceki eski kullanıcılar için. \nTaşıma için yedekleme yapmak üzere eski uygulamayı kullanın</string>
-  <string name="description_app_not_installed_by_apk">APK dağıtıcısı tarafından yüklenen uygulama, dağıtıcısının uygulamayı güncellemesine izin vermelidir!</string>
+  <string name="description_app_not_installed_by_apk">If you see this message it means that your build doesnt have auto update enabled, pls update the app manually from github</string>
   <string name="relative_listening_time">Göreceli Dinleme Süresi</string>
   <string name="added_to_dislikes">%s Beğenilmeyenlere eklendi</string>
   <string name="removed_from_dislikes">%s Beğenilmeyenlerden çıkarıldı</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adaptive</string>
   <string name="unknown_title">Unknown Title</string>
   <string name="unknown_artist">Unknown Artist</string>
+  <string name="never_checked">Never checked</string>
+  <string name="up_to_date">Up to date</string>
+  <string name="last_check_date">Last check</string>
+  <string name="auto_update_settings">Auto update settings</string>
+  <string name="auto_update_enabled">Etkin</string>
+  <string name="auto_update_ask">Sor</string>
+  <string name="auto_update_disabled">Devre dışı</string>
 </resources>

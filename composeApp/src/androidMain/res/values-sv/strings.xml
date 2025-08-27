@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Restore your settings from file created by \"%s\"</string>
   <string name="title_import_migration_file">Import migration file</string>
   <string name="description_import_migration_file">For old users before conversion. \nUse old app to make a backup for migration</string>
-  <string name="description_app_not_installed_by_apk">App installed by an APK distributor should let its distributor update the app!</string>
+  <string name="description_app_not_installed_by_apk">Om du ser detta meddelande betyder det att din kompilering inte har automatisk uppdatering aktiverad, pls uppdatera appen manuellt från github</string>
   <string name="relative_listening_time">Relative Listening Time</string>
   <string name="added_to_dislikes">Disliked %s</string>
   <string name="removed_from_dislikes">Removed %s from dislikes</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adaptiv</string>
   <string name="unknown_title">Okänd titel</string>
   <string name="unknown_artist">Okänd konstnär</string>
+  <string name="never_checked">Aldrig kontrollerad</string>
+  <string name="up_to_date">Senast uppdaterad</string>
+  <string name="last_check_date">Senaste kontroll</string>
+  <string name="auto_update_settings">Uppdatera inställningar automatiskt</string>
+  <string name="auto_update_enabled">Aktiverad</string>
+  <string name="auto_update_ask">Fråga</string>
+  <string name="auto_update_disabled">Inaktiverad</string>
 </resources>

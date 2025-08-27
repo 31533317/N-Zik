@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Wiederherstellen der Einstellungen aus der durch \"%s\" erstellten Datei</string>
   <string name="title_import_migration_file">Migrationsdatei importieren</string>
   <string name="description_import_migration_file">Für alte Benutzer vor der Konvertierung. \nDie alte App verwenden, um ein Backup für die Migration zu erstellen</string>
-  <string name="description_app_not_installed_by_apk">Eine App, die über einen APK-Verteiler installiert wurde, sollte auch über diesen aktualisiert werden!</string>
+  <string name="description_app_not_installed_by_apk">Wenn du diese Nachricht siehst, bedeutet dies, dass bei deinem Build keine automatische Aktualisierung aktiviert ist, pls die App manuell von github aktualisieren</string>
   <string name="relative_listening_time">Relative Wiedergabedauer</string>
   <string name="added_to_dislikes">%s gefällt mir nicht</string>
   <string name="removed_from_dislikes">%s von \"Gefällt mir nicht\" entfernt</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adaptiv</string>
   <string name="unknown_title">Unbekannter Titel</string>
   <string name="unknown_artist">Unbekannter Künstler</string>
+  <string name="never_checked">Niemals überprüft</string>
+  <string name="up_to_date">Aktuell</string>
+  <string name="last_check_date">Letzte Prüfung</string>
+  <string name="auto_update_settings">Einstellungen automatisch aktualisieren</string>
+  <string name="auto_update_enabled">Aktiviert</string>
+  <string name="auto_update_ask">Fragen</string>
+  <string name="auto_update_disabled">Aus</string>
 </resources>

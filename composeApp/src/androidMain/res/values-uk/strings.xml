@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Restore your settings from file created by \"%s\"</string>
   <string name="title_import_migration_file">Import migration file</string>
   <string name="description_import_migration_file">For old users before conversion. \nUse old app to make a backup for migration</string>
-  <string name="description_app_not_installed_by_apk">App installed by an APK distributor should let its distributor update the app!</string>
+  <string name="description_app_not_installed_by_apk">Якщо ви бачите це повідомлення, це означає, що ваша збірка не увімкнена автовідновлення, варто оновити додаток вручну з github</string>
   <string name="relative_listening_time">Відносний час прослуховування</string>
   <string name="added_to_dislikes">Disliked %s</string>
   <string name="removed_from_dislikes">Removed %s from dislikes</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Адаптивний колір</string>
   <string name="unknown_title">Невідомий заголовок</string>
   <string name="unknown_artist">Невідомий виконавець</string>
+  <string name="never_checked">Ніколи не перевіряти</string>
+  <string name="up_to_date">Актуальні дані</string>
+  <string name="last_check_date">Остання перевірка</string>
+  <string name="auto_update_settings">Налаштування автоматичного оновлення</string>
+  <string name="auto_update_enabled">Увімкнено</string>
+  <string name="auto_update_ask">Запитати</string>
+  <string name="auto_update_disabled">Відключено</string>
 </resources>

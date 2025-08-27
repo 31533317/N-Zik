@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Restabiliți setările din fișierul creat de \"%s\"</string>
   <string name="title_import_migration_file">Import migration file</string>
   <string name="description_import_migration_file">For old users before conversion. \nUse old app to make a backup for migration</string>
-  <string name="description_app_not_installed_by_apk">App installed by an APK distributor should let its distributor update the app!</string>
+  <string name="description_app_not_installed_by_apk">Dacă vedeți acest mesaj, înseamnă că construcția dvs. are activată actualizarea automată, vă permite să actualizați aplicația manual de la github</string>
   <string name="relative_listening_time">Timp de ascultare relativă</string>
   <string name="added_to_dislikes">Disliked %s</string>
   <string name="removed_from_dislikes">Removed %s from dislikes</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adaptiv</string>
   <string name="unknown_title">Titlu necunoscut</string>
   <string name="unknown_artist">Artist Necunoscut</string>
+  <string name="never_checked">Niciodată verificat</string>
+  <string name="up_to_date">Actualizare actualizată</string>
+  <string name="last_check_date">Ultima verificare</string>
+  <string name="auto_update_settings">Actualizare automată setări</string>
+  <string name="auto_update_enabled">Activat</string>
+  <string name="auto_update_ask">Întreabă</string>
+  <string name="auto_update_disabled">Dezactivat</string>
 </resources>

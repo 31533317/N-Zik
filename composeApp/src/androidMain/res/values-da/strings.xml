@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Gendan dine indstillinger fra fil oprettet af \"%s\"</string>
   <string name="title_import_migration_file">Importér migrationsfil</string>
   <string name="description_import_migration_file">For gamle brugere før konvertering. \nBrug gammel app til at lave en sikkerhedskopi til migrering</string>
-  <string name="description_app_not_installed_by_apk">App installeret af en APK-distributør bør lade sin distributør opdatere appen!</string>
+  <string name="description_app_not_installed_by_apk">Hvis du ser denne besked, betyder det, at din build ikke har automatisk opdatering aktiveret, pls opdatere appen manuelt fra github</string>
   <string name="relative_listening_time">Relativ lyttetid</string>
   <string name="added_to_dislikes">Kan ikke lide %s</string>
   <string name="removed_from_dislikes">Fjernede %s fra dislikes</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adaptiv</string>
   <string name="unknown_title">Ukendt Titel</string>
   <string name="unknown_artist">Ukendt Kunstner</string>
+  <string name="never_checked">Aldrig kontrolleret</string>
+  <string name="up_to_date">Op til dato</string>
+  <string name="last_check_date">Sidste kontrol</string>
+  <string name="auto_update_settings">Opdater indstillinger automatisk</string>
+  <string name="auto_update_enabled">Aktiveret</string>
+  <string name="auto_update_ask">Spørg</string>
+  <string name="auto_update_disabled">Deaktiveret</string>
 </resources>

@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Ripristina le impostazioni dal file creato da \"%s\"</string>
   <string name="title_import_migration_file">Importa file di migrazione</string>
   <string name="description_import_migration_file">Per i vecchi utenti prima della conversione. \nUtilizza la vecchia app per creare un backup per la migrazione</string>
-  <string name="description_app_not_installed_by_apk">Un\'app installata da un distributore APK dovrebbe consentire al suo distributore di aggiornare l\'app!</string>
+  <string name="description_app_not_installed_by_apk">Se vedi questo messaggio significa che la tua build non ha l\'aggiornamento automatico abilitato, pls aggiorna l\'applicazione manualmente da github</string>
   <string name="relative_listening_time">Tempo di ascolto relativo</string>
   <string name="added_to_dislikes">Non mi è piaciuto %s</string>
   <string name="removed_from_dislikes">Rimosso %s dai non piacuti</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adattivo</string>
   <string name="unknown_title">Titolo Sconosciuto</string>
   <string name="unknown_artist">Artista Sconosciuto</string>
+  <string name="never_checked">Mai controllato</string>
+  <string name="up_to_date">Fino ad oggi</string>
+  <string name="last_check_date">Ultimo controllo</string>
+  <string name="auto_update_settings">Aggiornamento automatico delle impostazioni</string>
+  <string name="auto_update_enabled">Abilitato</string>
+  <string name="auto_update_ask">Chiedi</string>
+  <string name="auto_update_disabled">Disabilitato</string>
 </resources>
