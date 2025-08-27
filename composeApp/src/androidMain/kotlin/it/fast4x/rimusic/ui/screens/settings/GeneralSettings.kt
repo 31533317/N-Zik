@@ -126,7 +126,6 @@ import it.fast4x.rimusic.utils.useVolumeKeysToChangeSongKey
 import it.fast4x.rimusic.utils.volumeNormalizationKey
 import me.knighthat.component.dialog.RestartAppDialog
 import me.knighthat.component.tab.Search
-import me.knighthat.updater.Updater
 
 
 @ExperimentalAnimationApi
@@ -306,11 +305,7 @@ fun GeneralSettings(
             )
         }
 
-        if (BuildConfig.IS_AUTOUPDATE) {
-            SettingsEntryGroupText(stringResource(R.string.update))
-            if (search.inputValue.isBlank() || stringResource(R.string.update).contains(search.inputValue, true))
-                Updater.SettingEntry()
-        }
+
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.languages))

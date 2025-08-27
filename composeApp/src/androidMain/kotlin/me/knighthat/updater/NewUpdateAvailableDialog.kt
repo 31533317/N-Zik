@@ -39,6 +39,9 @@ import it.fast4x.rimusic.utils.bold
 import it.fast4x.rimusic.utils.color
 import it.fast4x.rimusic.utils.medium
 import it.fast4x.rimusic.utils.semiBold
+import it.fast4x.rimusic.utils.lastUpdateCheckKey
+import it.fast4x.rimusic.utils.updateCancelledKey
+import it.fast4x.rimusic.appContext
 import me.knighthat.utils.Repository
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -89,6 +92,12 @@ object NewUpdateAvailableDialog: Dialog {
         isCancelled = true
         isActive = false
         showChangelog = false
+        
+        // Mark update as cancelled when user cancels (but don't update the check time)
+        val sharedPrefs = appContext().getSharedPreferences("settings", 0)
+        sharedPrefs.edit()
+            .putBoolean(updateCancelledKey, true)
+            .apply()
     }
 
     @Composable
