@@ -953,7 +953,7 @@
   <string name="restore_settings_from_file">Obnovit nastavení ze souboru vytvořeného \"%s\"</string>
   <string name="title_import_migration_file">Import migration file</string>
   <string name="description_import_migration_file">For old users before conversion. \nUse old app to make a backup for migration</string>
-  <string name="description_app_not_installed_by_apk">App installed by an APK distributor should let its distributor update the app!</string>
+  <string name="description_app_not_installed_by_apk">Pokud vidíte tuto zprávu, znamená to, že vaše sestavení nemá povolenou automatickou aktualizaci, pls aktualizuje aplikaci ručně z githubu</string>
   <string name="relative_listening_time">Relativní doba poslechu</string>
   <string name="added_to_dislikes">Disliked %s</string>
   <string name="removed_from_dislikes">Removed %s from dislikes</string>
@@ -1009,4 +1009,11 @@
   <string name="smart_recommendations_adaptive">Adaptivní</string>
   <string name="unknown_title">Neznámý název</string>
   <string name="unknown_artist">Neznámý interpret</string>
+  <string name="never_checked">Nikdy nezaškrtnuto</string>
+  <string name="up_to_date">Aktuální</string>
+  <string name="last_check_date">Poslední kontrola</string>
+  <string name="auto_update_settings">Automatická aktualizace</string>
+  <string name="auto_update_enabled">Povoleno</string>
+  <string name="auto_update_ask">Zeptat se</string>
+  <string name="auto_update_disabled">Zakázaný</string>
 </resources>
