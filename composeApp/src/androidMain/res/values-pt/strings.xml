@@ -1047,4 +1047,6 @@
   <string name="audio_effects">Efeitos de Áudio</string>
   <string name="gestures_events">Gestos &amp; Eventos</string>
   <string name="picture_in_picture">Imagem de imagem</string>
+  <string name="i_understand">Eu entendo</string>
+  <string name="by_string">Por</string>
 </resources>
