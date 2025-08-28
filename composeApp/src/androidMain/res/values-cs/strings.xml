@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Povoleno</string>
   <string name="auto_update_ask">Zeptat se</string>
   <string name="auto_update_disabled">Zakázaný</string>
+  <string name="tab_network">Síť</string>
+  <string name="about_description">O sekci zobrazuje informace o aplikaci, vývojáři, řešení problémů a možnosti aktualizace</string>
+  <string name="other_settings_description">Různá část obsahuje různá volitelná nastavení a nástroje</string>
+  <string name="data_settings_description">Datová sekce obsahuje nastavení, která upravují, jak aplikace zpracovává místní a vzdálené údaje</string>
+  <string name="accounts_settings_description">Sekce účty obsahuje nastavení synchronizace YouTube, nastavení síťového vysílání Piped a nastavení pro Discord Rpc</string>
 </resources>
