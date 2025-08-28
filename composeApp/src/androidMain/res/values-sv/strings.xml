@@ -1047,4 +1047,6 @@
   <string name="audio_effects">Ljud effekter</string>
   <string name="gestures_events">Gester &amp; Händelser</string>
   <string name="picture_in_picture">Bild i bild</string>
+  <string name="i_understand">Jag förstår</string>
+  <string name="by_string">av</string>
 </resources>
