@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">Είστε ένας αριθμός ένα, μακρύ κλικ και να απολαύσετε την έκπληξη</string>
   <string name="general_settings_description">Η γενική ενότητα περιέχει ρυθμίσεις για τη γενική λειτουργικότητα της εφαρμογής</string>
   <string name="pause_between_songs_description">Προσθήκη παύσης μεταξύ τραγουδιών</string>
+  <string name="notifications">Ειδοποιήσεις</string>
+  <string name="playback">Αναπαραγωγή</string>
+  <string name="player_controls">Στοιχεία Ελέγχου Παίκτη</string>
+  <string name="queue_management">Διαχείριση Ουράς</string>
+  <string name="app_behavior">Συμπεριφορά Εφαρμογής</string>
+  <string name="audio_effects">Εφέ Ήχου</string>
+  <string name="gestures_events">Gestures &amp; Events</string>
+  <string name="picture_in_picture">Εικόνα σε εικόνα</string>
 </resources>
