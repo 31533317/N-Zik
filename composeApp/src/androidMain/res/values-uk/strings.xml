@@ -1047,4 +1047,6 @@
   <string name="audio_effects">Аудіоефекти</string>
   <string name="gestures_events">Жести &amp; події</string>
   <string name="picture_in_picture">Зображення в картинці</string>
+  <string name="i_understand">Я розумію</string>
+  <string name="by_string">за</string>
 </resources>
