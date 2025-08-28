@@ -131,7 +131,7 @@ fun About() {
             if (NavigationBarPosition.Right.isCurrent() || NavigationBarPosition.Left.isCurrent())
                 Spacer(Modifier.height(Dimensions.halfheaderHeight))
 
-         // Header
+         // Header 
          HeaderWithIcon(
              title = stringResource(R.string.about),
              iconId = R.drawable.information,
@@ -140,6 +140,11 @@ fun About() {
              modifier = Modifier,
              onClick = {}
          )
+         SettingsDescription(
+            text = stringResource(R.string.about_description),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        ) 
  
          // Header Cards Row - App Info & Update Check
         AnimatedVisibility(
@@ -784,69 +789,5 @@ fun About() {
         LaunchedEffect(changelogs.isActive) {
             if (!changelogs.isActive) showChangelog.value = false
         }
-    }
-}
-
-@Composable
-fun ModernSettingsEntry(
-    title: String,
-    text: String,
-    icon: Int,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick)
-            .padding(12.dp)
-            ) {
-                // Icon
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(
-                            color = colorPalette().accent.copy(alpha = 0.1f),
-                            shape = RoundedCornerShape(8.dp)
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(icon),
-                        tint = colorPalette().accent,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
-
-                // Content
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    BasicText(
-                        text = title,
-                        style = typography().xs.semiBold.copy(color = colorPalette().text),
-                        modifier = Modifier.padding(bottom = 2.dp)
-                    )
-                    if (text.isNotEmpty()) {
-                        BasicText(
-                            text = text,
-                            style = typography().xxs.secondary.copy(color = colorPalette().textSecondary),
-                        )
-                    }
-                }
-
-                // Arrow indicator
-                Icon(
-                    painter = painterResource(R.drawable.chevron_forward),
-                    tint = colorPalette().textSecondary,
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp)
-                )
     }
 }

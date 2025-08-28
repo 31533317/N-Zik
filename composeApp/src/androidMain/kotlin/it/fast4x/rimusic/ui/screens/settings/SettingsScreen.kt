@@ -21,8 +21,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -37,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -44,6 +49,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
@@ -61,8 +67,10 @@ import it.fast4x.rimusic.ui.components.themed.StringListDialog
 import it.fast4x.rimusic.ui.components.themed.ValueSelectorDialog
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import it.fast4x.rimusic.ui.components.themed.HeaderIconButton
 import it.fast4x.rimusic.ui.components.themed.Switch
 import it.fast4x.rimusic.utils.color
 import it.fast4x.rimusic.utils.secondary
@@ -85,7 +93,7 @@ fun SettingsScreen(
     val saveableStateHolder = rememberSaveableStateHolder()
 
     val (tabIndex, onTabChanged) = rememberSaveable {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
 
     Skeleton(
@@ -425,16 +433,30 @@ fun SettingsDescription(
     text: String,
     modifier: Modifier = Modifier,
     important: Boolean = false,
+    textAlign: TextAlign? = null,
 ) {
-    BasicText(
-        text = text,
-        style = if (important) typography().xxs.semiBold.color(colorPalette().red)
-        else typography().xxs.secondary,
-        modifier = modifier
-            .padding(start = 12.dp)
-            //.padding(horizontal = 12.dp)
-            .padding(bottom = 8.dp)
-    )
+    if (textAlign != null) {
+        Text(
+            text = text,
+            style = if (important) typography().xxs.semiBold.color(colorPalette().red)
+            else typography().xxs.secondary,
+            textAlign = textAlign,
+            modifier = modifier
+                .padding(start = 12.dp)
+                //.padding(horizontal = 12.dp)
+                .padding(bottom = 8.dp)
+        )
+    } else {
+        BasicText(
+            text = text,
+            style = if (important) typography().xxs.semiBold.color(colorPalette().red)
+            else typography().xxs.secondary,
+            modifier = modifier
+                .padding(start = 12.dp)
+                //.padding(horizontal = 12.dp)
+                .padding(bottom = 8.dp)
+        )
+    }
 }
 
 @Composable
@@ -675,4 +697,322 @@ fun SettingsGroup(
     content()
 
     SettingsGroupSpacer()
+}
+
+@Composable
+fun SettingsSectionCard(
+    title: String,
+    icon: Int,
+    content: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    description: String? = null
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(12.dp),
+                spotColor = colorPalette().accent.copy(alpha = 0.2f)
+            ),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = colorPalette().background1
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            // Section Header
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 12.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = colorPalette().accent.copy(alpha = 0.1f),
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        tint = colorPalette().accent,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                BasicText(
+                    text = title,
+                    style = typography().s.semiBold.copy(
+                        color = colorPalette().accent
+                    )
+                )
+            }
+
+            // Description (if provided)
+            description?.let { desc ->
+                SettingsDescription(
+                    text = desc,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            // Content
+            content()
+        }
+    }
+}
+
+
+@Composable
+fun OtherSettingsEntry(
+    title: String,
+    text: String,
+    icon: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isPressed by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.95f else 1f,
+        animationSpec = tween(150),
+        label = "scale"
+    )
+    
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick),
+        color = Color.Transparent
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .scale(scale)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // Icon
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = colorPalette().accent.copy(alpha = 0.1f),
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        tint = colorPalette().accent,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+
+                // Content
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    BasicText(
+                        text = title,
+                        style = typography().s.semiBold.copy(
+                            color = colorPalette().text
+                        )
+                    )
+                    if (text.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        BasicText(
+                            text = text,
+                            style = typography().xs.copy(
+                                color = colorPalette().textSecondary
+                            )
+                        )
+                    }
+                }
+
+                // Arrow indicator
+                Icon(
+                    painter = painterResource(R.drawable.chevron_forward),
+                    tint = colorPalette().textSecondary,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        }
+    }
+}
+
+
+@Composable
+fun CacheSettingsEntry(
+    title: String,
+    text: String,
+    icon: Int,
+    onClick: () -> Unit,
+    onTrashClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isPressed by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.95f else 1f,
+        animationSpec = tween(150),
+        label = "scale"
+    )
+    
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick),
+        color = Color.Transparent
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .scale(scale)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // Icon
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = colorPalette().accent.copy(alpha = 0.1f),
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        tint = colorPalette().accent,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+
+                // Content
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    BasicText(
+                        text = title,
+                        style = typography().s.semiBold.copy(
+                            color = colorPalette().text
+                        )
+                    )
+                    if (text.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        BasicText(
+                            text = text,
+                            style = typography().xs.copy(
+                                color = colorPalette().textSecondary
+                            )
+                        )
+                    }
+                }
+
+                // Trash button
+                HeaderIconButton(
+                    icon = R.drawable.trash,
+                    enabled = true,
+                    color = colorPalette().text,
+                    onClick = onTrashClick
+                )
+
+                // Arrow indicator
+                Icon(
+                    painter = painterResource(R.drawable.chevron_forward),
+                    tint = colorPalette().textSecondary,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ModernSettingsEntry(
+    title: String,
+    text: String,
+    icon: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick)
+            .padding(12.dp)
+            ) {
+                // Icon
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = colorPalette().accent.copy(alpha = 0.1f),
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        tint = colorPalette().accent,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+
+                // Content
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    BasicText(
+                        text = title,
+                        style = typography().xs.semiBold.copy(color = colorPalette().text),
+                        modifier = Modifier.padding(bottom = 2.dp)
+                    )
+                    if (text.isNotEmpty()) {
+                        BasicText(
+                            text = text,
+                            style = typography().xxs.secondary.copy(color = colorPalette().textSecondary),
+                        )
+                    }
+                }
+
+                // Arrow indicator
+                Icon(
+                    painter = painterResource(R.drawable.chevron_forward),
+                    tint = colorPalette().textSecondary,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp)
+                )
+    }
 }

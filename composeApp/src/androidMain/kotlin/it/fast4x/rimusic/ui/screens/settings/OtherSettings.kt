@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.BuildConfig
@@ -124,6 +125,12 @@ fun OtherSettings() {
             modifier = Modifier,
             onClick = {}
         )
+
+        SettingsDescription(
+            text = stringResource(R.string.other_settings_description),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        ) 
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -488,152 +495,5 @@ fun OtherSettings() {
         }
 
         Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
-    }
-}
-
-@Composable
-fun SettingsSectionCard(
-    title: String,
-    icon: Int,
-    content: @Composable () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(12.dp),
-                spotColor = colorPalette().accent.copy(alpha = 0.2f)
-            ),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = colorPalette().background1
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            // Section Header
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 12.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(
-                            color = colorPalette().accent.copy(alpha = 0.1f),
-                            shape = RoundedCornerShape(8.dp)
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(icon),
-                        tint = colorPalette().accent,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                BasicText(
-                    text = title,
-                    style = typography().s.semiBold.copy(
-                        color = colorPalette().accent
-                    )
-                )
-            }
-
-            // Content
-            content()
-        }
-    }
-}
-
-@Composable
-fun OtherSettingsEntry(
-    title: String,
-    text: String,
-    icon: Int,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var isPressed by remember { mutableStateOf(false) }
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
-        animationSpec = tween(150),
-        label = "scale"
-    )
-    
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick),
-        color = Color.Transparent
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .scale(scale)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // Icon
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(
-                            color = colorPalette().accent.copy(alpha = 0.1f),
-                            shape = RoundedCornerShape(8.dp)
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(icon),
-                        tint = colorPalette().accent,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
-
-                // Content
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    BasicText(
-                        text = title,
-                        style = typography().s.semiBold.copy(
-                            color = colorPalette().text
-                        )
-                    )
-                    if (text.isNotEmpty()) {
-                        Spacer(modifier = Modifier.height(2.dp))
-                        BasicText(
-                            text = text,
-                            style = typography().xs.copy(
-                                color = colorPalette().textSecondary
-                            )
-                        )
-                    }
-                }
-
-                // Arrow indicator
-                Icon(
-                    painter = painterResource(R.drawable.chevron_forward),
-                    tint = colorPalette().textSecondary,
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp)
-                )
-            }
-        }
     }
 }

@@ -2,22 +2,20 @@ package it.fast4x.rimusic.ui.screens.settings
 
 import android.annotation.SuppressLint
 import android.text.format.Formatter
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,9 +35,9 @@ import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.service.MyDownloadHelper
 import it.fast4x.rimusic.ui.components.themed.CacheSpaceIndicator
 import it.fast4x.rimusic.ui.components.themed.ConfirmationDialog
-import it.fast4x.rimusic.ui.components.themed.HeaderIconButton
 import it.fast4x.rimusic.ui.components.themed.HeaderWithIcon
 import it.fast4x.rimusic.ui.components.themed.InputNumericDialog
+import it.fast4x.rimusic.ui.components.themed.ValueSelectorDialog
 import it.fast4x.rimusic.ui.styling.Dimensions
 import it.fast4x.rimusic.utils.RestartPlayerService
 import it.fast4x.rimusic.utils.asMediaItem
@@ -112,6 +110,10 @@ fun DataSettings() {
     var cleanCacheImages by remember {
         mutableStateOf(false)
     }
+    
+    var cacheCleanedCounter by remember {
+        mutableIntStateOf(0)
+    }
 
     if (cleanCacheOfflineSongs) {
         ConfirmationDialog(
@@ -125,6 +127,8 @@ fun DataSettings() {
                         cache.removeResource(song)
                     }
                 }
+                cleanCacheOfflineSongs = false
+                cacheCleanedCounter++
             }
         )
     }
@@ -149,6 +153,8 @@ fun DataSettings() {
                         }
                     }
                 }
+                cleanDownloadCache = false
+                cacheCleanedCounter++
             }
         )
     }
@@ -161,6 +167,8 @@ fun DataSettings() {
             },
             onConfirm = {
                 Coil.imageLoader(context).diskCache?.clear()
+                cleanCacheImages = false
+                cacheCleanedCounter++
             }
         )
     }
@@ -188,272 +196,344 @@ fun DataSettings() {
                        onClick = {}
         )
 
-        SettingsDescription(text = stringResource(R.string.cache_cleared))
+        SettingsDescription(
+            text = stringResource(R.string.data_settings_description),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        ) 
+        Spacer(modifier = Modifier.height(16.dp))
 
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(title = stringResource(R.string.cache))
 
-        Coil.imageLoader(context).diskCache?.let { diskCache ->
-            val diskCacheSize = remember(diskCache.size, cleanCacheImages) {
-                diskCache.size
-            }
-
-            EnumValueSelectorSettingsEntry(
-                title = stringResource(R.string.image_cache_max_size),
-                                           titleSecondary = when (coilDiskCacheMaxSize) {
-                                               CoilDiskCacheMaxSize.Custom -> Formatter.formatShortFileSize(context, diskCacheSize) +
-                                               "/${Formatter.formatShortFileSize(context, coilCustomDiskCache.toLong() * 1000 * 1000)}" +
-                                               stringResource(R.string.used)
-                                               else -> Formatter.formatShortFileSize(context, diskCacheSize) +
-                                                   stringResource(R.string.used) +
-                                                   " (${diskCacheSize * 100 / coilDiskCacheMaxSize.bytes}%)"
-                                           },
-                                           trailingContent = {
-                                               HeaderIconButton(
-                                                   icon = R.drawable.trash,
-                                                   enabled = true,
-                                                   color = colorPalette().text,
-                                                                onClick = { cleanCacheImages = true }
-                                               )
-                                           },
-                                           selectedValue = coilDiskCacheMaxSize,
-                                           onValueSelected = {
-                                               coilDiskCacheMaxSize = it
-                                               if (coilDiskCacheMaxSize == CoilDiskCacheMaxSize.Custom)
-                                                   showCoilCustomDiskCacheDialog = true
-
-                                               restartService = true
-                                           },
-                                           valueText = { it.text }
+        // Cache Section
+        AnimatedVisibility(
+            visible = true,
+            enter = fadeIn(animationSpec = tween(600)) + scaleIn(
+                animationSpec = tween(600),
+                initialScale = 0.9f
             )
-            RestartPlayerService(restartService, onRestart = { restartService = false } )
+        ) {
+            SettingsSectionCard(
+                title = stringResource(R.string.cache),
+                icon = R.drawable.server,
+                description = stringResource(R.string.cache_cleared),
+                content = {
+                    Coil.imageLoader(context).diskCache?.let { diskCache ->
+                        val diskCacheSize = remember(diskCache.size, cleanCacheImages) {
+                            diskCache.size
+                        }
 
-            if (showCoilCustomDiskCacheDialog) {
-                InputNumericDialog(
-                    title = stringResource(R.string.set_custom_cache),
-                                   placeholder = stringResource(R.string.enter_value_in_mb),
-                                   value = coilCustomDiskCache.toString(),
-                                   valueMin = "32",
-                                   valueMax = "10000",
-                                   onDismiss = { showCoilCustomDiskCacheDialog = false },
-                                   setValue = {
-                                       coilCustomDiskCache = it.toInt()
-                                       showCoilCustomDiskCacheDialog = false
-                                       restartService = true
-                                   }
-                )
-                RestartPlayerService(restartService, onRestart = { restartService = false } )
-            }
+                        var showImageCacheDialog by remember { mutableStateOf(false) }
+                        
+                        key(cacheCleanedCounter) {
+                        CacheSettingsEntry(
+                            title = stringResource(R.string.image_cache_max_size),
+                            text = when (coilDiskCacheMaxSize) {
+                                CoilDiskCacheMaxSize.Custom -> "${stringResource(R.string.custom)}: ${coilCustomDiskCache}MB"
+                                else -> coilDiskCacheMaxSize.text
+                            },
+                            icon = R.drawable.image,
+                            onClick = { showImageCacheDialog = true },
+                            onTrashClick = { cleanCacheImages = true }
+                        )
 
-            CacheSpaceIndicator(cacheType = CacheType.Images, horizontalPadding = 20.dp)
+                        if (showImageCacheDialog) {
+                            ValueSelectorDialog(
+                                title = stringResource(R.string.image_cache_max_size),
+                                selectedValue = coilDiskCacheMaxSize,
+                                values = CoilDiskCacheMaxSize.values().toList(),
+                                onValueSelected = {
+                                    coilDiskCacheMaxSize = it
+                                    if (coilDiskCacheMaxSize == CoilDiskCacheMaxSize.Custom)
+                                        showCoilCustomDiskCacheDialog = true
+                                    restartService = true
+                                },
+                                valueText = { it.text },
+                                onDismiss = { showImageCacheDialog = false }
+                            )
+                        }
+
+                        RestartPlayerService(restartService, onRestart = { restartService = false })
+
+                        if (showCoilCustomDiskCacheDialog) {
+                            InputNumericDialog(
+                                title = stringResource(R.string.set_custom_cache),
+                                placeholder = stringResource(R.string.enter_value_in_mb),
+                                value = coilCustomDiskCache.toString(),
+                                valueMin = "32",
+                                valueMax = "10000",
+                                onDismiss = { showCoilCustomDiskCacheDialog = false },
+                                setValue = {
+                                    coilCustomDiskCache = it.toInt()
+                                    showCoilCustomDiskCacheDialog = false
+                                    restartService = true
+                                }
+                            )
+                        }
+
+                        CacheSpaceIndicator(cacheType = CacheType.Images, horizontalPadding = 20.dp)
+                        
+                        SettingsDescription(text = "${Formatter.formatShortFileSize(context, diskCacheSize)} ${stringResource(R.string.used)} (${diskCacheSize * 100 / coilDiskCacheMaxSize.bytes}%)")
+                        }
+                    }
+
+                    binder?.cache?.let { cache ->
+                        val diskCacheSize = remember(cache.cacheSpace, cleanCacheOfflineSongs) {
+                            cache.cacheSpace
+                        }
+
+                        var showSongCacheDialog by remember { mutableStateOf(false) }
+                        
+                        key(cacheCleanedCounter) {
+                        CacheSettingsEntry(
+                            title = stringResource(R.string.song_cache_max_size),
+                            text = when (exoPlayerDiskCacheMaxSize) {
+                                ExoPlayerDiskCacheMaxSize.Custom -> "${stringResource(R.string.custom)}: ${exoPlayerCustomCache}MB"
+                                ExoPlayerDiskCacheMaxSize.Disabled -> "Disabled"
+                                else -> exoPlayerDiskCacheMaxSize.text
+                            },
+                            icon = R.drawable.music_file,
+                            onClick = { showSongCacheDialog = true },
+                            onTrashClick = { cleanCacheOfflineSongs = true }
+                        )
+
+                        if (showSongCacheDialog) {
+                            ValueSelectorDialog(
+                                title = stringResource(R.string.song_cache_max_size),
+                                selectedValue = exoPlayerDiskCacheMaxSize,
+                                values = ExoPlayerDiskCacheMaxSize.values().toList(),
+                                onValueSelected = {
+                                    exoPlayerDiskCacheMaxSize = it
+                                    if (exoPlayerDiskCacheMaxSize == ExoPlayerDiskCacheMaxSize.Custom)
+                                        showExoPlayerCustomCacheDialog = true
+                                    restartService = true
+                                },
+                                valueText = { it.text },
+                                onDismiss = { showSongCacheDialog = false }
+                            )
+                        }
+
+                        RestartPlayerService(restartService, onRestart = { restartService = false })
+
+                        if (showExoPlayerCustomCacheDialog) {
+                            InputNumericDialog(
+                                title = stringResource(R.string.set_custom_cache),
+                                placeholder = stringResource(R.string.enter_value_in_mb),
+                                value = exoPlayerCustomCache.toString(),
+                                valueMin = "32",
+                                valueMax = "10000",
+                                onDismiss = { showExoPlayerCustomCacheDialog = false },
+                                setValue = {
+                                    exoPlayerCustomCache = it.toInt()
+                                    showExoPlayerCustomCacheDialog = false
+                                    restartService = true
+                                }
+                            )
+                        }
+
+                        CacheSpaceIndicator(cacheType = CacheType.CachedSongs, horizontalPadding = 20.dp)
+                        
+                        SettingsDescription(text = "${Formatter.formatShortFileSize(context, diskCacheSize)} ${stringResource(R.string.used)} (${diskCacheSize * 100 / exoPlayerDiskCacheMaxSize.bytes}%)")
+                        }
+                    }
+
+                    binder?.downloadCache?.let { downloadCache ->
+                        val diskDownloadCacheSize = remember(downloadCache.cacheSpace, cleanDownloadCache) {
+                            downloadCache.cacheSpace
+                        }
+
+                        var showDownloadCacheDialog by remember { mutableStateOf(false) }
+                        
+                        key(cacheCleanedCounter) {
+                        CacheSettingsEntry(
+                            title = stringResource(R.string.song_download_max_size),
+                            text = exoPlayerDiskDownloadCacheMaxSize.text,
+                            icon = R.drawable.download,
+                            onClick = { showDownloadCacheDialog = true },
+                            onTrashClick = { cleanDownloadCache = true }
+                        )
+
+                        RestartPlayerService(restartService, onRestart = { restartService = false })
+
+                        if (showDownloadCacheDialog) {
+                            ValueSelectorDialog(
+                                title = stringResource(R.string.song_download_max_size),
+                                selectedValue = exoPlayerDiskDownloadCacheMaxSize,
+                                values = ExoPlayerDiskDownloadCacheMaxSize.values().toList(),
+                                onValueSelected = {
+                                    exoPlayerDiskDownloadCacheMaxSize = it
+                                    restartService = true
+                                },
+                                valueText = { it.text },
+                                onDismiss = { showDownloadCacheDialog = false }
+                            )
+                        }
+
+                        CacheSpaceIndicator(cacheType = CacheType.DownloadedSongs, horizontalPadding = 20.dp)
+                        
+                        SettingsDescription(text = "${Formatter.formatShortFileSize(context, diskDownloadCacheSize)} ${stringResource(R.string.used)} (${diskDownloadCacheSize * 100 / exoPlayerDiskDownloadCacheMaxSize.bytes}%)")
+                        }
+                    }
+
+                    var showCacheLocationDialog by remember { mutableStateOf(false) }
+                    OtherSettingsEntry(
+                        title = stringResource(R.string.set_cache_location),
+                        text = exoPlayerCacheLocation.text,
+                        icon = R.drawable.folder,
+                        onClick = { showCacheLocationDialog = true }
+                    )
+                    
+                    SettingsDescription(stringResource(R.string.info_private_cache_location_can_t_cleaned))
+
+                    if (showCacheLocationDialog) {
+                        ValueSelectorDialog(
+                            title = stringResource(R.string.set_cache_location),
+                            selectedValue = exoPlayerCacheLocation,
+                            values = ExoPlayerCacheLocation.values().toList(),
+                            onValueSelected = {
+                                exoPlayerCacheLocation = it
+                                restartService = true
+                            },
+                            valueText = { it.text },
+                            onDismiss = { showCacheLocationDialog = false }
+                        )
+                    }
+
+                    RestartPlayerService(restartService, onRestart = { restartService = false })
+
+
+                }
+            )
         }
 
-        binder?.cache?.let { cache ->
-            val diskCacheSize = remember(cache.cacheSpace, cleanCacheOfflineSongs) {
-                cache.cacheSpace
-            }
+        Spacer(modifier = Modifier.height(16.dp))
 
-            EnumValueSelectorSettingsEntry(
-                title = stringResource(R.string.song_cache_max_size),
-                                           titleSecondary = when (exoPlayerDiskCacheMaxSize) {
-                                               ExoPlayerDiskCacheMaxSize.Disabled -> ""
-                                               ExoPlayerDiskCacheMaxSize.Custom -> Formatter.formatShortFileSize(context, diskCacheSize) +
-                                               "/${Formatter.formatShortFileSize(context,
-                                                   exoPlayerCustomCache.toLong() * 1000 * 1000
-                                               )}" + " ${stringResource(R.string.used)}"
-                                               else -> Formatter.formatShortFileSize(context, diskCacheSize) +
-                                                   " ${stringResource(R.string.used)}" +
-                                                   when (val size = exoPlayerDiskCacheMaxSize) {
-                                                       ExoPlayerDiskCacheMaxSize.Unlimited -> ""
-                                                       ExoPlayerDiskCacheMaxSize.Custom -> "" // only needed because of UNLIMITED
-                                                       else -> " (${diskCacheSize * 100 / size.bytes}%)"
-                                                   }
-                                           },
-                                           trailingContent = {
-                                               HeaderIconButton(
-                                                   icon = R.drawable.trash,
-                                                   enabled = true,
-                                                   color = colorPalette().text,
-                                                                onClick = { cleanCacheOfflineSongs = true }
-                                               )
-                                           },
-                                           selectedValue = exoPlayerDiskCacheMaxSize,
-                                           onValueSelected = {
-                                               exoPlayerDiskCacheMaxSize = it
-                                               if (exoPlayerDiskCacheMaxSize == ExoPlayerDiskCacheMaxSize.Custom)
-                                                   showExoPlayerCustomCacheDialog = true
-
-                                               restartService = true
-                                           },
-                                           valueText = { it.text }
+        // Backup and Restore Section
+        AnimatedVisibility(
+            visible = true,
+            enter = fadeIn(animationSpec = tween(800)) + scaleIn(
+                animationSpec = tween(800),
+                initialScale = 0.9f
             )
-            RestartPlayerService(restartService, onRestart = { restartService = false } )
+        ) {
+            SettingsSectionCard(
+                title = stringResource(R.string.title_backup_and_restore),
+                icon = R.drawable.server,
+                content = {
+                    val exportDbDialog = ExportDatabaseDialog(context)
 
-            if (showExoPlayerCustomCacheDialog) {
-                InputNumericDialog(
-                    title = stringResource(R.string.set_custom_cache),
-                                   placeholder = stringResource(R.string.enter_value_in_mb),
-                                   value = exoPlayerCustomCache.toString(),
-                                   valueMin = "32",
-                                   valueMax = "10000",
-                                   onDismiss = { showExoPlayerCustomCacheDialog = false },
-                                   setValue = {
-                                       exoPlayerCustomCache = it.toInt()
-                                       showExoPlayerCustomCacheDialog = false
-                                       restartService = true
-                                   }
-                )
-                RestartPlayerService(restartService, onRestart = { restartService = false } )
-            }
+                    OtherSettingsEntry(
+                        title = stringResource(R.string.save_to_backup),
+                        text = stringResource(R.string.export_the_database),
+                        icon = R.drawable.export_outline,
+                        onClick = exportDbDialog::export
+                    )
 
-            CacheSpaceIndicator(cacheType = CacheType.CachedSongs, horizontalPadding = 20.dp)
+                    ImportantSettingsDescription(text = stringResource(
+                        R.string.personal_preference
+                    ))
+
+                    val importDatabase = ImportDatabase(context)
+
+                    OtherSettingsEntry(
+                        title = stringResource(R.string.restore_from_backup),
+                        text = stringResource(R.string.import_the_database),
+                        icon = R.drawable.import_outline,
+                        onClick = importDatabase::onShortClick
+                    )
+                    ImportantSettingsDescription(text = stringResource(
+                        R.string.existing_data_will_be_overwritten,
+                        context.applicationInfo.nonLocalizedLabel
+                    ))
+
+                    val exportSettingsDialog = ExportSettingsDialog(context)
+
+                    OtherSettingsEntry(
+                        title = stringResource(R.string.title_export_settings),
+                        text = stringResource(R.string.store_settings_in_a_file),
+                        icon = R.drawable.export_outline,
+                        onClick = exportSettingsDialog::export
+                    )
+                    ImportantSettingsDescription(
+                        stringResource(R.string.description_exclude_credentials)
+                    )
+
+                    val importSettings = ImportSettings(context)
+
+                    OtherSettingsEntry(
+                        title = stringResource(R.string.title_import_settings),
+                        text = stringResource(R.string.restore_settings_from_file, stringResource(R.string.title_export_settings)),
+                        icon = R.drawable.import_outline,
+                        onClick = importSettings::onShortClick
+                    )
+                    ImportantSettingsDescription(text = stringResource(
+                        R.string.existing_data_will_be_overwritten,
+                        context.applicationInfo.nonLocalizedLabel
+                    ))
+
+                    val importMigration = ImportMigration(context, binder)
+
+                    OtherSettingsEntry(
+                        title = stringResource(R.string.title_import_settings_migration),
+                        text = stringResource(R.string.description_import_settings_migration),
+                        icon = R.drawable.data_migration,
+                        onClick = importMigration::onShortClick
+                    )
+                }
+            )
         }
 
-        binder?.downloadCache?.let { downloadCache ->
-            val diskDownloadCacheSize = remember(downloadCache.cacheSpace, cleanDownloadCache) {
-                downloadCache.cacheSpace
-            }
+        Spacer(modifier = Modifier.height(16.dp))
 
-            EnumValueSelectorSettingsEntry(
-                title = stringResource(R.string.song_download_max_size),
-                                           titleSecondary = when (exoPlayerDiskDownloadCacheMaxSize) {
-                                               ExoPlayerDiskDownloadCacheMaxSize.Disabled -> ""
-                                               else -> Formatter.formatShortFileSize(context, diskDownloadCacheSize) +
-                                                   " ${stringResource(R.string.used)}" +
-                                                   when (val size = exoPlayerDiskDownloadCacheMaxSize) {
-                                                       ExoPlayerDiskDownloadCacheMaxSize.Unlimited -> ""
-                                                       else -> " (${diskDownloadCacheSize * 100 / size.bytes}%)"
-                                                   }
-                                           },
-                                           trailingContent = {
-                                               HeaderIconButton(
-                                                   icon = R.drawable.trash,
-                                                   enabled = true,
-                                                   color = colorPalette().text,
-                                                                onClick = { cleanDownloadCache = true }
-                                               )
-                                           },
-                                           selectedValue = exoPlayerDiskDownloadCacheMaxSize,
-                                           onValueSelected = {
-                                               exoPlayerDiskDownloadCacheMaxSize = it
-                                               restartService = true
-                                           },
-                                           valueText = { it.text }
+        // Search History Section
+        AnimatedVisibility(
+            visible = true,
+            enter = fadeIn(animationSpec = tween(1000)) + scaleIn(
+                animationSpec = tween(1000),
+                initialScale = 0.9f
             )
-            RestartPlayerService(restartService, onRestart = { restartService = false } )
+        ) {
+            SettingsSectionCard(
+                title = stringResource(R.string.search_history),
+                icon = R.drawable.search,
+                content = {
+                    OtherSwitchSettingEntry(
+                        title = stringResource(R.string.pause_search_history),
+                        text = stringResource(R.string.neither_save_new_searched_query),
+                        isChecked = pauseSearchHistory,
+                        onCheckedChange = {
+                            pauseSearchHistory = it
+                            restartService = true
+                        },
+                        icon = R.drawable.pause
+                    )
 
-            CacheSpaceIndicator(cacheType = CacheType.DownloadedSongs, horizontalPadding = 20.dp)
+                    RestartPlayerService(restartService, onRestart = { restartService = false })
+
+                    val queriesCount by remember {
+                        Database.searchTable
+                            .findAllContain("")
+                            .map { it.size }
+                    }.collectAsState(0, Dispatchers.IO)
+
+                    OtherSettingsEntry(
+                        title = stringResource(R.string.clear_search_history),
+                        text = if (queriesCount > 0) {
+                            "${stringResource(R.string.delete)} " + queriesCount + stringResource(R.string.search_queries)
+                        } else {
+                            stringResource(R.string.history_is_empty)
+                        },
+                        icon = R.drawable.trash,
+                        onClick = {
+                            Database.asyncTransaction {
+                                searchTable.deleteAll()
+                            }
+                            Toaster.done()
+                        }
+                    )
+                }
+            )
         }
 
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.set_cache_location),
-                                       selectedValue = exoPlayerCacheLocation,
-                                       onValueSelected = {
-                                           exoPlayerCacheLocation = it
-                                           restartService = true
-                                       },
-                                       valueText = { it.text }
-        )
-
-        SettingsDescription(stringResource(R.string.info_private_cache_location_can_t_cleaned))
-        RestartPlayerService(restartService, onRestart = { restartService = false } )
-
-        SettingsGroupSpacer()
-
-        SettingsEntryGroupText(title = stringResource(R.string.title_backup_and_restore))
-
-        val exportDbDialog = ExportDatabaseDialog( context )
-        // exportDbDialog.Render() // We don't want to show the popup
-
-        SettingsEntry(
-            title = stringResource( R.string.save_to_backup ),
-            text = stringResource( R.string.export_the_database ),
-            onClick = exportDbDialog::export // Direct export without popup
-        )
-        SettingsDescription(text = stringResource(R.string.personal_preference))
-
-        val importDatabase = ImportDatabase( context )
-
-        SettingsEntry(
-            title = stringResource(R.string.restore_from_backup),
-            text = stringResource(R.string.import_the_database),
-            onClick = importDatabase::onShortClick
-        )
-        ImportantSettingsDescription(text = stringResource(
-            R.string.existing_data_will_be_overwritten,
-            context.applicationInfo.nonLocalizedLabel
-        ))
-
-        val exportSettingsDialog = ExportSettingsDialog( context )
-        // exportSettingsDialog.Render() // We don't want to show the popup
-
-        SettingsEntry(
-            title = stringResource(R.string.title_export_settings),
-            text = stringResource( R.string.store_settings_in_a_file ),
-            onClick = exportSettingsDialog::export // Direct export without popup
-        )
-        ImportantSettingsDescription(
-            stringResource( R.string.description_exclude_credentials )
-        )
-
-        val importSettings = ImportSettings( context )
-
-        SettingsEntry(
-            title = stringResource( R.string.title_import_settings ),
-            text = stringResource( R.string.restore_settings_from_file, stringResource( R.string.title_export_settings ) ),
-            onClick = importSettings::onShortClick
-        )
-        ImportantSettingsDescription(text = stringResource(
-            R.string.existing_data_will_be_overwritten,
-            context.applicationInfo.nonLocalizedLabel
-        ))
-
-        val importMigration = ImportMigration( context, binder )
-
-        SettingsEntry(
-            title = stringResource( R.string.title_import_settings_migration ),
-            text = stringResource( R.string.description_import_settings_migration ),
-            onClick = importMigration::onShortClick
-        )
-
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(title = stringResource(R.string.search_history))
-
-        SwitchSettingEntry(
-            title = stringResource(R.string.pause_search_history),
-                           text = stringResource(R.string.neither_save_new_searched_query),
-                           isChecked = pauseSearchHistory,
-                           onCheckedChange = {
-                               pauseSearchHistory = it
-                               restartService = true
-                           }
-        )
-        RestartPlayerService(restartService, onRestart = { restartService = false } )
-
-        val queriesCount by remember {
-            Database.searchTable
-                    .findAllContain("")
-                    .map { it.size }
-        }.collectAsState( 0, Dispatchers.IO )
-
-        SettingsEntry(
-            title = stringResource(R.string.clear_search_history),
-                      text = if (queriesCount > 0) {
-                          "${stringResource(R.string.delete)} " + queriesCount + stringResource(R.string.search_queries)
-                      } else {
-                          stringResource(R.string.history_is_empty)
-                      },
-                      isEnabled = queriesCount > 0,
-                      onClick = {
-                          Database.asyncTransaction {
-                              searchTable.deleteAll()
-                          }
-
-                          Toaster.done()
-                      }
-        )
-        SettingsGroupSpacer(
-            modifier = Modifier.height(Dimensions.bottomSpacer)
-        )
+        Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
     }
 }
