@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">あなたはナンバーワンで、長押しして驚きをお楽しみください</string>
   <string name="general_settings_description">一般セクションには、アプリの一般的な機能のための設定が含まれています</string>
   <string name="pause_between_songs_description">曲の間に一時停止を追加</string>
+  <string name="notifications">通知</string>
+  <string name="playback">再生</string>
+  <string name="player_controls">プレイヤーコントロール</string>
+  <string name="queue_management">キュー管理</string>
+  <string name="app_behavior">アプリの動作</string>
+  <string name="audio_effects">オーディオエフェクト</string>
+  <string name="gestures_events">ジェスチャー &amp; イベント</string>
+  <string name="picture_in_picture">Picture in Picture</string>
 </resources>
