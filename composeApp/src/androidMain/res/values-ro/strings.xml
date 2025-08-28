@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Imagine în imagine</string>
   <string name="i_understand">Am înțeles</string>
   <string name="by_string">de</string>
+  <string name="check_beta_update_enabled">BETA activat</string>
+  <string name="check_beta_update_disabled">BETA dezactivat</string>
 </resources>
