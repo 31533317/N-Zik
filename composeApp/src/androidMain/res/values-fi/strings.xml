@@ -1026,11 +1026,11 @@
   <string name="ai_recommendations">Tekoälyn Suositukset</string>
   <string name="my_playlist_top1">Minun Ylhäällä</string>
   <string name="auto_download_settings">Automaattinen Lataus Asetukset</string>
-  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
-  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
-  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
-  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
-  <string name="connection_settings">Connection Settings</string>
-  <string name="connection_settings_description">Configure network connection preferences</string>
-  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
+  <string name="auto_download_settings_description">Määritä kappaleiden ja albumien automaattiset latausasetukset</string>
+  <string name="auto_download_song_description">Lataa kappaleet automaattisesti asetuksesi perusteella</string>
+  <string name="auto_download_when_liked_description">Lataa kappaleet automaattisesti, kun pidät niistä</string>
+  <string name="auto_download_when_album_bookmarked_description">Lataa kappaleet automaattisesti kun kirjoitat albumin</string>
+  <string name="connection_settings">Yhteyden Asetukset</string>
+  <string name="connection_settings_description">Määritä verkkoyhteyden asetukset</string>
+  <string name="network_settings_description">Verkkososio sisältää asetuksia sovelluksen suorituskyvyn ja datan käytön optimoimiseksi</string>
 </resources>
