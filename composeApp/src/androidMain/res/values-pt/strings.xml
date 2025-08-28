@@ -1021,4 +1021,16 @@
   <string name="other_settings_description">A seção diversas contém várias configurações opcionais e utilitários</string>
   <string name="data_settings_description">A seção de dados contém configurações que modificam como o aplicativo lida com os dados local e remotamente</string>
   <string name="accounts_settings_description">A seção de contas contém configurações de sincronização do Youtube, configurações de streaming Piped e configurações do Discord Rpc</string>
+  <string name="quick_picks_description">A seção de escolhas rápidas contém configurações para a página de escolhas rápidas e recomendações fornecidas por IA</string>
+  <string name="smart_recommendations_description">A seção de recomendações inteligentes contém configurações para as recomendações de IA</string>
+  <string name="ai_recommendations">Recomendações de IA</string>
+  <string name="my_playlist_top1">Meu Topo</string>
+  <string name="auto_download_settings">Configurações de Download Automático</string>
+  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
+  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
+  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
+  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
+  <string name="connection_settings">Connection Settings</string>
+  <string name="connection_settings_description">Configure network connection preferences</string>
+  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
 </resources>
