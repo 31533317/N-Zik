@@ -58,7 +58,7 @@ jobs:
           submodules: true
       - name: Check if changelog exists
         run: |
-          if [ ! -e "fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt" ]; then
+          if [ ! -f "fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt" ]; then
             echo "Changelog not found. Exiting."
             exit 1
           fi
@@ -145,15 +145,16 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: signed-apk
-      - name: Upload built APK to release
+      - name: Upload built APK to pre-release
         uses: softprops/action-gh-release@v2
         with:
           files: '*.apk'
-          name: v${{ needs.versioning.outputs.downstream }}-${{ needs.build_time.outputs.date }} | 🚀 BETA Build
-          tag_name: v${{ needs.versioning.outputs.downstream }}
+          name: v${{ needs.versioning.outputs.downstream }}-b-${{ needs.build_time.outputs.date }} | 🚀 BETA Build
+          tag_name: v${{ needs.versioning.outputs.downstream }}-b
+          prerelease: true
           make_latest: false
           body: |
-            ## ⚠️ Beta Release v${{ needs.versioning.outputs.downstream }}
+            ## ⚠️ Beta Release v${{ needs.versioning.outputs.downstream }}-b
             ---
             <div align="center">
               <img alt="N-Zik Logo" src="https://github.com/NEVARLeVrai/N-Zik/blob/main/assets/design/ic_banner2.png?raw=true" width="1000" />
@@ -196,7 +197,6 @@ jobs:
 
             - **Full (BETA)** – Complete build with all components.  
               ⚠️ May contain bugs or experimental features.  
-              Recommended for testers who want the full experience.  
 
             ## 🔄 How Updates Work
 
