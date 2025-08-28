@@ -1022,5 +1022,5 @@ Volume BAS : titre précédent</string>
   <string name="about_description">La section À propos affiche des informations sur l\'application, les développeurs, le dépannage et les options de mise à jour</string>
   <string name="other_settings_description">La section Divers contient divers paramètres et utilitaires optionnels</string>
   <string name="data_settings_description">La section données contient des paramètres qui modifient la façon dont l\'application gère les données localement et à distance</string>
-  <string name="accounts_settings_description">The accounts section contains Youtube sync settings, Piped streaming settings and Discord Rpc settings</string>
+  <string name="accounts_settings_description">La section Comptes contient les paramètres de synchronisation Youtube, les paramètres de streaming conduits et les paramètres Rpc Discord</string>
 </resources>
