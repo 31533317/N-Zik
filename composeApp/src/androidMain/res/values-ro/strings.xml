@@ -1033,4 +1033,10 @@
   <string name="connection_settings">Setări conexiune</string>
   <string name="connection_settings_description">Configurați preferințele conexiunii la rețea</string>
   <string name="network_settings_description">Secțiunea de rețea conține setări pentru a optimiza performanța aplicației și utilizarea datelor</string>
+  <string name="easter_egg_click_message">Îți place să dai click pe el? Apoi continuă...</string>
+  <string name="easter_egg_keep_going">Ok, tu cauți ceva, păstrează...</string>
+  <string name="easter_egg_number_one">Ești numărul unu, fă clic și bucură-te de surpriză</string>
+  <string name="easter_egg_last">Ești numărul unu, fă click lung și bucură-te de surpriză</string>
+  <string name="general_settings_description">Secțiunea generală conține setări pentru funcționalitatea generală a aplicației</string>
+  <string name="pause_between_songs_description">Adaugă o pauză între melodii</string>
 </resources>
