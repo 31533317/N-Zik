@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Käytössä</string>
   <string name="auto_update_ask">Kysy</string>
   <string name="auto_update_disabled">Pois</string>
+  <string name="tab_network">Verkko</string>
+  <string name="about_description">Osio näyttää tietoa sovelluksesta, kehittäjistä, vianmäärityksestä ja päivityksestä</string>
+  <string name="other_settings_description">Sekalainen osa sisältää erilaisia valinnaisia asetuksia ja apuohjelmia</string>
+  <string name="data_settings_description">Tiedot osio sisältää asetukset, jotka muokkaavat miten sovellus käsittelee tietoja paikallisesti ja etänä</string>
+  <string name="accounts_settings_description">Tilien osiossa on Youtube sync -asetuksia, Piped streaming -asetuksia ja Discord Rpc -asetuksia.</string>
 </resources>
