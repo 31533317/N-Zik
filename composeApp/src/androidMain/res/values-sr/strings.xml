@@ -916,7 +916,7 @@
   <string name="please_wait">Please Wait</string>
   <string name="songs_liked_yt">Song(s) are Liked in YouTube</string>
   <string name="song_unliked_yt">Song is Unliked in YouTube</string>
-  <string name="add_rimusic_to_ytm_favorites">Like RiMusic Liked songs in Youtube</string>
+  <string name="add_rimusic_to_ytm_favorites">Like N-Zik Liked songs in Youtube</string>
   <string name="do_you_really_want_to_like_all_rimusictoytmusic">(estimated time) is required to like all the songs. This action cannot be resumed if cancelled in between. You need to close the app to cancel this process. Do you want to continue?</string>
   <string name="do_you_really_want_to_like_all">(estimated time) is required to like all the songs. You need to close the app to cancel this process. Do you want to continue?</string>
   <string name="songs_liked_yt_failed">Failed to like the song in YouTube</string>
@@ -991,7 +991,7 @@
   <string name="piped_login_successful">Piped login successful</string>
   <string name="piped_login_failed">Piped login failed</string>
   <string name="no_instances_found">No instances found</string>
-  <string name="discord_token_text">If you notice that the RPC doesnt work, try log off and log back</string>
+  <string name="discord_token_text">If you notice that the RPC doesnt work, try log off and log back, also make sure to restart the service and the app</string>
   <string name="account_info">Account info</string>
   <string name="save_visualizer_state">Save visualizer state</string>
   <string name="save_visualizer_state_description">Keep visualizer state between sessions</string>
@@ -1005,7 +1005,7 @@
   <string name="search_display_order_saved_searches_first">Saved searches first</string>
   <string name="search_display_order_description">Choose which appears first in search results</string>
   <string name="smart_recommendations_number">Number of recommendations</string>
-  <string name="smart_recommendations_adaptive_description">Adaptive: Scales with playlist size (10-150 recommendations)</string>
+  <string name="smart_recommendations_adaptive_description">Adaptive: Scales with playlist size (10-120 recommendations)</string>
   <string name="smart_recommendations_adaptive">Adaptive</string>
   <string name="unknown_title">Unknown Title</string>
   <string name="unknown_artist">Unknown Artist</string>
@@ -1021,4 +1021,16 @@
   <string name="other_settings_description">The miscellaneous section contains various optional settings and utilities</string>
   <string name="data_settings_description">The data section contains settings that modify how the app handles data locally and remotely</string>
   <string name="accounts_settings_description">The accounts section contains Youtube sync settings, Piped streaming settings and Discord Rpc settings</string>
+  <string name="quick_picks_description">The quick picks section contains settings for the quick picks page and AI powered recommendations</string>
+  <string name="smart_recommendations_description">The smart recommendations section contains settings for the AI powered recommendations</string>
+  <string name="ai_recommendations">AI Recommendations</string>
+  <string name="my_playlist_top1">My Top</string>
+  <string name="auto_download_settings">Auto Download Settings</string>
+  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
+  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
+  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
+  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
+  <string name="connection_settings">Connection Settings</string>
+  <string name="connection_settings_description">Configure network connection preferences</string>
+  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
 </resources>
