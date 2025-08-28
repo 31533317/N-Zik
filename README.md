@@ -10,7 +10,7 @@
   
 [![Latest Version](https://img.shields.io/github/v/release/NEVARLeVrai/N-Zik?label=Latest%20Version)](https://github.com/NEVARLeVrai/N-Zik/releases/latest) 
 
-[![Total Downloads](https://img.shields.io/github/downloads/NEVARLeVrai/N-Zik/total?label=Total%20Downloads)](https://github.com/NEVARLeVrai/N-Zik/releases) [![Latest Release Downloads](https://img.shields.io/github/downloads/NEVARLeVrai/N-Zik/latest/total?label=Latest%20Release%20Downloads)](https://github.com/NEVARLeVrai/N-Zik/releases/latest) 
+[![Total Downloads (all releases)](https://img.shields.io/github/downloads/NEVARLeVrai/N-Zik/total?label=Total%20Downloads%20(all))](https://github.com/NEVARLeVrai/N-Zik/releases) [![Latest Release Downloads](https://img.shields.io/github/downloads/NEVARLeVrai/N-Zik/latest/total?label=Latest%20Release%20Downloads)](https://github.com/NEVARLeVrai/N-Zik/releases/latest) 
 
 [![Localization Progress](https://badges.crowdin.net/N-Zik/localized.svg)](https://crowdin.com/project/N-Zik) [![License: GPL v3](https://img.shields.io/github/license/NEVARLeVrai/N-Zik?color=blue)](https://www.gnu.org/licenses/gpl-3.0)
 [![CodeFactor](https://www.codefactor.io/repository/github/nevarlevrai/n-zik/badge)](https://www.codefactor.io/repository/github/nevarlevrai/n-zik)
