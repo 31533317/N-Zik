@@ -110,8 +110,9 @@ fun SettingsScreen(
             else R.drawable.ytmusic)
             item(4, stringResource(R.string.tab_data), R.drawable.server)
             item(5, stringResource(R.string.tab_accounts), R.drawable.person)
-            item(6, stringResource(R.string.tab_miscellaneous), R.drawable.equalizer)
-            item(7, stringResource(R.string.about), R.drawable.information)
+            item(6, stringResource(R.string.tab_network), R.drawable.network)
+            item(7, stringResource(R.string.tab_miscellaneous), R.drawable.equalizer)
+            item(8, stringResource(R.string.about), R.drawable.information)
 
         }
     ) { currentTabIndex ->
@@ -123,8 +124,9 @@ fun SettingsScreen(
                 3 -> QuickPicsSettings()
                 4 -> DataSettings()
                 5 -> AccountsSettings()
-                6 -> OtherSettings()
-                7 -> About()
+                // 6 -> NetworkSettings()
+                7 -> OtherSettings()
+                8 -> About()
 
             }
         }
