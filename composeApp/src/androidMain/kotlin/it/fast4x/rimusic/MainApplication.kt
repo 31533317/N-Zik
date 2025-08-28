@@ -28,15 +28,18 @@ class MainApplication : Application(), ImageLoaderFactory {
 
         /**** LOG *********/
         val logEnabled = preferences.getBoolean(logDebugEnabledKey, false)
+        
+        // Always create logs directory and set up crash handler
+        val dir = filesDir.resolve("logs").also {
+            if (it.exists()) return@also
+            it.mkdir()
+        }
+        
+        // Always set up crash handler regardless of debug mode
+        Thread.setDefaultUncaughtExceptionHandler(CaptureCrash(dir.absolutePath))
+        
         if (logEnabled) {
-            val dir = filesDir.resolve("logs").also {
-                if (it.exists()) return@also
-                it.mkdir()
-            }
-
-            Thread.setDefaultUncaughtExceptionHandler(CaptureCrash(dir.absolutePath))
-
-            Timber.plant(FileLoggingTree(File(dir, "RiMusic_log.txt")))
+            Timber.plant(FileLoggingTree(File(dir, "N-zik_log.txt")))
             Timber.d("Log enabled at ${dir.absolutePath}")
         } else {
             Timber.uprootAll()

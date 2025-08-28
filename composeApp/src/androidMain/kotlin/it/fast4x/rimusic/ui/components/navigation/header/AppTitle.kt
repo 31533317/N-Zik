@@ -44,9 +44,9 @@ private fun appIconClickAction(
                 navController.navigate( NavRoutes.gamePacman.name )
                 ""
             }
-            3 -> "Do you like clicking? Then continue..."
-            6 -> "Okay, you’re looking for something, keep..."
-            9 -> "You are a number one, click and enjoy the surprise"
+            3 -> context.getString(R.string.easter_egg_click_message)
+            6 -> context.getString(R.string.easter_egg_keep_going)
+            9 -> context.getString(R.string.easter_egg_number_one)
             else -> ""
         }
     if( message.isNotEmpty() )
@@ -57,7 +57,7 @@ private fun appIconLongClickAction(
     navController: NavController,
     context: Context
 ) {
-    Toaster.n( "You are a number one, click and enjoy the surprise", Toast.LENGTH_LONG )
+    Toaster.n( context.getString(R.string.easter_egg_last), Toast.LENGTH_LONG )
     navController.navigate( NavRoutes.gameSnake.name )
 }
 
