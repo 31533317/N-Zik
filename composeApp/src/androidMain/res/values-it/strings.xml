@@ -1021,4 +1021,16 @@
   <string name="other_settings_description">La sezione varia contiene varie impostazioni opzionali e utilities</string>
   <string name="data_settings_description">La sezione dati contiene impostazioni che modificano il modo in cui l\'app gestisce i dati localmente e in remoto</string>
   <string name="accounts_settings_description">La sezione account contiene le impostazioni di sincronizzazione Youtube, le impostazioni di streaming iped e le impostazioni di Discord Rpc</string>
+  <string name="quick_picks_description">La sezione delle selezioni rapide contiene le impostazioni per la pagina delle selezioni rapide e le raccomandazioni alimentate da IA</string>
+  <string name="smart_recommendations_description">La sezione raccomandazioni intelligenti contiene le impostazioni per le raccomandazioni alimentate da IA</string>
+  <string name="ai_recommendations">Raccomandazioni AI</string>
+  <string name="my_playlist_top1">La Mia Top</string>
+  <string name="auto_download_settings">Impostazioni Di Download Automatico</string>
+  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
+  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
+  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
+  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
+  <string name="connection_settings">Connection Settings</string>
+  <string name="connection_settings_description">Configure network connection preferences</string>
+  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
 </resources>

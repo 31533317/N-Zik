@@ -1021,4 +1021,16 @@
   <string name="other_settings_description">Der verschiedene Abschnitt enthält verschiedene optionale Einstellungen und Hilfsprogramme</string>
   <string name="data_settings_description">Der Daten-Abschnitt enthält Einstellungen, die ändern, wie die App mit Daten lokal und ferngesteuert umgeht</string>
   <string name="accounts_settings_description">Der Account-Bereich enthält Youtube Sync-Einstellungen, Piped Streaming Einstellungen und Discord Rpc Einstellungen</string>
+  <string name="quick_picks_description">Die Schnellauswahl-Sektion enthält Einstellungen für die Schnellauswahl-Seite und KI-gestützte Empfehlungen</string>
+  <string name="smart_recommendations_description">Der Abschnitt Smart-Empfehlungen enthält Einstellungen für die KI-gestützten Empfehlungen</string>
+  <string name="ai_recommendations">AI-Empfehlungen</string>
+  <string name="my_playlist_top1">Mein Top</string>
+  <string name="auto_download_settings">Auto-Download-Einstellungen</string>
+  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
+  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
+  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
+  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
+  <string name="connection_settings">Connection Settings</string>
+  <string name="connection_settings_description">Configure network connection preferences</string>
+  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
 </resources>

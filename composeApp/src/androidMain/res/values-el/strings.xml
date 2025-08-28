@@ -1021,4 +1021,16 @@
   <string name="other_settings_description">Η ποικίλη ενότητα περιέχει διάφορες προαιρετικές ρυθμίσεις και βοηθητικά προγράμματα</string>
   <string name="data_settings_description">Η ενότητα δεδομένων περιέχει ρυθμίσεις που τροποποιούν τον τρόπο με τον οποίο η εφαρμογή χειρίζεται τα δεδομένα τοπικά και απομακρυσμένα</string>
   <string name="accounts_settings_description">Η ενότητα λογαριασμών περιέχει ρυθμίσεις συγχρονισμού Youtube, ρυθμίσεις Piped streaming και ρυθμίσεις Discord Rpc</string>
+  <string name="quick_picks_description">Η ενότητα γρήγορων επιλογών περιέχει ρυθμίσεις για τη σελίδα γρήγορων επιλογών και τις συστάσεις που τροφοδοτούνται με τεχνητή νοημοσύνη</string>
+  <string name="smart_recommendations_description">Το τμήμα έξυπνων συστάσεων περιέχει ρυθμίσεις για τις συστάσεις που τροφοδοτούνται με τεχνητή νοημοσύνη</string>
+  <string name="ai_recommendations">AI Συστάσεις</string>
+  <string name="my_playlist_top1">Η Κορυφή Μου</string>
+  <string name="auto_download_settings">Ρυθμίσεις Αυτόματης Λήψης</string>
+  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
+  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
+  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
+  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
+  <string name="connection_settings">Connection Settings</string>
+  <string name="connection_settings_description">Configure network connection preferences</string>
+  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
 </resources>
