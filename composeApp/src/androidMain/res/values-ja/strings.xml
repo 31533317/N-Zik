@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Picture in Picture</string>
   <string name="i_understand">了解しました</string>
   <string name="by_string">作成者:</string>
+  <string name="check_beta_update_enabled">ベータ版は有効です</string>
+  <string name="check_beta_update_disabled">ベータ版は無効になっています</string>
 </resources>
