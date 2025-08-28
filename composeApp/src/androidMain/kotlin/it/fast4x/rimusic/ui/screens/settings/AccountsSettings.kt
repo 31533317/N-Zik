@@ -590,7 +590,7 @@ fun AccountsSettings() {
                                     RestartAppDialog.showDialog()
                                 }
                             },
-                            icon = R.drawable.logo_discord
+                            icon = R.drawable.musical_notes
                         )
 
                         AnimatedVisibility(visible = isDiscordPresenceEnabled) {
