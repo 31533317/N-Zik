@@ -75,7 +75,7 @@ jobs:
             exit 1
           fi
 
-  build-full:
+  build-beta:
     needs: [versioning, verify-version]
     name: Build Full Beta
     runs-on: ubuntu-latest
@@ -107,17 +107,18 @@ jobs:
           restore-keys: gradle-${{ runner.os }}-
 
       - name: Build with Gradle
-        run: ./gradlew assembleFull
+        run: ./gradlew assembleBeta
 
       - name: Upload artifacts for signing
         uses: actions/upload-artifact@v4
         with:
           name: unsigned-release
-          path: composeApp/build/outputs/apk/full/*.apk
+          path: composeApp/build/outputs/apk/beta/*.apk
+
 
   sign-apks:
     name: Sign APK
-    needs: [build-full]
+    needs: [build-beta]
     runs-on: ubuntu-latest
 
     steps:
