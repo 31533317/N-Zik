@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Зображення в картинці</string>
   <string name="i_understand">Я розумію</string>
   <string name="by_string">за</string>
+  <string name="check_beta_update_enabled">БЕТА увімкнена</string>
+  <string name="check_beta_update_disabled">БЕТА вимкнена</string>
 </resources>
