@@ -1026,11 +1026,11 @@
   <string name="ai_recommendations">AI Anbefalinger</string>
   <string name="my_playlist_top1">Mine topp</string>
   <string name="auto_download_settings">Innstillinger for automatisk nedlasting</string>
-  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
-  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
-  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
-  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
-  <string name="connection_settings">Connection Settings</string>
-  <string name="connection_settings_description">Configure network connection preferences</string>
-  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
+  <string name="auto_download_settings_description">Konfigurer automatiske nedlastingsinnstillinger for sanger og album</string>
+  <string name="auto_download_song_description">Last ned sanger automatisk basert på dine innstillinger</string>
+  <string name="auto_download_when_liked_description">Last ned sanger automatisk når du liker dem</string>
+  <string name="auto_download_when_album_bookmarked_description">Last ned sanger automatisk når du bokmerker et album</string>
+  <string name="connection_settings">Tilkobling innstillinger</string>
+  <string name="connection_settings_description">Konfigurer innstillinger for nettverkstilkobling</string>
+  <string name="network_settings_description">Nettverksdelen inneholder innstillinger for å optimalisere programmets ytelse og databruk</string>
 </resources>
