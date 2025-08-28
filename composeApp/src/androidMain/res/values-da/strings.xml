@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Billede i billede</string>
   <string name="i_understand">Jeg forstår</string>
   <string name="by_string">af</string>
+  <string name="check_beta_update_enabled">BETA aktiveret</string>
+  <string name="check_beta_update_disabled">BETA deaktiveret</string>
 </resources>
