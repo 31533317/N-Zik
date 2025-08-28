@@ -38,8 +38,8 @@ import it.fast4x.rimusic.enums.FontType
 import it.fast4x.rimusic.enums.HomeScreenTabs
 import it.fast4x.rimusic.enums.IconLikeType
 import it.fast4x.rimusic.enums.MaxSongs
-import it.fast4x.rimusic.enums.MaxStatisticsItems
-import it.fast4x.rimusic.enums.MaxTopPlaylistItems
+
+
 import it.fast4x.rimusic.enums.MenuStyle
 import it.fast4x.rimusic.enums.MessageType
 import it.fast4x.rimusic.enums.MiniPlayerType
@@ -58,7 +58,7 @@ import it.fast4x.rimusic.enums.PlayerType
 import it.fast4x.rimusic.enums.PlaylistSwipeAction
 import it.fast4x.rimusic.enums.QueueSwipeAction
 import it.fast4x.rimusic.enums.QueueType
-import it.fast4x.rimusic.enums.RecommendationsNumber
+
 import it.fast4x.rimusic.enums.ThumbnailRoundness
 import it.fast4x.rimusic.enums.ThumbnailType
 import it.fast4x.rimusic.enums.TransitionEffect
@@ -68,7 +68,7 @@ import it.fast4x.rimusic.ui.components.themed.HeaderWithIcon
 import it.fast4x.rimusic.ui.styling.DefaultDarkColorPalette
 import it.fast4x.rimusic.ui.styling.DefaultLightColorPalette
 import it.fast4x.rimusic.ui.styling.Dimensions
-import it.fast4x.rimusic.utils.MaxTopPlaylistItemsKey
+
 import it.fast4x.rimusic.utils.UiTypeKey
 import it.fast4x.rimusic.utils.actionspacedevenlyKey
 import it.fast4x.rimusic.utils.albumSwipeLeftActionKey
@@ -111,7 +111,7 @@ import it.fast4x.rimusic.utils.disablePlayerHorizontalSwipeKey
 import it.fast4x.rimusic.utils.disableScrollingTextKey
 import it.fast4x.rimusic.utils.discoverKey
 import it.fast4x.rimusic.utils.effectRotationKey
-import it.fast4x.rimusic.utils.enableCreateMonthlyPlaylistsKey
+
 import it.fast4x.rimusic.utils.excludeSongsWithDurationLimitKey
 import it.fast4x.rimusic.utils.exoPlayerMinTimeForEventKey
 import it.fast4x.rimusic.utils.expandedplayertoggleKey
@@ -126,7 +126,7 @@ import it.fast4x.rimusic.utils.lastPlayerPlayButtonTypeKey
 import it.fast4x.rimusic.utils.lastPlayerThumbnailSizeKey
 import it.fast4x.rimusic.utils.lastPlayerTimelineTypeKey
 import it.fast4x.rimusic.utils.maxSongsInQueueKey
-import it.fast4x.rimusic.utils.maxStatisticsItemsKey
+
 import it.fast4x.rimusic.utils.menuStyleKey
 import it.fast4x.rimusic.utils.messageTypeKey
 import it.fast4x.rimusic.utils.miniPlayerTypeKey
@@ -155,7 +155,7 @@ import it.fast4x.rimusic.utils.playlistindicatorKey
 import it.fast4x.rimusic.utils.queueSwipeLeftActionKey
 import it.fast4x.rimusic.utils.queueSwipeRightActionKey
 import it.fast4x.rimusic.utils.queueTypeKey
-import it.fast4x.rimusic.utils.recommendationsNumberKey
+
 import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.resumePlaybackOnStartKey
 import it.fast4x.rimusic.utils.resumePlaybackWhenDeviceConnectedKey
@@ -174,8 +174,8 @@ import it.fast4x.rimusic.utils.showCachedPlaylistKey
 import it.fast4x.rimusic.utils.showDownloadedPlaylistKey
 import it.fast4x.rimusic.utils.showFavoritesPlaylistKey
 import it.fast4x.rimusic.utils.showFloatingIconKey
-import it.fast4x.rimusic.utils.showMonthlyPlaylistsKey
-import it.fast4x.rimusic.utils.showMyTopPlaylistKey
+
+
 import it.fast4x.rimusic.utils.showNextSongsInPlayerKey
 import it.fast4x.rimusic.utils.showOnDevicePlaylistKey
 import it.fast4x.rimusic.utils.showPinnedPlaylistsKey
@@ -183,7 +183,7 @@ import it.fast4x.rimusic.utils.showPipedPlaylistsKey
 import it.fast4x.rimusic.utils.showRemainingSongTimeKey
 import it.fast4x.rimusic.utils.showSearchTabKey
 import it.fast4x.rimusic.utils.showStatsInNavbarKey
-import it.fast4x.rimusic.utils.showStatsListeningTimeKey
+
 import it.fast4x.rimusic.utils.showTopActionsBarKey
 import it.fast4x.rimusic.utils.showTotalTimeQueueKey
 import it.fast4x.rimusic.utils.showthumbnailKey
@@ -233,8 +233,7 @@ fun DefaultUiSettings() {
     skipMediaOnError = false
     var volumeNormalization by rememberPreference(volumeNormalizationKey, false)
     volumeNormalization = false
-    var recommendationsNumber by rememberPreference(recommendationsNumberKey,   RecommendationsNumber.Adaptive)
-    recommendationsNumber = RecommendationsNumber.Adaptive
+
     var keepPlayerMinimized by rememberPreference(keepPlayerMinimizedKey,   false)
     keepPlayerMinimized = false
     var disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
@@ -272,18 +271,9 @@ fun DefaultUiSettings() {
     showSearchTab = false
     var showStatsInNavbar by rememberPreference(showStatsInNavbarKey, false)
     showStatsInNavbar = false
-    var maxStatisticsItems by rememberPreference(
-        maxStatisticsItemsKey,
-        MaxStatisticsItems.`10`
-    )
-    maxStatisticsItems = MaxStatisticsItems.`10`
-    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
-    showStatsListeningTime = true
-    var maxTopPlaylistItems by rememberPreference(
-        MaxTopPlaylistItemsKey,
-        MaxTopPlaylistItems.`10`
-    )
-    maxTopPlaylistItems = MaxTopPlaylistItems.`10`
+
+
+
     var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Bottom)
     navigationBarPosition = NavigationBarPosition.Bottom
     var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconAndText)
@@ -299,8 +289,7 @@ fun DefaultUiSettings() {
     thumbnailRoundness = ThumbnailRoundness.Heavy
     var showFavoritesPlaylist by rememberPreference(showFavoritesPlaylistKey, true)
     showFavoritesPlaylist = true
-    var showMyTopPlaylist by rememberPreference(showMyTopPlaylistKey, true)
-    showMyTopPlaylist = true
+
     var showDownloadedPlaylist by rememberPreference(showDownloadedPlaylistKey, true)
     showDownloadedPlaylist = true
     var showOnDevicePlaylist by rememberPreference(showOnDevicePlaylistKey, true)
@@ -315,14 +304,12 @@ fun DefaultUiSettings() {
     menuStyle = MenuStyle.List
     var transitionEffect by rememberPreference(transitionEffectKey, TransitionEffect.Scale)
     transitionEffect = TransitionEffect.Scale
-    var enableCreateMonthlyPlaylists by rememberPreference(enableCreateMonthlyPlaylistsKey, true)
-    enableCreateMonthlyPlaylists = true
+
     var showPipedPlaylists by rememberPreference(showPipedPlaylistsKey, true)
     showPipedPlaylists = true
     var showPinnedPlaylists by rememberPreference(showPinnedPlaylistsKey, true)
     showPinnedPlaylists = true
-    var showMonthlyPlaylists by rememberPreference(showMonthlyPlaylistsKey, true)
-    showMonthlyPlaylists = true
+
     var customThemeLight_Background0 by rememberPreference(customThemeLight_Background0Key, DefaultLightColorPalette.background0.hashCode())
     customThemeLight_Background0 = DefaultLightColorPalette.background0.hashCode()
     var customThemeLight_Background1 by rememberPreference(customThemeLight_Background1Key, DefaultLightColorPalette.background1.hashCode())
@@ -534,7 +521,7 @@ fun UiSettings(
 ) {
     val binder = LocalPlayerServiceBinder.current
 
-    var recommendationsNumber by rememberPreference(recommendationsNumberKey,   RecommendationsNumber.Adaptive)
+
 
     var keepPlayerMinimized by rememberPreference(keepPlayerMinimizedKey,   false)
 
@@ -558,17 +545,11 @@ fun UiSettings(
     var showSearchTab by rememberPreference(showSearchTabKey, false)
     var showStatsInNavbar by rememberPreference(showStatsInNavbarKey, false)
 
-    var maxStatisticsItems by rememberPreference(
-        maxStatisticsItemsKey,
-        MaxStatisticsItems.`10`
-    )
 
-    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
 
-    var maxTopPlaylistItems by rememberPreference(
-        MaxTopPlaylistItemsKey,
-        MaxTopPlaylistItems.`10`
-    )
+
+
+
 
     var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Bottom)
     var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconAndText)
@@ -576,16 +557,16 @@ fun UiSettings(
 
     var showFavoritesPlaylist by rememberPreference(showFavoritesPlaylistKey, true)
     var showCachedPlaylist by rememberPreference(showCachedPlaylistKey, true)
-    var showMyTopPlaylist by rememberPreference(showMyTopPlaylistKey, true)
+
     var showDownloadedPlaylist by rememberPreference(showDownloadedPlaylistKey, true)
     var showOnDevicePlaylist by rememberPreference(showOnDevicePlaylistKey, true)
     var showFloatingIcon by rememberPreference(showFloatingIconKey, false)
     var menuStyle by rememberPreference(menuStyleKey, MenuStyle.List)
     var transitionEffect by rememberPreference(transitionEffectKey, TransitionEffect.Scale)
-    var enableCreateMonthlyPlaylists by rememberPreference(enableCreateMonthlyPlaylistsKey, true)
+
     var showPipedPlaylists by rememberPreference(showPipedPlaylistsKey, true)
     var showPinnedPlaylists by rememberPreference(showPinnedPlaylistsKey, true)
-    var showMonthlyPlaylists by rememberPreference(showMonthlyPlaylistsKey, true)
+
 
     var customThemeLight_Background0 by rememberPreference(customThemeLight_Background0Key, DefaultLightColorPalette.background0.hashCode())
     var customThemeLight_Background1 by rememberPreference(customThemeLight_Background1Key, DefaultLightColorPalette.background1.hashCode())
@@ -1345,13 +1326,7 @@ fun UiSettings(
                 isChecked = showDownloadedPlaylist,
                 onCheckedChange = { showDownloadedPlaylist = it }
             )
-        if (search.inputValue.isBlank() || "${stringResource(R.string.show)} ${stringResource(R.string.my_playlist_top)}".contains(search.inputValue,true))
-            SwitchSettingEntry(
-                title = "${stringResource(R.string.show)} ${stringResource(R.string.my_playlist_top).format(maxTopPlaylistItems)}",
-                text = "",
-                isChecked = showMyTopPlaylist,
-                onCheckedChange = { showMyTopPlaylist = it }
-            )
+
         if (search.inputValue.isBlank() || "${stringResource(R.string.show)} ${stringResource(R.string.on_device)}".contains(search.inputValue,true))
             SwitchSettingEntry(
                 title = "${stringResource(R.string.show)} ${stringResource(R.string.on_device)}",
@@ -1399,76 +1374,7 @@ fun UiSettings(
                 onCheckedChange = { showPinnedPlaylists = it }
             )
 
-        if (search.inputValue.isBlank() || "${stringResource(R.string.show)} ${stringResource(R.string.monthly_playlists)}".contains(search.inputValue,true))
-            SwitchSettingEntry(
-                title = "${stringResource(R.string.show)} ${stringResource(R.string.monthly_playlists)}",
-                text = "",
-                isChecked = showMonthlyPlaylists,
-                onCheckedChange = { showMonthlyPlaylists = it }
-            )
 
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(stringResource(R.string.monthly_playlists).uppercase())
-
-        if (search.inputValue.isBlank() || stringResource(R.string.monthly_playlists).contains(search.inputValue,true))
-            SwitchSettingEntry(
-                title = stringResource(R.string.enable_monthly_playlists_creation),
-                text = "",
-                isChecked = enableCreateMonthlyPlaylists,
-                onCheckedChange = {
-                    enableCreateMonthlyPlaylists = it
-                }
-            )
-
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(stringResource(R.string.smart_recommendations))
-
-        if (search.inputValue.isBlank() || stringResource(R.string.smart_recommendations_number).contains(search.inputValue,true))
-            EnumValueSelectorSettingsEntry(
-                title = stringResource(R.string.smart_recommendations_number),
-                text = if (recommendationsNumber == RecommendationsNumber.Adaptive) 
-                    stringResource(R.string.smart_recommendations_adaptive_description) else "",
-                selectedValue = recommendationsNumber,
-                onValueSelected = { recommendationsNumber = it },
-                valueText = { 
-                    when (it) {
-                        RecommendationsNumber.Adaptive -> stringResource(R.string.smart_recommendations_adaptive)
-                        else -> it.name
-                    }
-                }
-            )
-
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(stringResource(R.string.statistics))
-
-        if (search.inputValue.isBlank() || stringResource(R.string.statistics_max_number_of_items).contains(search.inputValue,true))
-            EnumValueSelectorSettingsEntry(
-                title = stringResource(R.string.statistics_max_number_of_items),
-                selectedValue = maxStatisticsItems,
-                onValueSelected = { maxStatisticsItems = it },
-                valueText = { it.name }
-            )
-
-        if (search.inputValue.isBlank() || stringResource(R.string.listening_time).contains(search.inputValue,true))
-            SwitchSettingEntry(
-                title = stringResource(R.string.listening_time),
-                text = stringResource(R.string.shows_the_number_of_songs_heard_and_their_listening_time),
-                isChecked = showStatsListeningTime,
-                onCheckedChange = {
-                    showStatsListeningTime = it
-                }
-            )
-
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(stringResource(R.string.playlist_top))
-
-        if (search.inputValue.isBlank() || stringResource(R.string.statistics_max_number_of_items).contains(search.inputValue,true))
-            EnumValueSelectorSettingsEntry(
-                title = stringResource(R.string.statistics_max_number_of_items),
-                selectedValue = maxTopPlaylistItems,
-                onValueSelected = { maxTopPlaylistItems = it },
-                valueText = { it.name }
-            )
 
         var resetToDefault by remember { mutableStateOf(false) }
         val context = LocalContext.current

@@ -72,7 +72,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import it.fast4x.rimusic.ui.components.themed.HeaderIconButton
 import it.fast4x.rimusic.ui.components.themed.Switch
+import it.fast4x.rimusic.ui.styling.ModernBlackColorPalette
+import it.fast4x.rimusic.ui.styling.PureBlackColorPalette
+import it.fast4x.rimusic.enums.ColorPaletteMode
+import it.fast4x.rimusic.utils.colorPaletteModeKey
 import it.fast4x.rimusic.utils.color
+import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.secondary
 import it.fast4x.rimusic.utils.semiBold
 import me.knighthat.component.dialog.RestartAppDialog
@@ -105,7 +110,7 @@ fun SettingsScreen(
             item(0, stringResource(R.string.tab_general), R.drawable.ic_launcher_monochrome)
             item(1, stringResource(R.string.ui_tab), R.drawable.ui)
             item(2, stringResource(R.string.player_appearance), R.drawable.color_palette)
-            item(3, if (!isYouTubeLoggedIn()) stringResource(R.string.quick_picks)
+            item(3, if (!isYouTubeLoggedIn()) stringResource(R.string.ai_recommendations)
             else stringResource(R.string.home), if (!isYouTubeLoggedIn()) R.drawable.sparkles
             else R.drawable.ytmusic)
             item(4, stringResource(R.string.tab_data), R.drawable.server)
@@ -121,10 +126,10 @@ fun SettingsScreen(
                 0 -> GeneralSettings(navController = navController)
                 1 -> UiSettings(navController = navController)
                 2 -> AppearanceSettings(navController = navController)
-                3 -> QuickPicsSettings()
+                3 -> AIRecommendationSettings(navController = navController)
                 4 -> DataSettings()
                 5 -> AccountsSettings()
-                // 6 -> NetworkSettings()
+                6 -> NetworkSettings(navController = navController)
                 7 -> OtherSettings()
                 8 -> About()
 
@@ -709,6 +714,8 @@ fun SettingsSectionCard(
     modifier: Modifier = Modifier,
     description: String? = null
 ) {
+    val colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.Dark)
+    
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -720,7 +727,11 @@ fun SettingsSectionCard(
             ),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorPalette().background1
+            containerColor = if (colorPalette() === PureBlackColorPalette || colorPalette() === ModernBlackColorPalette || colorPaletteMode == ColorPaletteMode.PitchBlack) {
+                Color(0xFF1A1A1A) // Gray dark for pitch black themes
+            } else {
+                colorPalette().background1
+            }
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {

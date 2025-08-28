@@ -35,7 +35,7 @@ import app.kreate.android.BuildConfig
 import app.kreate.android.R
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.colorPalette
-import it.fast4x.rimusic.enums.AudioQualityFormat
+
 import it.fast4x.rimusic.enums.DurationInMilliseconds
 import it.fast4x.rimusic.enums.DurationInMinutes
 import it.fast4x.rimusic.enums.ExoPlayerMinTimeForEvent
@@ -56,11 +56,9 @@ import it.fast4x.rimusic.ui.styling.DefaultLightColorPalette
 import it.fast4x.rimusic.ui.styling.Dimensions
 import it.fast4x.rimusic.utils.RestartActivity
 import it.fast4x.rimusic.utils.RestartPlayerService
-import it.fast4x.rimusic.utils.audioQualityFormatKey
+
 import it.fast4x.rimusic.utils.audioReverbPresetKey
-import it.fast4x.rimusic.utils.autoDownloadSongKey
-import it.fast4x.rimusic.utils.autoDownloadSongWhenAlbumBookmarkedKey
-import it.fast4x.rimusic.utils.autoDownloadSongWhenLikedKey
+
 import it.fast4x.rimusic.utils.autoLoadSongsInQueueKey
 import it.fast4x.rimusic.utils.bassboostEnabledKey
 import it.fast4x.rimusic.utils.bassboostLevelKey
@@ -95,7 +93,7 @@ import it.fast4x.rimusic.utils.exoPlayerMinTimeForEventKey
 import it.fast4x.rimusic.utils.handleAudioFocusEnabledKey
 import it.fast4x.rimusic.utils.isAtLeastAndroid12
 import it.fast4x.rimusic.utils.isAtLeastAndroid6
-import it.fast4x.rimusic.utils.isConnectionMeteredEnabledKey
+
 import it.fast4x.rimusic.utils.isPauseOnVolumeZeroEnabledKey
 import it.fast4x.rimusic.utils.jumpPreviousKey
 import it.fast4x.rimusic.utils.keepPlayerMinimizedKey
@@ -155,8 +153,8 @@ fun GeneralSettings(
     var skipSilence by rememberPreference(skipSilenceKey, false)
     var skipMediaOnError by rememberPreference(skipMediaOnErrorKey, false)
     var volumeNormalization by rememberPreference(volumeNormalizationKey, false)
-    var audioQualityFormat by rememberPreference(audioQualityFormatKey, AudioQualityFormat.Auto)
-    var isConnectionMeteredEnabled by rememberPreference(isConnectionMeteredEnabledKey, true)
+
+
 
 
     var keepPlayerMinimized by rememberPreference(keepPlayerMinimizedKey,   false)
@@ -226,9 +224,7 @@ fun GeneralSettings(
     var pipModule by rememberPreference(pipModuleKey, PipModule.Cover)
     var jumpPrevious by rememberPreference(jumpPreviousKey,"3")
     var notificationType by rememberPreference(notificationTypeKey, NotificationType.Default)
-    var autoDownloadSong by rememberPreference(autoDownloadSongKey, false)
-    var autoDownloadSongWhenLiked by rememberPreference(autoDownloadSongWhenLikedKey, false)
-    var autoDownloadSongWhenAlbumBookmarked by rememberPreference(autoDownloadSongWhenAlbumBookmarkedKey, false)
+
 
 
 
@@ -346,39 +342,9 @@ fun GeneralSettings(
             ImportantSettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
         }
 
-        if (search.inputValue.isBlank() || stringResource(R.string.audio_quality_format).contains(search.inputValue,true)) {
-            EnumValueSelectorSettingsEntry(
-                title = stringResource(R.string.audio_quality_format),
-                selectedValue = audioQualityFormat,
-                onValueSelected = {
-                    audioQualityFormat = it
-                    restartService = true
-                },
-                valueText = {
-                    when (it) {
-                        AudioQualityFormat.Auto -> stringResource(R.string.audio_quality_automatic)
-                        AudioQualityFormat.High -> stringResource(R.string.audio_quality_format_high)
-                        AudioQualityFormat.Medium -> stringResource(R.string.audio_quality_format_medium)
-                        AudioQualityFormat.Low -> stringResource(R.string.audio_quality_format_low)
-                    }
-                }
-            )
 
-            RestartPlayerService(restartService, onRestart = { restartService = false } )
 
-        }
 
-        if (search.inputValue.isBlank() || stringResource(R.string.enable_connection_metered).contains(search.inputValue,true))
-            SwitchSettingEntry(
-                title = stringResource(R.string.enable_connection_metered),
-                text = stringResource(R.string.info_enable_connection_metered),
-                isChecked = isConnectionMeteredEnabled,
-                onCheckedChange = {
-                    isConnectionMeteredEnabled = it
-                    if (it)
-                        audioQualityFormat = AudioQualityFormat.Auto
-                }
-            )
 
         if (search.inputValue.isBlank() || stringResource(R.string.jump_previous).contains(search.inputValue,true)) {
             BasicText(
@@ -916,39 +882,7 @@ fun GeneralSettings(
             }
         }
 
-        if (search.inputValue.isBlank() || stringResource(R.string.settings_enable_autodownload_song).contains(search.inputValue,true)) {
-            SwitchSettingEntry(
-                title = stringResource(R.string.settings_enable_autodownload_song),
-                text = "",
-                isChecked = autoDownloadSong,
-                onCheckedChange = {
-                    autoDownloadSong = it
-                }
-            )
-            AnimatedVisibility(visible = autoDownloadSong) {
-                Column(
-                    modifier = Modifier.padding(start = 25.dp)
-                ) {
-                    SwitchSettingEntry(
-                        title = stringResource(R.string.settings_enable_autodownload_song_when_liked),
-                        text = "",
-                        isChecked = autoDownloadSongWhenLiked,
-                        onCheckedChange = {
-                            autoDownloadSongWhenLiked = it
-                        }
-                    )
-                    SwitchSettingEntry(
-                        title = stringResource(R.string.settings_enable_autodownload_song_when_album_bookmarked),
-                        text = "",
-                        isChecked = autoDownloadSongWhenAlbumBookmarked,
-                        onCheckedChange = {
-                            autoDownloadSongWhenAlbumBookmarked = it
-                        }
-                    )
-                }
 
-            }
-        }
 
         if (search.inputValue.isBlank() || stringResource(R.string.equalizer).contains(search.inputValue,true))
             SettingsEntry(
