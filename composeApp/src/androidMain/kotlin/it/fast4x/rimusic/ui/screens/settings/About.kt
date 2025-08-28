@@ -57,6 +57,11 @@ import it.fast4x.rimusic.utils.checkUpdateStateKey
 import it.fast4x.rimusic.utils.lastUpdateCheckKey
 import it.fast4x.rimusic.utils.updateCancelledKey
 import it.fast4x.rimusic.utils.rememberPreference
+import it.fast4x.rimusic.ui.styling.PureBlackColorPalette
+import it.fast4x.rimusic.ui.styling.ModernBlackColorPalette
+import it.fast4x.rimusic.utils.colorPaletteModeKey
+import androidx.compose.ui.graphics.Color
+import it.fast4x.rimusic.enums.ColorPaletteMode
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -68,6 +73,7 @@ fun About() {
     var lastUpdateCheck by rememberPreference(lastUpdateCheckKey, 0L)
     var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
     var updateCancelled by rememberPreference(updateCancelledKey, false)
+    val colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.Dark)
     
     // Force update of updateCancelled when SharedPreferences change
     LaunchedEffect(Unit) {
@@ -177,7 +183,11 @@ fun About() {
                     ),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = colorPalette().background1
+                    containerColor = if (colorPalette() === PureBlackColorPalette || colorPalette() === ModernBlackColorPalette || colorPaletteMode == ColorPaletteMode.PitchBlack) {
+                        Color(0xFF1A1A1A) // Gray dark for pitch black themes
+                    } else {
+                        colorPalette().background1
+                    }
                 ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
@@ -330,7 +340,11 @@ fun About() {
                              ),
                      shape = RoundedCornerShape(16.dp),
                      colors = CardDefaults.cardColors(
-                         containerColor = colorPalette().background1
+                         containerColor = if (colorPalette() === PureBlackColorPalette || colorPalette() === ModernBlackColorPalette || colorPaletteMode == ColorPaletteMode.PitchBlack) {
+                             Color(0xFF1A1A1A) // Gray dark for pitch black themes
+                         } else {
+                             colorPalette().background1
+                         }
                      ),
                      elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                  ) {
@@ -563,7 +577,11 @@ fun About() {
                     ),
                 shape = RoundedCornerShape(12.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = colorPalette().background1
+                    containerColor = if (colorPalette() === PureBlackColorPalette || colorPalette() === ModernBlackColorPalette || colorPaletteMode == ColorPaletteMode.PitchBlack) {
+                        Color(0xFF1A1A1A) // Gray dark for pitch black themes
+                    } else {
+                        colorPalette().background1
+                    }
                 ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
@@ -643,7 +661,11 @@ fun About() {
                     ),
                 shape = RoundedCornerShape(12.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = colorPalette().background1
+                    containerColor = if (colorPalette() === PureBlackColorPalette || colorPalette() === ModernBlackColorPalette || colorPaletteMode == ColorPaletteMode.PitchBlack) {
+                        Color(0xFF1A1A1A) // Gray dark for pitch black themes
+                    } else {
+                        colorPalette().background1
+                    }
                 ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
