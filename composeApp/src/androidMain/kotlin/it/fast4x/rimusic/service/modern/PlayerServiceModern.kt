@@ -1173,7 +1173,10 @@ class PlayerServiceModern : MediaLibraryService(),
 
         val mediaMetadata = player.mediaMetadata
 
-        bitmapProvider.load(mediaMetadata.artworkUri) {}
+        // Only load bitmap if artworkUri is not null
+        mediaMetadata.artworkUri?.let { uri ->
+            bitmapProvider.load(uri) {}
+        }
 
         val customNotify = if (isAtLeastAndroid8) {
             NotificationCompat.Builder(this, NotificationChannelId)

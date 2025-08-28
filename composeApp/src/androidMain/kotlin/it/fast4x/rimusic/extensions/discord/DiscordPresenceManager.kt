@@ -306,11 +306,21 @@ class DiscordPresenceManager(
         runCatching {
             client.newCall(request).execute().use { response ->
                 val body = response.body?.string() ?: return@runCatching null
-                val jsonArr = runCatching { Json.parseToJsonElement(body).jsonArray }
-                    .getOrElse {
-                        Timber.tag("DiscordPresence").e(it, "Error parsing JSON: ${it.message}")
+                val jsonElement = Json.parseToJsonElement(body)
+                
+                // Handle both JsonArray and JsonObject responses
+                val jsonArr = when {
+                    jsonElement is kotlinx.serialization.json.JsonArray -> jsonElement
+                    jsonElement is kotlinx.serialization.json.JsonObject -> {
+                        // If it's a JsonObject, try to extract array from common fields
+                        jsonElement["data"]?.jsonArray ?: jsonElement["results"]?.jsonArray ?: return@runCatching null
+                    }
+                    else -> {
+                        Timber.tag("DiscordPresence").e("Unexpected JSON response type: ${jsonElement::class.simpleName}")
                         return@runCatching null
                     }
+                }
+                
                 val externalAssetPath = jsonArr.firstOrNull()?.jsonObject?.get("external_asset_path")?.toString()?.replace("\"", "")
                 externalAssetPath?.let { "mp:$it" }
             }
