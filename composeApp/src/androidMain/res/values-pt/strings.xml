@@ -1026,11 +1026,11 @@
   <string name="ai_recommendations">Recomendações de IA</string>
   <string name="my_playlist_top1">Meu Topo</string>
   <string name="auto_download_settings">Configurações de Download Automático</string>
-  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
-  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
-  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
-  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
-  <string name="connection_settings">Connection Settings</string>
-  <string name="connection_settings_description">Configure network connection preferences</string>
-  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
+  <string name="auto_download_settings_description">Configurar preferências de download automático para músicas e álbuns</string>
+  <string name="auto_download_song_description">Fazer download de músicas automaticamente com base em suas preferências</string>
+  <string name="auto_download_when_liked_description">Baixar músicas automaticamente quando você gosta delas</string>
+  <string name="auto_download_when_album_bookmarked_description">Baixar músicas automaticamente quando favoritar um álbum</string>
+  <string name="connection_settings">Configurações de conexão</string>
+  <string name="connection_settings_description">Configurar preferências de conexão de rede</string>
+  <string name="network_settings_description">A seção de rede contém configurações para otimizar o desempenho e o uso de dados do aplicativo</string>
 </resources>

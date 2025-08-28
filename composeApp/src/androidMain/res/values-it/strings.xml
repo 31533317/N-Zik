@@ -1026,11 +1026,11 @@
   <string name="ai_recommendations">Raccomandazioni AI</string>
   <string name="my_playlist_top1">La Mia Top</string>
   <string name="auto_download_settings">Impostazioni Di Download Automatico</string>
-  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
-  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
-  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
-  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
-  <string name="connection_settings">Connection Settings</string>
-  <string name="connection_settings_description">Configure network connection preferences</string>
-  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
+  <string name="auto_download_settings_description">Configura le preferenze di download automatico per brani e album</string>
+  <string name="auto_download_song_description">Scarica automaticamente i brani in base alle tue preferenze</string>
+  <string name="auto_download_when_liked_description">Scarica automaticamente le canzoni quando ti piacciono</string>
+  <string name="auto_download_when_album_bookmarked_description">Scarica automaticamente i brani quando si segnala un album</string>
+  <string name="connection_settings">Impostazioni Di Connessione</string>
+  <string name="connection_settings_description">Configura le preferenze di connessione di rete</string>
+  <string name="network_settings_description">La sezione di rete contiene impostazioni per ottimizzare le prestazioni e l\'utilizzo dei dati dell\'app</string>
 </resources>
