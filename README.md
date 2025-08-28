@@ -128,7 +128,7 @@ Here are the languages currently supported:
 [![GitHub](./assets/get-it-on/GitHub.png)](https://github.com/NEVARLeVrai/N-Zik/releases/latest)  
 
 **Beta versions are available here:**  
-[![BetaVersions folder](./assets/get-it-on/GitHubBeta.png)](https://github.com/NEVARLeVrai/N-Zik/tree/main/BetaVersions)
+[![BetaVersions](https://github.com/NEVARLeVrai/N-Zik/blob/main/assets/get-it-on/GitHubBeta.png?raw=true)](https://github.com/NEVARLeVrai/N-Zik/releases?q=&type=prerelease)
 
 # 🤝 Contributing
 
