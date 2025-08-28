@@ -1026,11 +1026,11 @@
   <string name="ai_recommendations">AI aanbevelingen</string>
   <string name="my_playlist_top1">Mijn top</string>
   <string name="auto_download_settings">Automatische download instellingen</string>
-  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
-  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
-  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
-  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
-  <string name="connection_settings">Connection Settings</string>
-  <string name="connection_settings_description">Configure network connection preferences</string>
-  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
+  <string name="auto_download_settings_description">Configureer de voorkeuren voor automatische download voor nummers en albums</string>
+  <string name="auto_download_song_description">Download automatisch nummers gebaseerd op je voorkeuren</string>
+  <string name="auto_download_when_liked_description">Download automatisch nummers als je ze leuk vindt</string>
+  <string name="auto_download_when_album_bookmarked_description">Download nummers automatisch wanneer je een album aan je favorieten toevoegt</string>
+  <string name="connection_settings">Verbindingsinstellingen</string>
+  <string name="connection_settings_description">Instellingen netwerkverbinding instellen</string>
+  <string name="network_settings_description">De netwerksectie bevat instellingen om de prestaties en gegevensgebruik van de app te optimaliseren</string>
 </resources>
