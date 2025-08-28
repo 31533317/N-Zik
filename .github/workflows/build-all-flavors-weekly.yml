@@ -214,7 +214,7 @@ jobs:
 
             ## 🔎 Verification
             
-            > Always check for signature before installing any app you downloaded from Github or any other APK distributors.
+            > Always check for signature before installing any app you downloaded from GitHub or other APK distributors.
             
             ### Public key hashes
             
@@ -244,10 +244,29 @@ jobs:
             - **Minified** – Lightweight build optimized for performance *(recommended for low-end devices)*  
             - **Full** – Complete build with all components *(recommended if you face installation issues)*  
 
+
+            ## 🔄 Updater & Beta Updates
+
+            N-Zik now includes a built-in **Updater** that automatically checks for new releases from GitHub.  
+            
+            - By default, you will only receive **stable releases**.  
+            - You can choose to **also receive BETA releases** by enabling the option in:  
+              **Settings > About > Beta update enabled**  
+
+            ### How it works
+            - If you stay on **stable** → you’ll only see stable updates.  
+            - If you enable **beta updates** → you’ll receive both stable and beta builds.  
+            - The Updater always picks the **latest available version** depending on your choice.  
+
+            > 🧪 Beta builds may contain experimental features and bugs.  
+            Enable them only if you want to test early features and provide feedback.
+
+
             ## 🔗 Changelog & Downloads
 
             - Full changelog: [Compare v${{ needs.versioning.outputs.upstream }}...v${{ needs.versioning.outputs.downstream }}](https://github.com/NEVARLeVrai/N-Zik/compare/v${{ needs.versioning.outputs.upstream }}...v${{ needs.versioning.outputs.downstream }})  
             - [Changelog text file](https://github.com/NEVARLeVrai/N-Zik/blob/main/fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt)
+
 
           token: ${{ secrets.GITHUB_TOKEN }}
           generate_release_notes: true
