@@ -67,44 +67,32 @@ jobs:
             exit 1
           fi
 
-      - name: Optional – check beta release existence
-        id: check-beta
+      - name: Check if Beta release exists
         run: |
           repo="${GITHUB_REPOSITORY}"
           beta_tag="${{ needs.versioning.outputs.downstream }}-b"
+
+          echo "Checking if beta $beta_tag already exists..."
           beta_exists=$(curl -s "https://api.github.com/repos/$repo/releases" \
-            | jq -r ".[] | select(.prerelease == true) | .tag_name" \
-            | grep -w "$beta_tag" || true)
+            | jq -r '.[] | select(.prerelease==true) | .tag_name | ltrimstr("v")' \
+            | grep "$beta_tag" || true)
+
           if [ -n "$beta_exists" ]; then
             echo "Beta $beta_tag already exists. Skipping build."
             exit 1
           fi
-
-      - name: Skip build if Beta exists
-        run: |
-          beta_tag="${{ needs.versioning.outputs.downstream }}-b"
-          beta_exists=$(curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases" \
-            | jq -r ".[] | select(.prerelease == true) | .tag_name" \
-            | grep -w "$beta_tag" || true)
-          if [ -n "$beta_exists" ]; then
-            echo "Beta $beta_tag already exists. Skipping build."
-            exit 1
-          fi
-
 
   build-full:
     needs: [versioning, verify-version]
     name: Build full version
     runs-on: ubuntu-latest
-    timeout-minutes: 60       # Prevent Github Action from terminating this workflow on first run
-
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
         with:
           submodules: true
 
       - name: Copy changelogs into res/raw
-        # Job should be canceled if file doesn't exist
         run: cp "fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt" "composeApp/src/androidMain/res/raw/release_notes.txt"
 
       - name: Setup Java 21
@@ -121,7 +109,6 @@ jobs:
             ~/.gradle/wrapper
             ./build
             ./composeApp/build
-          # Cache key has flavor's name to prevent override each other
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: gradle-${{ runner.os }}-
 
@@ -132,22 +119,19 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         with:
           name: unsigned-release
-          path: |
-            composeApp/build/outputs/apk/full/*.apk
+          path: composeApp/build/outputs/apk/full/*.apk
             
   build-minified:
     needs: [versioning, verify-version]
     name: Build minified version
     runs-on: ubuntu-latest
-    timeout-minutes: 60       # Prevent Github Action from terminating this workflow on first run
-
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
         with:
           submodules: true
 
       - name: Copy changelogs into res/raw
-        # Job should be canceled if file doesn't exist
         run: cp "fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt" "composeApp/src/androidMain/res/raw/release_notes.txt"
 
       - name: Setup Java 21
@@ -164,7 +148,6 @@ jobs:
             ~/.gradle/wrapper
             ./build
             ./composeApp/build
-          # Cache key has flavor's name to prevent override each other
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: gradle-${{ runner.os }}-
 
@@ -175,8 +158,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         with:
           name: unsigned-uncompressed
-          path: |
-            composeApp/build/outputs/apk/minified/*.apk
+          path: composeApp/build/outputs/apk/minified/*.apk
 
   sign-apks:
     name: Sign all built APKs
@@ -184,7 +166,6 @@ jobs:
       - build-full
       - build-minified
     runs-on: ubuntu-latest
-  
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v5.0.0
@@ -196,17 +177,15 @@ jobs:
         uses: Tlaster/android-sign@v1.2.2
         with:
           releaseDirectory: upstream/unsigned
-  
           signingKeyBase64: "${{ secrets.RELEASE_KEYSTORE }}"
           keyStorePassword: "${{ secrets.RELEASE_KEYSTORE_PASSWD }}"
           alias: "${{ secrets.RELEASE_KEY_ALIAS }}"
           keyPassword: "${{ secrets.RELEASE_KEY_PASSWD }}"
-  
           output: signed
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
   
-      - name: Remove trails     # remove "-signed"
+      - name: Remove trails
         run: |
           for filename in signed/*.apk; do mv "$filename" "${filename//-signed}"; done
   
@@ -238,7 +217,7 @@ jobs:
               <img alt="N-Zik Logo" src="https://github.com/NEVARLeVrai/N-Zik/blob/main/assets/design/ic_banner2.png?raw=true" width="1000" />
               <p><b>N-Zik</b> - by @NEVARLeVrai</p>
             </div>
-
+            
             ## 🔎 Verification
             
             > Always check for signature before installing any app you downloaded from GitHub or other APK distributors.
@@ -258,45 +237,35 @@ jobs:
             | SHA-256   | b473991ec08a17996a9ef2405934ce35d333ea38135ebfc1b6f4d2ab953132aa |
             | SHA-1     | ec57f7d61cf2382aecff7444e815e37a601cb1f1                         |
             | MD5       | 5ae0045983899ab7ca5db38ef785d6ab                                 |
-
-
+            
             ## 📲 Installation
             
-            ⚠️ This is a **BETA release**, not a stable version.  
-            It is intended **only for testing and feedback**.  
-            
-            1. Download the **Full BETA build** below (required for better compatibility and to reduce bugs).  
+            1. Download the **Full build** below (recommended for all devices).  
             2. Verify its signature using the hashes provided.  
             3. Install on your device (you may need to allow installation from unknown sources).  
             
-            > The **minified build** is only recommended for **low-end devices**.  
-            > It is not suitable for beta testing, as it may cause compatibility issues.
+            > The **Minified build** is available for low-end devices. It contains only core features but is fully stable.
             
             Please report any crashes, bugs, or unexpected behavior.
             
-            ## 📦 Available Build
+            ## 📦 Available Builds
             
-            - **Full with BETA** – Complete build with all components.  
-            - **Minified** – Lightweight build, only for low-end devices. Not recommended for beta testing.
+            - **Full** – Complete build with all components.  
+            - **Minified** – Lightweight build, recommended for low-end devices.
             
-            ## 🔄 How Updates Work
+            ## 🔄 Update Policy
             
-            - **Stable builds** → Update notifications are always enabled.  
-            - **Beta builds** → Update notifications are optional.  
-              You can enable or disable them in:  
-              **Settings > About > Beta update enabled**  
+            - **Stable builds** → automatic update notifications are always on.  
+            - **Beta builds** → notifications are optional and can be toggled in **Settings > About > Beta update enabled**.  
             
             ### How it works
-            - If you stay on **stable** → you’ll only see stable updates.  
-            - If you enable **beta updates** → you’ll receive both stable and beta builds.  
-            - The Updater always picks the **latest available version** depending on your choice.  
-            
-            > 🧪 Beta builds may contain experimental features and bugs.  
-            Enable them only if you want to test early features and provide feedback.
+            - On **stable** → only stable updates appear.  
+            - With **beta enabled** → both stable and beta updates are shown.  
+            - The updater always selects the **latest version** based on your choice.
+
             
             ## 🔗 Changelog & Downloads
-
-
+            
             - Full changelog: [Compare v${{ needs.versioning.outputs.upstream }}...v${{ needs.versioning.outputs.downstream }}](https://github.com/NEVARLeVrai/N-Zik/compare/v${{ needs.versioning.outputs.upstream }}...v${{ needs.versioning.outputs.downstream }})  
             - [Changelog text file](https://github.com/NEVARLeVrai/N-Zik/blob/main/fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt)
 
