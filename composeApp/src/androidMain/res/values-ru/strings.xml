@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Включено</string>
   <string name="auto_update_ask">Спрашивать</string>
   <string name="auto_update_disabled">Отключено</string>
+  <string name="tab_network">Сеть</string>
+  <string name="about_description">Раздел содержит информацию о приложении, разработчиках, диагностике и обновлении</string>
+  <string name="other_settings_description">Раздел \"Разные\" содержит различные дополнительные настройки и утилиты</string>
+  <string name="data_settings_description">Раздел данных содержит настройки, изменяющие работу приложения с данными локально и удаленно</string>
+  <string name="accounts_settings_description">Раздел \"Аккаунты\" содержит настройки синхронизации Youtube, настройки стриминга Piped и настройки Discord Rpc</string>
 </resources>
