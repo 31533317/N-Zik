@@ -115,5 +115,6 @@ jobs:
         # Combine with "--exclude-task" to skip unnecessary tasks
       - name: Build with Gradle (cache only)
         run: |
+          ./gradlew assembleBeta --build-cache --exclude-task packageBeta
           ./gradlew assembleFull --build-cache --exclude-task packageFull
           ./gradlew assembleMinified --build-cache --exclude-task packageMinified
