@@ -1047,4 +1047,6 @@
   <string name="audio_effects">Audio Effecten</string>
   <string name="gestures_events">Gebaren &amp; Gebeurtenissen</string>
   <string name="picture_in_picture">Afbeelding in afbeelding</string>
+  <string name="i_understand">Ik begrijp het</string>
+  <string name="by_string">door</string>
 </resources>
