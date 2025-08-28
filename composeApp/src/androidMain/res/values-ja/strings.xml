@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">有効</string>
   <string name="auto_update_ask">確認</string>
   <string name="auto_update_disabled">無効</string>
+  <string name="tab_network">ネットワーク</string>
+  <string name="about_description">概要セクションには、アプリ、開発者、トラブルシューティング、更新オプションに関する情報が表示されます。</string>
+  <string name="other_settings_description">その他のセクションには、さまざまなオプション設定とユーティリティが含まれています</string>
+  <string name="data_settings_description">データセクションには、アプリがデータをローカルおよびリモートでどのように処理するかを変更する設定が含まれています</string>
+  <string name="accounts_settings_description">アカウントセクションには、Youtubeの同期設定、パイプストリーミング設定、Discord Rpc設定が含まれています</string>
 </resources>
