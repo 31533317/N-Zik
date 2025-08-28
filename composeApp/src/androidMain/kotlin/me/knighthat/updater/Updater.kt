@@ -24,6 +24,8 @@ import it.fast4x.rimusic.ui.components.themed.SecondaryTextButton
 import it.fast4x.rimusic.ui.screens.settings.EnumValueSelectorSettingsEntry
 import it.fast4x.rimusic.ui.screens.settings.SettingsDescription
 import it.fast4x.rimusic.utils.checkUpdateStateKey
+import it.fast4x.rimusic.utils.checkBetaUpdatesKey
+import it.fast4x.rimusic.utils.updateCancelledKey
 import it.fast4x.rimusic.utils.rememberPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,30 +38,85 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.net.UnknownHostException
 import java.nio.file.NoSuchFileException
+import kotlin.math.pow
 
 object Updater {
     private lateinit var tagName: String
     lateinit var build: GithubRelease.Build
     var githubRelease: GithubRelease? = null
 
-    private fun extractBuild(assets: List<GithubRelease.Build>): GithubRelease.Build {
+    /**
+     * Extracts the build type from version string
+     * e.g., "1.0.0-f" returns "full", "1.0.0-b" returns "beta"
+     */
+    private fun extractBuildType(versionStr: String): String {
+        return when {
+            versionStr.endsWith("-f") -> "full"
+            versionStr.endsWith("-b") -> "beta"
+            else -> "full" // Default to full if no suffix
+        }
+    }
+
+    /**
+     * Extracts the version suffix from version string
+     * e.g., "1.0.0-f" returns "f", "1.0.0-b" returns "b"
+     */
+    private fun extractVersionSuffix(versionStr: String): String {
+        val parts = versionStr.removePrefix("v").split("-")
+        return if (parts.size > 1) parts[1] else ""
+    }
+
+    private fun extractBuild(assets: List<GithubRelease.Build>, checkBetaUpdates: Boolean = false): GithubRelease.Build {
         val appName = BuildConfig.APP_NAME
-        val buildType = BuildConfig.BUILD_TYPE
+        val currentBuildType = extractBuildType(BuildConfig.VERSION_NAME)
+        val currentSuffix = extractVersionSuffix(BuildConfig.VERSION_NAME)
 
-        /*
-           IDE will complain that is condition is always true
-           but because it only sees debug, it assumes the results
-           of this evaluation. DO NOT remove this!
-         */
-        if (buildType != "full" && buildType != "minified")
-            throw IllegalStateException("Unknown build type ${BuildConfig.BUILD_TYPE}")
+        // If we're checking for beta updates and current build is full, look for beta builds too
+        val targetBuildTypes = when {
+            checkBetaUpdates && currentSuffix == "f" -> listOf("full", "beta")
+            currentSuffix == "b" -> listOf("beta", "full") // Beta users can get full updates too
+            else -> listOf("full")
+        }
 
-        // Get the first build that has name matches 'Kreate-<buildType>.apk'
-        // e.g. Full version will have name 'Kreate-full.apk'
-        val fileName = "$appName-$buildType.apk"
-        return assets.fastFirstOrNull {    // Experimental, revert to firstOrNull if needed
+        // Try to find the best matching build
+        for (buildType in targetBuildTypes) {
+            val fileName = "$appName-$buildType.apk"
+            val foundBuild = assets.fastFirstOrNull { it.name == fileName }
+            if (foundBuild != null) {
+                return foundBuild
+            }
+        }
+
+        // Fallback to the original logic
+        val fileName = "$appName-$currentBuildType.apk"
+        return assets.fastFirstOrNull {
             it.name == fileName
         } ?: throw NoSuchFileException("")
+    }
+
+    /**
+     * Compares two version strings and returns true if version1 is newer than version2
+     */
+    private fun isVersionNewer(version1: String, version2: String): Boolean {
+        val v1 = version1.removePrefix("v").substringBefore("-")
+        val v2 = version2.removePrefix("v").substringBefore("-")
+        
+        val v1Parts = v1.split(".").map { it.toIntOrNull() ?: 0 }
+        val v2Parts = v2.split(".").map { it.toIntOrNull() ?: 0 }
+        
+        val maxLength = maxOf(v1Parts.size, v2Parts.size)
+        
+        for (i in 0 until maxLength) {
+            val v1Part = v1Parts.getOrNull(i) ?: 0
+            val v2Part = v2Parts.getOrNull(i) ?: 0
+            
+            when {
+                v1Part > v2Part -> return true
+                v1Part < v2Part -> return false
+            }
+        }
+        
+        return false // Versions are equal
     }
 
     /**
@@ -74,13 +131,13 @@ object Updater {
      *
      * > **NOTE**: This is a blocking process, it should never run on UI thread
      */
-    private suspend fun fetchUpdate() = withContext(Dispatchers.IO) {
+    private suspend fun fetchUpdate(checkBetaUpdates: Boolean = false) = withContext(Dispatchers.IO) {
         assert(Looper.myLooper() != Looper.getMainLooper()) {
             "Cannot run fetch update on main thread"
         }
 
-        // https://api.github.com/repos/knighthat/Kreate/releases/latest
-        val url = "${Repository.GITHUB_API}/repos/${Repository.LATEST_TAG_URL}"
+        // Get all releases to find the best one
+        val url = "${Repository.GITHUB_API}/repos/${Repository.REPO}/releases"
         val request = Request.Builder().url(url).build()
         val response = OkHttpClient().newCall(request).execute()
 
@@ -98,25 +155,80 @@ object Updater {
         val json = Json {
             ignoreUnknownKeys = true
         }
-        val githubRelease = json.decodeFromString<GithubRelease>(resBody)
-        this@Updater.githubRelease = githubRelease
-        build = extractBuild(githubRelease.builds)
-        tagName = githubRelease.tagName
+        val releases = json.decodeFromString<List<GithubRelease>>(resBody)
+        
+        // Find the best release based on current version and beta preferences
+        val bestRelease = findBestRelease(releases, checkBetaUpdates)
+        
+        if (bestRelease != null) {
+            this@Updater.githubRelease = bestRelease
+            build = extractBuild(bestRelease.builds, checkBetaUpdates)
+            tagName = bestRelease.tagName
+        } else {
+            throw NoSuchFileException("")
+        }
+    }
+
+    /**
+     * Finds the best release based on current version and beta preferences
+     */
+    private fun findBestRelease(releases: List<GithubRelease>, checkBetaUpdates: Boolean): GithubRelease? {
+        val currentVersion = BuildConfig.VERSION_NAME
+        val currentSuffix = extractVersionSuffix(currentVersion)
+        
+        // Filter releases based on current build type and beta preferences
+        val eligibleReleases = releases.filter { release ->
+            val releaseSuffix = extractVersionSuffix(release.tagName)
+            
+            when {
+                // If current is beta, accept both beta and full releases
+                currentSuffix == "b" -> releaseSuffix == "b" || releaseSuffix == "f"
+                // If current is full and beta updates are enabled, accept both
+                currentSuffix == "f" && checkBetaUpdates -> releaseSuffix == "f" || releaseSuffix == "b"
+                // If current is full and beta updates are disabled, only accept full
+                currentSuffix == "f" && !checkBetaUpdates -> releaseSuffix == "f"
+                // Default case: only accept full releases
+                else -> releaseSuffix == "f"
+            }
+        }
+        
+        // Find the release with the highest version number
+        return eligibleReleases.maxByOrNull { release ->
+            val version = release.tagName.removePrefix("v").substringBefore("-")
+            val parts = version.split(".").map { it.toIntOrNull() ?: 0 }
+            
+            // Create a comparable version number (e.g., 1.2.3 -> 1002003)
+            parts.foldIndexed(0L) { index, acc, part ->
+                acc + (part * (1000.0.pow(parts.size - 1 - index)).toLong())
+            }
+        }
     }
 
     fun checkForUpdate(
-        isForced: Boolean = false
+        isForced: Boolean = false,
+        checkBetaUpdates: Boolean = false
     ) = CoroutineScope(Dispatchers.IO).launch {
         if (!BuildConfig.IS_AUTOUPDATE || NewUpdateAvailableDialog.isCancelled) return@launch
 
         try {
             if (!::build.isInitialized || isForced)
-                fetchUpdate()
+                fetchUpdate(checkBetaUpdates)
 
-            NewUpdateAvailableDialog.isActive = trimVersion(BuildConfig.VERSION_NAME) != trimVersion(tagName)
+            // Check if the new version is actually newer
+            val hasUpdate = isVersionNewer(tagName, BuildConfig.VERSION_NAME)
+            NewUpdateAvailableDialog.isActive = hasUpdate
+            
             if (!NewUpdateAvailableDialog.isActive) {
                 Toaster.i(R.string.info_no_update_available)
                 NewUpdateAvailableDialog.isCancelled = true
+                // Also reset the cancelled state in SharedPreferences when no update is available
+                val sharedPrefs = appContext().getSharedPreferences("settings", 0)
+                sharedPrefs.edit()
+                    .putBoolean(updateCancelledKey, false)
+                    .apply()
+            } else {
+                // If there's an update available, reset the cancelled state
+                NewUpdateAvailableDialog.isCancelled = false
             }
         } catch (e: Exception) {
             val message = when (e) {
@@ -124,7 +236,12 @@ object Updater {
                 is NoSuchFileException -> appContext().getString(R.string.info_no_update_available)
                 else -> e.message ?: appContext().getString(R.string.error_unknown)
             }
-            Toaster.e(message)
+            
+            // Use appropriate toast type based on exception
+            when (e) {
+                is NoSuchFileException -> Toaster.i(message) // Blue for no update available
+                else -> Toaster.e(message) // Red for other errors
+            }
 
             NewUpdateAvailableDialog.isCancelled = true
         }
@@ -133,6 +250,7 @@ object Updater {
     @Composable
     fun SettingEntry() {
         var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
+        var checkBetaUpdates by rememberPreference(checkBetaUpdatesKey, false)
         if (!BuildConfig.IS_AUTOUPDATE)
             checkUpdateState = CheckUpdateState.Disabled
 
@@ -155,7 +273,7 @@ object Updater {
             ) {
                 SecondaryTextButton(
                     text = stringResource(R.string.info_check_update_now),
-                    onClick = { checkForUpdate(true) },
+                    onClick = { checkForUpdate(true, checkBetaUpdates) },
                     modifier = Modifier.padding(end = 24.dp)
                 )
             }

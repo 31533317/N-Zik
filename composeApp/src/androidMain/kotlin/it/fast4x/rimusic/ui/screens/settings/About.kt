@@ -54,6 +54,7 @@ import me.knighthat.updater.Updater
 import me.knighthat.updater.NewUpdateAvailableDialog
 import it.fast4x.rimusic.enums.CheckUpdateState
 import it.fast4x.rimusic.utils.checkUpdateStateKey
+import it.fast4x.rimusic.utils.checkBetaUpdatesKey
 import it.fast4x.rimusic.utils.lastUpdateCheckKey
 import it.fast4x.rimusic.utils.updateCancelledKey
 import it.fast4x.rimusic.utils.rememberPreference
@@ -68,57 +69,33 @@ import java.util.*
 @ExperimentalAnimationApi
 @Composable
 fun About() {
+    // Function to extract the version suffix
+    fun extractVersionSuffix(versionStr: String): String {
+        val parts = versionStr.removePrefix("v").split("-")
+        return if (parts.size > 1) parts[1] else ""
+    }
     val uriHandler = LocalUriHandler.current
     val showChangelog = remember { mutableStateOf(false) }
     var lastUpdateCheck by rememberPreference(lastUpdateCheckKey, 0L)
     var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
+    var checkBetaUpdates by rememberPreference(checkBetaUpdatesKey, false)
     var updateCancelled by rememberPreference(updateCancelledKey, false)
     val colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.Dark)
     
-    // Force update of updateCancelled when SharedPreferences change
+    // Synchronize updateCancelled with SharedPreferences
     LaunchedEffect(Unit) {
         val sharedPrefs = appContext().getSharedPreferences("settings", 0)
         updateCancelled = sharedPrefs.getBoolean(updateCancelledKey, false)
     }
     
-    // Listen for SharedPreferences changes
-    LaunchedEffect(Unit) {
+    // Listen for SharedPreferences changes and force save
+    LaunchedEffect(updateCancelled) {
         val sharedPrefs = appContext().getSharedPreferences("settings", 0)
-        sharedPrefs.registerOnSharedPreferenceChangeListener { _, key ->
-            if (key == updateCancelledKey) {
-                updateCancelled = sharedPrefs.getBoolean(updateCancelledKey, false)
-            }
-        }
+        sharedPrefs.edit()
+            .putBoolean(updateCancelledKey, updateCancelled)
+            .apply()
     }
-
-    // Auto-update check on app start
-    LaunchedEffect(Unit) {
-        when (checkUpdateState) {
-            CheckUpdateState.Enabled -> {
-                // Reset updateCancelled when auto-checking
-                val sharedPrefs = appContext().getSharedPreferences("settings", 0)
-                sharedPrefs.edit()
-                    .putBoolean(updateCancelledKey, false)
-                    .apply()
-                Updater.checkForUpdate(false)
-            }
-            CheckUpdateState.Ask -> {
-                // Check if it's been more than a day since last check
-                val oneDayInMillis = 24 * 60 * 60 * 1000L
-                if (lastUpdateCheck == 0L || System.currentTimeMillis() - lastUpdateCheck > oneDayInMillis) {
-                    // Reset updateCancelled when auto-checking
-                    val sharedPrefs = appContext().getSharedPreferences("settings", 0)
-                    sharedPrefs.edit()
-                        .putBoolean(updateCancelledKey, false)
-                        .apply()
-                    Updater.checkForUpdate(false)
-                }
-            }
-            CheckUpdateState.Disabled -> {
-                // Do nothing
-            }
-        }
-    }
+    
 
     Column(
         modifier = Modifier
@@ -276,6 +253,7 @@ fun About() {
                                      textAlign = TextAlign.Center
                                  ),
                              )
+                             Spacer(modifier = Modifier.width(5.dp))
                              Icon(
                                  painter = painterResource(R.drawable.github_icon),
                                  tint = colorPalette().accent,
@@ -400,6 +378,12 @@ fun About() {
 
                             // Update Status
                             if (BuildConfig.IS_AUTOUPDATE) {
+                                // Keep updateCancelled state synchronized with SharedPreferences
+                                LaunchedEffect(NewUpdateAvailableDialog.isActive, lastUpdateCheck) {
+                                    val sharedPrefs = appContext().getSharedPreferences("settings", 0)
+                                    updateCancelled = sharedPrefs.getBoolean(updateCancelledKey, false)
+                                }
+                                
                                 val updateStatusText = when {
                                     lastUpdateCheck == 0L -> stringResource(R.string.never_checked)
                                     NewUpdateAvailableDialog.isActive -> stringResource(R.string.update_available)
@@ -489,19 +473,63 @@ fun About() {
                                               CheckUpdateState.Ask -> stringResource(R.string.auto_update_ask)
                                               CheckUpdateState.Disabled -> stringResource(R.string.auto_update_disabled)
                                           },
-                                         style = typography().xs.semiBold.copy(
+                                         style = typography().xxs.semiBold.copy(
+                                             textAlign = TextAlign.Center,
                                              color = when (checkUpdateState) {
                                                  CheckUpdateState.Enabled -> colorPalette().accent
                                                  CheckUpdateState.Ask -> colorPalette().textSecondary
                                                  CheckUpdateState.Disabled -> colorPalette().red
                                              }
-                                         )
+                                         ),
+                                         modifier = Modifier.fillMaxWidth()
                                      )
                                                                    }
                                   
-                                  Spacer(modifier = Modifier.height(8.dp))
                                   
-                                  // Check Update Button
+                                  // Beta Updates Toggle (only for full builds, not for beta users)
+                                  if (BuildConfig.IS_AUTOUPDATE && extractVersionSuffix(BuildConfig.VERSION_NAME) == "f") {
+                                      Spacer(modifier = Modifier.height(2.dp))
+                                      
+                                      Row(
+                                          horizontalArrangement = Arrangement.Center,
+                                          verticalAlignment = Alignment.CenterVertically,
+                                          modifier = Modifier
+                                              .fillMaxWidth()
+                                              .clip(RoundedCornerShape(8.dp))
+                                              .border(
+                                                  width = 1.dp,
+                                                  color = colorPalette().textSecondary.copy(alpha = 0.3f),
+                                                  shape = RoundedCornerShape(8.dp)
+                                              )
+                                              .clickable { checkBetaUpdates = !checkBetaUpdates }
+                                              .padding(8.dp)
+                                      ) {
+                                          Icon(
+                                              painter = painterResource(
+                                                  if (checkBetaUpdates) R.drawable.checkmark else R.drawable.close
+                                              ),
+                                              tint = if (checkBetaUpdates) colorPalette().accent else colorPalette().red,
+                                              contentDescription = null,
+                                              modifier = Modifier.size(16.dp)
+                                          )
+                                          Spacer(modifier = Modifier.width(6.dp))
+                                          BasicText(
+                                              text = stringResource(
+                                                  if (checkBetaUpdates) R.string.check_beta_update_enabled 
+                                                  else R.string.check_beta_update_disabled
+                                              ),
+                                              style = typography().xxs.semiBold.copy(
+                                                  textAlign = TextAlign.Center,
+                                                  color = if (checkBetaUpdates) colorPalette().accent else colorPalette().red
+                                              ),
+                                              modifier = Modifier.fillMaxWidth()
+                                          )
+                                      }
+                                  }
+                                  
+                                  // Check Update Button (moved to bottom)
+                                  Spacer(modifier = Modifier.height(4.dp))
+                                  
                                   Row(
                                       horizontalArrangement = Arrangement.Center,
                                       verticalAlignment = Alignment.CenterVertically,
@@ -513,16 +541,17 @@ fun About() {
                                               color = colorPalette().textSecondary.copy(alpha = 0.3f),
                                               shape = RoundedCornerShape(8.dp)
                                           )
-                                                                                     .clickable {
-                                               lastUpdateCheck = System.currentTimeMillis()
-                                               NewUpdateAvailableDialog.isCancelled = false
-                                               // Reset updateCancelled when manually checking
-                                               val sharedPrefs = appContext().getSharedPreferences("settings", 0)
-                                               sharedPrefs.edit()
-                                                   .putBoolean(updateCancelledKey, false)
-                                                   .apply()
-                                               Updater.checkForUpdate(true)
-                                           }
+                                          .clickable {
+                                              lastUpdateCheck = System.currentTimeMillis()
+                                              NewUpdateAvailableDialog.isCancelled = false
+                                              // Reset updateCancelled when manually checking
+                                              val sharedPrefs = appContext().getSharedPreferences("settings", 0)
+                                              sharedPrefs.edit()
+                                                  .putBoolean(updateCancelledKey, false)
+                                                  .apply()
+                                              // Force a fresh check
+                                              Updater.checkForUpdate(true, checkBetaUpdates)
+                                          }
                                           .padding(8.dp)
                                   ) {
                                       Icon(
@@ -534,9 +563,11 @@ fun About() {
                                       Spacer(modifier = Modifier.width(6.dp))
                                       BasicText(
                                           text = stringResource(R.string.check_update),
-                                          style = typography().xs.semiBold.copy(
+                                          style = typography().xxs.semiBold.copy(
+                                              textAlign = TextAlign.Center,
                                               color = colorPalette().textSecondary
-                                          )
+                                          ),
+                                          modifier = Modifier.fillMaxWidth()
                                       )
                                   }
                              }

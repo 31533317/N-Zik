@@ -110,7 +110,7 @@ object CheckForUpdateDialog: Dialog {
                     isPrimary = true,
                     onClick = {
                         onDismiss()
-                        Updater.checkForUpdate()
+                        Updater.checkForUpdate(checkBetaUpdates = false)
                     }
                 )
                 Spacer( Modifier.height(10.dp) )

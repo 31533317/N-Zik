@@ -40,6 +40,7 @@ import it.fast4x.rimusic.ui.components.navigation.nav.AbstractNavigationBar
 import it.fast4x.rimusic.ui.components.navigation.nav.HorizontalNavigationBar
 import it.fast4x.rimusic.ui.components.navigation.nav.VerticalNavigationBar
 import it.fast4x.rimusic.utils.checkUpdateStateKey
+import it.fast4x.rimusic.utils.checkBetaUpdatesKey
 import it.fast4x.rimusic.utils.playerPositionKey
 import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.seenChangelogsVersionKey
@@ -152,9 +153,20 @@ fun Skeleton(
     CheckForUpdateDialog.Render()
 
     val check4UpdateState by rememberPreference( checkUpdateStateKey, CheckUpdateState.Disabled )
+    val checkBetaUpdates by rememberPreference( checkBetaUpdatesKey, false )
+    
+    // Reset update state when beta preferences change
+    LaunchedEffect( checkBetaUpdates ) {
+        if (NewUpdateAvailableDialog.isActive) {
+            // If beta preferences changed and there's an active update dialog, recheck
+            NewUpdateAvailableDialog.isCancelled = false
+            Updater.checkForUpdate(checkBetaUpdates = checkBetaUpdates)
+        }
+    }
+    
     LaunchedEffect( check4UpdateState ) {
         when( check4UpdateState ) {
-            CheckUpdateState.Enabled  -> if( !NewUpdateAvailableDialog.isCancelled ) Updater.checkForUpdate()
+            CheckUpdateState.Enabled  -> if( !NewUpdateAvailableDialog.isCancelled ) Updater.checkForUpdate(checkBetaUpdates = checkBetaUpdates)
             CheckUpdateState.Ask      -> CheckForUpdateDialog.isActive = true
             CheckUpdateState.Disabled -> { /* Does nothing */ }
         }

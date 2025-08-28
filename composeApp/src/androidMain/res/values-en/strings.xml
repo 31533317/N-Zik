@@ -1013,9 +1013,9 @@
   <string name="up_to_date">Up to date</string>
   <string name="last_check_date">Last check</string>
   <string name="auto_update_settings">Auto update settings</string>
-  <string name="auto_update_enabled">Enabled</string>
-  <string name="auto_update_ask">Ask</string>
-  <string name="auto_update_disabled">Disabled</string>
+  <string name="auto_update_enabled">Update enabled</string>
+  <string name="auto_update_ask">Ask user</string>
+  <string name="auto_update_disabled">Update disabled</string>
   <string name="tab_network">Network</string>
   <string name="about_description">The about section shows information about the app, the developers, troubleshooting and update options</string>
   <string name="other_settings_description">The miscellaneous section contains various optional settings and utilities</string>
