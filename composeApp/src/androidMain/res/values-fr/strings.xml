@@ -1051,4 +1051,6 @@ Volume BAS : titre précédent</string>
   <string name="picture_in_picture">Image dans l\'image</string>
   <string name="i_understand">Je comprends</string>
   <string name="by_string">par</string>
+  <string name="check_beta_update_enabled">BETA activé</string>
+  <string name="check_beta_update_disabled">BETA désactivé</string>
 </resources>
