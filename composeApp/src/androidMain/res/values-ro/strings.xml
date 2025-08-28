@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">Ești numărul unu, fă click lung și bucură-te de surpriză</string>
   <string name="general_settings_description">Secțiunea generală conține setări pentru funcționalitatea generală a aplicației</string>
   <string name="pause_between_songs_description">Adaugă o pauză între melodii</string>
+  <string name="notifications">Notificări</string>
+  <string name="playback">Redare</string>
+  <string name="player_controls">Controale jucător</string>
+  <string name="queue_management">Gestionare coadă</string>
+  <string name="app_behavior">Comportament aplicație</string>
+  <string name="audio_effects">Audio Effects</string>
+  <string name="gestures_events">Gestures &amp; Events</string>
+  <string name="picture_in_picture">Picture in Picture</string>
 </resources>
