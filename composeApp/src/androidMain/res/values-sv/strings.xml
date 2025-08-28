@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">Du är nummer ett, långklicka och njut av överraskningen</string>
   <string name="general_settings_description">Den allmänna delen innehåller inställningar för den allmänna funktionaliteten i appen</string>
   <string name="pause_between_songs_description">Lägg till en paus mellan låtarna</string>
+  <string name="notifications">Aviseringar</string>
+  <string name="playback">Uppspelning</string>
+  <string name="player_controls">Spelarens kontroller</string>
+  <string name="queue_management">Köhantering</string>
+  <string name="app_behavior">Appens beteende</string>
+  <string name="audio_effects">Ljud effekter</string>
+  <string name="gestures_events">Gester &amp; Händelser</string>
+  <string name="picture_in_picture">Bild i bild</string>
 </resources>

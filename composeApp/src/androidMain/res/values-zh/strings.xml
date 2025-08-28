@@ -1033,10 +1033,18 @@
   <string name="connection_settings">连接设置</string>
   <string name="connection_settings_description">配置网络连接首选项</string>
   <string name="network_settings_description">网络部分包含优化应用性能和数据使用的设置</string>
-  <string name="easter_egg_click_message">Do you like clicking? Then continue...</string>
-  <string name="easter_egg_keep_going">Okay, you\'re looking for something, keep...</string>
-  <string name="easter_egg_number_one">You are a number one, click and enjoy the surprise</string>
-  <string name="easter_egg_last">You are a number one, long click and enjoy the surprise</string>
-  <string name="general_settings_description">The general section contains settings for the general functionality of the app</string>
-  <string name="pause_between_songs_description">Add a pause between songs</string>
+  <string name="easter_egg_click_message">您喜欢点击吗？然后继续...</string>
+  <string name="easter_egg_keep_going">好的，你正在寻找什么，请保持...</string>
+  <string name="easter_egg_number_one">您是第一个数字，点击并享受惊喜。</string>
+  <string name="easter_egg_last">您是一个数字，长按并享受惊喜。</string>
+  <string name="general_settings_description">一般部分包含应用程序一般功能的设置</string>
+  <string name="pause_between_songs_description">在歌曲之间添加暂停</string>
+  <string name="notifications">Notifications</string>
+  <string name="playback">Playback</string>
+  <string name="player_controls">Player Controls</string>
+  <string name="queue_management">Queue Management</string>
+  <string name="app_behavior">App Behavior</string>
+  <string name="audio_effects">Audio Effects</string>
+  <string name="gestures_events">Gestures &amp; Events</string>
+  <string name="picture_in_picture">Picture in Picture</string>
 </resources>

@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">أنت رقم واحد، انقر لفترة طويلة واستمتع بالمفاجأة</string>
   <string name="general_settings_description">القسم العام يحتوي على إعدادات للوظيفة العامة للتطبيق</string>
   <string name="pause_between_songs_description">إضافة إيقاف مؤقت بين الأغاني</string>
+  <string name="notifications">الإشعارات</string>
+  <string name="playback">تشغيل</string>
+  <string name="player_controls">التحكم في اللاعب</string>
+  <string name="queue_management">إدارة قائمة الانتظار</string>
+  <string name="app_behavior">سلوك التطبيق</string>
+  <string name="audio_effects">تأثيرات الصوت</string>
+  <string name="gestures_events">الإيماءات &amp; الأحداث</string>
+  <string name="picture_in_picture">صورة في الصورة</string>
 </resources>

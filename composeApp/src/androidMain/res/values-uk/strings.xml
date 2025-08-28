@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">Ви - номер один, довгий тап і насолоджуєтеся сюрпризом</string>
   <string name="general_settings_description">Загальний розділ містить налаштування для загального функціоналу програми</string>
   <string name="pause_between_songs_description">Додати паузу між піснями</string>
+  <string name="notifications">Сповіщення</string>
+  <string name="playback">Відтворення</string>
+  <string name="player_controls">Керування гравцем</string>
+  <string name="queue_management">Керування чергою</string>
+  <string name="app_behavior">Поведінка застосунку</string>
+  <string name="audio_effects">Аудіоефекти</string>
+  <string name="gestures_events">Жести &amp; події</string>
+  <string name="picture_in_picture">Зображення в картинці</string>
 </resources>

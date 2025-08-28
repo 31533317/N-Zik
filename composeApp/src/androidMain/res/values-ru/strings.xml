@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">Вы номер один, длинный клик и наслаждайтесь сюрпризом</string>
   <string name="general_settings_description">Общий раздел содержит настройки для общей функциональности приложения</string>
   <string name="pause_between_songs_description">Добавить паузу между песнями</string>
+  <string name="notifications">Уведомления</string>
+  <string name="playback">Воспроизведение</string>
+  <string name="player_controls">Управление игроками</string>
+  <string name="queue_management">Управление очередью</string>
+  <string name="app_behavior">Поведение приложения</string>
+  <string name="audio_effects">Аудио эффекты</string>
+  <string name="gestures_events">Жесты &amp; События</string>
+  <string name="picture_in_picture">Изображение в картинке</string>
 </resources>
