@@ -207,7 +207,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: '*.apk'
-          name: v${{ needs.versioning.outputs.downstream }}-${{ needs.build_time.outputs.date }} | Stable Build
+          name: v${{ needs.versioning.outputs.downstream }}-${{ needs.build_time.outputs.date }} | 🛡️ STABLE Build
           tag_name: v${{ needs.versioning.outputs.downstream }}
           make_latest: true
           body: |
