@@ -9,6 +9,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
@@ -86,16 +87,18 @@ private fun AppLogoText( navController: NavController ) {
             navController.navigate(NavRoutes.home.name)
     }
 
-
-
-    Button(
-        iconId = R.drawable.app_logo_text,
-        color = AppBar.contentColor(),
-        padding = 0.dp,
-        size = 36.dp,
-        forceWidth = 100.dp,
-        modifier = Modifier.clickable { iconTextClick() }
-    ).Draw()
+    BasicText(
+        text = "N-ZIK",
+        style = TextStyle(
+            fontSize = typography().xl.semiBold.fontSize,
+            fontWeight = typography().xl.semiBold.fontWeight,
+            fontFamily = typography().xl.semiBold.fontFamily,
+            color = AppBar.contentColor()
+        ),
+        modifier = Modifier
+            .clickable { iconTextClick() }
+            .padding(horizontal = 8.dp)
+    )
 }
 
 // START
