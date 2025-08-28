@@ -234,35 +234,42 @@ jobs:
 
 
             ## 📲 Installation
-
-            Download and install the **full** version.  
-            For smaller size, choose the **minified** version.  
-            If you encounter any issues, please report them.
-
-            ## 📦 Available Builds
-
-            - **Minified** – Lightweight build optimized for performance *(recommended for low-end devices)*  
-            - **Full** – Complete build with all components *(recommended if you face installation issues)*  
-
-
-            ## 🔄 Updater & Beta Updates
-
-            N-Zik now includes a built-in **Updater** that automatically checks for new releases from GitHub.  
             
-            - By default, you will only receive **stable releases**.  
-            - You can choose to **also receive BETA releases** by enabling the option in:  
+            ⚠️ This is a **BETA release**, not a stable version.  
+            It is intended **only for testing and feedback**.  
+            
+            1. Download the **Full BETA build** below (required for better compatibility and to reduce bugs).  
+            2. Verify its signature using the hashes provided.  
+            3. Install on your device (you may need to allow installation from unknown sources).  
+            
+            > The **minified build** is only recommended for **low-end devices**.  
+            > It is not suitable for beta testing, as it may cause compatibility issues.
+            
+            Please report any crashes, bugs, or unexpected behavior.
+            
+            ## 📦 Available Build
+            
+            - **Full (BETA)** – Complete build with all components.  
+              ⚠️ Recommended for testers who want the full experience and proper beta testing.  
+            - **Minified** – Lightweight build, only for low-end devices. Not recommended for beta testing.
+            
+            ## 🔄 How Updates Work
+            
+            - **Stable builds** → Update notifications are always enabled.  
+            - **Beta builds** → Update notifications are optional.  
+              You can enable or disable them in:  
               **Settings > About > Beta update enabled**  
-
+            
             ### How it works
             - If you stay on **stable** → you’ll only see stable updates.  
             - If you enable **beta updates** → you’ll receive both stable and beta builds.  
             - The Updater always picks the **latest available version** depending on your choice.  
-
+            
             > 🧪 Beta builds may contain experimental features and bugs.  
             Enable them only if you want to test early features and provide feedback.
-
-
+            
             ## 🔗 Changelog & Downloads
+
 
             - Full changelog: [Compare v${{ needs.versioning.outputs.upstream }}...v${{ needs.versioning.outputs.downstream }}](https://github.com/NEVARLeVrai/N-Zik/compare/v${{ needs.versioning.outputs.upstream }}...v${{ needs.versioning.outputs.downstream }})  
             - [Changelog text file](https://github.com/NEVARLeVrai/N-Zik/blob/main/fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt)
