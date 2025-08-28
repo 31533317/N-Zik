@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Kuva kuvassa</string>
   <string name="i_understand">Minä ymmärrän</string>
   <string name="by_string">mennessä</string>
+  <string name="check_beta_update_enabled">BETA käytössä</string>
+  <string name="check_beta_update_disabled">BETA pois käytöstä</string>
 </resources>

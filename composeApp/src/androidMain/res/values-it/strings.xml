@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Immagine in foto</string>
   <string name="i_understand">Io capisco</string>
   <string name="by_string">di</string>
+  <string name="check_beta_update_enabled">BETA abilitato</string>
+  <string name="check_beta_update_disabled">BETA disabilitato</string>
 </resources>

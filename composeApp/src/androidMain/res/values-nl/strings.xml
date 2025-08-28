@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Afbeelding in afbeelding</string>
   <string name="i_understand">Ik begrijp het</string>
   <string name="by_string">door</string>
+  <string name="check_beta_update_enabled">BETA ingeschakeld</string>
+  <string name="check_beta_update_disabled">BETA uitgeschakeld</string>
 </resources>

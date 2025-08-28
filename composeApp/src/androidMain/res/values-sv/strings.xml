@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Bild i bild</string>
   <string name="i_understand">Jag förstår</string>
   <string name="by_string">av</string>
+  <string name="check_beta_update_enabled">BETA aktiverat</string>
+  <string name="check_beta_update_disabled">BETA inaktiverad</string>
 </resources>

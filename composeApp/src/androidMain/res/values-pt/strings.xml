@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Imagem de imagem</string>
   <string name="i_understand">Eu entendo</string>
   <string name="by_string">Por</string>
+  <string name="check_beta_update_enabled">BETA habilitado</string>
+  <string name="check_beta_update_disabled">BETA desativado</string>
 </resources>

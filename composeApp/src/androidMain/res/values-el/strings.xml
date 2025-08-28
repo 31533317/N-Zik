@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Εικόνα σε εικόνα</string>
   <string name="i_understand">Κατανοώ</string>
   <string name="by_string">από</string>
+  <string name="check_beta_update_enabled">ΒΗΤΑ ενεργοποιημένη</string>
+  <string name="check_beta_update_disabled">Η ΒΗΤΑ απενεργοποιήθηκε</string>
 </resources>
