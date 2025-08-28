@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Ativado</string>
   <string name="auto_update_ask">Perguntar</string>
   <string name="auto_update_disabled">Desativado</string>
+  <string name="tab_network">Rede</string>
+  <string name="about_description">A seção \"Sobre\" mostra informações sobre o aplicativo, os desenvolvedores, solução de problemas e opções de atualização</string>
+  <string name="other_settings_description">A seção diversas contém várias configurações opcionais e utilitários</string>
+  <string name="data_settings_description">A seção de dados contém configurações que modificam como o aplicativo lida com os dados local e remotamente</string>
+  <string name="accounts_settings_description">A seção de contas contém configurações de sincronização do Youtube, configurações de streaming Piped e configurações do Discord Rpc</string>
 </resources>
