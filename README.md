@@ -21,7 +21,7 @@
 
 - 🌍 **Multilingual support** — English, Italian, German, Russian, French, Spanish, Czech, Turkish, Romanian, and more. Contributions welcome!
 - 🎨 **Modern & friendly UI design**
-- 🌓 **UI Mode toggle** — Switch between **RiMusic** and classic **ViMusic** styles
+- 🌓 **UI Mode toggle** — Switch between **N-Zik** and classic **ViMusic** styles
 - 💾 **Automatic caching** — Songs are auto-cached for offline playback with customizable cache size
 - 📥 **Downloads** — Download individual songs or entire playlists for full offline access (beyond cache)
 - ▶️ **Background playback** — Keep the music going while using other apps
