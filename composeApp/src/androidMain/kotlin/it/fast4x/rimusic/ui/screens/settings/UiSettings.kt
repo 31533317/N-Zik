@@ -851,7 +851,7 @@ fun UiSettings(
 
                     RestartAppDialog.showDialog()
                 },
-                valueText = { it.name }
+                valueText = { it.text }
             )
 
         if (search.inputValue.isBlank() || stringResource(R.string.theme).contains(search.inputValue,true))
