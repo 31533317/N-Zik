@@ -213,11 +213,11 @@ jobs:
 
             ## 🔄 Update Policy
             
-            - **Stable builds** → Update notifications are **disabled by default**  
-              - You can enable them manually in **Settings > About > Stable update enabled**  
+            - **Full build on Stable** → Update notifications are **disabled by default**  
+              - You can enable them manually in **Settings > About > Stable update enabled** 
+              - To receive Beta updates for the **Full build**, enable them in **Settings > About > Beta update enabled**
             
             - **Beta builds** → Update notifications are **disabled by default**  
-              - To receive Beta updates for the **Full build**, enable them in **Settings > About > Beta update enabled**
 
 
             This lets you decide whether to test new experimental updates or stick with the stable ones.
