@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Ingeschakeld</string>
   <string name="auto_update_ask">Vragen</string>
   <string name="auto_update_disabled">Uitgeschakeld</string>
+  <string name="tab_network">Netwerk</string>
+  <string name="about_description">De Over sectie toont informatie over de app, de ontwikkelaars, probleemoplossing en update opties</string>
+  <string name="other_settings_description">De diverse sectie bevat verschillende optionele instellingen en toepassingen</string>
+  <string name="data_settings_description">De gegevenssectie bevat instellingen die aanpassen hoe de app gegevens lokaal en op afstand behandelt</string>
+  <string name="accounts_settings_description">De accounts sectie bevat instellingen voor Youtube synchronisatie, streaminginstellingen en instellingen voor Discord Rpc</string>
 </resources>
