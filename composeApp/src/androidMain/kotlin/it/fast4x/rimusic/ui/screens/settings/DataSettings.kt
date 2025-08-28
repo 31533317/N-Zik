@@ -48,6 +48,7 @@ import it.fast4x.rimusic.utils.exoPlayerCustomCacheKey
 import it.fast4x.rimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.fast4x.rimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.fast4x.rimusic.utils.pauseSearchHistoryKey
+import it.fast4x.rimusic.utils.pauseListenHistoryKey
 import it.fast4x.rimusic.utils.rememberPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -97,8 +98,9 @@ fun DataSettings() {
     var coilCustomDiskCache by rememberPreference(
         coilCustomDiskCacheKey,32
     )
-
+    
     var pauseSearchHistory by rememberPreference(pauseSearchHistoryKey, false)
+    var pauseListenHistory by rememberPreference(pauseListenHistoryKey, false)
 
     var cleanCacheOfflineSongs by remember {
         mutableStateOf(false)
@@ -533,6 +535,36 @@ fun DataSettings() {
                 }
             )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+                // Search History Section
+                AnimatedVisibility(
+                    visible = true,
+                    enter = fadeIn(animationSpec = tween(1000)) + scaleIn(
+                        animationSpec = tween(1000),
+                        initialScale = 0.9f
+                    )
+                ) {
+                    SettingsSectionCard(
+                        title = stringResource(R.string.player_pause_listen_history),
+                        icon = R.drawable.musical_notes,
+                        content = {
+                            OtherSwitchSettingEntry(
+                                title = stringResource(R.string.player_pause_listen_history),
+                                text = stringResource(R.string.player_pause_listen_history_info),
+                                isChecked = pauseListenHistory,
+                                onCheckedChange = {
+                                    pauseListenHistory = it
+                                    restartService = true
+                                },
+                                icon = R.drawable.pause
+                            )
+        
+                            RestartPlayerService(restartService, onRestart = { restartService = false })
+                        }
+                    )
+                }
 
         Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
     }
