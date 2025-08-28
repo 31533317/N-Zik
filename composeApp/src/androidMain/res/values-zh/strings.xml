@@ -1049,6 +1049,6 @@
   <string name="picture_in_picture">图片中</string>
   <string name="i_understand">我明白了</string>
   <string name="by_string">由</string>
-  <string name="check_beta_update_enabled">BETA enabled</string>
-  <string name="check_beta_update_disabled">BETA disabled</string>
+  <string name="check_beta_update_enabled">BETA 已启用</string>
+  <string name="check_beta_update_disabled">BETA 已禁用</string>
 </resources>
