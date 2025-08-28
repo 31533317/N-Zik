@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Aktiverad</string>
   <string name="auto_update_ask">Fråga</string>
   <string name="auto_update_disabled">Inaktiverad</string>
+  <string name="tab_network">Nätverk</string>
+  <string name="about_description">Den om avsnittet visar information om appen, utvecklare, felsökning och uppdatera alternativ</string>
+  <string name="other_settings_description">Diverse avsnitt innehåller olika valfria inställningar och verktyg</string>
+  <string name="data_settings_description">Datasektionen innehåller inställningar som ändrar hur appen hanterar data lokalt och på distans</string>
+  <string name="accounts_settings_description">Sektionen för konton innehåller Youtube-synkroniseringsinställningar, Piped streaming-inställningar och Discord RPC-inställningar</string>
 </resources>

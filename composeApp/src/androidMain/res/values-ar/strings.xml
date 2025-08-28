@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Enabled</string>
   <string name="auto_update_ask">Ask</string>
   <string name="auto_update_disabled">Disabled</string>
+  <string name="tab_network">الشبكة</string>
+  <string name="about_description">يعرض القسم حول معلومات حول التطبيق، المطورين، استكشاف الأخطاء وتحديثها</string>
+  <string name="other_settings_description">ويتضمن القسم المتنوع مختلف الإعدادات الاختيارية والمنافع</string>
+  <string name="data_settings_description">قسم البيانات يحتوي على إعدادات تعدّل كيفية تعامل التطبيق مع البيانات محليا وعن بعد</string>
+  <string name="accounts_settings_description">The accounts section contains Youtube sync settings, Piped streaming settings and Discord Rpc settings</string>
 </resources>

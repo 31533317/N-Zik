@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Enabled</string>
   <string name="auto_update_ask">Ask</string>
   <string name="auto_update_disabled">Ανενεργό</string>
+  <string name="tab_network">Δίκτυο</string>
+  <string name="about_description">Η ενότητα σχετικά με την ενότητα δείχνει πληροφορίες σχετικά με την εφαρμογή, τους προγραμματιστές, την αντιμετώπιση προβλημάτων και την ενημέρωση των επιλογών</string>
+  <string name="other_settings_description">Η ποικίλη ενότητα περιέχει διάφορες προαιρετικές ρυθμίσεις και βοηθητικά προγράμματα</string>
+  <string name="data_settings_description">Η ενότητα δεδομένων περιέχει ρυθμίσεις που τροποποιούν τον τρόπο με τον οποίο η εφαρμογή χειρίζεται τα δεδομένα τοπικά και απομακρυσμένα</string>
+  <string name="accounts_settings_description">Η ενότητα λογαριασμών περιέχει ρυθμίσεις συγχρονισμού Youtube, ρυθμίσεις Piped streaming και ρυθμίσεις Discord Rpc</string>
 </resources>

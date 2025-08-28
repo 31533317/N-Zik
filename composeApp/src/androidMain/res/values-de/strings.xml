@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Aktiviert</string>
   <string name="auto_update_ask">Fragen</string>
   <string name="auto_update_disabled">Aus</string>
+  <string name="tab_network">Netzwerk</string>
+  <string name="about_description">Die �ber-Sektion zeigt Informationen über die App, die Entwickler, Fehlerbehebung und Update-Optionen</string>
+  <string name="other_settings_description">Der verschiedene Abschnitt enthält verschiedene optionale Einstellungen und Hilfsprogramme</string>
+  <string name="data_settings_description">Der Daten-Abschnitt enthält Einstellungen, die ändern, wie die App mit Daten lokal und ferngesteuert umgeht</string>
+  <string name="accounts_settings_description">Der Account-Bereich enthält Youtube Sync-Einstellungen, Piped Streaming Einstellungen und Discord Rpc Einstellungen</string>
 </resources>

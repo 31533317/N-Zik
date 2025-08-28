@@ -1018,4 +1018,9 @@ Volume BAS : titre précédent</string>
   <string name="auto_update_enabled">Activé</string>
   <string name="auto_update_ask">Demander</string>
   <string name="auto_update_disabled">Désactivé</string>
+  <string name="tab_network">Réseau</string>
+  <string name="about_description">La section À propos affiche des informations sur l\'application, les développeurs, le dépannage et les options de mise à jour</string>
+  <string name="other_settings_description">La section Divers contient divers paramètres et utilitaires optionnels</string>
+  <string name="data_settings_description">La section données contient des paramètres qui modifient la façon dont l\'application gère les données localement et à distance</string>
+  <string name="accounts_settings_description">The accounts section contains Youtube sync settings, Piped streaming settings and Discord Rpc settings</string>
 </resources>

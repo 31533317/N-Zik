@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Habilitado</string>
   <string name="auto_update_ask">Preguntar</string>
   <string name="auto_update_disabled">Deshabilitado</string>
+  <string name="tab_network">Red</string>
+  <string name="about_description">La sección de acerca muestra información sobre la aplicación, los desarrolladores, soluciones de problemas y opciones de actualización</string>
+  <string name="other_settings_description">La sección variada contiene varios ajustes opcionales y utilidades</string>
+  <string name="data_settings_description">La sección de datos contiene ajustes que modifican la forma en que la aplicación maneja los datos de forma local y remota</string>
+  <string name="accounts_settings_description">The accounts section contains Youtube sync settings, Piped streaming settings and Discord Rpc settings</string>
 </resources>

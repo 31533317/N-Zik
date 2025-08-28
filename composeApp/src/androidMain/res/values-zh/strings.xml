@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">已启用</string>
   <string name="auto_update_ask">询问</string>
   <string name="auto_update_disabled">停用</string>
+  <string name="tab_network">Network</string>
+  <string name="about_description">The about section shows information about the app, the developers, troubleshooting and update options</string>
+  <string name="other_settings_description">The miscellaneous section contains various optional settings and utilities</string>
+  <string name="data_settings_description">The data section contains settings that modify how the app handles data locally and remotely</string>
+  <string name="accounts_settings_description">The accounts section contains Youtube sync settings, Piped streaming settings and Discord Rpc settings</string>
 </resources>

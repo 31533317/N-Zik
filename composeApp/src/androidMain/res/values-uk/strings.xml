@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Увімкнено</string>
   <string name="auto_update_ask">Запитати</string>
   <string name="auto_update_disabled">Відключено</string>
+  <string name="tab_network">Мережа</string>
+  <string name="about_description">У розділі відображаються відомості про програму, розробники, усунення несправностей та оновлення</string>
+  <string name="other_settings_description">Різний розділ містить різні додаткові параметри і комунальні послуги</string>
+  <string name="data_settings_description">Розділ даних містить налаштування, що визначають як додаток обробляє дані локально та віддалено</string>
+  <string name="accounts_settings_description">Розділ облікових записів містить налаштування синхронізації Youtube, Конвеєрі стрімінг і настройки Discord Rpc</string>
 </resources>

@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Abilitato</string>
   <string name="auto_update_ask">Chiedi</string>
   <string name="auto_update_disabled">Disabilitato</string>
+  <string name="tab_network">Rete</string>
+  <string name="about_description">La sezione Informazioni mostra informazioni sull\'app, gli sviluppatori, le opzioni di risoluzione dei problemi e di aggiornamento</string>
+  <string name="other_settings_description">La sezione varia contiene varie impostazioni opzionali e utilities</string>
+  <string name="data_settings_description">La sezione dati contiene impostazioni che modificano il modo in cui l\'app gestisce i dati localmente e in remoto</string>
+  <string name="accounts_settings_description">La sezione account contiene le impostazioni di sincronizzazione Youtube, le impostazioni di streaming iped e le impostazioni di Discord Rpc</string>
 </resources>
