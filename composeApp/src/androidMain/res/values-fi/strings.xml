@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">Olet numero yksi, pitkä klikkaa ja nauti yllätys</string>
   <string name="general_settings_description">Yleisessä osiossa on asetuksia sovelluksen yleisiä toimintoja varten</string>
   <string name="pause_between_songs_description">Lisää tauko kappaleiden välillä</string>
+  <string name="notifications">Ilmoitukset</string>
+  <string name="playback">Toisto</string>
+  <string name="player_controls">Pelaajien Ohjaukset</string>
+  <string name="queue_management">Jonon Hallinta</string>
+  <string name="app_behavior">Sovelluksen Käyttäytyminen</string>
+  <string name="audio_effects">Äänitehosteet</string>
+  <string name="gestures_events">Eleet &amp; Tapahtumat</string>
+  <string name="picture_in_picture">Kuva kuvassa</string>
 </resources>
