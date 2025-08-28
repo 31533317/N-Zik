@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">Sei un numero uno, clic lungo e goditi la sorpresa</string>
   <string name="general_settings_description">La sezione generale contiene le impostazioni per la funzionalità generale dell\'app</string>
   <string name="pause_between_songs_description">Aggiunge una pausa tra i brani</string>
+  <string name="notifications">Notifiche</string>
+  <string name="playback">Riproduzione</string>
+  <string name="player_controls">Controlli Giocatore</string>
+  <string name="queue_management">Gestione Coda</string>
+  <string name="app_behavior">Comportamento App</string>
+  <string name="audio_effects">Effetti Audio</string>
+  <string name="gestures_events">Gesti &amp; Eventi</string>
+  <string name="picture_in_picture">Immagine in foto</string>
 </resources>
