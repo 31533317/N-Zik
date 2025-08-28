@@ -1033,4 +1033,10 @@
   <string name="connection_settings">Nastavení připojení</string>
   <string name="connection_settings_description">Nastavit předvolby připojení k síti</string>
   <string name="network_settings_description">Sekce sítě obsahuje nastavení pro optimalizaci výkonu aplikace a využití dat</string>
+  <string name="easter_egg_click_message">Líbí se Vám kliknutí? Pak pokračovat...</string>
+  <string name="easter_egg_keep_going">Dobře, hledáte něco, držte...</string>
+  <string name="easter_egg_number_one">Jste číslo jedna, klikněte a užijte si překvapení</string>
+  <string name="easter_egg_last">Jste číslo jedna, dlouze klikni a užívejte si překvapení</string>
+  <string name="general_settings_description">Obecná část obsahuje nastavení pro obecnou funkčnost aplikace</string>
+  <string name="pause_between_songs_description">Přidat pauzu mezi skladbami</string>
 </resources>

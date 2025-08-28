@@ -1026,11 +1026,17 @@
   <string name="ai_recommendations">AI 建议</string>
   <string name="my_playlist_top1">我的顶部</string>
   <string name="auto_download_settings">自动下载设置</string>
-  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
-  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
-  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
-  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
-  <string name="connection_settings">Connection Settings</string>
-  <string name="connection_settings_description">Configure network connection preferences</string>
-  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
+  <string name="auto_download_settings_description">配置歌曲和相册的自动下载首选项</string>
+  <string name="auto_download_song_description">根据您的偏好自动下载歌曲</string>
+  <string name="auto_download_when_liked_description">当您喜欢歌曲时自动下载</string>
+  <string name="auto_download_when_album_bookmarked_description">将相册加入书签时自动下载歌曲</string>
+  <string name="connection_settings">连接设置</string>
+  <string name="connection_settings_description">配置网络连接首选项</string>
+  <string name="network_settings_description">网络部分包含优化应用性能和数据使用的设置</string>
+  <string name="easter_egg_click_message">Do you like clicking? Then continue...</string>
+  <string name="easter_egg_keep_going">Okay, you\'re looking for something, keep...</string>
+  <string name="easter_egg_number_one">You are a number one, click and enjoy the surprise</string>
+  <string name="easter_egg_last">You are a number one, long click and enjoy the surprise</string>
+  <string name="general_settings_description">The general section contains settings for the general functionality of the app</string>
+  <string name="pause_between_songs_description">Add a pause between songs</string>
 </resources>

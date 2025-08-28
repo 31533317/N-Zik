@@ -1033,4 +1033,10 @@
   <string name="connection_settings">Tilkobling innstillinger</string>
   <string name="connection_settings_description">Konfigurer innstillinger for nettverkstilkobling</string>
   <string name="network_settings_description">Nettverksdelen inneholder innstillinger for å optimalisere programmets ytelse og databruk</string>
+  <string name="easter_egg_click_message">Liker du å klikke? Fortsett her...</string>
+  <string name="easter_egg_keep_going">Ok, du leter etter noe, fortsett ...</string>
+  <string name="easter_egg_number_one">Du er et tall, klikk og nyt overraskelsen</string>
+  <string name="easter_egg_last">Du er ett tall, langt klikk og nyt overraskelsen</string>
+  <string name="general_settings_description">Det generelle avsnittet inneholder innstillinger for den generelle funksjonaliteten til appen</string>
+  <string name="pause_between_songs_description">Legg til en pause mellom sanger</string>
 </resources>

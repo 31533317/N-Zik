@@ -1033,4 +1033,10 @@
   <string name="connection_settings">Параметри підключення</string>
   <string name="connection_settings_description">Налаштування мережевих з\'єднань</string>
   <string name="network_settings_description">Мережевий розділ містить параметри для оптимізації використання та використання даних додатку</string>
+  <string name="easter_egg_click_message">Ви любите натискати? Потім продовжуєте...</string>
+  <string name="easter_egg_keep_going">Добре, ви щось шукаєте, збережіть...</string>
+  <string name="easter_egg_number_one">Ви - номер один, клік і насолоджуйтеся сюрпризом</string>
+  <string name="easter_egg_last">Ви - номер один, довгий тап і насолоджуєтеся сюрпризом</string>
+  <string name="general_settings_description">Загальний розділ містить налаштування для загального функціоналу програми</string>
+  <string name="pause_between_songs_description">Додати паузу між піснями</string>
 </resources>

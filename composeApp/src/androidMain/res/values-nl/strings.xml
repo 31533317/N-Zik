@@ -1033,4 +1033,10 @@
   <string name="connection_settings">Verbindingsinstellingen</string>
   <string name="connection_settings_description">Instellingen netwerkverbinding instellen</string>
   <string name="network_settings_description">De netwerksectie bevat instellingen om de prestaties en gegevensgebruik van de app te optimaliseren</string>
+  <string name="easter_egg_click_message">Hou je van klikken? Ga dan door...</string>
+  <string name="easter_egg_keep_going">Oké, je bent op zoek naar iets, houden...</string>
+  <string name="easter_egg_number_one">U bent een nummer één, klik en geniet van de verrassing</string>
+  <string name="easter_egg_last">U bent een nummer één, lange klik en geniet van de verrassing</string>
+  <string name="general_settings_description">De algemene sectie bevat instellingen voor de algemene functionaliteit van de app</string>
+  <string name="pause_between_songs_description">Voeg een pauze toe tussen nummers</string>
 </resources>

@@ -1033,4 +1033,10 @@
   <string name="connection_settings">Ustawienia połączenia</string>
   <string name="connection_settings_description">Skonfiguruj ustawienia połączenia sieciowego</string>
   <string name="network_settings_description">Sekcja sieci zawiera ustawienia do zoptymalizowania wydajności aplikacji i wykorzystania danych</string>
+  <string name="easter_egg_click_message">Lubisz klikać? Następnie kontynuować...</string>
+  <string name="easter_egg_keep_going">OK, szukasz czegoś trzymać...</string>
+  <string name="easter_egg_number_one">Jesteś kilka, kliknij i ciesz się niespodzianką</string>
+  <string name="easter_egg_last">Jesteś kilkoma kliknięciem i ciesz się niespodzianką</string>
+  <string name="general_settings_description">Sekcja ogólna zawiera ustawienia ogólnej funkcjonalności aplikacji</string>
+  <string name="pause_between_songs_description">Dodaj pauzę między piosenkami</string>
 </resources>

@@ -1035,4 +1035,10 @@ Volume BAS : titre précédent</string>
   <string name="connection_settings">Paramètres de connexion</string>
   <string name="connection_settings_description">Configurer les préférences de connexion réseau</string>
   <string name="network_settings_description">La section réseau contient des paramètres permettant d\'optimiser les performances et l\'utilisation des données de l\'application</string>
+  <string name="easter_egg_click_message">Aimeriez-vous cliquer ? Alors continuez...</string>
+  <string name="easter_egg_keep_going">Ok, vous cherchez quelque chose, gardez...</string>
+  <string name="easter_egg_number_one">Vous êtes numéro un, cliquez et profitez de la surprise</string>
+  <string name="easter_egg_last">Vous êtes numéro un, faites un clic long et profitez de la surprise</string>
+  <string name="general_settings_description">La section générale contient des paramètres pour les fonctionnalités générales de l\'application</string>
+  <string name="pause_between_songs_description">Ajouter une pause entre les chansons</string>
 </resources>
