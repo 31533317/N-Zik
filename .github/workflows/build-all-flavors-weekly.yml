@@ -255,8 +255,12 @@ jobs:
             
             ## 🔄 Update Policy
             
-            - **Stable builds** → automatic update notifications are always on.  
-            - **Beta builds** → notifications are optional and can be toggled in **Settings > About > Beta update enabled**.  
+            - **Stable builds** → update notifications are **disabled by default**  
+              - Can be enabled in **Settings > About > Stable update enabled**  
+            
+            - **Beta builds** → update notifications are **disabled by default**  
+              - Can be enabled in **Settings > About > Beta update enabled**
+
             
             ### How it works
             - On **stable** → only stable updates appear.  
