@@ -15,7 +15,7 @@ env:
 
 jobs:
   # Explicitly for issue either opened after the commits were made
-  # but before the release. Or when it's not closed by mention in
+  # but before the realease. Or when it's not closed by mention in
   # commit message.
   patched:
     if: github.event.label.name == 'patched'
@@ -31,11 +31,15 @@ jobs:
         run: gh issue comment "$NUMBER" --body "$BODY"
         env:
           BODY: >
-            This issue has been patched in recent commits. Please wait for the next release.
+            This issue is patched in recent commits, please wait for next release.
 
-            > Please DO NOT close this issue manually. It will be handled automatically once the new release is published.
+            > Please DO NOT close this issue, a bot will handle this automatically when new release drops.
 
-  # Handle PR that contains already implemented code
+            ---
+
+            Kreate's Discord is now available to the public. Join here: https://discord.gg/WYr9ZgJzpx
+
+  # Handle PR that contains implemented code
   pr-implemented:
     if: github.event.label.name == 'implemented' && github.event_name == 'pull_request'
     
@@ -50,20 +54,25 @@ jobs:
         run: gh pr comment "$NUMBER" --body "$BODY"
         env:
           BODY: >
-            This feature already exists in the codebase.
+            This feature is already existed in codebase.
 
-            > This pull request will be closed. If you have any further questions, feel free to comment below.
+            > Ticket will be closed. If you have any further question, feel free to comment below
+            
+            ---
+
+            Kreate's Discord is now available to the public. Join here: https://discord.gg/WYr9ZgJzpx
 
       - name: Close pull request
         run: gh pr close "$NUMBER"
 
-  # Handle implemented features that are submitted as issues
+  # Handle feature quests that are implented
   issue-implemented:
     if: github.event.label.name == 'implemented' && github.event_name == 'issues'
     
     runs-on: ubuntu-latest
     
     permissions:
+      # Allows GITHUB_TOKEN to modify pull requests
       issues: write  
       
     steps:
@@ -71,20 +80,27 @@ jobs:
         run: gh issue comment "$NUMBER" --body "$BODY"
         env:
           BODY: >
-            This feature already exists in the codebase.
+            This feature is already existed in codebase.
 
-            > This ticket will be closed. If you have any further questions, feel free to comment below.
+            > Ticket will be closed. If you have any further question, feel free to comment below
+            
+            ---
 
-      - name: Close issue
+            Kreate's Discord is now available to the public. Join here: https://discord.gg/WYr9ZgJzpx
+
+      - name: Close request
         run: gh issue close "$NUMBER"
   
-  # Borked PR is when it causes compile failures or unexpected behavior
+
+  # Borked PR is when if implemented, the app will fail to compile
+  # or will have some feature run in unexpected behavior
   borked:
     if: github.event.label.name == 'borked'
     
     runs-on: ubuntu-latest
     
     permissions:
+      # Allows GITHUB_TOKEN to modify pull requests
       pull-requests: write      
       
     steps:
