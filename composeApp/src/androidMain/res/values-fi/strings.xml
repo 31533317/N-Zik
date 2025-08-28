@@ -1033,4 +1033,10 @@
   <string name="connection_settings">Yhteyden Asetukset</string>
   <string name="connection_settings_description">Määritä verkkoyhteyden asetukset</string>
   <string name="network_settings_description">Verkkososio sisältää asetuksia sovelluksen suorituskyvyn ja datan käytön optimoimiseksi</string>
+  <string name="easter_egg_click_message">Pidätkö klikkauksesta? Jatka sitten...</string>
+  <string name="easter_egg_keep_going">Okei, etsit jotain, pitää...</string>
+  <string name="easter_egg_number_one">Olet ykkös, klikkaa ja nauti yllätyksestä</string>
+  <string name="easter_egg_last">Olet numero yksi, pitkä klikkaa ja nauti yllätys</string>
+  <string name="general_settings_description">Yleisessä osiossa on asetuksia sovelluksen yleisiä toimintoja varten</string>
+  <string name="pause_between_songs_description">Lisää tauko kappaleiden välillä</string>
 </resources>
