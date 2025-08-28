@@ -1047,4 +1047,6 @@
   <string name="audio_effects">オーディオエフェクト</string>
   <string name="gestures_events">ジェスチャー &amp; イベント</string>
   <string name="picture_in_picture">Picture in Picture</string>
+  <string name="i_understand">了解しました</string>
+  <string name="by_string">作成者:</string>
 </resources>
