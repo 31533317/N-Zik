@@ -39,7 +39,7 @@ class MainApplication : Application(), ImageLoaderFactory {
         Thread.setDefaultUncaughtExceptionHandler(CaptureCrash(dir.absolutePath))
         
         if (logEnabled) {
-            Timber.plant(FileLoggingTree(File(dir, "N-zik_log.txt")))
+            Timber.plant(FileLoggingTree(File(dir, "N-Zik_log.txt")))
             Timber.d("Log enabled at ${dir.absolutePath}")
         } else {
             Timber.uprootAll()

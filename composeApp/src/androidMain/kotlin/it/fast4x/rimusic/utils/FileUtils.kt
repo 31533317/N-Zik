@@ -131,8 +131,8 @@ fun tryCopyDir() {
 fun loadAppLog(context: Context, type: LogType): String? {
     val file = File(context.filesDir.resolve("logs"),
         when (type) {
-            LogType.Default ->  "N-zik_log.txt"
-            LogType.Crash ->    "N-zik_crash_log.txt"
+            LogType.Default ->  "N-Zik_log.txt"
+            LogType.Crash ->    "N-Zik_crash_log.txt"
         }
     )
     if (file.exists()) {

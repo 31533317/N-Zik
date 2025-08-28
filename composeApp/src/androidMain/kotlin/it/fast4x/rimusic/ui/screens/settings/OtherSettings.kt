@@ -444,11 +444,11 @@ fun OtherSettings() {
                         onCheckedChange = {
                             logDebugEnabled = it
                             if (!it) {
-                                val file = File(context.filesDir.resolve("logs"), "N-zik_log.txt")
+                                val file = File(context.filesDir.resolve("logs"), "N-Zik_log.txt")
                                 if (file.exists())
                                     file.delete()
 
-                                val filec = File(context.filesDir.resolve("logs"), "N-zik_crash_log.txt")
+                                val filec = File(context.filesDir.resolve("logs"), "N-Zik_crash_log.txt")
                                 if (filec.exists())
                                     filec.delete()
                             } else
@@ -464,7 +464,7 @@ fun OtherSettings() {
                         text = "",
                         icon = R.drawable.copy,
                         onClick = {
-                            val file = File(context.filesDir.resolve("logs"), "N-zik_log.txt")
+                            val file = File(context.filesDir.resolve("logs"), "N-Zik_log.txt")
                             if (file.exists()) {
                                 text = file.readText()
                                 text?.let {
@@ -480,7 +480,7 @@ fun OtherSettings() {
                         text = "",
                         icon = R.drawable.copy,
                         onClick = {
-                            val file = File(context.filesDir.resolve("logs"), "N-zik_crash_log.txt")
+                            val file = File(context.filesDir.resolve("logs"), "N-Zik_crash_log.txt")
                             if (file.exists()) {
                                 text = file.readText()
                                 text?.let {
