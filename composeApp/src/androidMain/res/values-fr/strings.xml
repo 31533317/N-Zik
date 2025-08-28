@@ -1041,4 +1041,12 @@ Volume BAS : titre précédent</string>
   <string name="easter_egg_last">Vous êtes numéro un, faites un clic long et profitez de la surprise</string>
   <string name="general_settings_description">La section générale contient des paramètres pour les fonctionnalités générales de l\'application</string>
   <string name="pause_between_songs_description">Ajouter une pause entre les chansons</string>
+  <string name="notifications">Notifications</string>
+  <string name="playback">Lecture</string>
+  <string name="player_controls">Contrôles du joueur</string>
+  <string name="queue_management">Gestion de la file d\'attente</string>
+  <string name="app_behavior">Comportement de l\'application</string>
+  <string name="audio_effects">Audio Effects</string>
+  <string name="gestures_events">Gestures &amp; Events</string>
+  <string name="picture_in_picture">Picture in Picture</string>
 </resources>
