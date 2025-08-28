@@ -271,7 +271,7 @@ fun About() {
                                  }
                          ) {
                              BasicText(
-                                 text = "by ",
+                                 text = stringResource(R.string.by_string),
                                      style = typography().xs.secondary.copy(
                                      textAlign = TextAlign.Center
                                  ),
@@ -566,50 +566,11 @@ fun About() {
                 initialScale = 0.9f
             )
         ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .shadow(
-                        elevation = 4.dp,
-                        shape = RoundedCornerShape(12.dp),
-                        spotColor = colorPalette().accent.copy(alpha = 0.2f)
-                    ),
-                shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = if (colorPalette() === PureBlackColorPalette || colorPalette() === ModernBlackColorPalette || colorPaletteMode == ColorPaletteMode.PitchBlack) {
-                        Color(0xFF1A1A1A) // Gray dark for pitch black themes
-                    } else {
-                        colorPalette().background1
-                    }
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    // Section Header
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 12.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.information),
-                            tint = colorPalette().accent,
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        BasicText(
-                            text = stringResource(R.string.troubleshooting),
-                            style = typography().s.semiBold.copy(
-                                color = colorPalette().accent
-                            )
-                        )
-                    }
-
+            SettingsSectionCard(
+                title = stringResource(R.string.troubleshooting),
+                icon = R.drawable.information,
+                content = {
                     // Support Items
-
                     ModernSettingsEntry(
                         title = stringResource(R.string.view_the_source_code),
                         text = stringResource(R.string.you_will_be_redirected_to_github),
@@ -618,26 +579,26 @@ fun About() {
                     )
 
                     ModernSettingsEntry(
-            title = stringResource(R.string.report_an_issue),
-            text = stringResource(R.string.you_will_be_redirected_to_github),
+                        title = stringResource(R.string.report_an_issue),
+                        text = stringResource(R.string.you_will_be_redirected_to_github),
                         icon = R.drawable.trending,
-            onClick = {
-                val issuePath = "/issues/new?assignees=&labels=bug&template=bug_report.yaml"
+                        onClick = {
+                            val issuePath = "/issues/new?assignees=&labels=bug&template=bug_report.yaml"
                             uriHandler.openUri(Repository.REPO_URL + issuePath)
-            }
-        )
+                        }
+                    )
 
                     ModernSettingsEntry(
-            title = stringResource(R.string.request_a_feature_or_suggest_an_idea),
-            text = stringResource(R.string.you_will_be_redirected_to_github),
+                        title = stringResource(R.string.request_a_feature_or_suggest_an_idea),
+                        text = stringResource(R.string.you_will_be_redirected_to_github),
                         icon = R.drawable.star_brilliant,
-            onClick = {
-                val issuePath = "/issues/new?assignees=&labels=feature_request&template=feature_request.yaml"
+                        onClick = {
+                            val issuePath = "/issues/new?assignees=&labels=feature_request&template=feature_request.yaml"
                             uriHandler.openUri(Repository.REPO_URL + issuePath)
                         }
                     )
                 }
-            }
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -650,152 +611,115 @@ fun About() {
                 initialScale = 0.9f
             )
         ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .shadow(
-                        elevation = 4.dp,
-                        shape = RoundedCornerShape(12.dp),
-                        spotColor = colorPalette().accent.copy(alpha = 0.2f)
-                    ),
-                shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = if (colorPalette() === PureBlackColorPalette || colorPalette() === ModernBlackColorPalette || colorPaletteMode == ColorPaletteMode.PitchBlack) {
-                        Color(0xFF1A1A1A) // Gray dark for pitch black themes
-                    } else {
-                        colorPalette().background1
-                    }
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    // Section Header
+            SettingsSectionCard(
+                title = stringResource(R.string.contributors),
+                icon = R.drawable.people,
+                content = {
+                    // Translators Section
+                    var translatorsExpanded by remember { mutableStateOf(false) }
+                    val translatorsRotation by animateFloatAsState(
+                        targetValue = if (translatorsExpanded) 90f else 0f,
+                        animationSpec = tween(300),
+                        label = "translators_rotation"
+                    )
+
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 12.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .clickable { translatorsExpanded = !translatorsExpanded }
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.people),
+                            painter = painterResource(R.drawable.chevron_forward),
                             tint = colorPalette().accent,
                             contentDescription = null,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier
+                                .size(16.dp)
+                                .graphicsLayer(rotationZ = translatorsRotation)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         BasicText(
-                            text = stringResource(R.string.contributors),
-                            style = typography().s.semiBold.copy(
-                                color = colorPalette().accent
-                            )
+                            text = "${countTranslators()} " + stringResource(R.string.translators),
+                            style = typography().xs.semiBold.copy(color = colorPalette().textSecondary)
                         )
                     }
 
-                                         // Translators Section
-                     var translatorsExpanded by remember { mutableStateOf(false) }
-                     val translatorsRotation by animateFloatAsState(
-                         targetValue = if (translatorsExpanded) 90f else 0f,
-                         animationSpec = tween(300),
-                         label = "translators_rotation"
-                     )
+                    AnimatedVisibility(
+                        visible = translatorsExpanded,
+                        enter = fadeIn(animationSpec = tween(300)) + scaleIn(
+                            animationSpec = tween(300),
+                            initialScale = 0.95f
+                        ),
+                        exit = fadeOut(animationSpec = tween(200)) + scaleOut(
+                            animationSpec = tween(200),
+                            targetScale = 0.95f
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(start = 24.dp, top = 8.dp)
+                        ) {
+                            SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
+                            ShowTranslators()
+                        }
+                    }
 
-                     Row(
-                         modifier = Modifier
-                             .fillMaxWidth()
-                             .clip(RoundedCornerShape(8.dp))
-                             .clickable { translatorsExpanded = !translatorsExpanded }
-                             .padding(vertical = 8.dp),
-                         verticalAlignment = Alignment.CenterVertically
-                     ) {
-                         Icon(
-                             painter = painterResource(R.drawable.chevron_forward),
-                             tint = colorPalette().accent,
-                             contentDescription = null,
-                             modifier = Modifier
-                                 .size(16.dp)
-                                 .graphicsLayer(rotationZ = translatorsRotation)
-                         )
-                         Spacer(modifier = Modifier.width(8.dp))
-                         BasicText(
-                             text = "${countTranslators()} " + stringResource(R.string.translators),
-                             style = typography().xs.semiBold.copy(color = colorPalette().textSecondary)
-                         )
-                     }
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                     AnimatedVisibility(
-                         visible = translatorsExpanded,
-                         enter = fadeIn(animationSpec = tween(300)) + scaleIn(
-                             animationSpec = tween(300),
-                             initialScale = 0.95f
-                         ),
-                         exit = fadeOut(animationSpec = tween(200)) + scaleOut(
-                             animationSpec = tween(200),
-                             targetScale = 0.95f
-                         )
-                     ) {
-                         Column(
-                             modifier = Modifier.padding(start = 24.dp, top = 8.dp)
-                         ) {
-        SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
-        ShowTranslators()
-                         }
-                     }
+                    // Developers Section
+                    var developersExpanded by remember { mutableStateOf(false) }
+                    val developersRotation by animateFloatAsState(
+                        targetValue = if (developersExpanded) 90f else 0f,
+                        animationSpec = tween(300),
+                        label = "developers_rotation"
+                    )
 
-                     Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .clickable { developersExpanded = !developersExpanded }
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.chevron_forward),
+                            tint = colorPalette().accent,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(16.dp)
+                                .graphicsLayer(rotationZ = developersRotation)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        BasicText(
+                            text = "${countDevelopers()} ${stringResource(R.string.about_developers_designers)}",
+                            style = typography().xs.semiBold.copy(color = colorPalette().textSecondary)
+                        )
+                    }
 
-                     // Developers Section
-                     var developersExpanded by remember { mutableStateOf(false) }
-                     val developersRotation by animateFloatAsState(
-                         targetValue = if (developersExpanded) 90f else 0f,
-                         animationSpec = tween(300),
-                         label = "developers_rotation"
-                     )
-
-                     Row(
-                         modifier = Modifier
-                             .fillMaxWidth()
-                             .clip(RoundedCornerShape(8.dp))
-                             .clickable { developersExpanded = !developersExpanded }
-                             .padding(vertical = 8.dp),
-                         verticalAlignment = Alignment.CenterVertically
-                     ) {
-                         Icon(
-                             painter = painterResource(R.drawable.chevron_forward),
-                             tint = colorPalette().accent,
-                             contentDescription = null,
-                             modifier = Modifier
-                                 .size(16.dp)
-                                 .graphicsLayer(rotationZ = developersRotation)
-                         )
-                         Spacer(modifier = Modifier.width(8.dp))
-                         BasicText(
-                             text = "${countDevelopers()} ${stringResource(R.string.about_developers_designers)}",
-                             style = typography().xs.semiBold.copy(color = colorPalette().textSecondary)
-                         )
-                     }
-
-                     AnimatedVisibility(
-                         visible = developersExpanded,
-                         enter = fadeIn(animationSpec = tween(300)) + scaleIn(
-                             animationSpec = tween(300),
-                             initialScale = 0.95f
-                         ),
-                         exit = fadeOut(animationSpec = tween(200)) + scaleOut(
-                             animationSpec = tween(200),
-                             targetScale = 0.95f
-                         )
-                     ) {
-                         Column(
-                             modifier = Modifier.padding(start = 24.dp, top = 8.dp)
-                         ) {
-                             SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
-                             ShowDevelopers()
-                         }
-                     }
+                    AnimatedVisibility(
+                        visible = developersExpanded,
+                        enter = fadeIn(animationSpec = tween(300)) + scaleIn(
+                            animationSpec = tween(300),
+                            initialScale = 0.95f
+                        ),
+                        exit = fadeOut(animationSpec = tween(200)) + scaleOut(
+                            animationSpec = tween(200),
+                            targetScale = 0.95f
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(start = 24.dp, top = 8.dp)
+                        ) {
+                            SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
+                            ShowDevelopers()
+                        }
+                    }
                 }
-            }
+            )
         }
+
 
         Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
     }
