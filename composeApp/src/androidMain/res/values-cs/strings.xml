@@ -1039,4 +1039,12 @@
   <string name="easter_egg_last">Jste číslo jedna, dlouze klikni a užívejte si překvapení</string>
   <string name="general_settings_description">Obecná část obsahuje nastavení pro obecnou funkčnost aplikace</string>
   <string name="pause_between_songs_description">Přidat pauzu mezi skladbami</string>
+  <string name="notifications">Oznámení</string>
+  <string name="playback">Přehrát</string>
+  <string name="player_controls">Ovládání přehrávače</string>
+  <string name="queue_management">Správa fronty</string>
+  <string name="app_behavior">Chování aplikace</string>
+  <string name="audio_effects">Zvukové efekty</string>
+  <string name="gestures_events">Gesta &amp; události</string>
+  <string name="picture_in_picture">Obrázek v obrázku</string>
 </resources>
