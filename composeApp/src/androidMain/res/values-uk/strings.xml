@@ -1026,11 +1026,11 @@
   <string name="ai_recommendations">Рекомендації ШІ</string>
   <string name="my_playlist_top1">Моя вершина</string>
   <string name="auto_download_settings">Автоматичне завантаження</string>
-  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
-  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
-  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
-  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
-  <string name="connection_settings">Connection Settings</string>
-  <string name="connection_settings_description">Configure network connection preferences</string>
-  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
+  <string name="auto_download_settings_description">Налаштувати автоматичні завантаження налаштувань для пісень та альбомів</string>
+  <string name="auto_download_song_description">Автоматично завантажувати пісні на основі ваших уподобань</string>
+  <string name="auto_download_when_liked_description">Автоматично завантажувати пісні коли вони вам подобаються</string>
+  <string name="auto_download_when_album_bookmarked_description">Автоматично завантажувати пісні при додаванні до закладок альбому</string>
+  <string name="connection_settings">Параметри підключення</string>
+  <string name="connection_settings_description">Налаштування мережевих з\'єднань</string>
+  <string name="network_settings_description">Мережевий розділ містить параметри для оптимізації використання та використання даних додатку</string>
 </resources>

@@ -1026,11 +1026,11 @@
   <string name="ai_recommendations">AI рекомендации</string>
   <string name="my_playlist_top1">Мои Топ</string>
   <string name="auto_download_settings">Настройки автозагрузки</string>
-  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
-  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
-  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
-  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
-  <string name="connection_settings">Connection Settings</string>
-  <string name="connection_settings_description">Configure network connection preferences</string>
-  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
+  <string name="auto_download_settings_description">Настроить автоматические настройки загрузки для песен и альбомов</string>
+  <string name="auto_download_song_description">Автоматически загружать песни на основе ваших предпочтений</string>
+  <string name="auto_download_when_liked_description">Автоматически загружать песни, когда вам нравится</string>
+  <string name="auto_download_when_album_bookmarked_description">Автоматически загружать песни при добавлении в закладки альбома</string>
+  <string name="connection_settings">Настройки соединения</string>
+  <string name="connection_settings_description">Настройка сетевого подключения</string>
+  <string name="network_settings_description">Раздел «Сеть» содержит настройки для оптимизации производительности приложения и использования данных</string>
 </resources>

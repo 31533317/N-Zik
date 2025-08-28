@@ -1021,11 +1021,11 @@
   <string name="other_settings_description">杂项部分包含各种可选设置和实用工具</string>
   <string name="data_settings_description">数据部分包含更改应用如何在本地和远程处理数据的设置</string>
   <string name="accounts_settings_description">帐户部分包含Youtube同步设置、管道流设置和 Discord Rpc 设置</string>
-  <string name="quick_picks_description">The quick picks section contains settings for the quick picks page and AI powered recommendations</string>
-  <string name="smart_recommendations_description">The smart recommendations section contains settings for the AI powered recommendations</string>
-  <string name="ai_recommendations">AI Recommendations</string>
-  <string name="my_playlist_top1">My Top</string>
-  <string name="auto_download_settings">Auto Download Settings</string>
+  <string name="quick_picks_description">快速选择部分包含快速选择页面和 AI 供电建议的设置</string>
+  <string name="smart_recommendations_description">智能建议部分包含的 AI 动力建议的设置</string>
+  <string name="ai_recommendations">AI 建议</string>
+  <string name="my_playlist_top1">我的顶部</string>
+  <string name="auto_download_settings">自动下载设置</string>
   <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
   <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
   <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
