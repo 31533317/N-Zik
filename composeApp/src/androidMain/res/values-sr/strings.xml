@@ -916,7 +916,7 @@
   <string name="please_wait">Please Wait</string>
   <string name="songs_liked_yt">Song(s) are Liked in YouTube</string>
   <string name="song_unliked_yt">Song is Unliked in YouTube</string>
-  <string name="add_rimusic_to_ytm_favorites">Like RiMusic Liked songs in Youtube</string>
+  <string name="add_rimusic_to_ytm_favorites">Like N-Zik Liked songs in Youtube</string>
   <string name="do_you_really_want_to_like_all_rimusictoytmusic">(estimated time) is required to like all the songs. This action cannot be resumed if cancelled in between. You need to close the app to cancel this process. Do you want to continue?</string>
   <string name="do_you_really_want_to_like_all">(estimated time) is required to like all the songs. You need to close the app to cancel this process. Do you want to continue?</string>
   <string name="songs_liked_yt_failed">Failed to like the song in YouTube</string>
@@ -991,7 +991,7 @@
   <string name="piped_login_successful">Piped login successful</string>
   <string name="piped_login_failed">Piped login failed</string>
   <string name="no_instances_found">No instances found</string>
-  <string name="discord_token_text">If you notice that the RPC doesnt work, try log off and log back</string>
+  <string name="discord_token_text">If you notice that the RPC doesnt work, try log off and log back, also make sure to restart the service and the app</string>
   <string name="account_info">Account info</string>
   <string name="save_visualizer_state">Save visualizer state</string>
   <string name="save_visualizer_state_description">Keep visualizer state between sessions</string>
@@ -1005,7 +1005,7 @@
   <string name="search_display_order_saved_searches_first">Saved searches first</string>
   <string name="search_display_order_description">Choose which appears first in search results</string>
   <string name="smart_recommendations_number">Number of recommendations</string>
-  <string name="smart_recommendations_adaptive_description">Adaptive: Scales with playlist size (10-150 recommendations)</string>
+  <string name="smart_recommendations_adaptive_description">Adaptive: Scales with playlist size (10-120 recommendations)</string>
   <string name="smart_recommendations_adaptive">Adaptive</string>
   <string name="unknown_title">Unknown Title</string>
   <string name="unknown_artist">Unknown Artist</string>
@@ -1013,9 +1013,9 @@
   <string name="up_to_date">Up to date</string>
   <string name="last_check_date">Last check</string>
   <string name="auto_update_settings">Auto update settings</string>
-  <string name="auto_update_enabled">Омогућено</string>
-  <string name="auto_update_ask">Питај</string>
-  <string name="auto_update_disabled">Онемогућено</string>
+  <string name="auto_update_enabled">Update enabled</string>
+  <string name="auto_update_ask">Ask user</string>
+  <string name="auto_update_disabled">Update disabled</string>
   <string name="tab_network">Network</string>
   <string name="about_description">The about section shows information about the app, the developers, troubleshooting and update options</string>
   <string name="other_settings_description">The miscellaneous section contains various optional settings and utilities</string>
@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Picture in Picture</string>
   <string name="i_understand">I understand</string>
   <string name="by_string">by</string>
+  <string name="check_beta_update_enabled">BETA enabled</string>
+  <string name="check_beta_update_disabled">BETA disabled</string>
 </resources>
