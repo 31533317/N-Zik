@@ -181,8 +181,7 @@ android {
 
         create( "beta" ) {
             initWith( maybeCreate("full") )
-            versionNameSuffix = "-beta"
-            buildConfigField( "Boolean", "IS_AUTOUPDATE", "false" )
+            versionNameSuffix = "-b"
         }
 
         /**
