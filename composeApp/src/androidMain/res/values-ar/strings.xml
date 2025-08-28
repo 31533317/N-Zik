@@ -1033,4 +1033,10 @@
   <string name="connection_settings">إعدادات الاتصال</string>
   <string name="connection_settings_description">تهيئة تفضيلات اتصال الشبكة</string>
   <string name="network_settings_description">قسم الشبكة يحتوي على إعدادات لتحسين أداء التطبيق واستخدام البيانات</string>
+  <string name="easter_egg_click_message">هل تحب النقر؟ ثم واصل...</string>
+  <string name="easter_egg_keep_going">حسنًا، أنت تبحث عن شيء ما، إبقى...</string>
+  <string name="easter_egg_number_one">أنت رقم 1، انقر واستمتع بالمفاجأة</string>
+  <string name="easter_egg_last">أنت رقم واحد، انقر لفترة طويلة واستمتع بالمفاجأة</string>
+  <string name="general_settings_description">القسم العام يحتوي على إعدادات للوظيفة العامة للتطبيق</string>
+  <string name="pause_between_songs_description">إضافة إيقاف مؤقت بين الأغاني</string>
 </resources>
