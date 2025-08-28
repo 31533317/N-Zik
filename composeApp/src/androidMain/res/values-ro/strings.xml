@@ -1044,7 +1044,9 @@
   <string name="player_controls">Controale jucător</string>
   <string name="queue_management">Gestionare coadă</string>
   <string name="app_behavior">Comportament aplicație</string>
-  <string name="audio_effects">Audio Effects</string>
-  <string name="gestures_events">Gestures &amp; Events</string>
-  <string name="picture_in_picture">Picture in Picture</string>
+  <string name="audio_effects">Efecte audio</string>
+  <string name="gestures_events">Gesturi &amp; Evenimente</string>
+  <string name="picture_in_picture">Imagine în imagine</string>
+  <string name="i_understand">Am înțeles</string>
+  <string name="by_string">de</string>
 </resources>

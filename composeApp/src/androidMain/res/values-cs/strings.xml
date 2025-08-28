@@ -1047,4 +1047,6 @@
   <string name="audio_effects">Zvukové efekty</string>
   <string name="gestures_events">Gesta &amp; události</string>
   <string name="picture_in_picture">Obrázek v obrázku</string>
+  <string name="i_understand">Chápu</string>
+  <string name="by_string">od</string>
 </resources>

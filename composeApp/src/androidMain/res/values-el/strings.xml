@@ -1047,4 +1047,6 @@
   <string name="audio_effects">Εφέ Ήχου</string>
   <string name="gestures_events">Gestures &amp; Events</string>
   <string name="picture_in_picture">Εικόνα σε εικόνα</string>
+  <string name="i_understand">Κατανοώ</string>
+  <string name="by_string">από</string>
 </resources>

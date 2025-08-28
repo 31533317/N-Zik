@@ -1044,7 +1044,9 @@
   <string name="player_controls">Controles del jugador</string>
   <string name="queue_management">Gestión de colas</string>
   <string name="app_behavior">Comportamiento de App</string>
-  <string name="audio_effects">Audio Effects</string>
-  <string name="gestures_events">Gestures &amp; Events</string>
-  <string name="picture_in_picture">Picture in Picture</string>
+  <string name="audio_effects">Efectos de audio</string>
+  <string name="gestures_events">Gestos &amp; Eventos</string>
+  <string name="picture_in_picture">Fotografía en foto</string>
+  <string name="i_understand">Entiendo</string>
+  <string name="by_string">por</string>
 </resources>

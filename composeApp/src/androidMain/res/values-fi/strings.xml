@@ -1047,4 +1047,6 @@
   <string name="audio_effects">Äänitehosteet</string>
   <string name="gestures_events">Eleet &amp; Tapahtumat</string>
   <string name="picture_in_picture">Kuva kuvassa</string>
+  <string name="i_understand">Minä ymmärrän</string>
+  <string name="by_string">mennessä</string>
 </resources>

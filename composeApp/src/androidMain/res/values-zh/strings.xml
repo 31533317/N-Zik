@@ -1039,12 +1039,14 @@
   <string name="easter_egg_last">您是一个数字，长按并享受惊喜。</string>
   <string name="general_settings_description">一般部分包含应用程序一般功能的设置</string>
   <string name="pause_between_songs_description">在歌曲之间添加暂停</string>
-  <string name="notifications">Notifications</string>
-  <string name="playback">Playback</string>
-  <string name="player_controls">Player Controls</string>
-  <string name="queue_management">Queue Management</string>
-  <string name="app_behavior">App Behavior</string>
-  <string name="audio_effects">Audio Effects</string>
+  <string name="notifications">通知</string>
+  <string name="playback">回放</string>
+  <string name="player_controls">玩家控制</string>
+  <string name="queue_management">队列管理</string>
+  <string name="app_behavior">应用行为</string>
+  <string name="audio_effects">音频特效</string>
   <string name="gestures_events">Gestures &amp; Events</string>
-  <string name="picture_in_picture">Picture in Picture</string>
+  <string name="picture_in_picture">图片中</string>
+  <string name="i_understand">I understand</string>
+  <string name="by_string">by</string>
 </resources>
