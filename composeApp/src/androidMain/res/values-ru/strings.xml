@@ -1033,4 +1033,10 @@
   <string name="connection_settings">Настройки соединения</string>
   <string name="connection_settings_description">Настройка сетевого подключения</string>
   <string name="network_settings_description">Раздел «Сеть» содержит настройки для оптимизации производительности приложения и использования данных</string>
+  <string name="easter_egg_click_message">Вам нравится клик? Затем продолжите...</string>
+  <string name="easter_egg_keep_going">Ладно, ты ищешь что-то, держишь...</string>
+  <string name="easter_egg_number_one">Вы номер один, нажмите и наслаждайтесь сюрпризом</string>
+  <string name="easter_egg_last">Вы номер один, длинный клик и наслаждайтесь сюрпризом</string>
+  <string name="general_settings_description">Общий раздел содержит настройки для общей функциональности приложения</string>
+  <string name="pause_between_songs_description">Добавить паузу между песнями</string>
 </resources>
