@@ -1,299 +1,200 @@
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+name: Build Beta
 
-val APP_NAME = "N-Zik"
+on:
+  workflow_dispatch:
 
-plugins {
-    // Multiplatform
-    alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.jetbrains.compose)
+concurrency:
+  group: 'beta-deploy'
+  cancel-in-progress: false
 
-    // Android
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.room)
+jobs:
+  build_time:
+    name: Capture current time
+    runs-on: ubuntu-latest
+    outputs:
+      date: ${{ steps.date.outputs.date }}
+    steps:
+      - name: Get date
+        id: date
+        run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
 
+  versioning:
+    name: Extract version
+    runs-on: ubuntu-latest
+    outputs:
+      downstream: ${{ steps.downstream.outputs.version }}
+      code: ${{ steps.downstream.outputs.code }}
+      upstream: ${{ steps.upstream.outputs.version }}
+    env:
+      GITHUB_REPOSITORY: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: true
+      - name: Get downstream (local) version
+        id: downstream
+        run: |
+          echo "version=$(grep -E '^\s*versionName\s*=' composeApp/build.gradle.kts | awk -F '\"' '{print $2}')" >> $GITHUB_OUTPUT
+          echo "code=$(grep -E '^\s*versionCode\s*=' composeApp/build.gradle.kts | awk -F '= ' '{print $2}')" >> $GITHUB_OUTPUT
+      - name: Get upstream version
+        id: upstream
+        run: |
+          tag_name="$(curl -s https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest | jq -r .tag_name)"
+          echo "version=${tag_name#v}" >> $GITHUB_OUTPUT
 
-    alias(libs.plugins.kotlin.ksp)
-    alias(libs.plugins.kotlin.serialization)
-}
+  verify-version:
+    needs: [versioning]
+    name: Verify versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if build can proceed
+        run: |
+          if [ "${{ needs.versioning.outputs.downstream }}" = "${{ needs.versioning.outputs.upstream }}" ]; then
+            echo "Versions are equal. Skipping build."
+            exit 1
+          fi
+      - uses: actions/checkout@v5
+        with:
+          submodules: true
+      - name: Check if changelog exists
+        run: |
+          if [ ! -f "fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt" ]; then
+            echo "Changelog not found. Exiting."
+            exit 1
+          fi
 
-repositories {
-    google()
-    mavenCentral()
-    maven { url = uri("https://jitpack.io") }
-}
+  build-beta:
+    needs: [versioning, verify-version]
+    name: Build Beta APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: true
 
-kotlin {
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
-            freeCompilerArgs.add("-Xcontext-receivers")
-        }
-    }
+      - name: Copy changelog into res/raw
+        run: cp "fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt" "composeApp/src/androidMain/res/raw/release_notes.txt"
 
-    jvm("desktop")
+      - name: Setup Java 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: "21"
+          distribution: "corretto"
 
+      - name: Restore Gradle dependencies & build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ./build
+            ./composeApp/build
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ runner.os }}-
 
+      - name: Build Beta with Gradle
+        run: ./gradlew assembleBeta
 
-    sourceSets {
-        all {
-            languageSettings {
-                optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
-            }
-        }
+      - name: Upload artifacts for signing
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-release
+          path: composeApp/build/outputs/apk/beta/*.apk
 
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(compose.components.resources)
-            implementation(compose.desktop.currentOs)
+  sign-apks:
+    needs: [build-beta]
+    name: Sign APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v5
+        with:
+          path: upstream/unsigned
+          merge-multiple: true
 
-            implementation(libs.material.icon.desktop)
-            implementation(libs.vlcj)
+      - name: Sign APK
+        uses: Tlaster/android-sign@v1
+        with:
+          releaseDirectory: upstream/unsigned
+          signingKeyBase64: "${{ secrets.RELEASE_KEYSTORE }}"
+          keyStorePassword: "${{ secrets.RELEASE_KEYSTORE_PASSWD }}"
+          alias: "${{ secrets.RELEASE_KEY_ALIAS }}"
+          keyPassword: "${{ secrets.RELEASE_KEY_PASSWD }}"
+          output: signed
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
 
-            implementation(libs.coil.network.okhttp)
-            runtimeOnly(libs.kotlinx.coroutines.swing)
+      - name: Remove trails
+        run: |
+          for filename in signed/*.apk; do mv "$filename" "${filename//-signed}"; done
 
-            /*
-            // Uncomment only for build jvm desktop version
-            // Comment before build android version
-            configurations.commonMainApi {
-                exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-android")
-            }
-            */
-        }
+      - name: Upload signed APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-apk
+          path: signed/*.apk
 
-        androidMain.dependencies {
-            implementation(libs.media3.session)
-            implementation(libs.kotlinx.coroutines.guava)
-            implementation(libs.newpipe.extractor)
-            implementation(libs.nanojson)
-            implementation(libs.androidx.webkit)
+  upload-to-pre-release:
+    needs: [build_time, versioning, sign-apks]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download signed APK
+        uses: actions/download-artifact@v5
+        with:
+          name: signed-apk
+      - name: Upload built APK to pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: '*.apk'
+          name: v${{ needs.versioning.outputs.downstream }}-b-${{ needs.build_time.outputs.date }} | 🚀 BETA Build
+          tag_name: v${{ needs.versioning.outputs.downstream }}-b
+          prerelease: true
+          make_latest: false
+          body: |
+            ## ⚠️ Beta Release v${{ needs.versioning.outputs.downstream }}-b
+            ---
+            <div align="center">
+              <img alt="N-Zik Logo" src="https://github.com/NEVARLeVrai/N-Zik/blob/main/assets/design/ic_banner2.png?raw=true" width="1000" />
+              <p><b>N-Zik</b> - by @NEVARLeVrai</p>
+              <p><i>This is a <b>BETA build</b>, intended for testing only.</i></p>
+            </div>
 
-            // Related to built-in game, maybe removed in future?
-            implementation(libs.compose.runtime.livedata)
-        }
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            ## 🔎 Verification
+            
+            > Always verify the signature before installing any APK downloaded from GitHub or other distributors.
+            
+            ### Public key hashes
+            
+            | Algorithm | Hash digest                                                        |
+            |-----------|--------------------------------------------------------------------|
+            | SHA-256   | 504cdeb65e52070f0515f9ad295a288a4894d0924e9ef5d6080fdea5bdf841d6 |
+            | SHA-1     | 16e766c566e511c7d83f40e30850be27b7040a43                         |
+            | MD5       | 16e2bdf083316967c6a2dd5a0391bb76                                 |
+            
+            ### Certificate hashes
+            
+            | Algorithm | Hash digest                                                        |
+            |-----------|--------------------------------------------------------------------|
+            | SHA-256   | b473991ec08a17996a9ef2405934ce35d333ea38135ebfc1b6f4d2ab953132aa |
+            | SHA-1     | ec57f7d61cf2382aecff7444e815e37a601cb1f1                         |
+            | MD5       | 5ae0045983899ab7ca5db38ef785d6ab                                 |
 
-            implementation(projects.innertube)
-            implementation(projects.piped)
-            implementation(projects.invidious)
+            ## 📲 Installation
 
-            implementation(libs.room)
-            implementation(libs.room.runtime)
-            implementation(libs.room.sqlite.bundled)
+            ⚠️ This is a **BETA release**, not a stable version.  
+            It is intended **only for testing and feedback**.  
 
-            implementation(libs.mediaplayer.kmp)
+            1. Download the **Beta build** below.  
+            2. Verify its signature using the hashes provided.  
+            3. Install on your device (allow installation from unknown sources).  
 
-            implementation(libs.navigation.kmp)
+            Please report any crashes, bugs, or unexpected behavior.
 
-            //coil3 mp
-            implementation(libs.coil.compose.core)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.mp)
+            ## 🔗 Changelog & Downloads
 
-            implementation(libs.translator)
+            - Full changelog: [Compare v${{ needs.versioning.outputs.upstream }}...v${{ needs.versioning.outputs.downstream }}](https://github.com/NEVARLeVrai/N-Zik/compare/v${{ needs.versioning.outputs.upstream }}...v${{ needs.versioning.outputs.downstream }})  
+            - [Changelog text file](https://github.com/NEVARLeVrai/N-Zik/blob/main/fastlane/metadata/android/en-US/changelogs/${{ needs.versioning.outputs.code }}.txt)
 
-        }
-    }
-}
-
-android {
-    dependenciesInfo {
-        // Disables dependency metadata when building APKs.
-        includeInApk = false
-        // Disables dependency metadata when building Android App Bundles.
-        includeInBundle = false
-    }
-
-    androidComponents {
-        beforeVariants(selector().withBuildType("release")) {
-            it.enable = false
-        }
-    }
-
-    buildFeatures {
-        buildConfig = true
-        compose = true
-    }
-
-    compileSdk = 35
-
-    defaultConfig {
-        applicationId = "com.nevar.nzik"
-        minSdk = 21
-        targetSdk = 36
-        versionCode = 19
-        versionName = "2.0.0"
-
-        /*
-                UNIVERSAL VARIABLES
-         */
-        buildConfigField( "Boolean", "IS_AUTOUPDATE", "true" )
-        buildConfigField( "String", "APP_NAME", "\"$APP_NAME\"" )
-    }
-
-    splits {
-        abi {
-            reset()
-            isUniversalApk = true
-        }
-    }
-
-    namespace = "app.kreate.android"
-
-    buildTypes {
-        debug {
-            manifestPlaceholders += mapOf()
-            applicationIdSuffix = ".debug"
-            manifestPlaceholders["appName"] = "$APP_NAME-debug"
-
-            buildConfigField( "Boolean", "IS_AUTOUPDATE", "false" )
-            signingConfig = signingConfigs.getByName("debug")
-        }
-
-        create( "full" ) {
-            // App's properties
-            versionNameSuffix = "-f"
-        }
-
-        create( "minified" ) {
-            // App's properties
-            versionNameSuffix = "-m"
-
-            // Package optimization
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-
-        create( "beta" ) {
-            initWith( maybeCreate("full") )
-            versionNameSuffix = "-b"
-        }
-
-        /**
-         * For convenience only.
-         * "Forkers" want to change app name across builds
-         * just need to change this variable
-         */
-        forEach {
-            it.manifestPlaceholders.putIfAbsent( "appName", APP_NAME )
-        }
-    }
-
-    applicationVariants.all {
-        outputs.map { it as BaseVariantOutputImpl }
-               .forEach { output ->
-                   val typeName = buildType.name
-                   output.outputFileName = "$APP_NAME-$typeName.apk"
-               }
-    }
-
-    sourceSets.all {
-        kotlin.srcDir("src/$name/kotlin")
-    }
-
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-
-    androidResources {
-        generateLocaleConfig = true
-    }
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
-compose.desktop {
-    application {
-
-        mainClass = "MainKt"
-
-        //conveyor
-        version = "0.0.1"
-        group = "rimusic"
-
-        //jpackage
-        nativeDistributions {
-            //conveyor
-            vendor = "RiMusic.DesktopApp"
-            description = "RiMusic Desktop Music Player"
-
-            targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Rpm)
-            packageName = "RiMusic.DesktopApp"
-            packageVersion = "0.0.1"
-        }
-    }
-}
-
-compose.resources {
-    publicResClass = true
-    generateResClass = always
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
-}
-
-dependencies {
-    implementation(libs.compose.activity)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.shimmer)
-    implementation(libs.compose.coil)
-    implementation(libs.androidx.palette)
-    implementation(libs.media3.exoplayer)
-    implementation(libs.media3.datasource.okhttp)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.appcompat.resources)
-    implementation(libs.material3)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.compose.animation)
-    implementation(libs.kotlin.csv)
-    implementation(libs.monetcompat)
-    implementation(libs.androidmaterial)
-    implementation(libs.timber)
-    implementation(libs.androidx.crypto)
-    implementation(libs.math3)
-    implementation(libs.toasty)
-    implementation(libs.androidyoutubeplayer)
-    implementation(libs.androidx.glance.widgets)
-    implementation(libs.kizzy.rpc)
-    implementation(libs.gson)
-    implementation (libs.hypnoticcanvas)
-    implementation (libs.hypnoticcanvas.shaders)
-    implementation(libs.github.jeziellago.compose.markdown)
-
-    implementation(libs.room)
-    ksp(libs.room.compiler)
-
-    implementation(projects.innertube)
-    implementation(projects.oldtube)
-    implementation(projects.kugou)
-    implementation(projects.lrclib)
-    implementation(projects.piped)
-
-    coreLibraryDesugaring(libs.desugaring.nio)
-
-    // Debug only
-    debugImplementation(libs.ui.tooling.preview.android)
-}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generate_release_notes: true
