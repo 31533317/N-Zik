@@ -1013,9 +1013,9 @@
   <string name="up_to_date">Até a data</string>
   <string name="last_check_date">Última verificação</string>
   <string name="auto_update_settings">Configurações de atualização automática</string>
-  <string name="auto_update_enabled">Ativado</string>
-  <string name="auto_update_ask">Perguntar</string>
-  <string name="auto_update_disabled">Desativado</string>
+  <string name="auto_update_enabled">Atualização habilitada</string>
+  <string name="auto_update_ask">Perguntar ao usuário</string>
+  <string name="auto_update_disabled">Atualização desabilitada</string>
   <string name="tab_network">Rede</string>
   <string name="about_description">A seção \"Sobre\" mostra informações sobre o aplicativo, os desenvolvedores, solução de problemas e opções de atualização</string>
   <string name="other_settings_description">A seção diversas contém várias configurações opcionais e utilitários</string>
@@ -1049,4 +1049,6 @@
   <string name="picture_in_picture">Imagem de imagem</string>
   <string name="i_understand">Eu entendo</string>
   <string name="by_string">Por</string>
+  <string name="check_beta_update_enabled">BETA habilitado</string>
+  <string name="check_beta_update_disabled">BETA desativado</string>
 </resources>
