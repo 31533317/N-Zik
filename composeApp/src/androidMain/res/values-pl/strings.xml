@@ -1016,4 +1016,9 @@
   <string name="auto_update_enabled">Włączone</string>
   <string name="auto_update_ask">Zapytaj</string>
   <string name="auto_update_disabled">Wyłączony</string>
+  <string name="tab_network">Sieć</string>
+  <string name="about_description">Sekcja o wyświetla informacje o aplikacji, programistach, rozwiązaniach problemów i opcjach aktualizacji</string>
+  <string name="other_settings_description">Różne sekcje zawierają różne opcjonalne ustawienia i narzędzia</string>
+  <string name="data_settings_description">Sekcja danych zawiera ustawienia, które modyfikują lokalny i zdalny sposób obsługi danych przez aplikację</string>
+  <string name="accounts_settings_description">Sekcja kont zawiera ustawienia synchronizacji z YouTube, ustawienia transmisji strumieniowej w ipach i ustawienia Rpc Discorda</string>
 </resources>
