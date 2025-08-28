@@ -1021,4 +1021,16 @@
   <string name="other_settings_description">Різний розділ містить різні додаткові параметри і комунальні послуги</string>
   <string name="data_settings_description">Розділ даних містить налаштування, що визначають як додаток обробляє дані локально та віддалено</string>
   <string name="accounts_settings_description">Розділ облікових записів містить налаштування синхронізації Youtube, Конвеєрі стрімінг і настройки Discord Rpc</string>
+  <string name="quick_picks_description">Розділ швидкого вибору містить настройки для сторінки швидких опцій та AI з живленням рекомендації</string>
+  <string name="smart_recommendations_description">Розділ розумних рекомендацій містить настройки для рекомендацій AI</string>
+  <string name="ai_recommendations">Рекомендації ШІ</string>
+  <string name="my_playlist_top1">Моя вершина</string>
+  <string name="auto_download_settings">Автоматичне завантаження</string>
+  <string name="auto_download_settings_description">Configure automatic download preferences for songs and albums</string>
+  <string name="auto_download_song_description">Automatically download songs based on your preferences</string>
+  <string name="auto_download_when_liked_description">Automatically download songs when you like them</string>
+  <string name="auto_download_when_album_bookmarked_description">Automatically download songs when you bookmark an album</string>
+  <string name="connection_settings">Connection Settings</string>
+  <string name="connection_settings_description">Configure network connection preferences</string>
+  <string name="network_settings_description">The network section contains settings to optimize the app\'s performance and data usage</string>
 </resources>
