@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">更新履歴を表示</string>
   <string name="view_changelog_settings_text">現在インストールされているバージョンの更新履歴を表示</string>
   <string name="artist_songs_count_duration">%1$d 曲 • %2$s</string>
-  <string name="beta_title"> Beta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> 安定版</string>
   <string name="beta_text">これはベータ版であり、バグやクラッシュが含まれている可能性があります</string>
   <string name="quick_selection_type">クイックピックに表示する推奨曲数を選択</string>
   <string name="quick_selection">%s 推奨曲</string>

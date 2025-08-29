@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Vis endringslogger</string>
   <string name="view_changelog_settings_text">Vis endringslogger av versjonen som er installert</string>
   <string name="artist_songs_count_duration">%1$d Songs • %2$s</string>
-  <string name="beta_title"> beta</string>
+  <string name="beta_title"> META</string>
+  <string name="stable_title"> TILBAKESTILL</string>
   <string name="beta_text">Dette er fortsatt i Beta og kan inneholde feil og krasj</string>
   <string name="quick_selection_type">Velg hvor mange anbefalte sanger å vise i hurtigvalgene</string>
   <string name="quick_selection">%s anbefalte sang</string>

@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Näytä muutoslokit</string>
   <string name="view_changelog_settings_text">Näytä tällä hetkellä asennetun version muutoslokit</string>
   <string name="artist_songs_count_duration">%1$d Kappaletta • %2$s</string>
-  <string name="beta_title"> Beeta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> VAKUUTUS</string>
   <string name="beta_text">Tämä on vielä Betassa ja saattaa sisältää vikoja ja kaatumisia</string>
   <string name="quick_selection_type">Valitse kuinka monta suositeltua kappaletta näytetään pikavalinnoissa</string>
   <string name="quick_selection">%s suositteli kappaletta</string>

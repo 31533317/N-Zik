@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Vis ændringslog</string>
   <string name="view_changelog_settings_text">Se changelogs for den version der er installeret i øjeblikket</string>
   <string name="artist_songs_count_duration">%1$d Sange • %2$s</string>
-  <string name="beta_title"> Beta</string>
+  <string name="beta_title"> INDSATS</string>
+  <string name="stable_title"> STABEL</string>
   <string name="beta_text">Dette er stadig i Beta og kan indeholde fejl og nedbrud</string>
   <string name="quick_selection_type">Vælg, hvor mange anbefalede sange der skal vises i Hurtigvalg</string>
   <string name="quick_selection">%s anbefalet sang</string>

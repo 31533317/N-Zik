@@ -980,7 +980,8 @@ Volume BAS : titre précédent</string>
   <string name="view_changelog_settings_title">Voir le changelogs</string>
   <string name="view_changelog_settings_text">Voir le journal des modifications de la version actuellement installée</string>
   <string name="artist_songs_count_duration">Titres %1$d • %2$s</string>
-  <string name="beta_title"> Bêta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> STABLE</string>
   <string name="beta_text">Ceci est toujours en bêta et peut contenir des bugs et des plantages</string>
   <string name="quick_selection_type">Choisissez le nombre de chansons recommandées à afficher dans les sélections rapides</string>
   <string name="quick_selection">%s titres recommandée</string>

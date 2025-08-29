@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Bekijk wijzigingen</string>
   <string name="view_changelog_settings_text">Bekijk changelogs van de momenteel geïnstalleerde versie</string>
   <string name="artist_songs_count_duration">%1$d nummers • %2$s</string>
-  <string name="beta_title"> Bèta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> STABLE</string>
   <string name="beta_text">Dit is nog steeds in Bèta en kan bugs en crash bevatten</string>
   <string name="quick_selection_type">Kies hoeveel aanbevolen nummers te tonen in Snelle Picks</string>
   <string name="quick_selection">%s aanbevolen nummer</string>

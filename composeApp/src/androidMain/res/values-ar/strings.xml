@@ -979,6 +979,7 @@
   <string name="view_changelog_settings_text">عرض سجل التغييرات في الإصدار المثبت حاليا</string>
   <string name="artist_songs_count_duration">%1$d أغاني • %2$s</string>
   <string name="beta_title"> بيتا</string>
+  <string name="stable_title"> ابدأ</string>
   <string name="beta_text">هذا لا يزال في بيتا وقد يحتوي على أخطاء وتحطم</string>
   <string name="quick_selection_type">اختر عدد الأغاني الموصى بإظهارها في الرموز السريعة</string>
   <string name="quick_selection">%s أغنية موصى بها</string>

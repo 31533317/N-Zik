@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Vezi changelogs</string>
   <string name="view_changelog_settings_text">Vizualizați modificările versiunii instalate în prezent</string>
   <string name="artist_songs_count_duration">%1$d melodii • %2$s</string>
-  <string name="beta_title"> Beta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> STABILE</string>
   <string name="beta_text">Aceasta este încă în Beta și poate conține erori și crash</string>
   <string name="quick_selection_type">Alegeți câte melodii recomandate să fie afișate în Liste Rapide</string>
   <string name="quick_selection">%s a recomandat melodia</string>

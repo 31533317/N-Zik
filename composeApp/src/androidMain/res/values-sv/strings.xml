@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Visa ändringsloggar</string>
   <string name="view_changelog_settings_text">Visa ändringsloggar för den version som för närvarande är installerad</string>
   <string name="artist_songs_count_duration">%1$d låtar • %2$s</string>
-  <string name="beta_title"> Beta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> STABELL</string>
   <string name="beta_text">Detta är fortfarande i Beta och kan innehålla buggar och krasch</string>
   <string name="quick_selection_type">Välj hur många rekommenderade låtar som ska visas i Snabbval</string>
   <string name="quick_selection">%s rekommenderad låt</string>
