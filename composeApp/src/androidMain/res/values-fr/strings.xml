@@ -1048,10 +1048,13 @@ Volume BAS : titre précédent</string>
   <string name="queue_management">Gestion de la file d\'attente</string>
   <string name="app_behavior">Comportement de l\'application</string>
   <string name="audio_effects">Effets Audio</string>
-  <string name="gestures_events">Gestures &amp; Events</string>
+  <string name="gestures_events">Gestes &amp; Événements</string>
   <string name="picture_in_picture">Image dans l\'image</string>
   <string name="i_understand">Je comprends</string>
   <string name="by_string">par</string>
   <string name="check_beta_update_enabled">BETA activé</string>
   <string name="check_beta_update_disabled">BETA désactivé</string>
+  <string name="cache_status">Cache status</string>
+  <string name="cache_working">Fonctionnement du cache</string>
+  <string name="cache_empty">Cache vide</string>
 </resources>
