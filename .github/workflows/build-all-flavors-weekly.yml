@@ -278,10 +278,7 @@ jobs:
               - Always updates to the **Full Stable Build**.  
               - No Beta option available.  
             
-            👉 **Quick Summary**  
-            - **Full (-f):** Stable by default, Beta optional.  
-            - **Beta (-b):** Can stay in Beta or migrate to Stable.  
-            - **Minified (-m):** Always updates to Full Stable.  
+            This lets you decide whether to test new experimental updates or stick with the stable ones.
             
             ## 🔗 Changelog & Downloads
             
