@@ -53,10 +53,6 @@ jobs:
             This feature is already existed in codebase.
 
             > Ticket will be closed. If you have any further question, feel free to comment below
-            
-            ---
-
-            Kreate's Discord is now available to the public. Join here: https://discord.gg/WYr9ZgJzpx
 
       - name: Close pull request
         run: gh pr close "$NUMBER"
@@ -79,10 +75,6 @@ jobs:
             This feature is already existed in codebase.
 
             > Ticket will be closed. If you have any further question, feel free to comment below
-            
-            ---
-
-            Kreate's Discord is now available to the public. Join here: https://discord.gg/WYr9ZgJzpx
 
       - name: Close request
         run: gh issue close "$NUMBER"
