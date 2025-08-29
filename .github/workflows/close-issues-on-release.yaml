@@ -8,13 +8,11 @@ on:
 jobs:
   patched:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
     steps:
       - name: Close issues marked as "patched" upon a release.
         uses: gcampbell-msft/fixed-pending-release@0.0.12
         with:
-          token: ${{ secrets.GITHUB_TOKEN }} 
+          token: ${{ secrets.CLOSE_ISSUE_ON_RELEASE }}
           label: patched
           message: >
             :tada: This issue has now been fixed and is available in [${releaseTag}](${releaseUrl}) :tada:
@@ -24,13 +22,11 @@ jobs:
 
   implemented:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
     steps:
       - name: Close issues marked as "implemented" upon a release.
         uses: gcampbell-msft/fixed-pending-release@0.0.12
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CLOSE_ISSUE_ON_RELEASE }}
           label: implemented
           message: >
             This request is already existed in the app. Therefore, this ticket is now closed.
