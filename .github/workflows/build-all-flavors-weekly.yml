@@ -1,4 +1,4 @@
-name: Build selected flavors
+name: Build Full and Minified
 
 on:
   schedule:
