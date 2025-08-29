@@ -178,7 +178,7 @@ Join us on Crowdin!
 # 👀 Status
 
 ## 🛠️ Build & Deployment
-[![Build selected flavors](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-all-flavors-weekly.yml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-all-flavors-weekly.yml)  
+[![Build Full and Minified](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-all-flavors-weekly.yml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-all-flavors-weekly.yml)  
 [![Build Beta](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-beta-flavor.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-beta-flavor.yaml)  
 [![Automatic Cache Builder](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/cache-builder.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/cache-builder.yaml)  
 
