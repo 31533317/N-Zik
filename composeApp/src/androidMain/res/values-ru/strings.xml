@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Просмотреть список изменений</string>
   <string name="view_changelog_settings_text">Просмотреть список изменений установленной версии</string>
   <string name="artist_songs_count_duration">%1$d треки • %2$s</string>
-  <string name="beta_title"> Бета</string>
+  <string name="beta_title"> БЕТА</string>
+  <string name="stable_title"> СТАБИЛЬНЫЙ</string>
   <string name="beta_text">Это все еще находится в бета-версии и может содержать ошибки и ошибки</string>
   <string name="quick_selection_type">Выберите, сколько рекомендуемых песен показывать в Быстрых Выборках</string>
   <string name="quick_selection">%s рекомендуемая песня</string>
