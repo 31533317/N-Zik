@@ -253,21 +253,35 @@ jobs:
             - **Full** – Complete build with all components.  
             - **Minified** – Lightweight build, recommended for low-end devices.
             
-            ## 🔄 Update Policy
+            ## 🔄 Update Policy  
             
-            - 🟢 **Full build on Stable** → Update notifications are **disabled by default**  
-              - You can enable them manually in **Settings > About > Stable update enabled** 
-              - To receive Beta updates for the **Full build**, enable them in **Settings > About > Beta update enabled**
+            ### 🟢 **Full Build (-f)**  
+            - **Default:** Update notifications for **Stable** are **enabled by default**.  
+            - **User options:**  
+              - You can **disable** notifications in **Settings > About > Stable update enabled**.  
+              - You can **enable Beta updates** in **Settings > About > Beta update enabled** if you want to test Beta releases.  
+            - **Behavior:**  
+              - Without Beta enabled → receives **Stable** updates only.  
+              - With Beta enabled → receives both **Stable + Beta** updates.  
             
-            - 🟡 **Beta builds** → Update notifications are **disabled by default**  
-
-
+            ### 🟡 **Beta Build (-b)**  
+            - **Default:** Update notifications are **enabled by default**.  
+            - **User options:**  
+              - You can **disable** notifications in **Settings > About > Stable update enabled**.  
+              - You can **toggle Beta updates** in **Settings > About > Beta update enabled**.  
+            - **Behavior:**  
+              - Without Beta enabled → automatically upgrades to the latest **Stable** release.  
+              - With Beta enabled → stays on the **Beta channel** while also receiving **Stable** updates.  
             
-            ### How it works
-            - On **stable** → only stable updates appear.  
-            - With **beta enabled** → both stable and beta updates are shown.  
-            - The updater always selects the **latest version** based on your choice.
-
+            ### 🔵 **Minified Build (-m)**  
+            - **Unique behavior:**  
+              - Always updates to the **Full Stable Build**.  
+              - No Beta option available.  
+            
+            👉 **Quick Summary**  
+            - **Full (-f):** Stable by default, Beta optional.  
+            - **Beta (-b):** Can stay in Beta or migrate to Stable.  
+            - **Minified (-m):** Always updates to Full Stable.  
             
             ## 🔗 Changelog & Downloads
             
