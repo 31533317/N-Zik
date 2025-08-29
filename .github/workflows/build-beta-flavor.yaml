@@ -216,7 +216,7 @@ jobs:
             - 🟢 **Full Build (-f)**  
               - **Default:** Update notifications for **Stable** are **enabled by default**.  
               - **User options:**  
-                - You can **disable** notifications in **Settings > About > Stable update enabled**.  
+                - You can **disable Stable updates ** notifications in **Settings > About > Auto update enabled**.  
                 - You can **enable Beta updates** in **Settings > About > Beta update enabled** if you want to test Beta releases.  
               - **Behavior:**  
                 - Without Beta enabled → receives **Stable** updates only.  
