@@ -19,7 +19,6 @@ import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.Requirements
 import app.kreate.android.service.createDataSourceFactory
-import coil.imageLoader
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import it.fast4x.rimusic.Database
@@ -56,6 +55,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import me.knighthat.coil.ImageCacheFactory
 import me.knighthat.utils.Toaster
 import timber.log.Timber
 import java.util.concurrent.Executors
@@ -270,7 +270,7 @@ object MyDownloadHelper {
                 println("MyDownloadHelper scheduleDownload exception ${it.stackTraceToString()}")
             }
             downloadSyncedLyrics( mediaItem.asSong )
-            context.imageLoader.execute(
+            ImageCacheFactory.LOADER.execute(
                 ImageRequest.Builder(context)
                     .networkCachePolicy(CachePolicy.ENABLED)
                     .data(imageUrl)

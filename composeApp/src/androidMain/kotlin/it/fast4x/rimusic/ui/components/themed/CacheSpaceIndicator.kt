@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import coil.Coil
 import coil.annotation.ExperimentalCoilApi
+import me.knighthat.coil.ImageCacheFactory
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.enums.CacheType
 import it.fast4x.rimusic.enums.CoilDiskCacheMaxSize
@@ -64,7 +65,7 @@ fun CacheSpaceIndicator(
     val binder = LocalPlayerServiceBinder.current
 
     val imageDiskCacheSize = remember {
-        Coil.imageLoader(context).diskCache?.size
+        ImageCacheFactory.getCacheSize()
     }
 
     val cachedSongsDiskCacheSize = remember {

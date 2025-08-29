@@ -228,6 +228,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.knighthat.coil.ImageCacheFactory
 import me.knighthat.invidious.Invidious
 import me.knighthat.piped.Piped
 import me.knighthat.utils.Toaster
@@ -579,7 +580,7 @@ class MainActivity :
                 val colorPaletteMode =
                     preferences.getEnum(colorPaletteModeKey, ColorPaletteMode.Dark)
                 coroutineScope.launch(Dispatchers.Main) {
-                    val result = imageLoader.execute(
+                    val result = ImageCacheFactory.LOADER.execute(
                         ImageRequest.Builder(this@MainActivity)
                             .data(url)
                             .allowHardware(false)
@@ -1318,11 +1319,13 @@ class MainActivity :
         }
 
         if (!isAtLeastAndroid6) {
+            @Suppress("DEPRECATION")
             window.statusBarColor =
                 (if (isDark) Color.Transparent else Color.Black.copy(alpha = 0.2f)).toArgb()
         }
 
         if (!isAtLeastAndroid8) {
+            @Suppress("DEPRECATION")
             window.navigationBarColor =
                 (if (isDark) Color.Transparent else Color.Black.copy(alpha = 0.2f)).toArgb()
         }

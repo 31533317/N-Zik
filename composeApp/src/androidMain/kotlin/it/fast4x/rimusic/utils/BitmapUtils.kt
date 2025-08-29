@@ -7,9 +7,10 @@ import coil.imageLoader
 import coil.request.ErrorResult
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import me.knighthat.coil.ImageCacheFactory
 
 suspend fun getBitmapFromUrl(context: Context, url: String): Bitmap {
-    val loading = context.imageLoader
+    val loading = ImageCacheFactory.LOADER
     val request = ImageRequest.Builder(context).data(url).allowHardware(false).build()
     val result = loading.execute(request)
     if(result is ErrorResult) {

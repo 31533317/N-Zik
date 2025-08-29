@@ -73,7 +73,7 @@ fun RenderThumbnail(
     modifier: Modifier = Modifier
 ) {
     if( thumbnailUrl.matches( HTTP_REGEX ) )
-        ImageCacheFactory.Thumbnail( thumbnailUrl, contentDescription, contentScale, modifier )
+        ImageCacheFactory.Thumbnail( thumbnailUrl, contentDescription, contentScale, emptyList(), modifier )
     else
         ImageCacheFactory.AsyncImage(
             thumbnailUrl = thumbnailUrl,

@@ -11,6 +11,7 @@ import coil.imageLoader
 import coil.request.CachePolicy
 import coil.request.ErrorResult
 import coil.request.ImageRequest
+import me.knighthat.coil.ImageCacheFactory
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,7 @@ class CoilBitmapLoader(
 
     override fun loadBitmap(uri: Uri): ListenableFuture<Bitmap> =
         scope.future(Dispatchers.IO) {
-            val result = context.imageLoader.execute(
+            val result = ImageCacheFactory.LOADER.execute(
                 ImageRequest.Builder(context)
                     .networkCachePolicy(CachePolicy.ENABLED)
                     .data(uri.thumbnail(bitmapSize))

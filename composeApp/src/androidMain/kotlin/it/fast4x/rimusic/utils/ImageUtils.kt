@@ -7,6 +7,7 @@ import coil.request.ErrorResult
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import kotlinx.coroutines.Dispatchers
+import me.knighthat.coil.ImageCacheFactory
 
 
 fun cacheImage(context: Context, url: String, key: String) {
@@ -31,6 +32,6 @@ fun cacheImage(context: Context, url: String, key: String) {
         .memoryCachePolicy(CachePolicy.ENABLED)
         .build()
 
-    ImageLoader(context).enqueue(imageRequest)
+            ImageCacheFactory.LOADER.enqueue(imageRequest)
 
 }

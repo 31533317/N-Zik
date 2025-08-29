@@ -9,6 +9,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import app.kreate.android.R
 import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.AsyncImagePainter.State
@@ -31,7 +32,10 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.content.Context
 import java.security.MessageDigest
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
+@OptIn(ExperimentalCoilApi::class)
 object ImageCacheFactory {
 
     private val DISK_CACHE: DiskCache by lazy {
@@ -76,24 +80,36 @@ object ImageCacheFactory {
                    .build()
     }
 
+    // Cache pour les clés MD5 pour éviter de recalculer
+    private val cacheKeyMutex = Mutex()
+    private val cacheKeyMap = mutableMapOf<String, String>()
+
     /**
-     * Generate a stable cache key for URLs
+     * Generate a stable cache key for URLs with caching
      */
-    private fun generateCacheKey(url: String?): String {
+    private suspend fun generateCacheKey(url: String?): String {
         if (url.isNullOrBlank()) return "empty"
         
-        return try {
-            val processedUrl = url.thumbnail(THUMBNAIL_SIZE) ?: url
-            val md = MessageDigest.getInstance("MD5")
-            val digest = md.digest(processedUrl.toByteArray())
-            digest.fold("") { str, it -> str + "%02x".format(it) }
-        } catch (e: Exception) {
-            url.hashCode().toString()
+        return cacheKeyMutex.withLock {
+            cacheKeyMap[url]?.let { return it }
+            
+            val key = try {
+                val processedUrl = url.thumbnail(THUMBNAIL_SIZE) ?: url
+                val md = MessageDigest.getInstance("MD5")
+                val digest = md.digest(processedUrl.toByteArray())
+                digest.fold("") { str, it -> str + "%02x".format(it) }
+            } catch (e: Exception) {
+                url.hashCode().toString()
+            }
+            
+            cacheKeyMap[url] = key
+            key
         }
     }
 
     /**
      * Check if network connection is good with enhanced detection
+     * Now includes connection quality assessment
      */
     private fun isNetworkConnectionGood(): Boolean {
         return try {
@@ -101,11 +117,32 @@ object ImageCacheFactory {
             val network = connectivityManager.activeNetwork ?: return false
             val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
             
-            // Check if the connection is stable and fast
-            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) &&
-            (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+            // Basic connectivity check
+            val hasInternet = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            val isValidated = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+            
+            if (!hasInternet || !isValidated) return false
+            
+            // Transport type check
+            val isWifi = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+            val isCellular = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+            
+            // Connection quality assessment
+            val isGoodConnection = when {
+                isWifi -> {
+                    // WiFi is generally considered good
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) ||
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
+                }
+                isCellular -> {
+                    // Cellular: check for good signal and not roaming
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING) &&
+                    !capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                }
+                else -> false
+            }
+            
+            isGoodConnection
         } catch (e: Exception) {
             false
         }
@@ -116,6 +153,7 @@ object ImageCacheFactory {
         thumbnailUrl: String?,
         contentDescription: String? = null,
         contentScale: ContentScale = ContentScale.FillBounds,
+        transformations: List<Transformation> = emptyList(),
         modifier: Modifier = Modifier.clip( thumbnailShape() )
                                      .fillMaxSize()
     ) {
@@ -131,51 +169,12 @@ object ImageCacheFactory {
         
         val request = ImageRequest.Builder( appContext() )
                                                .data( validUrl?.thumbnail( THUMBNAIL_SIZE ) )
-                                               .diskCacheKey( generateCacheKey(validUrl) )
+                                               .diskCacheKey( generateCacheKeySync(validUrl) )
+                                               .transformations( transformations )
                                                .diskCachePolicy( CachePolicy.ENABLED )
                                                .networkCachePolicy( if (shouldUseNetwork) CachePolicy.ENABLED else CachePolicy.DISABLED )
                                                .memoryCachePolicy( CachePolicy.ENABLED )
                                                .build()
-
-        AsyncImage(
-            model = request,
-            imageLoader = LOADER,
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-            modifier = modifier,
-            placeholder = painterResource( R.drawable.loader ),
-            error = painterResource( R.drawable.ic_launcher ),
-            fallback = painterResource( R.drawable.ic_launcher )
-        )
-    }
-
-    @Composable
-    fun Thumbnail(
-        thumbnailUrl: String?,
-        contentDescription: String? = null,
-        contentScale: ContentScale = ContentScale.FillBounds,
-        transformations: List<Transformation> = emptyList(),
-        modifier: Modifier = Modifier.clip( thumbnailShape() )
-            .fillMaxSize()
-    ) {
-        // Check if the URL is valid before creating the request
-        val validUrl = if (thumbnailUrl.isNullOrBlank() || thumbnailUrl == "null") {
-            null
-        } else {
-            thumbnailUrl
-        }
-        
-        // Check if we should use the network based on connection quality and cache availability
-        val shouldUseNetwork = shouldUseNetwork(validUrl)
-        
-        val request = ImageRequest.Builder( appContext() )
-                                                  .data( validUrl?.thumbnail( THUMBNAIL_SIZE ) )
-                                                  .diskCacheKey( generateCacheKey(validUrl) )
-                                                  .transformations( transformations )
-                                                  .diskCachePolicy( CachePolicy.ENABLED )
-                                                  .networkCachePolicy( if (shouldUseNetwork) CachePolicy.ENABLED else CachePolicy.DISABLED )
-                                                  .memoryCachePolicy( CachePolicy.ENABLED )
-                                                  .build()
 
         AsyncImage(
             model = request,
@@ -213,7 +212,7 @@ object ImageCacheFactory {
         
         val request = ImageRequest.Builder( appContext() )
                                                   .data( validUrl?.thumbnail( THUMBNAIL_SIZE ) )
-                                                  .diskCacheKey( generateCacheKey(validUrl) )
+                                                  .diskCacheKey( generateCacheKeySync(validUrl) )
                                                   .transformations( transformations )
                                                   .diskCachePolicy( CachePolicy.ENABLED )
                                                   .networkCachePolicy( if (shouldUseNetwork) CachePolicy.ENABLED else CachePolicy.DISABLED )
@@ -234,6 +233,27 @@ object ImageCacheFactory {
     }
 
     /**
+     * Synchronous version of generateCacheKey for Composable functions
+     */
+    private fun generateCacheKeySync(url: String?): String {
+        if (url.isNullOrBlank()) return "empty"
+        
+        return cacheKeyMap[url] ?: run {
+            val key = try {
+                val processedUrl = url.thumbnail(THUMBNAIL_SIZE) ?: url
+                val md = MessageDigest.getInstance("MD5")
+                val digest = md.digest(processedUrl.toByteArray())
+                digest.fold("") { str, it -> str + "%02x".format(it) }
+            } catch (e: Exception) {
+                url.hashCode().toString()
+            }
+            
+            cacheKeyMap[url] = key
+            key
+        }
+    }
+
+    /**
      * Check if an image is in local cache with better error handling
      */
     fun isImageCached(thumbnailUrl: String?): Boolean {
@@ -242,8 +262,8 @@ object ImageCacheFactory {
                 return false
             }
             
-            val cacheKey = generateCacheKey(thumbnailUrl)
-            val snapshot = DISK_CACHE.get(cacheKey)
+            val cacheKey = generateCacheKeySync(thumbnailUrl)
+            val snapshot = DISK_CACHE.openSnapshot(cacheKey)
             snapshot != null
         } catch (e: Exception) {
             false
@@ -257,12 +277,12 @@ object ImageCacheFactory {
         val isCached = isImageCached(thumbnailUrl)
         val isGoodConnection = isNetworkConnectionGood()
         
-        // Si l'image est en cache, ne pas utiliser le réseau
+        // if the image is cached, do not use the network
         if (isCached) {
             return false
         }
         
-        // Si la connexion est mauvaise, ne pas utiliser le réseau
+        // if the connection is bad, do not use the network
         if (!isGoodConnection) {
             return false
         }
@@ -281,7 +301,7 @@ object ImageCacheFactory {
             
             val request = ImageRequest.Builder(appContext())
                 .data(thumbnailUrl.thumbnail(THUMBNAIL_SIZE))
-                .diskCacheKey(generateCacheKey(thumbnailUrl))
+                .diskCacheKey(generateCacheKeySync(thumbnailUrl))
                 .diskCachePolicy(CachePolicy.ENABLED)
                 .networkCachePolicy(CachePolicy.ENABLED)
                 .memoryCachePolicy(CachePolicy.ENABLED)
@@ -304,6 +324,9 @@ object ImageCacheFactory {
             
             // Clear memory cache if available
             LOADER.memoryCache?.clear()
+            
+            // Clear cache key map
+            cacheKeyMap.clear()
         } catch (e: Exception) {
             // Cache clearing failed
         }
@@ -317,6 +340,17 @@ object ImageCacheFactory {
             DISK_CACHE.size
         } catch (e: Exception) {
             0L
+        }
+    }
+
+    /**
+     * Get the disk cache instance
+     */
+    fun getDiskCache(): DiskCache? {
+        return try {
+            DISK_CACHE
+        } catch (e: Exception) {
+            null
         }
     }
 
@@ -343,7 +377,7 @@ object ImageCacheFactory {
         
         val request = ImageRequest.Builder( appContext() )
                                                   .data( validUrl?.thumbnail( THUMBNAIL_SIZE ) )
-                                                  .diskCacheKey( generateCacheKey(validUrl) )
+                                                  .diskCacheKey( generateCacheKeySync(validUrl) )
                                                   .transformations( transformations )
                                                   .diskCachePolicy( CachePolicy.ENABLED )
                                                   .networkCachePolicy( if (shouldUseNetwork) CachePolicy.ENABLED else CachePolicy.DISABLED )

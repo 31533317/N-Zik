@@ -13,7 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.platform.LocalContext
@@ -21,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
-import coil.Coil
 import coil.annotation.ExperimentalCoilApi
 import it.fast4x.rimusic.Database
 import it.fast4x.rimusic.LocalPlayerServiceBinder
@@ -221,7 +219,7 @@ fun DataSettings() {
                 icon = R.drawable.server,
                 description = stringResource(R.string.cache_cleared),
                 content = {
-                    Coil.imageLoader(context).diskCache?.let { diskCache ->
+                    ImageCacheFactory.getDiskCache()?.let { diskCache ->
                         val diskCacheSize = remember(diskCache.size, cleanCacheImages) {
                             diskCache.size
                         }
