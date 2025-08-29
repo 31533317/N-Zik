@@ -1052,4 +1052,7 @@
   <string name="by_string">od</string>
   <string name="check_beta_update_enabled">BETA povoleno</string>
   <string name="check_beta_update_disabled">BETA zakázán</string>
+  <string name="cache_status">Stav keše</string>
+  <string name="cache_working">Práce mezipaměti</string>
+  <string name="cache_empty">Mezipaměť je prázdná</string>
 </resources>
