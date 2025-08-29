@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Ver registros de cambios</string>
   <string name="view_changelog_settings_text">Ver registros de cambios de la versión instalada actualmente</string>
   <string name="artist_songs_count_duration">%1$d Canciones• %2$s</string>
-  <string name="beta_title"> Beta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> ESTABLE</string>
   <string name="beta_text">Esto todavía está en la Beta y puede contener errores y fallos</string>
   <string name="quick_selection_type">Elegir cuantas canciones recomendadas mostrar en Quick Picks</string>
   <string name="quick_selection">%s canción recomendada</string>
