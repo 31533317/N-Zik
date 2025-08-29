@@ -213,29 +213,16 @@ jobs:
             
             ## 🔄 Update Policy
             
-            - 🟢 **Full Build (-f)**  
-              - **Default:** Update notifications for **Stable** are **enabled by default**.  
-              - **User options:**  
-                - You can **disable Stable updates ** notifications in **Settings > About > Auto update enabled**.  
-                - You can **enable Beta updates** in **Settings > About > Beta update enabled** if you want to test Beta releases.  
-              - **Behavior:**  
-                - Without Beta enabled → receives **Stable** updates only.  
-                - With Beta enabled → receives both **Stable + Beta** updates.
-            
             - 🟡 **Beta Build (-b)**  
-              - **Default:** Update notifications are **enabled by default**.  
+              - **Default:** Update notifications for **Beta** are **disabled by default**.  
               - **User options:**  
-                - You can **manually disable beta update** updates in **Settings > About > Beta update disabled**.
-                - You can **manually disable auto update** updates in **Settings > About > Auto update disabled**.  
+                - You can **enable Beta updates** in **Settings > About > Beta update enabled**.  
+                - You can **enable or disable auto update** in **Settings > About > Auto update enabled**.  
               - **Behavior:**  
                 - Without Beta enabled → automatically upgrades to the latest **Stable** release.  
-                - With Beta enabled → stays on the **Beta channel** while also receiving **Stable** updates.
-            
-            - 🔵 **Minified Build (-m)**  
-              - **Unique behavior:**  
-                - Always updates to the **Full Stable Build**.  
-                - No Beta option available.
-            
+                - With Beta enabled → stays on the **Beta channel** and receives **Stable updates** as well.  
+              - ⚠️ **Note:** This build may contain experimental features and bugs. Only enable Beta updates if you want to test new features.
+
             This lets you decide whether to test new experimental updates or stick with the stable ones.
 
             ## 🔗 Changelog & Downloads
