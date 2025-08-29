@@ -2,7 +2,7 @@ name: Close issues upon a release
 
 on:
   release:
-    types: [published, prereleased]
+    types: [published]
   workflow_dispatch: 
   
 jobs:
