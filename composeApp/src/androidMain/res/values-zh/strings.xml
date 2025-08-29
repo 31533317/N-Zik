@@ -979,7 +979,7 @@
   <string name="view_changelog_settings_text">查看当前安装版本的更新日志</string>
   <string name="artist_songs_count_duration">%1$d 歌曲 • %2$s</string>
   <string name="beta_title"> BETA</string>
-  <string name="stable_title"> STABLE</string>
+  <string name="stable_title"> 已开始</string>
   <string name="beta_text">这仍然是测试版，可能包含bug和故障</string>
   <string name="quick_selection_type">选择建议在快速选择中显示多少首曲目</string>
   <string name="quick_selection">%s 推荐歌曲</string>
