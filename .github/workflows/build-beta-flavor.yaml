@@ -223,9 +223,10 @@ jobs:
                 - With Beta enabled → receives both **Stable + Beta** updates.
             
             - 🟡 **Beta Build (-b)**  
-              - **Default:** Update notifications are **disabled by default**.  
+              - **Default:** Update notifications are **enabled by default**.  
               - **User options:**  
-                - You can **manually enable** updates in **Settings > About > Beta update enabled**.  
+                - You can **manually disable beta update** updates in **Settings > About > Beta update disabled**.
+                - You can **manually disable auto update** updates in **Settings > About > Auto update disabled**.  
               - **Behavior:**  
                 - Without Beta enabled → automatically upgrades to the latest **Stable** release.  
                 - With Beta enabled → stays on the **Beta channel** while also receiving **Stable** updates.
