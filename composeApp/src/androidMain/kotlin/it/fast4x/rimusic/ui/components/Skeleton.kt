@@ -152,8 +152,14 @@ fun Skeleton(
     NewUpdateAvailableDialog.Render()
     CheckForUpdateDialog.Render()
 
+    // Function to extract the version suffix
+    fun extractVersionSuffix(versionStr: String): String {
+        val parts = versionStr.removePrefix("v").split("-")
+        return if (parts.size > 1) parts[1] else ""
+    }
+
     val check4UpdateState by rememberPreference( checkUpdateStateKey, CheckUpdateState.Enabled )
-    val checkBetaUpdates by rememberPreference( checkBetaUpdatesKey, false )
+    val checkBetaUpdates by rememberPreference( checkBetaUpdatesKey, extractVersionSuffix(BuildConfig.VERSION_NAME) == "b" )
     
     // Reset update state when beta preferences change
     LaunchedEffect( checkBetaUpdates ) {

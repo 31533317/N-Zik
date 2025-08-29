@@ -53,6 +53,7 @@ object Updater {
         return when {
             versionStr.endsWith("-f") -> "full"
             versionStr.endsWith("-b") -> "beta"
+            versionStr.endsWith("-m") -> "minified"
             else -> "full" // Default to full if no suffix
         }
     }
@@ -71,10 +72,19 @@ object Updater {
         val currentBuildType = extractBuildType(BuildConfig.VERSION_NAME)
         val currentSuffix = extractVersionSuffix(BuildConfig.VERSION_NAME)
 
-        // If we're checking for beta updates and current build is full, look for beta builds too
+        // Determine which build types to look for based on current build and beta preferences
         val targetBuildTypes = when {
-            checkBetaUpdates && currentSuffix == "f" -> listOf("full", "beta")
-            currentSuffix == "b" -> listOf("beta", "full") // Beta users can get full updates too
+            // Full users with beta enabled: check beta and full
+            currentSuffix == "f" && checkBetaUpdates -> listOf("beta", "full")
+            // Full users with beta disabled: check only full
+            currentSuffix == "f" && !checkBetaUpdates -> listOf("full")
+            // Beta users with beta enabled: check beta and full
+            currentSuffix == "b" && checkBetaUpdates -> listOf("beta", "full")
+            // Beta users with beta disabled: check only full
+            currentSuffix == "b" && !checkBetaUpdates -> listOf("full")
+            // Minified users: check only minified
+            currentSuffix == "m" -> listOf("minified")
+            // Default: check only full
             else -> listOf("full")
         }
 
@@ -89,9 +99,15 @@ object Updater {
 
         // Fallback to the original logic
         val fileName = "$appName-$currentBuildType.apk"
-        return assets.fastFirstOrNull {
+        val fallbackBuild = assets.fastFirstOrNull {
             it.name == fileName
-        } ?: throw NoSuchFileException("")
+        }
+        
+        if (fallbackBuild != null) {
+            return fallbackBuild
+        } else {
+            throw NoSuchFileException("")
+        }
     }
 
     /**
@@ -122,7 +138,9 @@ object Updater {
     /**
      * Turns `v1.0.0` to `1.0.0`, `1.0.0-m` to `1.0.0`
      */
-    private fun trimVersion(versionStr: String) = versionStr.removePrefix("v").substringBefore("-")
+    private fun trimVersion(versionStr: String): String {
+        return versionStr.removePrefix("v").substringBefore("-")
+    }
 
     /**
      * Sends out requests to Github for latest version.
@@ -131,7 +149,7 @@ object Updater {
      *
      * > **NOTE**: This is a blocking process, it should never run on UI thread
      */
-    private suspend fun fetchUpdate(checkBetaUpdates: Boolean = false, isForced: Boolean = false) = withContext(Dispatchers.IO) {
+    private suspend fun fetchUpdate(checkBetaUpdates: Boolean = false) = withContext(Dispatchers.IO) {
         assert(Looper.myLooper() != Looper.getMainLooper()) {
             "Cannot run fetch update on main thread"
         }
@@ -148,10 +166,7 @@ object Updater {
 
         val resBody = response.body?.string()
         if (resBody.isNullOrBlank()) {
-            // Only show toast for manual checks
-            if (isForced) {
-                Toaster.i(R.string.info_no_update_available)
-            }
+            Toaster.i(R.string.info_no_update_available)
             return@withContext
         }
 
@@ -184,27 +199,45 @@ object Updater {
             val releaseSuffix = extractVersionSuffix(release.tagName)
             
             when {
-                // If current is beta, accept both beta and full releases
-                currentSuffix == "b" -> releaseSuffix == "b" || releaseSuffix == "f"
-                // If current is full and beta updates are enabled, accept both
-                currentSuffix == "f" && checkBetaUpdates -> releaseSuffix == "f" || releaseSuffix == "b"
-                // If current is full and beta updates are disabled, only accept full
-                currentSuffix == "f" && !checkBetaUpdates -> releaseSuffix == "f"
+                // Full users with beta enabled: accept both beta and full
+                currentSuffix == "f" && checkBetaUpdates -> releaseSuffix == "" || releaseSuffix == "b"
+                // Full users with beta disabled: only accept full
+                currentSuffix == "f" && !checkBetaUpdates -> releaseSuffix == ""
+                // Beta users with beta enabled: accept both beta and full
+                currentSuffix == "b" && checkBetaUpdates -> releaseSuffix == "b" || releaseSuffix == ""
+                // Beta users with beta disabled: only accept full
+                currentSuffix == "b" && !checkBetaUpdates -> releaseSuffix == ""
+                // Minified users: only accept minified
+                currentSuffix == "m" -> releaseSuffix == ""
                 // Default case: only accept full releases
-                else -> releaseSuffix == "f"
+                else -> releaseSuffix == ""
             }
         }
         
         // Find the release with the highest version number
-        return eligibleReleases.maxByOrNull { release ->
+        // Find the maximum number of version parts to normalize all versions
+        val maxParts = eligibleReleases.maxOf { release ->
+            val version = release.tagName.removePrefix("v").substringBefore("-")
+            version.split(".").size
+        }
+        
+        val bestRelease = eligibleReleases.maxByOrNull { release ->
             val version = release.tagName.removePrefix("v").substringBefore("-")
             val parts = version.split(".").map { it.toIntOrNull() ?: 0 }
             
+            // Pad the parts array to have the same length as maxParts
+            val normalizedParts = parts.toMutableList()
+            while (normalizedParts.size < maxParts) {
+                normalizedParts.add(0)
+            }
+            
             // Create a comparable version number (e.g., 1.2.3 -> 1002003)
-            parts.foldIndexed(0L) { index, acc, part ->
-                acc + (part * (1000.0.pow(parts.size - 1 - index)).toLong())
+            normalizedParts.foldIndexed(0L) { index, acc, part ->
+                acc + (part * (1000.0.pow(maxParts - 1 - index)).toLong())
             }
         }
+        
+        return bestRelease
     }
 
     fun checkForUpdate(
@@ -215,17 +248,14 @@ object Updater {
 
         try {
             if (!::build.isInitialized || isForced)
-                fetchUpdate(checkBetaUpdates, isForced)
+                fetchUpdate(checkBetaUpdates)
 
             // Check if the new version is actually newer
             val hasUpdate = isVersionNewer(tagName, BuildConfig.VERSION_NAME)
             NewUpdateAvailableDialog.isActive = hasUpdate
             
             if (!NewUpdateAvailableDialog.isActive) {
-                // Only show "no update available" toast for manual checks, not at startup
-                if (isForced) {
-                    Toaster.i(R.string.info_no_update_available)
-                }
+                Toaster.i(R.string.info_no_update_available)
                 NewUpdateAvailableDialog.isCancelled = true
                 // Also reset the cancelled state in SharedPreferences when no update is available
                 val sharedPrefs = appContext().getSharedPreferences("settings", 0)
@@ -243,13 +273,12 @@ object Updater {
                 else -> e.message ?: appContext().getString(R.string.error_unknown)
             }
             
-            if (isForced) {
-                // Use appropriate toast type based on exception
-                when (e) {
-                    is NoSuchFileException -> Toaster.i(message) // Blue for no update available
-                    else -> Toaster.e(message) // Red for other errors
-                }
+            // Use appropriate toast type based on exception
+            when (e) {
+                is NoSuchFileException -> Toaster.i(message) // Blue for no update available
+                else -> Toaster.e(message) // Red for other errors
             }
+
             NewUpdateAvailableDialog.isCancelled = true
         }
     }

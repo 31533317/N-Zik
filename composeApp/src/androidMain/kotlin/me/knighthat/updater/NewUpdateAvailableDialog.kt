@@ -306,7 +306,21 @@ object NewUpdateAvailableDialog {
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 BasicText(
-                                    text = stringResource(R.string.update_available),
+                                    text = buildString {
+                                        // Determine if this is a beta or stable update
+                                        val releaseSuffix = Updater.githubRelease?.tagName?.removePrefix("v")?.split("-")?.getOrNull(1) ?: ""
+                                        val currentSuffix = BuildConfig.VERSION_NAME.removePrefix("v").split("-").getOrNull(1) ?: ""
+                                        
+                                        // Show beta title if either current or new version is beta
+                                        if (releaseSuffix == "b" || currentSuffix == "b") {
+                                            append(stringResource(R.string.beta_title))
+                                            append(" ")
+                                        } else {
+                                            append(stringResource(R.string.stable_title))
+                                            append(" ")
+                                        }
+                                        append(stringResource(R.string.update_available))
+                                    },
                                     style = typography().l.bold.copy(color = colorPalette().text)
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
