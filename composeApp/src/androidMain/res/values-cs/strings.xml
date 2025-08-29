@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Zobrazit seznam změn</string>
   <string name="view_changelog_settings_text">Zobrazit seznam změn v aktuálně nainstalované verzi</string>
   <string name="artist_songs_count_duration">%1$d Skladby • %2$s</string>
-  <string name="beta_title"> Beta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> STABILNÍ</string>
   <string name="beta_text">Toto je stále v Beta verzi a může obsahovat chyby a pád</string>
   <string name="quick_selection_type">Vyberte kolik doporučených skladeb se zobrazí v rychlém výběru</string>
   <string name="quick_selection">%s doporučená skladba</string>
