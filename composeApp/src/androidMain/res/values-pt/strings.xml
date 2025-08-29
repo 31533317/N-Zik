@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Ver changelogs</string>
   <string name="view_changelog_settings_text">Ver os changelogs da versão atualmente instalada</string>
   <string name="artist_songs_count_duration">%1$d Músicas • %2$s</string>
-  <string name="beta_title"> Beta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> ESTÁVEL</string>
   <string name="beta_text">Isso ainda está em Beta e pode conter bugs e travar</string>
   <string name="quick_selection_type">Escolha quantas músicas recomendadas serão mostradas nas Escolhas Rápidas</string>
   <string name="quick_selection">%s recomendada música</string>
@@ -1013,9 +1014,9 @@
   <string name="up_to_date">Até a data</string>
   <string name="last_check_date">Última verificação</string>
   <string name="auto_update_settings">Configurações de atualização automática</string>
-  <string name="auto_update_enabled">Ativado</string>
-  <string name="auto_update_ask">Perguntar</string>
-  <string name="auto_update_disabled">Desativado</string>
+  <string name="auto_update_enabled">Atualização habilitada</string>
+  <string name="auto_update_ask">Perguntar ao usuário</string>
+  <string name="auto_update_disabled">Atualização desabilitada</string>
   <string name="tab_network">Rede</string>
   <string name="about_description">A seção \"Sobre\" mostra informações sobre o aplicativo, os desenvolvedores, solução de problemas e opções de atualização</string>
   <string name="other_settings_description">A seção diversas contém várias configurações opcionais e utilitários</string>
