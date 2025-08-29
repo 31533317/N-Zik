@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Προβολή αλλαγών</string>
   <string name="view_changelog_settings_text">Προβολή αλλαγών της εγκατεστημένης έκδοσης</string>
   <string name="artist_songs_count_duration">%1$d Τραγούδια • %2$s</string>
-  <string name="beta_title"> Βήτα</string>
+  <string name="beta_title"> ΒΗΤΑ</string>
+  <string name="stable_title"> STABLE</string>
   <string name="beta_text">Αυτό είναι ακόμα σε Beta και μπορεί να περιέχει σφάλματα και συντριβή</string>
   <string name="quick_selection_type">Επιλέξτε πόσα προτεινόμενα τραγούδια θα εμφανίζονται στις Γρήγορες επιλογές</string>
   <string name="quick_selection">Προτεινόμενο τραγούδι %s</string>
