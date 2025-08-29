@@ -310,13 +310,12 @@ fun GeneralSettings(
                  title = stringResource(R.string.languages),
                  icon = R.drawable.discover,
                  content = {
-        SettingsDescription(text = stringResource(R.string.system_language)+": $systemLocale")
 
                                            var showLanguageDialog by remember { mutableStateOf(false) }
                       if (search.inputValue.isBlank() || stringResource(R.string.app_language).contains(search.inputValue,true)) {
                           OtherSettingsEntry(
                               title = stringResource(R.string.app_language),
-                              text = stringResource(R.string.app_language),
+                              text = languageApp.text,
                               onClick = { showLanguageDialog = true },
                               icon = R.drawable.translate
                           )
@@ -324,7 +323,7 @@ fun GeneralSettings(
                       
                       if (showLanguageDialog) {
                           ValueSelectorDialog(
-                title = stringResource(R.string.app_language),
+                title = stringResource(R.string.app_language)+": $systemLocale",
                 selectedValue = languageApp,
                 onValueSelected = {
                     languageApp = it
@@ -357,7 +356,7 @@ fun GeneralSettings(
         if (search.inputValue.isBlank() || stringResource(R.string.notification_type).contains(search.inputValue,true)) {
                                                                                                        OtherSettingsEntry(
                                title = stringResource(R.string.notification_type),
-                               text = stringResource(R.string.notification_type_info),
+                               text = notificationType.textName,
                                onClick = { showNotificationTypeDialog = true },
                                icon = R.drawable.notification1
                            )
@@ -366,7 +365,7 @@ fun GeneralSettings(
                      
                                            if (showNotificationTypeDialog) {
                           ValueSelectorDialog(
-                title = stringResource(R.string.notification_type),
+                title = stringResource(R.string.notification_type_info),
                 selectedValue = notificationType,
                 onValueSelected = {
                     notificationType = it
@@ -400,7 +399,7 @@ fun GeneralSettings(
         if (search.inputValue.isBlank() || stringResource(R.string.jump_previous).contains(search.inputValue,true)) {
                          OtherSettingsEntry(
                              title = stringResource(R.string.jump_previous),
-                text = stringResource(R.string.jump_previous_blank),
+                text = jumpPrevious,
                              onClick = { showJumpPreviousDialog = true },
                              icon = R.drawable.play_skip_back
                          )
@@ -408,7 +407,7 @@ fun GeneralSettings(
                      
                      if (showJumpPreviousDialog) {
                          InputTextDialog(
-                             title = stringResource(R.string.jump_previous),
+                             title = stringResource(R.string.jump_previous_blank),
                 value = jumpPrevious,
                              placeholder = stringResource(R.string.jump_previous_blank),
                              onDismiss = { showJumpPreviousDialog = false },
@@ -423,97 +422,124 @@ fun GeneralSettings(
         if (search.inputValue.isBlank() || stringResource(R.string.min_listening_time).contains(search.inputValue,true)) {
                          OtherSettingsEntry(
                              title = stringResource(R.string.min_listening_time),
-                             text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics),
+                             text = when (exoPlayerMinTimeForEvent) {
+                                 ExoPlayerMinTimeForEvent.`10s` -> "10s"
+                                 ExoPlayerMinTimeForEvent.`15s` -> "15s"
+                                 ExoPlayerMinTimeForEvent.`20s` -> "20s"
+                                 ExoPlayerMinTimeForEvent.`30s` -> "30s"
+                                 ExoPlayerMinTimeForEvent.`40s` -> "40s"
+                                 ExoPlayerMinTimeForEvent.`60s` -> "60s"
+                             },
                              onClick = { showMinListeningTimeDialog = true },
                              icon = R.drawable.time
                          )
                      }
                      
-                     if (showMinListeningTimeDialog) {
-                         ValueSelectorDialog(
-                title = stringResource(R.string.min_listening_time),
-                selectedValue = exoPlayerMinTimeForEvent,
-                onValueSelected = { exoPlayerMinTimeForEvent = it },
-                valueText = {
-                    when (it) {
-                        ExoPlayerMinTimeForEvent.`10s` -> "10s"
-                        ExoPlayerMinTimeForEvent.`15s` -> "15s"
-                        ExoPlayerMinTimeForEvent.`20s` -> "20s"
-                        ExoPlayerMinTimeForEvent.`30s` -> "30s"
-                        ExoPlayerMinTimeForEvent.`40s` -> "40s"
-                        ExoPlayerMinTimeForEvent.`60s` -> "60s"
-                    }
-                             },
-                             values = ExoPlayerMinTimeForEvent.values().toList(),
-                             onDismiss = { showMinListeningTimeDialog = false }
-                         )
+                                           if (showMinListeningTimeDialog) {
+                          ValueSelectorDialog(
+                 title = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics),
+                 selectedValue = exoPlayerMinTimeForEvent,
+                 onValueSelected = { exoPlayerMinTimeForEvent = it },
+                 valueText = {
+                     when (it) {
+                         ExoPlayerMinTimeForEvent.`10s` -> "10s"
+                         ExoPlayerMinTimeForEvent.`15s` -> "15s"
+                         ExoPlayerMinTimeForEvent.`20s` -> "20s"
+                         ExoPlayerMinTimeForEvent.`30s` -> "30s"
+                         ExoPlayerMinTimeForEvent.`40s` -> "40s"
+                         ExoPlayerMinTimeForEvent.`60s` -> "60s"
                      }
+                              },
+                              values = ExoPlayerMinTimeForEvent.values().toList(),
+                              onDismiss = { showMinListeningTimeDialog = false }
+                          )
+                      }
 
                                          var showExcludeSongsDialog by remember { mutableStateOf(false) }
                      if (search.inputValue.isBlank() || stringResource(R.string.exclude_songs_with_duration_limit).contains(search.inputValue,true)) {
                          OtherSettingsEntry(
                              title = stringResource(R.string.exclude_songs_with_duration_limit),
-                             text = stringResource(R.string.exclude_songs_with_duration_limit_description),
+                             text = when (excludeSongWithDurationLimit) {
+                                 DurationInMinutes.Disabled -> stringResource(R.string.vt_disabled)
+                                 DurationInMinutes.`3` -> "3m"
+                                 DurationInMinutes.`5` -> "5m"
+                                 DurationInMinutes.`10` -> "10m"
+                                 DurationInMinutes.`15` -> "15m"
+                                 DurationInMinutes.`20` -> "20m"
+                                 DurationInMinutes.`25` -> "25m"
+                                 DurationInMinutes.`30` -> "30m"
+                                 DurationInMinutes.`60` -> "60m"
+                             },
                              onClick = { showExcludeSongsDialog = true },
                              icon = R.drawable.playbackduration
                          )
                      }
                      
-                     if (showExcludeSongsDialog) {
-                         ValueSelectorDialog(
-                title = stringResource(R.string.exclude_songs_with_duration_limit),
-                selectedValue = excludeSongWithDurationLimit,
-                onValueSelected = { excludeSongWithDurationLimit = it },
-                valueText = {
-                    when (it) {
-                        DurationInMinutes.Disabled -> stringResource(R.string.vt_disabled)
-                        DurationInMinutes.`3` -> "3m"
-                        DurationInMinutes.`5` -> "5m"
-                        DurationInMinutes.`10` -> "10m"
-                        DurationInMinutes.`15` -> "15m"
-                        DurationInMinutes.`20` -> "20m"
-                        DurationInMinutes.`25` -> "25m"
-                        DurationInMinutes.`30` -> "30m"
-                        DurationInMinutes.`60` -> "60m"
-                    }
-                             },
-                             values = DurationInMinutes.values().toList(),
-                             onDismiss = { showExcludeSongsDialog = false }
-                         )
+                                           if (showExcludeSongsDialog) {
+                          ValueSelectorDialog(
+                 title = stringResource(R.string.exclude_songs_with_duration_limit_description),
+                 selectedValue = excludeSongWithDurationLimit,
+                 onValueSelected = { excludeSongWithDurationLimit = it },
+                 valueText = {
+                     when (it) {
+                         DurationInMinutes.Disabled -> stringResource(R.string.vt_disabled)
+                         DurationInMinutes.`3` -> "3m"
+                         DurationInMinutes.`5` -> "5m"
+                         DurationInMinutes.`10` -> "10m"
+                         DurationInMinutes.`15` -> "15m"
+                         DurationInMinutes.`20` -> "20m"
+                         DurationInMinutes.`25` -> "25m"
+                         DurationInMinutes.`30` -> "30m"
+                         DurationInMinutes.`60` -> "60m"
                      }
+                              },
+                              values = DurationInMinutes.values().toList(),
+                              onDismiss = { showExcludeSongsDialog = false }
+                          )
+                      }
 
                                          var showPauseBetweenSongsDialog by remember { mutableStateOf(false) }
                      if (search.inputValue.isBlank() || stringResource(R.string.pause_between_songs).contains(search.inputValue,true)) {
                          OtherSettingsEntry(
                              title = stringResource(R.string.pause_between_songs),
-                             text = stringResource(R.string.pause_between_songs_description),
+                             text = when (pauseBetweenSongs) {
+                                 PauseBetweenSongs.`0` -> "0s"
+                                 PauseBetweenSongs.`5` -> "5s"
+                                 PauseBetweenSongs.`10` -> "10s"
+                                 PauseBetweenSongs.`15` -> "15s"
+                                 PauseBetweenSongs.`20` -> "20s"
+                                 PauseBetweenSongs.`30` -> "30s"
+                                 PauseBetweenSongs.`40` -> "40s"
+                                 PauseBetweenSongs.`50` -> "50s"
+                                 PauseBetweenSongs.`60` -> "60s"
+                             },
                              onClick = { showPauseBetweenSongsDialog = true },
                              icon = R.drawable.pause
                          )
                      }
                      
-                     if (showPauseBetweenSongsDialog) {
-                         ValueSelectorDialog(
-                title = stringResource(R.string.pause_between_songs),
-                selectedValue = pauseBetweenSongs,
-                onValueSelected = { pauseBetweenSongs = it },
-                valueText = {
-                    when (it) {
-                        PauseBetweenSongs.`0` -> "0s"
-                        PauseBetweenSongs.`5` -> "5s"
-                        PauseBetweenSongs.`10` -> "10s"
-                        PauseBetweenSongs.`15` -> "15s"
-                        PauseBetweenSongs.`20` -> "20s"
-                        PauseBetweenSongs.`30` -> "30s"
-                        PauseBetweenSongs.`40` -> "40s"
-                        PauseBetweenSongs.`50` -> "50s"
-                        PauseBetweenSongs.`60` -> "60s"
-                    }
-                             },
-                             values = PauseBetweenSongs.values().toList(),
-                             onDismiss = { showPauseBetweenSongsDialog = false }
-                         )
-                                          }
+                                           if (showPauseBetweenSongsDialog) {
+                          ValueSelectorDialog(
+                 title = stringResource(R.string.pause_between_songs_description),
+                 selectedValue = pauseBetweenSongs,
+                 onValueSelected = { pauseBetweenSongs = it },
+                 valueText = {
+                     when (it) {
+                         PauseBetweenSongs.`0` -> "0s"
+                         PauseBetweenSongs.`5` -> "5s"
+                         PauseBetweenSongs.`10` -> "10s"
+                         PauseBetweenSongs.`15` -> "15s"
+                         PauseBetweenSongs.`20` -> "20s"
+                         PauseBetweenSongs.`30` -> "30s"
+                         PauseBetweenSongs.`40` -> "40s"
+                         PauseBetweenSongs.`50` -> "50s"
+                         PauseBetweenSongs.`60` -> "60s"
+                     }
+                              },
+                              values = PauseBetweenSongs.values().toList(),
+                              onDismiss = { showPauseBetweenSongsDialog = false }
+                          )
+                                           }
                  }
              )
          }
@@ -600,7 +626,17 @@ fun GeneralSettings(
                      if (search.inputValue.isBlank() || stringResource(R.string.max_songs_in_queue).contains(search.inputValue,true)) {
                          OtherSettingsEntry(
                              title = stringResource(R.string.max_songs_in_queue),
-                             text = stringResource(R.string.max_songs_in_queue),
+                             text = when (maxSongsInQueue) {
+                                 MaxSongs.Unlimited -> stringResource(R.string.unlimited)
+                                 MaxSongs.`50` -> MaxSongs.`50`.name
+                                 MaxSongs.`100` -> MaxSongs.`100`.name
+                                 MaxSongs.`200` -> MaxSongs.`200`.name
+                                 MaxSongs.`300` -> MaxSongs.`300`.name
+                                 MaxSongs.`500` -> MaxSongs.`500`.name
+                                 MaxSongs.`1000` -> MaxSongs.`1000`.name
+                                 MaxSongs.`2000` -> MaxSongs.`2000`.name
+                                 MaxSongs.`3000` -> MaxSongs.`3000`.name
+                             },
                              onClick = { showMaxSongsDialog = true },
                              icon = R.drawable.music_file
                          )
@@ -653,7 +689,7 @@ fun GeneralSettings(
                      if (search.inputValue.isBlank() || stringResource(R.string.now_playing_indicator).contains(search.inputValue,true)) {
                          OtherSettingsEntry(
                              title = stringResource(R.string.now_playing_indicator),
-                             text = stringResource(R.string.now_playing_indicator),
+                             text = nowPlayingIndicator.text,
                              onClick = { showNowPlayingIndicatorDialog = true },
                              icon = R.drawable.playing_indicator
                          )
@@ -900,26 +936,26 @@ fun GeneralSettings(
         if (search.inputValue.isBlank() || stringResource(R.string.settings_audio_reverb).contains(search.inputValue,true)) {
                          OtherSettingsEntry(
                 title = stringResource(R.string.settings_audio_reverb),
-                text = stringResource(R.string.settings_audio_reverb_info_apply_a_depth_effect_to_the_audio),
+                text = audioReverb.textName,
                              onClick = { showAudioReverbDialog = true },
                              icon = R.drawable.reverb
                          )
                          RestartPlayerService(restartService, onRestart = { restartService = false } )
                      }
                      
-                     if (showAudioReverbDialog) {
-                         ValueSelectorDialog(
-                             title = stringResource(R.string.settings_audio_reverb),
-                selectedValue = audioReverb,
-                onValueSelected = {
-                    audioReverb = it
-                    restartService = true
-                },
-                             valueText = { it.textName },
-                             values = PresetsReverb.values().toList(),
-                             onDismiss = { showAudioReverbDialog = false }
-                         )
-        }
+                                           if (showAudioReverbDialog) {
+                          ValueSelectorDialog(
+                              title = stringResource(R.string.settings_audio_reverb_info_apply_a_depth_effect_to_the_audio),
+                 selectedValue = audioReverb,
+                 onValueSelected = {
+                     audioReverb = it
+                     restartService = true
+                 },
+                              valueText = { it.textName },
+                              values = PresetsReverb.values().toList(),
+                              onDismiss = { showAudioReverbDialog = false }
+                          )
+         }
 
         if (search.inputValue.isBlank() || stringResource(R.string.settings_audio_focus).contains(search.inputValue,true)) {
                          OtherSwitchSettingEntry(
@@ -1022,7 +1058,9 @@ fun GeneralSettings(
                                  var showPipModuleDialog by remember { mutableStateOf(false) }
                                  OtherSettingsEntry(
                                      title = stringResource(R.string.settings_pip_module),
-                                     text = stringResource(R.string.settings_pip_module),
+                                     text = when (pipModule) {
+                                         PipModule.Cover -> stringResource(R.string.pipmodule_cover)
+                                     },
                                      onClick = { showPipModuleDialog = true },
                                      icon = R.drawable.logo_youtube
                                  )
