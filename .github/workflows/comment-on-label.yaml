@@ -35,10 +35,6 @@ jobs:
 
             > Please DO NOT close this issue, a bot will handle this automatically when new release drops.
 
-            ---
-
-            Kreate's Discord is now available to the public. Join here: https://discord.gg/WYr9ZgJzpx
-
   # Handle PR that contains implemented code
   pr-implemented:
     if: github.event.label.name == 'implemented' && github.event_name == 'pull_request'
