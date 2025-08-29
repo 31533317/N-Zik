@@ -196,31 +196,45 @@ jobs:
             | MD5       | 5ae0045983899ab7ca5db38ef785d6ab                                 |
 
             ## 📲 Installation
-
+            
             ⚠️ This is a **BETA release**, not a stable version.  
-            It is intended **only for testing and feedback**.  
-
+            It is intended **only for testing and feedback**.
+            
             1. Download the **Full BETA build** below.  
             2. Verify its signature using the hashes provided.  
-            3. Install on your device (you may need to allow installation from unknown sources).  
-
+            3. Install on your device (you may need to allow installation from outside the Play Store).  
+            
             Please report any crashes, bugs, or unexpected behavior.
-
+            
             ## 📦 Available Build
-
+            
             - **Full (BETA)** – Complete build with all components.  
-              ⚠️ May contain bugs or experimental features.  
-
+              ⚠️ May contain bugs or experimental features.
+            
             ## 🔄 Update Policy
             
-            - 🟢 **Full build on Stable** → Update notifications are **disabled by default**  
-              - You can enable them manually in **Settings > About > Stable update enabled** 
-              - To receive Beta updates for the **Full build**, enable them in **Settings > About > Beta update enabled**
+            - 🟢 **Full Build (-f)**  
+              - **Default:** Update notifications for **Stable** are **enabled by default**.  
+              - **User options:**  
+                - You can **disable** notifications in **Settings > About > Stable update enabled**.  
+                - You can **enable Beta updates** in **Settings > About > Beta update enabled** if you want to test Beta releases.  
+              - **Behavior:**  
+                - Without Beta enabled → receives **Stable** updates only.  
+                - With Beta enabled → receives both **Stable + Beta** updates.
             
-            - 🟡 **Beta builds** → Update notifications are **disabled by default**  
-
-
-
+            - 🟡 **Beta Build (-b)**  
+              - **Default:** Update notifications are **disabled by default**.  
+              - **User options:**  
+                - You can **manually enable** updates in **Settings > About > Beta update enabled**.  
+              - **Behavior:**  
+                - Without Beta enabled → automatically upgrades to the latest **Stable** release.  
+                - With Beta enabled → stays on the **Beta channel** while also receiving **Stable** updates.
+            
+            - 🔵 **Minified Build (-m)**  
+              - **Unique behavior:**  
+                - Always updates to the **Full Stable Build**.  
+                - No Beta option available.
+            
             This lets you decide whether to test new experimental updates or stick with the stable ones.
 
             ## 🔗 Changelog & Downloads
