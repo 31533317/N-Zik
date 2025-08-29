@@ -1052,7 +1052,7 @@
   <string name="by_string">由</string>
   <string name="check_beta_update_enabled">BETA 已启用</string>
   <string name="check_beta_update_disabled">BETA 已禁用</string>
-  <string name="cache_status">Cache status</string>
-  <string name="cache_working">Cache working</string>
-  <string name="cache_empty">Cache empty</string>
+  <string name="cache_status">缓存状态</string>
+  <string name="cache_working">缓存正常工作</string>
+  <string name="cache_empty">缓存为空</string>
 </resources>
