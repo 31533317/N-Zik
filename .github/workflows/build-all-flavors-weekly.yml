@@ -265,7 +265,9 @@ jobs:
                 - With Beta enabled → receives both **Stable + Beta** updates.
                     
             - 🔵 **Minified Build (-m)**  
-              - **Unique behavior:**  
+              - **Default:** Update notifications for **Stable** are **enabled by default**.  
+              - **User options:**  
+                - You can **disable Stable updates** in **Settings > About > Auto update enabled**.  
                 - Always updates to the **Full Stable Build**.  
                 - No Beta option available.
                 
