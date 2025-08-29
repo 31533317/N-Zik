@@ -300,8 +300,7 @@ fun Thumbnail(
 
                     } else {
                         Image(
-                            painter = painterResource(R.drawable.ic_launcher),
-                            colorFilter = ColorFilter.tint(colorPalette().accent),
+                            painter = painterResource(R.drawable.ic_launcher_box),
                             modifier = Modifier
                                 .pointerInput(Unit) {
                                     detectTapGestures(

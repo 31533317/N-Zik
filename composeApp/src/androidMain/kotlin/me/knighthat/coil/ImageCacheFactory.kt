@@ -70,8 +70,8 @@ object ImageCacheFactory {
         ImageLoader.Builder( appContext() )
                    .crossfade( true )
                    .placeholder( R.drawable.loader )
-                   .error( R.drawable.ic_launcher )
-                   .fallback( R.drawable.ic_launcher )
+                   .error( R.drawable.ic_launcher_box )
+                   .fallback( R.drawable.ic_launcher_box )
                    .diskCachePolicy( CachePolicy.ENABLED )
                    .networkCachePolicy( CachePolicy.ENABLED )
                    .memoryCachePolicy( CachePolicy.ENABLED )
@@ -183,8 +183,8 @@ object ImageCacheFactory {
             contentScale = contentScale,
             modifier = modifier,
             placeholder = painterResource( R.drawable.loader ),
-            error = painterResource( R.drawable.ic_launcher ),
-            fallback = painterResource( R.drawable.ic_launcher )
+            error = painterResource( R.drawable.ic_launcher_box ),
+            fallback = painterResource( R.drawable.ic_launcher_box )
         )
     }
 
@@ -194,8 +194,8 @@ object ImageCacheFactory {
         contentScale: ContentScale = ContentScale.FillBounds,
         transformations: List<Transformation> = emptyList(),
         @DrawableRes placeholder: Int = R.drawable.loader,
-        @DrawableRes error: Int = R.drawable.ic_launcher,
-        @DrawableRes fallback: Int = R.drawable.ic_launcher,
+        @DrawableRes error: Int = R.drawable.ic_launcher_box,
+        @DrawableRes fallback: Int = R.drawable.ic_launcher_box,
         onLoading: ((State.Loading) -> Unit)? = null,
         onSuccess: ((State.Success) -> Unit)? = null,
         onError: ((State.Error) -> Unit)? = null
@@ -391,8 +391,8 @@ object ImageCacheFactory {
             contentScale = contentScale,
             modifier = modifier,
             placeholder = painterResource( R.drawable.loader ),
-            error = painterResource( R.drawable.ic_launcher ),
-            fallback = painterResource( R.drawable.ic_launcher ),
+            error = painterResource( R.drawable.ic_launcher_box ),
+            fallback = painterResource( R.drawable.ic_launcher_box ),
             onLoading = onLoading,
             onSuccess = onSuccess,
             onError = onError
