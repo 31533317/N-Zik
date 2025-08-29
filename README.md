@@ -17,6 +17,28 @@
 
 </div>
 
+# 👀 Status
+
+## 🛠️ Build & Deployment
+[![Build selected flavors](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-all-flavors-weekly.yml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-all-flavors-weekly.yml)  
+[![Build Beta](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-beta-flavor.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/build-beta-flavor.yaml)  
+[![Automatic Cache Builder](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/cache-builder.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/cache-builder.yaml)  
+
+## 🔄 Automation & Maintenance
+[![Automatic Dependency Submission](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/dependency-graph/auto-submission/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/dependency-graph/auto-submission)  
+[![Dependabot Updates](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/dependabot/dependabot-updates)  
+[![Chores](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml)  
+[![Close issues upon a release](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-issues-on-release.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-issues-on-release.yaml)  
+[![Close stale tickets weekly](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-stale-tickets.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-stale-tickets.yaml)  
+[![Comment or close on label](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/comment-on-label.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/comment-on-label.yaml)
+
+## 🌐 Localization
+[![Sync Crowdin Translations](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/sync-crowdin-translations.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/sync-crowdin-translations.yaml)  
+
+## 👥 Contributors
+[![Fetch, create, and update repo's contributors](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/weekly-update-contributors.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/weekly-update-contributors.yaml)
+
+
 # 🎧 Features
 
 - 🌍 **Multilingual support** — English, Italian, German, Russian, French, Spanish, Czech, Turkish, Romanian, and more. Contributions welcome!
@@ -174,6 +196,7 @@ Join us on Crowdin!
 - [**HypnoticCanvas**](https://mikepenz.github.io/HypnoticCanvas/): Shader effects for Compose.
 - [**Kizzy-RPC**](https://github.com/dead8309/KizzyRPC): Discord RPC presets.
 - [**echo-discord**](https://github.com/brahmkshatriya/echo-discord): Fixes for Discord artwork upload/loading.
+
 
 # ⚠️ Disclaimer
 
