@@ -54,7 +54,7 @@ object CheckForUpdateDialog: Dialog {
     override fun Render() {
         if( isCanceled || !isActive ) return
 
-        var checkUpdateState by rememberPreference( checkUpdateStateKey, CheckUpdateState.Disabled )
+        var checkUpdateState by rememberPreference( checkUpdateStateKey, CheckUpdateState.Enabled )
 
         @Composable
         fun DescriptionText( @StringRes textId: Int ) =

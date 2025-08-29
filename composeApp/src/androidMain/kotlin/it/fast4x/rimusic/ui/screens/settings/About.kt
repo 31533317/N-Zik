@@ -74,11 +74,16 @@ fun About() {
         val parts = versionStr.removePrefix("v").split("-")
         return if (parts.size > 1) parts[1] else ""
     }
+    
+    // Function to check if current build is beta
+    fun isCurrentBuildBeta(): Boolean {
+        return extractVersionSuffix(BuildConfig.VERSION_NAME) == "b"
+    }
     val uriHandler = LocalUriHandler.current
     val showChangelog = remember { mutableStateOf(false) }
     var lastUpdateCheck by rememberPreference(lastUpdateCheckKey, 0L)
-    var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
-    var checkBetaUpdates by rememberPreference(checkBetaUpdatesKey, false)
+    var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Enabled)
+    var checkBetaUpdates by rememberPreference(checkBetaUpdatesKey, isCurrentBuildBeta())
     var updateCancelled by rememberPreference(updateCancelledKey, false)
     val colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.Dark)
     
@@ -486,8 +491,8 @@ fun About() {
                                                                    }
                                   
                                   
-                                  // Beta Updates Toggle (only for full builds, not for beta users)
-                                  if (BuildConfig.IS_AUTOUPDATE && extractVersionSuffix(BuildConfig.VERSION_NAME) == "f") {
+                                  // Beta Updates Toggle (only for full and beta builds)
+                                  if (BuildConfig.IS_AUTOUPDATE && (extractVersionSuffix(BuildConfig.VERSION_NAME) == "f" || extractVersionSuffix(BuildConfig.VERSION_NAME) == "b")) {
                                       Spacer(modifier = Modifier.height(2.dp))
                                       
                                       Row(

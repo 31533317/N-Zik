@@ -152,7 +152,7 @@ fun Skeleton(
     NewUpdateAvailableDialog.Render()
     CheckForUpdateDialog.Render()
 
-    val check4UpdateState by rememberPreference( checkUpdateStateKey, CheckUpdateState.Disabled )
+    val check4UpdateState by rememberPreference( checkUpdateStateKey, CheckUpdateState.Enabled )
     val checkBetaUpdates by rememberPreference( checkBetaUpdatesKey, false )
     
     // Reset update state when beta preferences change

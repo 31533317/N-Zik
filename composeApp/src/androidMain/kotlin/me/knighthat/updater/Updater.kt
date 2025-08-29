@@ -219,7 +219,10 @@ object Updater {
             NewUpdateAvailableDialog.isActive = hasUpdate
             
             if (!NewUpdateAvailableDialog.isActive) {
-                Toaster.i(R.string.info_no_update_available)
+                // Only show "no update available" toast for manual checks, not at startup
+                if (isForced) {
+                    Toaster.i(R.string.info_no_update_available)
+                }
                 NewUpdateAvailableDialog.isCancelled = true
                 // Also reset the cancelled state in SharedPreferences when no update is available
                 val sharedPrefs = appContext().getSharedPreferences("settings", 0)
@@ -249,8 +252,8 @@ object Updater {
 
     @Composable
     fun SettingEntry() {
-        var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
-        var checkBetaUpdates by rememberPreference(checkBetaUpdatesKey, false)
+        var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Enabled)
+        var checkBetaUpdates by rememberPreference(checkBetaUpdatesKey, extractVersionSuffix(BuildConfig.VERSION_NAME) == "b")
         if (!BuildConfig.IS_AUTOUPDATE)
             checkUpdateState = CheckUpdateState.Disabled
 
