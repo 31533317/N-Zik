@@ -131,7 +131,7 @@ object Updater {
      *
      * > **NOTE**: This is a blocking process, it should never run on UI thread
      */
-    private suspend fun fetchUpdate(checkBetaUpdates: Boolean = false) = withContext(Dispatchers.IO) {
+    private suspend fun fetchUpdate(checkBetaUpdates: Boolean = false, isForced: Boolean = false) = withContext(Dispatchers.IO) {
         assert(Looper.myLooper() != Looper.getMainLooper()) {
             "Cannot run fetch update on main thread"
         }
@@ -148,7 +148,10 @@ object Updater {
 
         val resBody = response.body?.string()
         if (resBody.isNullOrBlank()) {
-            Toaster.i(R.string.info_no_update_available)
+            // Only show toast for manual checks
+            if (isForced) {
+                Toaster.i(R.string.info_no_update_available)
+            }
             return@withContext
         }
 
@@ -212,7 +215,7 @@ object Updater {
 
         try {
             if (!::build.isInitialized || isForced)
-                fetchUpdate(checkBetaUpdates)
+                fetchUpdate(checkBetaUpdates, isForced)
 
             // Check if the new version is actually newer
             val hasUpdate = isVersionNewer(tagName, BuildConfig.VERSION_NAME)
@@ -240,12 +243,13 @@ object Updater {
                 else -> e.message ?: appContext().getString(R.string.error_unknown)
             }
             
-            // Use appropriate toast type based on exception
-            when (e) {
-                is NoSuchFileException -> Toaster.i(message) // Blue for no update available
-                else -> Toaster.e(message) // Red for other errors
+            if (isForced) {
+                // Use appropriate toast type based on exception
+                when (e) {
+                    is NoSuchFileException -> Toaster.i(message) // Blue for no update available
+                    else -> Toaster.e(message) // Red for other errors
+                }
             }
-
             NewUpdateAvailableDialog.isCancelled = true
         }
     }
