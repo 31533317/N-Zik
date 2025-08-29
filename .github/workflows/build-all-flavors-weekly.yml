@@ -268,8 +268,7 @@ jobs:
               - **Unique behavior:**  
                 - Always updates to the **Full Stable Build**.  
                 - No Beta option available.
-
-            
+                
             This lets you decide whether to test new experimental updates or stick with the stable ones.
             
             ## 🔗 Changelog & Downloads
