@@ -23,6 +23,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -46,7 +47,6 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.compose.rememberNavController
 import app.kreate.android.R
-import coil.compose.AsyncImage
 import io.ktor.http.Url
 import it.fast4x.compose.persist.persistList
 import it.fast4x.innertube.utils.parseCookieString
@@ -54,6 +54,7 @@ import it.fast4x.piped.Piped
 import it.fast4x.piped.models.Instance
 import it.fast4x.piped.models.Session
 import it.fast4x.rimusic.appContext
+import me.knighthat.coil.ImageCacheFactory
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.ThumbnailRoundness
@@ -97,8 +98,13 @@ import kotlinx.coroutines.launch
 import me.knighthat.utils.Toaster
 import timber.log.Timber
 import androidx.compose.material3.Text
+import androidx.compose.ui.res.painterResource
 import it.fast4x.rimusic.typography
 import me.knighthat.component.dialog.RestartAppDialog
+import it.fast4x.rimusic.ui.screens.settings.isYouTubeLoggedIn
+import it.fast4x.rimusic.utils.enablePictureInPictureKey
+import it.fast4x.rimusic.utils.rememberPreference
+import it.fast4x.rimusic.ytAccountThumbnail
 
 @androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -200,8 +206,8 @@ fun AccountsSettings() {
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 if (isLoggedIn && accountThumbnail != "")
-                                    AsyncImage(
-                                        model = accountThumbnail,
+                                    ImageCacheFactory.AsyncImage(
+                                        thumbnailUrl = accountThumbnail,
                                         contentDescription = null,
                                         modifier = Modifier
                                             .height(50.dp)
@@ -628,14 +634,26 @@ fun AccountsSettings() {
                                                     .padding(top = 8.dp),
                                                 verticalAlignment = Alignment.CenterVertically
                                             ) {
-                                                AsyncImage(
-                                                    model = if (discordAvatar.isNotEmpty()) discordAvatar else R.drawable.person,
-                                                    contentDescription = null,
-                                                    modifier = Modifier
-                                                        .padding(start = 5.dp, top = 8.dp, bottom = 8.dp)
-                                                        .size(50.dp)
-                                                        .clip(thumbnailShape())
-                                                )
+                                                if (discordAvatar.isNotEmpty()) {
+                                                    ImageCacheFactory.AsyncImage(
+                                                        thumbnailUrl = discordAvatar,
+                                                        contentDescription = null,
+                                                        modifier = Modifier
+                                                            .padding(start = 5.dp, top = 8.dp, bottom = 8.dp)
+                                                            .size(50.dp)
+                                                            .clip(thumbnailShape())
+                                                    )
+                                                } else {
+                                                    Icon(
+                                                        painter = painterResource(R.drawable.person),
+                                                        contentDescription = null,
+                                                        modifier = Modifier
+                                                            .padding(start = 5.dp, top = 8.dp, bottom = 8.dp)
+                                                            .size(50.dp)
+                                                            .clip(thumbnailShape()),
+                                                        tint = colorPalette().textSecondary
+                                                    )
+                                                }
 
                                                 Box(
                                                     modifier = Modifier

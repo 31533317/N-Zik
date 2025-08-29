@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import app.kreate.android.R
-import coil.compose.AsyncImage
+import me.knighthat.coil.ImageCacheFactory
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavRoutes
 import it.fast4x.rimusic.extensions.pip.isPipSupported
@@ -85,8 +85,8 @@ fun ActionBar(
 
     if (isYouTubeLoggedIn()) {
         if (ytAccountThumbnail() != "")
-            AsyncImage(
-                model = ytAccountThumbnail(),
+            ImageCacheFactory.AsyncImage(
+                thumbnailUrl = ytAccountThumbnail(),
                 contentDescription = null,
                 modifier = Modifier.height(40.dp)
                     .padding(end = 10.dp)

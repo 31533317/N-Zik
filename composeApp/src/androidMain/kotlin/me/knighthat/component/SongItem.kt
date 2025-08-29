@@ -77,6 +77,7 @@ import kotlinx.coroutines.Dispatchers
 import me.knighthat.coil.ImageCacheFactory
 import me.knighthat.component.menu.song.SongItemMenu
 import me.knighthat.component.tab.ItemSelector
+import timber.log.Timber
 
 private interface SongIndicator: Icon {
     override val sizeDp: Dp
@@ -197,11 +198,17 @@ fun SongItem(
             Modifier.size( Dimensions.thumbnails.song )
         ) {
             // Actual thumbnail (from cache or fetch from url)
-            if( showThumbnail )
+            if( showThumbnail ) {
+                // Check if the image is in local cache
+                val isCached = remember(song.thumbnailUrl) {
+                    me.knighthat.coil.ImageCacheFactory.isImageCached(song.thumbnailUrl)
+                }
+                
                 ImageCacheFactory.Thumbnail(
                     thumbnailUrl = song.thumbnailUrl,
                     contentScale = ContentScale.FillHeight
                 )
+            }
 
             if( isPlaying )
                 NowPlayingSongIndicator(

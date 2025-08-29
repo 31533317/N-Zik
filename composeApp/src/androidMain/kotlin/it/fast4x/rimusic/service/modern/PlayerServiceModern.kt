@@ -730,15 +730,10 @@ class PlayerServiceModern : MediaLibraryService(),
         maybeRecoverPlaybackError()
         maybeNormalizeVolume()
         loadFromRadio(reason)
-        with(bitmapProvider) {
-            var newUriForLoad = binder.player.currentMediaItem?.mediaMetadata?.artworkUri
-            if(lastUri == binder.player.currentMediaItem?.mediaMetadata?.artworkUri) {
-                newUriForLoad = null
-            }
-            load(newUriForLoad, {
-                updateDefaultNotification()
-                updateWidgets()
-            })
+        // Update bitmap with proper fallback handling
+        bitmapProvider.load(binder.player.currentMediaItem?.mediaMetadata?.artworkUri) {
+            updateDefaultNotification()
+            updateWidgets()
         }
 
         /**
@@ -1173,9 +1168,9 @@ class PlayerServiceModern : MediaLibraryService(),
 
         val mediaMetadata = player.mediaMetadata
 
-        // Only load bitmap if artworkUri is not null
-        mediaMetadata.artworkUri?.let { uri ->
-            bitmapProvider.load(uri) {}
+        // Load bitmap with proper fallback handling
+        bitmapProvider.load(mediaMetadata.artworkUri) {
+            // Callback is called with the final bitmap (including fallback)
         }
 
         val customNotify = if (isAtLeastAndroid8) {
@@ -1592,12 +1587,13 @@ class PlayerServiceModern : MediaLibraryService(),
             return super.getNotificationContentTitle(customMetadata)
         }
 
-//        override fun getNotificationContentText(metadata: MediaMetadata): CharSequence? {
-//            val customMetadata = MediaMetadata.Builder()
-//                .setArtist(cleanPrefix(metadata.artist?.toString() ?: ""))
-//                .build()
-//            return super.getNotificationContentText(customMetadata)
-//        }
+        override fun getNotificationContentText(metadata: MediaMetadata): CharSequence? {
+            val customMetadata = MediaMetadata.Builder()
+                .setArtist(cleanPrefix(metadata.artist?.toString() ?: ""))
+                .setAlbumTitle(cleanPrefix(metadata.albumTitle?.toString() ?: ""))
+                .build()
+            return super.getNotificationContentText(customMetadata)
+        }
     }
 
 

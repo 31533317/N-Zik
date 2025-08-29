@@ -21,7 +21,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import androidx.media3.common.util.UnstableApi
+import app.kreate.android.R
+import coil.request.ImageRequest
 import it.fast4x.innertube.Innertube
 
 import it.fast4x.rimusic.ui.styling.onOverlay
@@ -36,6 +38,7 @@ import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.thumbnailShape
 import it.fast4x.rimusic.typography
 import it.fast4x.rimusic.utils.shimmerEffect
+import me.knighthat.coil.ImageCacheFactory
 
 @Composable
 fun VideoItem(
@@ -76,8 +79,8 @@ fun VideoItem(
         modifier = modifier
     ) {
         Box {
-            AsyncImage(
-                model = thumbnailUrl,
+            ImageCacheFactory.AsyncImage(
+                thumbnailUrl = thumbnailUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

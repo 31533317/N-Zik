@@ -48,7 +48,6 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import androidx.navigation.NavController
 import app.kreate.android.R
-import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import it.fast4x.rimusic.Database
 import it.fast4x.rimusic.LocalPlayerAwareWindowInsets
@@ -106,6 +105,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import it.fast4x.rimusic.utils.addNext
 import it.fast4x.rimusic.utils.enqueue
+import me.knighthat.coil.ImageCacheFactory
 
 
 @ExperimentalTextApi
@@ -454,16 +454,13 @@ fun StatisticsPage(
                         PlaylistItem(
                             thumbnailContent = {
                                 if (thumbnails.toSet().size == 1) {
-                                    AsyncImage(
-                                        model = ImageRequest.Builder(LocalContext.current)
-                                            .data(thumbnails.first())
-                                            .setHeader("User-Agent", "Mozilla/5.0")
-                                            .build(), //thumbnails.first().thumbnail(thumbnailSizePx),
-                                        onError = {error ->
-                                            Timber.e("Failed AsyncImage in PlaylistItem ${error.result.throwable.stackTraceToString()}")
-                                        },
+                                    ImageCacheFactory.AsyncImage(
+                                        thumbnailUrl = thumbnails.first(),
                                         contentDescription = null,
                                         contentScale = ContentScale.Crop,
+                                        onError = {error ->
+                                            Timber.e("Failed AsyncImage in PlaylistItem ${error.result.throwable.stackTraceToString()}")
+                                        }
                                     )
                                 } else {
                                     Box(
@@ -478,19 +475,16 @@ fun StatisticsPage(
                                         ).forEachIndexed { index, alignment ->
                                             val thumbnail = thumbnails.getOrNull(index)
                                             if (thumbnail != null)
-                                                AsyncImage(
-                                                    model = ImageRequest.Builder(LocalContext.current)
-                                                        .data(thumbnail)
-                                                        .setHeader("User-Agent", "Mozilla/5.0")
-                                                        .build(),
-                                                    onError = {error ->
-                                                        Timber.e("Failed AsyncImage 1 in PlaylistItem ${error.result.throwable.stackTraceToString()}")
-                                                    },
+                                                ImageCacheFactory.AsyncImage(
+                                                    thumbnailUrl = thumbnail,
                                                     contentDescription = null,
                                                     contentScale = ContentScale.Crop,
                                                     modifier = Modifier
                                                         .align(alignment)
-                                                        .size(playlistThumbnailSizeDp /2)
+                                                        .size(playlistThumbnailSizeDp /2),
+                                                    onError = {error ->
+                                                        Timber.e("Failed AsyncImage 1 in PlaylistItem ${error.result.throwable.stackTraceToString()}")
+                                                    }
                                                 )
                                         }
                                     }

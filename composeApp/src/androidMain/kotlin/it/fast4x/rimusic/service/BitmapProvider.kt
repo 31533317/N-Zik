@@ -1,6 +1,5 @@
 package it.fast4x.rimusic.service
 
-
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -12,9 +11,10 @@ import coil.request.Disposable
 import coil.request.ImageRequest
 import it.fast4x.rimusic.utils.thumbnail
 import it.fast4x.rimusic.appContext
-import timber.log.Timber
+import app.kreate.android.R
+import app.kreate.android.drawable.APP_ICON_BITMAP
+import me.knighthat.coil.ImageCacheFactory
 
-//context(Context)
 class BitmapProvider(
     private val bitmapSize: Int,
     private val colorProvider: (isSystemInDarkMode: Boolean) -> Int
@@ -28,9 +28,10 @@ class BitmapProvider(
     private var lastEnqueued: Disposable? = null
 
     private lateinit var defaultBitmap: Bitmap
+    private var fallbackBitmap: Bitmap? = null
 
     val bitmap: Bitmap
-        get() = lastBitmap ?: defaultBitmap
+        get() = lastBitmap ?: fallbackBitmap ?: defaultBitmap
 
     var listener: ((Bitmap?) -> Unit)? = null
         set(value) {
@@ -40,6 +41,19 @@ class BitmapProvider(
 
     init {
         setDefaultBitmap()
+        setFallbackBitmap()
+    }
+
+    private fun setFallbackBitmap() {
+        try {
+            // Use the app icon as fallback
+            fallbackBitmap = APP_ICON_BITMAP
+        } catch (e: Exception) {
+            // If the app icon fails, create a simple bitmap
+            fallbackBitmap = Bitmap.createBitmap(bitmapSize, bitmapSize, Bitmap.Config.ARGB_8888).applyCanvas {
+                drawColor(0xFF666666.toInt()) // Gris par défaut
+            }
+        }
     }
 
     fun setDefaultBitmap(): Boolean {
@@ -56,48 +70,111 @@ class BitmapProvider(
                     drawColor(colorProvider(isSystemInDarkMode))
                 }
         }.onFailure {
-            Timber.e("Failed set default bitmap in BitmapProvider ${it.stackTraceToString()}")
+            // En cas d'échec, utiliser le fallback
+            defaultBitmap = fallbackBitmap ?: Bitmap.createBitmap(bitmapSize, bitmapSize, Bitmap.Config.ARGB_8888)
         }
 
         return lastBitmap == null
     }
 
-    fun load(uri: Uri?, onDone: (Bitmap) -> Unit) {
-        Timber.d("BitmapProvider load method being called")
-        if (lastUri == uri) {
-            listener?.invoke(lastBitmap)
+    fun load(uri: Uri?, callback: () -> Unit) {
+        if (uri == null) {
+            lastUri = null
+            lastBitmap = fallbackBitmap
+            callback()
             return
         }
 
-        lastEnqueued?.dispose()
+        if (lastUri == uri) {
+            callback()
+            return
+        }
+
         lastUri = uri
 
-        runCatching {
-            lastEnqueued = appContext().imageLoader.enqueue(
-                ImageRequest.Builder(appContext())
-                    .networkCachePolicy(CachePolicy.ENABLED)
-                    .data(uri.thumbnail(bitmapSize))
-                    .allowHardware(false)
-                    .diskCacheKey(uri.thumbnail(bitmapSize).toString())
-                    //.memoryCacheKey(uri.thumbnail(bitmapSize).toString())
-                    .listener(
-                        onError = { _, result ->
-                            Timber.e("Failed to load bitmap ${result.throwable.stackTraceToString()}")
-                            lastBitmap = null
-                            onDone(bitmap)
-                            //listener?.invoke(lastBitmap)
-                        },
-                        onSuccess = { _, result ->
-                            lastBitmap = (result.drawable as BitmapDrawable).bitmap
-                            onDone(bitmap)
-                            //listener?.invoke(lastBitmap)
-                        }
-                    )
-
-                    .build()
-            )
-        }.onFailure {
-            Timber.e("Failed enqueue in BitmapProvider ${it.stackTraceToString()}")
+        // Check if we should use the network based on connection quality and cache availability
+        if (ImageCacheFactory.shouldUseNetwork(uri.toString())) {
+            // Good connection and image not cached, load from the network
+            loadFromNetwork(uri, callback)
+        } else {
+            // Bad connection or image cached, load with cache priority
+            loadWithCachePriority(uri, callback)
         }
+    }
+
+    private fun loadWithCachePriority(uri: Uri, callback: () -> Unit) {
+        try {
+            // Check if the image is cached
+            val isCached = ImageCacheFactory.isImageCached(uri.toString())
+            
+            // Create a request that prioritizes the cache
+            val request = ImageRequest.Builder(appContext())
+                .data(uri.toString())
+                .diskCacheKey(uri.toString())
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .networkCachePolicy(if (isCached) CachePolicy.DISABLED else CachePolicy.ENABLED)
+                .memoryCachePolicy(CachePolicy.ENABLED)
+                .listener(
+                    onError = { _, _ ->
+                        lastBitmap = fallbackBitmap
+                        callback()
+                    },
+                    onSuccess = { _, result ->
+                        val drawable = result.drawable
+                        if (drawable is BitmapDrawable) {
+                            lastBitmap = drawable.bitmap
+                        } else {
+                            lastBitmap = fallbackBitmap
+                        }
+                        callback()
+                    }
+                )
+                .build()
+
+            lastEnqueued = ImageCacheFactory.LOADER.enqueue(request)
+        } catch (e: Exception) {
+            lastBitmap = fallbackBitmap
+            callback()
+        }
+    }
+
+    private fun loadFromNetwork(uri: Uri, callback: () -> Unit) {
+        try {
+            val request = ImageRequest.Builder(appContext())
+                .data(uri.toString())
+                .diskCacheKey(uri.toString())
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .networkCachePolicy(CachePolicy.ENABLED)
+                .memoryCachePolicy(CachePolicy.ENABLED)
+                .listener(
+                    onError = { _, _ ->
+                        // En cas d'échec, essayer de précharger l'image pour le prochain essai
+                        ImageCacheFactory.preloadImage(uri.toString())
+                        lastBitmap = fallbackBitmap
+                        callback()
+                    },
+                    onSuccess = { _, result ->
+                        val drawable = result.drawable
+                        if (drawable is BitmapDrawable) {
+                            lastBitmap = drawable.bitmap
+                        } else {
+                            lastBitmap = fallbackBitmap
+                        }
+                        callback()
+                    }
+                )
+                .build()
+
+            lastEnqueued = ImageCacheFactory.LOADER.enqueue(request)
+        } catch (e: Exception) {
+            lastBitmap = fallbackBitmap
+            callback()
+        }
+    }
+
+    fun clear() {
+        lastEnqueued?.dispose()
+        lastUri = null
+        lastBitmap = null
     }
 }

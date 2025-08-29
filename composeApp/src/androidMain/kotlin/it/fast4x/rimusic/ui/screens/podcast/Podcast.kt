@@ -64,9 +64,10 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import androidx.navigation.NavController
 import app.kreate.android.R
-import coil.compose.AsyncImage
-import it.fast4x.compose.persist.persist
+import me.knighthat.coil.ImageCacheFactory
+import it.fast4x.rimusic.colorPalette
 import it.fast4x.innertube.Innertube
+import it.fast4x.compose.persist.persist
 import it.fast4x.innertube.models.bodies.BrowseBody
 import it.fast4x.innertube.requests.podcastPage
 import it.fast4x.rimusic.Database
@@ -267,8 +268,8 @@ fun Podcast(
                     ) {
                         if (podcastPage != null) {
                             if(!isLandscape)
-                                AsyncImage(
-                                    model = podcastPage!!.thumbnail.firstOrNull()?.url?.resize(1200, 1200),
+                                ImageCacheFactory.AsyncImage(
+                                    thumbnailUrl = podcastPage!!.thumbnail.firstOrNull()?.url?.resize(1200, 1200),
                                     contentDescription = "loading...",
                                     modifier = Modifier
                                         .fillMaxWidth()

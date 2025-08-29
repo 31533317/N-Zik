@@ -97,8 +97,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import it.fast4x.innertube.Innertube
 import it.fast4x.innertube.YtMusic
 import it.fast4x.innertube.models.bodies.SearchBody
@@ -169,6 +167,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import me.knighthat.coil.ImageCacheFactory
 
 @Composable
 fun textFieldColors( colorPalette: ColorPalette, errorText: String ) =
@@ -590,10 +589,8 @@ inline fun SelectorArtistsDialog(
                         }
 
                         Box {
-                            AsyncImage(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(artist?.thumbnailUrl?.resize(1200, 1200))
-                                    .build(),
+                            ImageCacheFactory.AsyncImage(
+                                thumbnailUrl = artist?.thumbnailUrl?.resize(1200, 1200),
                                 contentDescription = "",
                                 contentScale = ContentScale.Fit,
                                 modifier = Modifier
@@ -1898,10 +1895,10 @@ fun SongMatchingDialog(
                     .padding(vertical = 10.dp)
             ) {
                 Box {
-                    AsyncImage(
-                        model = songToRematch.asMediaItem.mediaMetadata.artworkUri.thumbnail(
+                    ImageCacheFactory.AsyncImage(
+                        thumbnailUrl = songToRematch.asMediaItem.mediaMetadata.artworkUri.thumbnail(
                             Dimensions.thumbnails.song.px / 2
-                        ),
+                        )?.toString(),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -2063,10 +2060,10 @@ fun SongMatchingDialog(
                                     )
                             ) {
                                 Box {
-                                    AsyncImage(
-                                        model = song.asMediaItem.mediaMetadata.artworkUri.thumbnail(
+                                    ImageCacheFactory.AsyncImage(
+                                        thumbnailUrl = song.asMediaItem.mediaMetadata.artworkUri.thumbnail(
                                             Dimensions.thumbnails.song.px / 2
-                                        ),
+                                        )?.toString(),
                                         contentDescription = null,
                                         contentScale = ContentScale.Crop,
                                         modifier = Modifier

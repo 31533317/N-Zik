@@ -77,6 +77,10 @@ import me.knighthat.utils.Toaster
 import timber.log.Timber
 import java.net.UnknownHostException
 import java.nio.channels.UnresolvedAddressException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
 @UnstableApi
@@ -164,8 +168,20 @@ fun Thumbnail(
 
     val coverPainter = ImageCacheFactory.Painter(
         thumbnailUrl = window.mediaItem.mediaMetadata.artworkUri.toString(),
-        onError = { artImageAvailable = false },
-        onSuccess = { artImageAvailable = true }
+        onError = { 
+            artImageAvailable = false 
+            // Retry loading after a short delay
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(1000) // Wait 1 second
+                if (!artImageAvailable) {
+                    // Try to preload the image
+                    ImageCacheFactory.preloadImage(window.mediaItem.mediaMetadata.artworkUri.toString())
+                }
+            }
+        },
+        onSuccess = { 
+            artImageAvailable = true 
+        }
     )
 
     val showCoverThumbnailAnimation by rememberPreference(showCoverThumbnailAnimationKey, false)
@@ -281,54 +297,10 @@ fun Thumbnail(
                                     .fillMaxSize()
                                     .clip(thumbnailShape())
                             )
-                            /*
-                        AsyncImage(
-                            model = currentWindow.mediaItem.mediaMetadata.artworkUri.toString()
-                                .resize(1200, 1200),
-                            /*
-                            model = currentWindow.mediaItem.mediaMetadata.artworkUri.thumbnail(
-                                thumbnailSizePx
-                            ),
-                             */
-                            /*
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(currentWindow.mediaItem.mediaMetadata.artworkUri.toString().resize(1200, 1200))
-                                .size(Size.ORIGINAL)
-                                .scale(Scale.FIT)
-                                .build(),
-                             */
-                            onSuccess = {
-                                artImageAvailable = true
-                            },
-                            onError = {
-                                artImageAvailable = false
-                            },
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .pointerInput(Unit) {
-                                    detectTapGestures(
-                                        onLongPress = { onShowStatsForNerds(true) },
-                                        onTap = if (thumbnailTapEnabledKey) {
-                                            {
-                                                onShowLyrics(true)
-                                                onShowEqualizer(false)
-                                            }
-                                        } else null,
-                                        onDoubleTap = { onDoubleTap() }
-                                    )
-
-                                }
-                                .fillMaxSize()
-                                .clip(thumbnailShape())
-
-
-                        )
-                        */
 
                     } else {
                         Image(
-                            painter = painterResource(R.drawable.ic_banner_foreground),
+                            painter = painterResource(R.drawable.ic_launcher),
                             colorFilter = ColorFilter.tint(colorPalette().accent),
                             modifier = Modifier
                                 .pointerInput(Unit) {
@@ -405,28 +377,6 @@ fun Thumbnail(
                     } else errorCounter = 0
                 }
             }
-            /*
-            PlaybackError(
-                isDisplayed = error != null,
-                messageProvider = {
-                    if (currentWindow.mediaItem.isLocal) localMusicFileNotFoundError
-                    else when (error?.cause?.cause) {
-                        is UnresolvedAddressException, is UnknownHostException -> networkerror
-                        is PlayableFormatNotFoundException -> notfindplayableaudioformaterror
-                        is UnplayableException -> originalvideodeletederror
-                        is LoginRequiredException -> songnotplayabledueserverrestrictionerror
-                        is VideoIdMismatchException -> videoidmismatcherror
-                        is PlayableFormatNonSupported -> formatUnsupported
-                        else -> unknownplaybackerror
-                    }
-                },
-                onDismiss = {
-                    //player::prepare
-                    //player.stop()
-                    player.seekToNext()
-                }
-            )
-             */
         }
     }
 }

@@ -75,7 +75,6 @@ import androidx.compose.ui.util.fastFirst
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import app.kreate.android.R
-import coil.compose.AsyncImage
 import it.fast4x.compose.persist.persist
 import it.fast4x.compose.persist.persistList
 import it.fast4x.innertube.Innertube
@@ -85,6 +84,7 @@ import it.fast4x.rimusic.Database
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.appContext
 import it.fast4x.rimusic.cleanPrefix
+import me.knighthat.coil.ImageCacheFactory
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavRoutes
 import it.fast4x.rimusic.enums.NavigationBarPosition
@@ -364,8 +364,8 @@ fun PlaylistSongList(
                         if (playlistPage != null) {
                             if(!isLandscape)
                                 Box {
-                                    AsyncImage(
-                                        model = playlistPage!!.playlist.thumbnail?.url?.resize(
+                                    ImageCacheFactory.AsyncImage(
+                                        thumbnailUrl = playlistPage!!.playlist.thumbnail?.url?.resize(
                                             1200,
                                             1200
                                         ),

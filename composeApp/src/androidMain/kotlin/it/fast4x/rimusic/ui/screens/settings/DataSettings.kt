@@ -61,6 +61,7 @@ import me.knighthat.component.import.ImportDatabase
 import me.knighthat.component.import.ImportMigration
 import me.knighthat.component.import.ImportSettings
 import me.knighthat.utils.Toaster
+import me.knighthat.coil.ImageCacheFactory
 
 @SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalCoilApi::class)
@@ -168,7 +169,8 @@ fun DataSettings() {
                 cleanCacheImages = false
             },
             onConfirm = {
-                Coil.imageLoader(context).diskCache?.clear()
+                // Utiliser la nouvelle méthode sécurisée pour nettoyer le cache
+                me.knighthat.coil.ImageCacheFactory.clearImageCache()
                 cleanCacheImages = false
                 cacheCleanedCounter++
             }
@@ -238,6 +240,8 @@ fun DataSettings() {
                             onTrashClick = { cleanCacheImages = true }
                         )
 
+
+
                         if (showImageCacheDialog) {
                             ValueSelectorDialog(
                                 title = stringResource(R.string.image_cache_max_size),
@@ -275,6 +279,17 @@ fun DataSettings() {
                         CacheSpaceIndicator(cacheType = CacheType.Images, horizontalPadding = 20.dp)
                         
                         SettingsDescription(text = "${Formatter.formatShortFileSize(context, diskCacheSize)} ${stringResource(R.string.used)} (${diskCacheSize * 100 / coilDiskCacheMaxSize.bytes}%)")
+                         
+                        // Add diagnostic cache
+                         val cacheSize = me.knighthat.coil.ImageCacheFactory.getCacheSize()
+                         
+                         SettingsDescription(
+                             text = "${stringResource(R.string.cache_status)}: ${
+                                 if (cacheSize > 0) stringResource(R.string.cache_working) 
+                                 else stringResource(R.string.cache_empty)
+                            }"
+                        )
+
                         }
                     }
 
