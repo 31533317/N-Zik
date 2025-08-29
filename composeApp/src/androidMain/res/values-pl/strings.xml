@@ -978,7 +978,8 @@
   <string name="view_changelog_settings_title">Zobacz dzienniki zmian</string>
   <string name="view_changelog_settings_text">Zobacz dzienniki zmian aktualnie zainstalowanej wersji</string>
   <string name="artist_songs_count_duration">%1$d Utwory • %2$s</string>
-  <string name="beta_title"> Beta</string>
+  <string name="beta_title"> BETA</string>
+  <string name="stable_title"> STABILNY</string>
   <string name="beta_text">To jest nadal w wersji beta i może zawierać błędy i awarię</string>
   <string name="quick_selection_type">Wybierz ile polecanych piosenek ma być wyświetlanych w Szybkich Pickach</string>
   <string name="quick_selection">%s rekomendowany utwór</string>
