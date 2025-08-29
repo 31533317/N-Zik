@@ -86,6 +86,7 @@ fun About() {
     LaunchedEffect(Unit) {
         val sharedPrefs = appContext().getSharedPreferences("settings", 0)
         updateCancelled = sharedPrefs.getBoolean(updateCancelledKey, false)
+        lastUpdateCheck = sharedPrefs.getLong(lastUpdateCheckKey, 0L)
     }
     
     // Listen for SharedPreferences changes and force save
@@ -94,6 +95,16 @@ fun About() {
         sharedPrefs.edit()
             .putBoolean(updateCancelledKey, updateCancelled)
             .apply()
+    }
+    
+    // Listen for lastUpdateCheck changes in SharedPreferences
+    LaunchedEffect(Unit) {
+        val sharedPrefs = appContext().getSharedPreferences("settings", 0)
+        sharedPrefs.registerOnSharedPreferenceChangeListener { _, key ->
+            if (key == lastUpdateCheckKey) {
+                lastUpdateCheck = sharedPrefs.getLong(lastUpdateCheckKey, 0L)
+            }
+        }
     }
     
 

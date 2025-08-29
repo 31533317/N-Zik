@@ -26,6 +26,7 @@ import it.fast4x.rimusic.ui.screens.settings.SettingsDescription
 import it.fast4x.rimusic.utils.checkUpdateStateKey
 import it.fast4x.rimusic.utils.checkBetaUpdatesKey
 import it.fast4x.rimusic.utils.updateCancelledKey
+import it.fast4x.rimusic.utils.lastUpdateCheckKey
 import it.fast4x.rimusic.utils.rememberPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -244,21 +245,33 @@ object Updater {
         isForced: Boolean = false,
         checkBetaUpdates: Boolean = false
     ) = CoroutineScope(Dispatchers.IO).launch {
+        // Update the last check timestamp at the beginning
+        val sharedPrefs = appContext().getSharedPreferences("settings", 0)
+        sharedPrefs.edit()
+            .putLong(lastUpdateCheckKey, System.currentTimeMillis())
+            .apply()
+            
         if (!BuildConfig.IS_AUTOUPDATE || NewUpdateAvailableDialog.isCancelled) return@launch
 
         try {
-            if (!::build.isInitialized || isForced)
+            if (!::build.isInitialized || isForced) {
                 fetchUpdate(checkBetaUpdates)
+            }
 
             // Check if the new version is actually newer
-            val hasUpdate = isVersionNewer(tagName, BuildConfig.VERSION_NAME)
+            val hasUpdate = if (::tagName.isInitialized) {
+                isVersionNewer(tagName, BuildConfig.VERSION_NAME)
+            } else {
+                false
+            }
             NewUpdateAvailableDialog.isActive = hasUpdate
             
             if (!NewUpdateAvailableDialog.isActive) {
-                Toaster.i(R.string.info_no_update_available)
+                if(isForced) {
+                    Toaster.i(R.string.info_no_update_available)
+                }
                 NewUpdateAvailableDialog.isCancelled = true
                 // Also reset the cancelled state in SharedPreferences when no update is available
-                val sharedPrefs = appContext().getSharedPreferences("settings", 0)
                 sharedPrefs.edit()
                     .putBoolean(updateCancelledKey, false)
                     .apply()
