@@ -19,8 +19,8 @@ import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.Requirements
 import app.kreate.android.service.createDataSourceFactory
-import coil.request.CachePolicy
-import coil.request.ImageRequest
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
 import it.fast4x.rimusic.Database
 import it.fast4x.rimusic.enums.AudioQualityFormat
 import it.fast4x.rimusic.enums.ExoPlayerCacheLocation
@@ -275,8 +275,6 @@ object MyDownloadHelper {
                     .networkCachePolicy(CachePolicy.ENABLED)
                     .data(imageUrl)
                     .size(1200)
-                    .bitmapConfig(Bitmap.Config.ARGB_8888)
-                    .allowHardware(false)
                     .diskCacheKey(imageUrl.toString())
                     .build()
             )

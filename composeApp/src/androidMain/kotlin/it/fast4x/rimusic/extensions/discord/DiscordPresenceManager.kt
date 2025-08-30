@@ -133,9 +133,14 @@ class DiscordPresenceManager(
                 ?.jsonPrimitive
                 ?.content
                 ?.let { "mp:$it" }
-        }.onFailure {
-            it.printStackTrace()
-            it.message?.also( Toaster::e )
+        }.onFailure { exception ->
+            // Handle rate limiting (429) silently to avoid disturbing the user
+            if (exception.message?.contains("429") == true || exception.message?.contains("Too Many Requests") == true) {
+                Timber.tag("DiscordPresence").d("Rate limited by Discord API, skipping asset upload")
+            } else {
+                // Log other errors but don't show them to the user to avoid disturbance
+                Timber.tag("DiscordPresence").w("Failed to get Discord asset URI: ${exception.message}")
+            }
         }.getOrNull()
     }
 
@@ -146,8 +151,8 @@ class DiscordPresenceManager(
                 getDiscordAssetUri( it.toString() )
             },
             onFailure = {
-                it.printStackTrace()
-                it.message?.also( Toaster::e )
+                // Log the error but don't show it to the user to avoid disturbance
+                Timber.tag("DiscordPresence").w("Failed to upload artwork: ${it.message}")
 
                 getLargeImageFallback()
             }
@@ -184,12 +189,18 @@ class DiscordPresenceManager(
             client.newCall(request).execute().use { response ->
                 response.isSuccessful
             }
-        }.getOrElse {
-            Timber.tag("DiscordPresence").e(it, "Error validating token: ${it.message}")
-            if (it is java.io.IOException) {
-                null
+        }.getOrElse { exception ->
+            // Handle rate limiting and network errors silently
+            if (exception.message?.contains("429") == true || exception.message?.contains("Too Many Requests") == true) {
+                Timber.tag("DiscordPresence").d("Rate limited by Discord API during token validation")
+                null // Treat as network error to retry later
             } else {
-                false
+                Timber.tag("DiscordPresence").e(exception, "Error validating token: ${exception.message}")
+                if (exception is java.io.IOException) {
+                    null
+                } else {
+                    false
+                }
             }
         }
     }
@@ -338,7 +349,8 @@ class DiscordPresenceManager(
                 since = System.currentTimeMillis()
             )
         }.onFailure {
-            Timber.tag("DiscordPresence").e(it, "Error setActivity: ${it.message}")
+            // Log the error but don't show it to the user to avoid disturbance
+            Timber.tag("DiscordPresence").w("Error setting Discord activity: ${it.message}")
         }
     }
 

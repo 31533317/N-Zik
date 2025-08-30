@@ -94,8 +94,12 @@ import androidx.palette.graphics.Palette
 import app.kreate.android.BuildConfig
 import app.kreate.android.R
 import app.kreate.android.Threads
-import coil.imageLoader
-import coil.request.ImageRequest
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import coil3.Image
+import coil3.request.allowHardware
+import coil3.toBitmap
+import androidx.core.graphics.drawable.toBitmap
 import com.kieronquinn.monetcompat.core.MonetActivityAccessException
 import com.kieronquinn.monetcompat.core.MonetCompat
 import com.kieronquinn.monetcompat.interfaces.MonetColorsChangedListener
@@ -562,7 +566,7 @@ class MainActivity :
 
             }
 
-            fun setDynamicPalette(url: String) {
+            fun setDynamicPalette(url: String?) {
                 val playerBackgroundColors = preferences.getEnum(
                     playerBackgroundColorsKey,
                     PlayerBackgroundColors.BlurredCoverColor
@@ -575,51 +579,78 @@ class MainActivity :
                             playerBackgroundColors == PlayerBackgroundColors.CoverColor ||
                             animatedGradient == AnimatedGradient.FluidCoverColorGradient
 
-                if (!isDynamicPalette) return
+                if (!isDynamicPalette) {
+                    return
+                }
+
+                // If the URL is null or empty, return to the default palette with violet accent
+                if (url.isNullOrEmpty()) {
+                    val colorPaletteMode = preferences.getEnum(colorPaletteModeKey, ColorPaletteMode.Dark)
+                    val isPicthBlack = colorPaletteMode == ColorPaletteMode.PitchBlack
+                    val isDark = colorPaletteMode == ColorPaletteMode.Dark || isPicthBlack || (colorPaletteMode == ColorPaletteMode.System && isSystemInDarkTheme)
+                    
+                    // Create a palette with fixed violet accent
+                    val violetAccent = Color(0.54509807f, 0.36078432f, 0.9647059f) // Couleur violette
+                    val defaultColorPalette = dynamicColorPaletteOf(violetAccent, isDark)
+                    setSystemBarAppearance(defaultColorPalette.isDark)
+                    appearance = appearance.copy(
+                        colorPalette = if (!isPicthBlack) defaultColorPalette else defaultColorPalette.copy(
+                            background0 = Color.Black,
+                            background1 = Color.Black,
+                            background2 = Color.Black,
+                            background3 = Color.Black,
+                            background4 = Color.Black,
+                        ),
+                        typography = appearance.typography.copy(defaultColorPalette.text)
+                    )
+                    return
+                }
 
                 val colorPaletteMode =
                     preferences.getEnum(colorPaletteModeKey, ColorPaletteMode.Dark)
-                coroutineScope.launch(Dispatchers.Main) {
-                    val result = ImageCacheFactory.LOADER.execute(
-                        ImageRequest.Builder(this@MainActivity)
-                            .data(url)
-                            .allowHardware(false)
-                            .build()
-                    )
-                    val isPicthBlack = colorPaletteMode == ColorPaletteMode.PitchBlack
-                    val isDark =
-                        colorPaletteMode == ColorPaletteMode.Dark || isPicthBlack || (colorPaletteMode == ColorPaletteMode.System && isSystemInDarkTheme)
+                coroutineScope.launch(Dispatchers.IO) {
+                    try {
+                        val result = coil3.SingletonImageLoader.get(this@MainActivity).execute(
+                            coil3.request.ImageRequest.Builder(this@MainActivity)
+                                .data(url)
+                                .allowHardware(false)
+                                .build()
+                        )
+                        
+                        val isPicthBlack = colorPaletteMode == ColorPaletteMode.PitchBlack
+                        val isDark =
+                            colorPaletteMode == ColorPaletteMode.Dark || isPicthBlack || (colorPaletteMode == ColorPaletteMode.System && isSystemInDarkTheme)
 
-                    val bitmap = (result.drawable as? BitmapDrawable)?.bitmap
-                    if (bitmap != null) {
-                        val palette = Palette
-                            .from(bitmap)
-                            .maximumColorCount(8)
-                            .addFilter(if (isDark) ({ _, hsl -> hsl[0] !in 36f..100f }) else null)
-                            .generate()
-                        println("Mainactivity onmediaItemTransition palette dominantSwatch: ${palette.dominantSwatch}")
+                        val bitmap = result.image?.toBitmap()
+                        if (bitmap != null) {
+                            val palette = Palette
+                                .from(bitmap)
+                                .maximumColorCount(8)
+                                .addFilter(if (isDark) ({ _, hsl -> hsl[0] !in 36f..100f }) else null)
+                                .generate()
 
-                        dynamicColorPaletteOf(bitmap, isDark)?.let {
-                            withContext(Dispatchers.Main) {
-                                setSystemBarAppearance(it.isDark)
+                            dynamicColorPaletteOf(bitmap, isDark)?.let {
+                                withContext(Dispatchers.Main) {
+                                    setSystemBarAppearance(it.isDark)
+                                    val newAppearance = appearance.copy(
+                                        colorPalette = if (!isPicthBlack) it else it.copy(
+                                            background0 = Color.Black,
+                                            background1 = Color.Black,
+                                            background2 = Color.Black,
+                                            background3 = Color.Black,
+                                            background4 = Color.Black,
+                                            // text = Color.White
+                                        ),
+                                        typography = appearance.typography.copy(it.text)
+                                    )
+                                    appearance = newAppearance
+                                }
                             }
-                            appearance = appearance.copy(
-                                colorPalette = if (!isPicthBlack) it else it.copy(
-                                    background0 = Color.Black,
-                                    background1 = Color.Black,
-                                    background2 = Color.Black,
-                                    background3 = Color.Black,
-                                    background4 = Color.Black,
-                                    // text = Color.White
-                                ),
-                                typography = appearance.typography.copy(it.text)
-                            )
-                            println("Mainactivity onmediaItemTransition appearance inside: ${appearance.colorPalette}")
                         }
-
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
-                println("Mainactivity onmediaItemTransition appearance outside: ${appearance.colorPalette}")
             }
 
 
@@ -740,32 +771,9 @@ class MainActivity :
                                 )
 
                                 if (colorPaletteName == ColorPaletteName.Dynamic) {
-                                    val artworkUri =
-                                        (binder?.player?.currentMediaItem?.mediaMetadata?.artworkUri.thumbnail(1200)
-                                            ?: "").toString()
-                                    artworkUri.let {
-                                        if (it.isNotEmpty())
-                                            setDynamicPalette(it)
-                                        else {
-
-                                            setSystemBarAppearance(colorPalette.isDark)
-                                            appearance = appearance.copy(
-                                                colorPalette = if (!isPicthBlack) colorPalette else colorPalette.copy(
-                                                    background0 = Color.Black,
-                                                    background1 = Color.Black,
-                                                    background2 = Color.Black,
-                                                    background3 = Color.Black,
-                                                    background4 = Color.Black,
-                                                    // text = Color.White
-                                                ),
-                                                typography = appearance.typography.copy(
-                                                    colorPalette.text
-                                                ),
-                                            )
-                                        }
-
-                                    }
-
+                                    // Toujours appeler setDynamicPalette quand on passe au thème dynamique
+                                    val currentArtworkUri = binder?.player?.currentMediaItem?.mediaMetadata?.artworkUri?.thumbnail(1200)?.toString()
+                                    setDynamicPalette(currentArtworkUri)
                                 } else {
                                     //bitmapListenerJob?.cancel()
                                     //binder?.setBitmapListener(null)
@@ -842,10 +850,8 @@ class MainActivity :
                     val colorPaletteName =
                         getEnum(colorPaletteNameKey, ColorPaletteName.Dynamic)
                     if (colorPaletteName == ColorPaletteName.Dynamic) {
-                        setDynamicPalette(
-                            (binder?.player?.currentMediaItem?.mediaMetadata?.artworkUri.thumbnail(1200)
-                                ?: "").toString()
-                        )
+                        val currentArtworkUri = binder?.player?.currentMediaItem?.mediaMetadata?.artworkUri?.thumbnail(1200)?.toString()
+                        setDynamicPalette(currentArtworkUri)
                     }
 
                     onDispose {
@@ -894,11 +900,8 @@ class MainActivity :
             }
 
 
-            if (colorPaletteMode == ColorPaletteMode.PitchBlack)
-                appearance = appearance.copy(
-                    colorPalette = appearance.colorPalette.applyPitchBlack,
-                    typography = appearance.typography.copy(appearance.colorPalette.text)
-                )
+            // Using appearance directly, Pitch Black is managed in setDynamicPalette
+            val finalAppearance = appearance
 
 
 
@@ -906,7 +909,7 @@ class MainActivity :
             BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(appearance.colorPalette.background0)
+                    .background(finalAppearance.colorPalette.background0)
             ) {
 
 
@@ -984,8 +987,8 @@ class MainActivity :
                         }
 
                     } else
-                        CompositionLocalProvider(
-                            LocalAppearance provides appearance,
+                                                 CompositionLocalProvider(
+                             LocalAppearance provides finalAppearance,
                             LocalIndication provides ripple(bounded = true),
                             LocalRippleConfiguration provides rippleConfiguration,
                             LocalShimmerTheme provides shimmerTheme,
@@ -1050,14 +1053,14 @@ class MainActivity :
                                         showPlayer = false
                                         switchToAudioPlayer = false
                                     },
-                                    containerColor = colorPalette().background0,
-                                    contentColor = colorPalette().background0,
+                                    containerColor = finalAppearance.colorPalette.background0,
+                                    contentColor = finalAppearance.colorPalette.background0,
                                     modifier = Modifier.fillMaxWidth(),
                                     sheetState = playerState,
                                     dragHandle = {
                                         Surface(
                                             modifier = Modifier.padding(vertical = 0.dp),
-                                            color = colorPalette().background0,
+                                            color = finalAppearance.colorPalette.background0,
                                             shape = thumbnailShape()
                                         ) {}
                                     },
@@ -1073,14 +1076,14 @@ class MainActivity :
                             CustomModalBottomSheet(
                                 showSheet = isVideo && isVideoEnabled && showPlayer,
                                 onDismissRequest = { showPlayer = false },
-                                containerColor = colorPalette().background0,
-                                contentColor = colorPalette().background0,
+                                containerColor = finalAppearance.colorPalette.background0,
+                                contentColor = finalAppearance.colorPalette.background0,
                                 modifier = Modifier.fillMaxWidth(),
                                 sheetState = playerState,
                                 dragHandle = {
                                     Surface(
                                         modifier = Modifier.padding(vertical = 0.dp),
-                                        color = colorPalette().background0,
+                                        color = finalAppearance.colorPalette.background0,
                                         shape = thumbnailShape()
                                     ) {}
                                 },
@@ -1138,7 +1141,7 @@ class MainActivity :
                                 }
                             }
 
-                            setDynamicPalette(mediaItem?.mediaMetadata?.artworkUri.thumbnail(1200).toString())
+                                                         setDynamicPalette(mediaItem?.mediaMetadata?.artworkUri?.thumbnail(1200)?.toString())
                         }
 
 

@@ -32,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
 import it.fast4x.innertube.Innertube
 import it.fast4x.rimusic.Database
@@ -60,7 +59,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import me.knighthat.coil.ImageCacheFactory
-import coil.request.ImageRequest
 
 val HTTP_REGEX = Regex("^https?://.*")
 val FOUR_CORNERS = listOf( Alignment.TopStart, Alignment.TopEnd, Alignment.BottomStart, Alignment.BottomEnd )
@@ -73,7 +71,7 @@ fun RenderThumbnail(
     modifier: Modifier = Modifier
 ) {
     if( thumbnailUrl.matches( HTTP_REGEX ) )
-        ImageCacheFactory.Thumbnail( thumbnailUrl, contentDescription, contentScale, emptyList(), modifier )
+        ImageCacheFactory.Thumbnail( thumbnailUrl, contentDescription, contentScale, modifier )
     else
         ImageCacheFactory.AsyncImage(
             thumbnailUrl = thumbnailUrl,

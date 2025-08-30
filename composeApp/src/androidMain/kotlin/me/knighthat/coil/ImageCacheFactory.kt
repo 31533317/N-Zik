@@ -8,16 +8,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import app.kreate.android.R
-import coil.ImageLoader
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
-import coil.compose.AsyncImagePainter.State
-import coil.compose.rememberAsyncImagePainter
-import coil.disk.DiskCache
-import coil.request.CachePolicy
-import coil.request.ImageRequest
-import coil.transform.Transformation
+import coil3.ImageLoader
+import coil3.annotation.ExperimentalCoilApi
+import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter
+import coil3.compose.AsyncImagePainter.State
+import coil3.compose.rememberAsyncImagePainter
+import coil3.disk.DiskCache
+import coil3.memory.MemoryCache
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 import it.fast4x.rimusic.appContext
@@ -31,28 +32,48 @@ import it.fast4x.rimusic.utils.preferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.content.Context
+import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import java.security.MessageDigest
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import it.fast4x.rimusic.enums.ExoPlayerCacheLocation
+import it.fast4x.rimusic.utils.exoPlayerCacheLocationKey
+import timber.log.Timber
+import okio.Path.Companion.toOkioPath
 
 @OptIn(ExperimentalCoilApi::class)
 object ImageCacheFactory {
+
+    private const val TAG = "ImageCacheFactory"
 
     private val DISK_CACHE: DiskCache by lazy {
         val preferences = appContext().preferences
         val diskSize = preferences.getEnum( coilDiskCacheMaxSizeKey, CoilDiskCacheMaxSize.`128MB` )
 
-        DiskCache.Builder()
-                 .directory( appContext().filesDir.resolve( "coil" ) )
-                 .maxSizeBytes(
-                     when( diskSize ) {
-                         CoilDiskCacheMaxSize.Custom -> preferences.getInt( coilCustomDiskCacheKey, 128 )
-                                                                   .times( 1000L )
-                                                                   .times( 1000 )
+        val cacheLocation = preferences.getEnum( exoPlayerCacheLocationKey, ExoPlayerCacheLocation.System )
 
-                         else                        -> diskSize.bytes
-                     }
-                 ).build()
+        val cacheDir = when( cacheLocation ) {
+            ExoPlayerCacheLocation.System -> appContext().cacheDir
+            ExoPlayerCacheLocation.Private -> appContext().filesDir
+        }.resolve( "coil" )
+
+        val maxSizeBytes = when( diskSize ) {
+            CoilDiskCacheMaxSize.Custom -> {
+                val customSize = preferences.getInt( coilCustomDiskCacheKey, 128 )
+                val bytes = customSize.times( 1000L ).times( 1000 )
+                bytes
+            }
+            else -> {
+                diskSize.bytes
+            }
+        }
+
+        val diskCache = DiskCache.Builder()
+                 .directory( cacheDir.toPath().toOkioPath() )
+                 .maxSizeBytes( maxSizeBytes )
+                 .build()
+        
+        diskCache
     }
 
    // 900 is too small for some devices, 1200 is a good compromise
@@ -69,14 +90,13 @@ object ImageCacheFactory {
         
         ImageLoader.Builder( appContext() )
                    .crossfade( true )
-                   .placeholder( R.drawable.loader )
-                   .error( R.drawable.ic_launcher_box )
-                   .fallback( R.drawable.ic_launcher_box )
                    .diskCachePolicy( CachePolicy.ENABLED )
                    .networkCachePolicy( CachePolicy.ENABLED )
                    .memoryCachePolicy( CachePolicy.ENABLED )
                    .diskCache( DISK_CACHE )
-                   .okHttpClient( httpClient )
+                   .components {
+                       add(OkHttpNetworkFetcherFactory(httpClient))
+                   }
                    .build()
     }
 
@@ -88,18 +108,25 @@ object ImageCacheFactory {
      * Generate a stable cache key for URLs with caching
      */
     private suspend fun generateCacheKey(url: String?): String {
-        if (url.isNullOrBlank()) return "empty"
+        if (url.isNullOrBlank()) {
+            return "empty"
+        }
         
         return cacheKeyMutex.withLock {
-            cacheKeyMap[url]?.let { return it }
+            cacheKeyMap[url]?.let { 
+                return it 
+            }
             
             val key = try {
                 val processedUrl = url.thumbnail(THUMBNAIL_SIZE) ?: url
                 val md = MessageDigest.getInstance("MD5")
                 val digest = md.digest(processedUrl.toByteArray())
-                digest.fold("") { str, it -> str + "%02x".format(it) }
+                val result = digest.fold("") { str, it -> str + "%02x".format(it) }
+                result
             } catch (e: Exception) {
-                url.hashCode().toString()
+                val fallbackKey = url.hashCode().toString()
+                Timber.tag(TAG).e(e, "Error generating MD5 key, using fallback: $fallbackKey")
+                fallbackKey
             }
             
             cacheKeyMap[url] = key
@@ -114,36 +141,64 @@ object ImageCacheFactory {
     private fun isNetworkConnectionGood(): Boolean {
         return try {
             val connectivityManager = appContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val network = connectivityManager.activeNetwork ?: return false
-            val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            val network = connectivityManager.activeNetwork
+            if (network == null) {
+                return false
+            }
+            
+            val capabilities = connectivityManager.getNetworkCapabilities(network)
+            if (capabilities == null) {
+                return false
+            }
             
             // Basic connectivity check
             val hasInternet = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             val isValidated = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
             
-            if (!hasInternet || !isValidated) return false
+            if (!hasInternet || !isValidated) {
+                return false
+            }
             
             // Transport type check
             val isWifi = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
             val isCellular = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
             
+            // Vérifier le débit de la connexion pour tous les types
+            val hasGoodBandwidth = capabilities.linkDownstreamBandwidthKbps >= 1000 // 1 Mbps minimum
+            val hasGoodLatency = capabilities.linkDownstreamBandwidthKbps > 0
+            
             // Connection quality assessment
             val isGoodConnection = when {
                 isWifi -> {
-                    // WiFi is generally considered good
-                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) ||
-                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
+                    val notMetered = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                    val notRoaming = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
+                    val basicWifiCheck = notMetered || notRoaming
+                    
+                    // WiFi + bon débit
+                    basicWifiCheck && hasGoodBandwidth && hasGoodLatency
                 }
                 isCellular -> {
-                    // Cellular: check for good signal and not roaming
-                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING) &&
-                    !capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                    val notRoaming = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
+                    val notMetered = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                    
+                    // In roaming, accept if the bandwidth is good
+                    if (!notRoaming) {
+                        // Mode roaming : check only the bandwidth
+                        hasGoodBandwidth && hasGoodLatency
+                    } else {
+                        // Mode normal : existing logic + bandwidth
+                        val basicCellularCheck = notRoaming && !notMetered
+                        basicCellularCheck && hasGoodBandwidth && hasGoodLatency
+                    }
                 }
-                else -> false
+                else -> {
+                    false
+                }
             }
             
             isGoodConnection
         } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Error checking network connection")
             false
         }
     }
@@ -153,7 +208,6 @@ object ImageCacheFactory {
         thumbnailUrl: String?,
         contentDescription: String? = null,
         contentScale: ContentScale = ContentScale.FillBounds,
-        transformations: List<Transformation> = emptyList(),
         modifier: Modifier = Modifier.clip( thumbnailShape() )
                                      .fillMaxSize()
     ) {
@@ -170,7 +224,6 @@ object ImageCacheFactory {
         val request = ImageRequest.Builder( appContext() )
                                                .data( validUrl?.thumbnail( THUMBNAIL_SIZE ) )
                                                .diskCacheKey( generateCacheKeySync(validUrl) )
-                                               .transformations( transformations )
                                                .diskCachePolicy( CachePolicy.ENABLED )
                                                .networkCachePolicy( if (shouldUseNetwork) CachePolicy.ENABLED else CachePolicy.DISABLED )
                                                .memoryCachePolicy( CachePolicy.ENABLED )
@@ -192,7 +245,6 @@ object ImageCacheFactory {
     fun Painter(
         thumbnailUrl: String?,
         contentScale: ContentScale = ContentScale.FillBounds,
-        transformations: List<Transformation> = emptyList(),
         @DrawableRes placeholder: Int = R.drawable.loader,
         @DrawableRes error: Int = R.drawable.ic_launcher_box,
         @DrawableRes fallback: Int = R.drawable.ic_launcher_box,
@@ -213,7 +265,6 @@ object ImageCacheFactory {
         val request = ImageRequest.Builder( appContext() )
                                                   .data( validUrl?.thumbnail( THUMBNAIL_SIZE ) )
                                                   .diskCacheKey( generateCacheKeySync(validUrl) )
-                                                  .transformations( transformations )
                                                   .diskCachePolicy( CachePolicy.ENABLED )
                                                   .networkCachePolicy( if (shouldUseNetwork) CachePolicy.ENABLED else CachePolicy.DISABLED )
                                                   .memoryCachePolicy( CachePolicy.ENABLED )
@@ -226,9 +277,16 @@ object ImageCacheFactory {
             placeholder = painterResource( placeholder ),
             error = painterResource( error ),
             fallback = painterResource( fallback ),
-            onLoading = onLoading,
-            onSuccess = onSuccess,
-            onError = onError
+            onLoading = { state ->
+                onLoading?.invoke(state)
+            },
+            onSuccess = { state ->
+                onSuccess?.invoke(state)
+            },
+            onError = { state ->
+                Timber.tag(TAG).e("Painter onError called: ${state.result}")
+                onError?.invoke(state)
+            }
         )
     }
 
@@ -236,16 +294,21 @@ object ImageCacheFactory {
      * Synchronous version of generateCacheKey for Composable functions
      */
     private fun generateCacheKeySync(url: String?): String {
-        if (url.isNullOrBlank()) return "empty"
+        if (url.isNullOrBlank()) {
+            return "empty"
+        }
         
         return cacheKeyMap[url] ?: run {
             val key = try {
                 val processedUrl = url.thumbnail(THUMBNAIL_SIZE) ?: url
                 val md = MessageDigest.getInstance("MD5")
                 val digest = md.digest(processedUrl.toByteArray())
-                digest.fold("") { str, it -> str + "%02x".format(it) }
+                val result = digest.fold("") { str, it -> str + "%02x".format(it) }
+                result
             } catch (e: Exception) {
-                url.hashCode().toString()
+                val fallbackKey = url.hashCode().toString()
+                Timber.tag(TAG).e(e, "Error generating MD5 key, using fallback: $fallbackKey")
+                fallbackKey
             }
             
             cacheKeyMap[url] = key
@@ -264,8 +327,10 @@ object ImageCacheFactory {
             
             val cacheKey = generateCacheKeySync(thumbnailUrl)
             val snapshot = DISK_CACHE.openSnapshot(cacheKey)
-            snapshot != null
+            val isCached = snapshot != null
+            isCached
         } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Error checking if image is cached")
             false
         }
     }
@@ -309,7 +374,7 @@ object ImageCacheFactory {
             
             LOADER.enqueue(request)
         } catch (e: Exception) {
-            // Preload failed, ignore
+            Timber.tag(TAG).e(e, "Preload failed")
         }
     }
 
@@ -328,7 +393,7 @@ object ImageCacheFactory {
             // Clear cache key map
             cacheKeyMap.clear()
         } catch (e: Exception) {
-            // Cache clearing failed
+            Timber.tag(TAG).e(e, "Cache clearing failed")
         }
     }
 
@@ -337,8 +402,10 @@ object ImageCacheFactory {
      */
     fun getCacheSize(): Long {
         return try {
-            DISK_CACHE.size
+            val size = DISK_CACHE.size
+            size
         } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Error getting cache size")
             0L
         }
     }
@@ -350,6 +417,7 @@ object ImageCacheFactory {
         return try {
             DISK_CACHE
         } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Error getting disk cache")
             null
         }
     }
@@ -359,7 +427,6 @@ object ImageCacheFactory {
         thumbnailUrl: String?,
         contentDescription: String? = null,
         contentScale: ContentScale = ContentScale.FillBounds,
-        transformations: List<Transformation> = emptyList(),
         modifier: Modifier = Modifier,
         onLoading: ((State.Loading) -> Unit)? = null,
         onSuccess: ((State.Success) -> Unit)? = null,
@@ -378,13 +445,12 @@ object ImageCacheFactory {
         val request = ImageRequest.Builder( appContext() )
                                                   .data( validUrl?.thumbnail( THUMBNAIL_SIZE ) )
                                                   .diskCacheKey( generateCacheKeySync(validUrl) )
-                                                  .transformations( transformations )
                                                   .diskCachePolicy( CachePolicy.ENABLED )
                                                   .networkCachePolicy( if (shouldUseNetwork) CachePolicy.ENABLED else CachePolicy.DISABLED )
                                                   .memoryCachePolicy( CachePolicy.ENABLED )
                                                   .build()
 
-        coil.compose.AsyncImage(
+        AsyncImage(
             model = request,
             imageLoader = LOADER,
             contentDescription = contentDescription,
@@ -393,9 +459,16 @@ object ImageCacheFactory {
             placeholder = painterResource( R.drawable.loader ),
             error = painterResource( R.drawable.ic_launcher_box ),
             fallback = painterResource( R.drawable.ic_launcher_box ),
-            onLoading = onLoading,
-            onSuccess = onSuccess,
-            onError = onError
+            onLoading = { state ->
+                onLoading?.invoke(state)
+            },
+            onSuccess = { state ->
+                onSuccess?.invoke(state)
+            },
+            onError = { state ->
+                Timber.tag(TAG).e("AsyncImage onError called: ${state.result}")
+                onError?.invoke(state)
+            }
         )
     }
 }

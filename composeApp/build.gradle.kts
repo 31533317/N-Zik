@@ -100,6 +100,7 @@ kotlin {
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
             implementation(libs.coil.mp)
+            implementation(libs.coil.network.okhttp)
 
             implementation(libs.translator)
 
@@ -259,7 +260,6 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
     implementation(libs.compose.shimmer)
-    implementation(libs.compose.coil)
     implementation(libs.androidx.palette)
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.datasource.okhttp)

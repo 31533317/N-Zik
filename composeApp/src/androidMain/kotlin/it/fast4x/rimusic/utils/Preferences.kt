@@ -450,10 +450,14 @@ fun rememberPreference(key: String, defaultValue: Song?): MutableState<Song?> {
     return remember {
         mutableStatePreferenceOf(
             try {
-                context.preferences.getString(key, json)
-                    ?.let { Json.decodeFromString<Song>(it) }
+                val raw = context.preferences.getString(key, json)
+                if (raw == null || raw == "null") {
+                    null
+                } else {
+                    Json.decodeFromString<Song>(raw)
+                }
             } catch (e: Exception) {
-                Timber.e("RememberPreference RelatedPage Error: ${ e.stackTraceToString() }")
+                Timber.e("RememberPreference Song Error: ${ e.stackTraceToString() }")
                 null
             }
         ) {
@@ -472,8 +476,12 @@ fun rememberPreference(key: String, defaultValue: Innertube.DiscoverPage?): Muta
     return remember {
         mutableStatePreferenceOf(
             try {
-                context.preferences.getString(key, json)
-                    ?.let { Json.decodeFromString<Innertube.DiscoverPage>(it) }
+                val raw = context.preferences.getString(key, json)
+                if (raw == null || raw == "null") {
+                    null
+                } else {
+                    Json.decodeFromString<Innertube.DiscoverPage>(raw)
+                }
             } catch (e: Exception) {
                 Timber.e("RememberPreference DiscoverPage Error: ${ e.stackTraceToString() }")
                 null
@@ -494,8 +502,12 @@ fun rememberPreference(key: String, defaultValue: Innertube.ChartsPage?): Mutabl
     return remember {
         mutableStatePreferenceOf(
             try {
-                context.preferences.getString(key, json)
-                    ?.let { Json.decodeFromString<Innertube.ChartsPage>(it) }
+                val raw = context.preferences.getString(key, json)
+                if (raw == null || raw == "null") {
+                    null
+                } else {
+                    Json.decodeFromString<Innertube.ChartsPage>(raw)
+                }
             } catch (e: Exception) {
                 Timber.e("RememberPreference ChartsPage Error: ${ e.stackTraceToString() }")
                 null
@@ -516,8 +528,12 @@ fun rememberPreference(key: String, defaultValue: Innertube.RelatedPage?): Mutab
     return remember {
         mutableStatePreferenceOf(
             try {
-                context.preferences.getString(key, json)
-                    ?.let { Json.decodeFromString<Innertube.RelatedPage>(it) }
+                val raw = context.preferences.getString(key, json)
+                if (raw == null || raw == "null") {
+                    null
+                } else {
+                    Json.decodeFromString<Innertube.RelatedPage>(raw)
+                }
             } catch (e: Exception) {
                 Timber.e("RememberPreference RelatedPage Error: ${ e.stackTraceToString() }")
                 null

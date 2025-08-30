@@ -68,8 +68,13 @@ suspend fun fetchDiscordUser(token: String): Pair<String, String>? = withContext
                 "https://cdn.discordapp.com/embed/avatars/${id.toLong() % 5}.png"
             Pair(username, avatarUrl)
         }
-    }.getOrElse {
-        Timber.tag("DiscordPresence").e(it, "Error fetching Discord user: ${it.message}")
+    }.getOrElse { exception ->
+        // Handle rate limiting silently to avoid disturbing the user
+        if (exception.message?.contains("429") == true || exception.message?.contains("Too Many Requests") == true) {
+            Timber.tag("DiscordPresence").d("Rate limited by Discord API while fetching user info")
+        } else {
+            Timber.tag("DiscordPresence").e(exception, "Error fetching Discord user: ${exception.message}")
+        }
         null
     }
 }

@@ -49,7 +49,7 @@ import androidx.compose.ui.util.fastMap
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import app.kreate.android.R
-import coil.compose.AsyncImagePainter
+import coil3.compose.AsyncImagePainter
 import it.fast4x.innertube.Innertube
 import it.fast4x.innertube.requests.ArtistPage
 import it.fast4x.innertube.requests.ArtistSection

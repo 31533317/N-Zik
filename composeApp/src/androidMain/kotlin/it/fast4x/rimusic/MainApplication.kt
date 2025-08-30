@@ -4,8 +4,10 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import coil.ImageLoader
-import coil.ImageLoaderFactory
+import android.content.Context
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+
 import app.kreate.android.R
 import it.fast4x.rimusic.service.modern.PlayerServiceModern
 import it.fast4x.rimusic.service.MyDownloadHelper
@@ -13,11 +15,10 @@ import it.fast4x.rimusic.utils.CaptureCrash
 import it.fast4x.rimusic.utils.FileLoggingTree
 import it.fast4x.rimusic.utils.logDebugEnabledKey
 import it.fast4x.rimusic.utils.preferences
-import me.knighthat.coil.ImageCacheFactory
 import timber.log.Timber
 import java.io.File
 
-class MainApplication : Application(), ImageLoaderFactory {
+class MainApplication : Application(), SingletonImageLoader.Factory {
 
     override fun onCreate() {
         super.onCreate()
@@ -86,7 +87,7 @@ class MainApplication : Application(), ImageLoaderFactory {
         }
     }
 
-    override fun newImageLoader(): ImageLoader = ImageCacheFactory.LOADER
+    override fun newImageLoader(context: Context): ImageLoader = ImageLoader.Builder(context).build()
 
 }
 
