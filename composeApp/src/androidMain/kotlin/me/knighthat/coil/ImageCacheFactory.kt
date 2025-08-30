@@ -235,7 +235,7 @@ object ImageCacheFactory {
             contentDescription = contentDescription,
             contentScale = contentScale,
             modifier = modifier,
-            placeholder = painterResource( R.drawable.loader ),
+            placeholder = painterResource(R.drawable.loader),
             error = painterResource( R.drawable.ic_launcher_box ),
             fallback = painterResource( R.drawable.ic_launcher_box )
         )
@@ -245,7 +245,7 @@ object ImageCacheFactory {
     fun Painter(
         thumbnailUrl: String?,
         contentScale: ContentScale = ContentScale.FillBounds,
-        @DrawableRes placeholder: Int = R.drawable.loader,
+        @DrawableRes placeholder: Int? = null,
         @DrawableRes error: Int = R.drawable.ic_launcher_box,
         @DrawableRes fallback: Int = R.drawable.ic_launcher_box,
         onLoading: ((State.Loading) -> Unit)? = null,
@@ -274,7 +274,7 @@ object ImageCacheFactory {
             model = request,
             imageLoader = LOADER,
             contentScale = contentScale,
-            placeholder = painterResource( placeholder ),
+            placeholder = painterResource( placeholder ?: R.drawable.loader ),
             error = painterResource( error ),
             fallback = painterResource( fallback ),
             onLoading = { state ->
