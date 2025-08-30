@@ -745,14 +745,17 @@ class PlayerServiceModern : MediaLibraryService(),
         if (preferences.getBoolean(isDiscordPresenceEnabledKey, false)) {
             val token = encryptedPreferences.getString(discordPersonalAccessTokenKey, "")
             if (token?.isNotEmpty() == true) {
+                // Capture current values to avoid thread safety issues
+                val currentPosition = player.currentPosition
+                val isPlaying = player.isPlaying
                 discordPresenceManager?.onPlayingStateChanged(
                     mediaItem,
-                    player.isPlaying,
-                    player.currentPosition,
+                    isPlaying,
+                    currentPosition,
                     duration,
                     now,
-                    getCurrentPosition = { kotlinx.coroutines.runBlocking(kotlinx.coroutines.Dispatchers.Main) { player.currentPosition } },
-                    isPlayingProvider = { kotlinx.coroutines.runBlocking(kotlinx.coroutines.Dispatchers.Main) { player.isPlaying } }
+                    getCurrentPosition = { currentPosition },
+                    isPlayingProvider = { isPlaying }
                 )
             }
         }
@@ -790,14 +793,16 @@ class PlayerServiceModern : MediaLibraryService(),
         if (preferences.getBoolean(isDiscordPresenceEnabledKey, false)) {
             val token = encryptedPreferences.getString(discordPersonalAccessTokenKey, "")
             if (token?.isNotEmpty() == true) {
+                // Capture current values to avoid thread safety issues
+                val currentPosition = player.currentPosition
                 discordPresenceManager?.onPlayingStateChanged(
                     item,
                     isPlaying,
-                    player.currentPosition,
+                    currentPosition,
                     duration,
                     now,
-                    getCurrentPosition = { kotlinx.coroutines.runBlocking(kotlinx.coroutines.Dispatchers.Main) { player.currentPosition } },
-                    isPlayingProvider = { kotlinx.coroutines.runBlocking(kotlinx.coroutines.Dispatchers.Main) { player.isPlaying } }
+                    getCurrentPosition = { currentPosition },
+                    isPlayingProvider = { isPlaying }
                 )
             }
         }
@@ -1390,14 +1395,20 @@ class PlayerServiceModern : MediaLibraryService(),
             if (preferences.getBoolean(isDiscordPresenceEnabledKey, false)) {
                 val token = encryptedPreferences.getString(discordPersonalAccessTokenKey, "")
                 if (token?.isNotEmpty() == true) {
+                    // Capture current values to avoid thread safety issues
+                    val currentMediaItem = player.currentMediaItem
+                    val isPlaying = player.isPlaying
+                    val currentPosition = player.currentPosition
+                    val duration = player.duration
+                    val now = System.currentTimeMillis()
                     discordPresenceManager?.onPlayingStateChanged(
-                        player.currentMediaItem,
-                        player.isPlaying,
-                        player.currentPosition,
-                        player.duration,
-                        System.currentTimeMillis(),
-                        getCurrentPosition = { kotlinx.coroutines.runBlocking(kotlinx.coroutines.Dispatchers.Main) { player.currentPosition } },
-                        isPlayingProvider = { kotlinx.coroutines.runBlocking(kotlinx.coroutines.Dispatchers.Main) { player.isPlaying } }
+                        currentMediaItem,
+                        isPlaying,
+                        currentPosition,
+                        duration,
+                        now,
+                        getCurrentPosition = { currentPosition },
+                        isPlayingProvider = { isPlaying }
                     )
                 }
             }

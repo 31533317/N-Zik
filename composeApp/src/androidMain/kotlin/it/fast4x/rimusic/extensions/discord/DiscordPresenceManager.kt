@@ -74,7 +74,9 @@ class DiscordPresenceManager(
         .readTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
         .build()
     @Volatile
-    private lateinit var smallImage: String
+    private var smallImage: String? = null
+    @Volatile
+    private var largeImage: String? = null
 
     @OptIn(ExperimentalSerializationApi::class)
     private suspend fun uploadArtwork( artworkUri: Uri? ): Result<Uri> =
@@ -147,16 +149,23 @@ class DiscordPresenceManager(
                 it.printStackTrace()
                 it.message?.also( Toaster::e )
 
-                getSmallImageUrl()
+                getLargeImageFallback()
             }
         )
 
     private suspend fun getSmallImageUrl(): String? =
-        if ( ::smallImage.isInitialized )
+        if ( smallImage != null )
             smallImage
         else
-            getDiscordAssetUri( "https://raw.githubusercontent.com/NEVARLeVrai/N-Zik/main/assets/discord/fallback_album.png" )
+            getDiscordAssetUri( "https://raw.githubusercontent.com/NEVARLeVrai/N-Zik/main/assets/discord/fallback_app.png" )
                 ?.also { smallImage = it }
+
+    private suspend fun getLargeImageFallback(): String? =
+        if ( largeImage != null )
+            largeImage
+        else
+            getDiscordAssetUri( "https://raw.githubusercontent.com/NEVARLeVrai/N-Zik/main/assets/discord/fallback_album.png" )
+                ?.also { largeImage = it }
 
 
     /**
@@ -212,21 +221,29 @@ class DiscordPresenceManager(
         }
         if (isPlaying) {
             sendPlayingPresence(mediaItem, position, duration, now)
+            // Store current values to avoid calling lambdas later
+            val currentIsPlaying = isPlaying
+            val currentPosition = position
             startRefreshJob(
-                isPlayingProvider = isPlayingProvider ?: { true },
+                isPlayingProvider = { currentIsPlaying },
                 mediaItem = mediaItem,
-                getCurrentPosition = getCurrentPosition ?: { position },
+                getCurrentPosition = { currentPosition },
                 pausedPosition = position,
-                duration = duration
+                duration = duration,
+                startTime = now // Store the original start time
             )
         } else {
             sendPausedPresence(duration, now, position)
+            // Store current values to avoid calling lambdas later
+            val currentIsPlaying = isPlaying
+            val currentPosition = position
             startRefreshJob(
-                isPlayingProvider = isPlayingProvider ?: { false },
+                isPlayingProvider = { currentIsPlaying },
                 mediaItem = mediaItem,
-                getCurrentPosition = getCurrentPosition ?: { position },
+                getCurrentPosition = { currentPosition },
                 pausedPosition = position,
-                duration = duration
+                duration = duration,
+                startTime = now
             )
         }
     }
@@ -388,7 +405,8 @@ class DiscordPresenceManager(
         mediaItem: MediaItem,
         getCurrentPosition: () -> Long,
         pausedPosition: Long,
-        duration: Long
+        duration: Long,
+        startTime: Long
     ) {
         refreshJob = discordScope.launch {
             while (isActive && !isStopped) {
@@ -399,7 +417,7 @@ class DiscordPresenceManager(
                 val isPlaying = isPlayingProvider()
                 if (isPlaying) {
                     val pos = getCurrentPosition()
-                    sendPlayingPresence(mediaItem, pos, duration, System.currentTimeMillis())
+                    sendPlayingPresence(mediaItem, pos, duration, startTime)
                 } else {
                     sendPausedPresence(duration, System.currentTimeMillis(), pausedPosition)
                 }
