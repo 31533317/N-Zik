@@ -214,9 +214,9 @@ jobs:
             ## 🔄 Update Policy
             
             - 🟡 **Beta Build (-b)**  
-              - **Default:** Update notifications for **Beta** are **disabled by default**.  
+              - **Default:** Update notifications for **Beta** are **enabled by default**.  
               - **User options:**  
-                - You can **enable Beta updates** in **Settings > About > Beta update enabled**.  
+                - You can disable Beta updates** in **Settings > About > Beta update disabled**.  
                 - You can **enable or disable auto update** in **Settings > About > Auto update enabled**.  
               - **Behavior:**  
                 - Without Beta enabled → automatically upgrades to the latest **Stable** release.  
