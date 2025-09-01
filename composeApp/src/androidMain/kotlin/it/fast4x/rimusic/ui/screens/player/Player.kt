@@ -740,7 +740,7 @@ fun Player(
                     bitmap,
                     !lightTheme
                 ) ?: color
-                println("Player INSIDE getting dynamic color $dynamicColorPalette")
+        
 
                 val palette = Palette.from(bitmap).generate()
 
