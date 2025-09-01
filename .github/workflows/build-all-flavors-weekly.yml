@@ -118,7 +118,7 @@ jobs:
       - name: Upload artifacts for signing
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: unsigned-release
+          name: unsigned-full
           path: composeApp/build/outputs/apk/full/*.apk
             
   build-minified:
@@ -157,7 +157,7 @@ jobs:
       - name: Upload artifacts for signing
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: unsigned-uncompressed
+          name: unsigned-minified
           path: composeApp/build/outputs/apk/minified/*.apk
 
   sign-apks:
