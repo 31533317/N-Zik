@@ -731,9 +731,18 @@ class PlayerServiceModern : MediaLibraryService(),
         maybeNormalizeVolume()
         loadFromRadio(reason)
         // Update bitmap with proper fallback handling
-        bitmapProvider.load(binder.player.currentMediaItem?.mediaMetadata?.artworkUri) {
-            updateDefaultNotification()
-            updateWidgets()
+        val artworkUri = binder.player.currentMediaItem?.mediaMetadata?.artworkUri
+        if (artworkUri != null) {
+            bitmapProvider.load(artworkUri) {
+                updateDefaultNotification()
+                updateWidgets()
+            }
+        } else {
+            // If no artwork, force the use of the default bitmap
+            bitmapProvider.load(null) {
+                updateDefaultNotification()
+                updateWidgets()
+            }
         }
 
         /**
