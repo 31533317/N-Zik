@@ -1137,4 +1137,4 @@ fun GeneralSettings(
             modifier = Modifier.height(Dimensions.bottomSpacer)
         )
     }
-}
+}   
