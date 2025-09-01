@@ -13,7 +13,7 @@
   <string name="remove_from_queue">Remove from queue</string>
   <string name="remove_from_playlist">Remove from playlist</string>
   <string name="hide">Hide</string>
-  <string name="hide_from_quick_picks">Hide from Quick Picks</string>
+  <string name="hide_from_quick_picks"></string>
   <string name="related_albums">Related albums</string>
   <string name="similar_artists">Similar artists</string>
   <string name="playlists_you_might_like">Playlists you might like</string>
