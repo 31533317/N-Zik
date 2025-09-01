@@ -258,35 +258,9 @@ fun GeneralSettings(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Search Section with styled icon
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            // Styled search icon
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(
-                        color = colorPalette().accent.copy(alpha = 0.1f),
-                        shape = RoundedCornerShape(8.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-            // Search components
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                search.ToolBarButton()
-                search.SearchBar( this )
-            }
-            }
-            
-
-        }
+        // Search Section
+        search.ToolBarButton()
+        search.SearchBar( this )
 
         if (resetCustomLightThemeDialog) {
             ConfirmationDialog(
