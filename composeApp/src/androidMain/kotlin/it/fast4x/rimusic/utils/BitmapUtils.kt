@@ -39,8 +39,6 @@ suspend fun getBitmapFromUrl(context: Context, url: String): Bitmap {
             throw IllegalStateException("Invalid bitmap: width=${bitmap.width}, height=${bitmap.height}, recycled=${bitmap.isRecycled}")
         }
     } catch (e: Exception) {
-        // Log l'erreur pour le débogage
-        println("getBitmapFromUrl error for URL '$url': ${e.message}")
         throw e
     }
 }
