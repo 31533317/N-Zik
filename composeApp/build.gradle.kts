@@ -127,7 +127,7 @@ android {
         compose = true
     }
 
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.nevar.nzik"
