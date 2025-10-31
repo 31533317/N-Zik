@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.withFrameNanos
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import app.kreate.android.R
@@ -39,6 +40,7 @@ fun Player.positionAndDurationState(): State<Pair<Long, Long>> {
 
     LaunchedEffect(this) {
         var isSeeking = false
+        var needsUpdate = false
 
         val listener = object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
@@ -48,7 +50,9 @@ fun Player.positionAndDurationState(): State<Pair<Long, Long>> {
             }
 
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                state.value = currentPosition to state.value.second
+                // Do not modify the state directly in the callback
+                // The polling coroutine will take care of it.
+                needsUpdate = true
             }
 
             override fun onPositionDiscontinuity(
@@ -58,7 +62,7 @@ fun Player.positionAndDurationState(): State<Pair<Long, Long>> {
             ) {
                 if (reason == Player.DISCONTINUITY_REASON_SEEK) {
                     isSeeking = true
-                    state.value = currentPosition to duration
+                    needsUpdate = true
                 }
             }
         }
@@ -67,9 +71,10 @@ fun Player.positionAndDurationState(): State<Pair<Long, Long>> {
 
         val pollJob = launch {
             while (isActive) {
-                delay(500)
-                if (!isSeeking) {
+                withFrameNanos { }
+                if (!isSeeking || needsUpdate) {
                     state.value = currentPosition to duration
+                    needsUpdate = false
                 }
             }
         }
