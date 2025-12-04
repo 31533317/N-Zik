@@ -3,8 +3,8 @@ name: Close issues upon a release
 on:
   release:
     types: [published]
-  workflow_dispatch: 
-  
+  workflow_dispatch:
+
 jobs:
   patched:
     runs-on: ubuntu-latest
@@ -16,11 +16,13 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           label: patched
-          message: >
-            :tada: This issue has now been fixed and is available in [${releaseTag}](${releaseUrl}) :tada:
+          message: |
+            :tada: This issue has now been fixed and is available in **${{ github.event.release.tag_name }}** :tada:
 
-            This ticket is now closed. If you have any more question, feel free to reply below. If needed,
-            the ticket will be re-open for further support.
+            ➤ Link: ${{ github.event.release.html_url }}
+
+            This ticket is now closed. If you have any more question, feel free to reply below. 
+            If needed, the ticket will be reopened for further support.
 
   implemented:
     runs-on: ubuntu-latest
@@ -32,8 +34,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           label: implemented
-          message: >
-            This request is already existed in the app. Therefore, this ticket is now closed.
+          message: |
+            This request is already implemented in the app. Therefore, this ticket is now closed.
 
             If you have any question, feel free to reply below. If needed,
-            the ticket will be re-open for further support.
+            the ticket will be reopened for further support.
