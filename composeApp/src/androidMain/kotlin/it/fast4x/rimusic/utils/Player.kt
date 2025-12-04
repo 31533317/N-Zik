@@ -253,9 +253,16 @@ fun Player.findNextMediaItemById(mediaId: String): MediaItem? = runCatching {
 }.getOrNull()
 
 fun Player.findMediaItemIndexById(mediaId: String): Int {
-    for (i in currentMediaItemIndex until mediaItemCount) {
-        if (getMediaItemAt(i).mediaId == mediaId) {
-            return i
+    // Search the entire queue, not just from currentMediaItemIndex
+    for (i in 0 until mediaItemCount) {
+        try {
+            if (getMediaItemAt(i).mediaId == mediaId) {
+                return i
+            }
+        } catch (e: Exception) {
+            // Index might be out of bounds if queue changed during iteration
+            Timber.e(e, "Error accessing media item at index $i")
+            continue
         }
     }
     return -1

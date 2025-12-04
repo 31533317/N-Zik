@@ -839,25 +839,34 @@ fun Player(
                     }
                 )
                 .pointerInput(Unit) {
-                    detectHorizontalDragGestures(
-                        onHorizontalDrag = { _, dragAmount ->
-                            deltaX = dragAmount
-                        },
-                        onDragStart = {
-                        },
-                        onDragEnd = {
-                            if (!disablePlayerHorizontalSwipe && playerType == PlayerType.Essential) {
-                                if (deltaX > 5) {
-                                    binder.player.playPrevious()
-                                } else if (deltaX < -5) {
-                                    binder.player.playNext()
+                    try {
+                        detectHorizontalDragGestures(
+                            onHorizontalDrag = { _, dragAmount ->
+                                try {
+                                    deltaX = dragAmount
+                                } catch (e: IllegalStateException) {
+                                    // View may have been detached during drag
                                 }
-
+                            },
+                            onDragStart = {
+                            },
+                            onDragEnd = {
+                                try {
+                                    if (!disablePlayerHorizontalSwipe && playerType == PlayerType.Essential) {
+                                        if (deltaX > 5) {
+                                            binder.player.playPrevious()
+                                        } else if (deltaX < -5) {
+                                            binder.player.playNext()
+                                        }
+                                    }
+                                } catch (e: IllegalStateException) {
+                                    // View may have been detached
+                                }
                             }
-
-                        }
-
-                    )
+                        )
+                    } catch (e: IllegalStateException) {
+                        // View may have been detached before gesture detection
+                    }
                 }
 
         } else if (playerBackgroundColors == PlayerBackgroundColors.ColorPalette){
@@ -1910,17 +1919,20 @@ fun Player(
                                     colorFilter = ColorFilter.tint(colorPalette().collapsedPlayerProgressBar),
                                     modifier = Modifier
                                         .clickable {
-                                            menuState.display {
-                                                PlayerMenu(
-                                                    navController = navController,
-                                                    onDismiss = menuState::hide,
-                                                    mediaItem = mediaItem,
-                                                    binder = binder,
-                                                    onClosePlayer = {
-                                                        onDismiss()
-                                                    },
-                                                    disableScrollingText = disableScrollingText
-                                                )
+                                            val currentMediaItem = binder.player.currentMediaItem
+                                            if (currentMediaItem != null) {
+                                                menuState.display {
+                                                    PlayerMenu(
+                                                        navController = navController,
+                                                        onDismiss = menuState::hide,
+                                                        mediaItem = currentMediaItem,
+                                                        binder = binder,
+                                                        onClosePlayer = {
+                                                            onDismiss()
+                                                        },
+                                                        disableScrollingText = disableScrollingText
+                                                    )
+                                                }
                                             }
                                         }
                                         .rotate(rotationAngle)

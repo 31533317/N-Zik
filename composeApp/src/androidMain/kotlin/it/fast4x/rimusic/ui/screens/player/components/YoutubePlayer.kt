@@ -87,7 +87,7 @@ fun YoutubePlayer(
                 .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
                 .zIndex(2f),
             factory = {
-                val iFramePlayerOptions = IFramePlayerOptions.Builder()
+                val iFramePlayerOptions = IFramePlayerOptions.Builder(context = it)
                     .controls(1)
                     .build()
 

@@ -85,41 +85,71 @@ fun SeekBarCustom(
 
                 var acc = 0f
 
-                detectHorizontalDragGestures(
-                    onDragStart = {
-                        isDragging.targetState = true
-                    },
-                    onHorizontalDrag = { _, delta ->
-                        acc += delta / size.width * (maximumValue - minimumValue)
+                try {
+                    detectHorizontalDragGestures(
+                        onDragStart = {
+                            isDragging.targetState = true
+                        },
+                        onHorizontalDrag = { _, delta ->
+                            try {
+                                acc += delta / size.width * (maximumValue - minimumValue)
 
-                        if (acc !in -1f..1f) {
-                            onDrag(acc.toLong())
-                            acc -= acc.toLong()
+                                if (acc !in -1f..1f) {
+                                    onDrag(acc.toLong())
+                                    acc -= acc.toLong()
+                                }
+                            } catch (e: IllegalStateException) {
+                                // View may have been detached during drag
+                                isDragging.targetState = false
+                                acc = 0f
+                            }
+                        },
+                        onDragEnd = {
+                            isDragging.targetState = false
+                            acc = 0f
+                            try {
+                                onDragEnd()
+                            } catch (e: IllegalStateException) {
+                                // View may have been detached
+                            }
+                        },
+                        onDragCancel = {
+                            isDragging.targetState = false
+                            acc = 0f
+                            try {
+                                onDragEnd()
+                            } catch (e: IllegalStateException) {
+                                // View may have been detached
+                            }
                         }
-                    },
-                    onDragEnd = {
-                        isDragging.targetState = false
-                        acc = 0f
-                        onDragEnd()
-                    },
-                    onDragCancel = {
-                        isDragging.targetState = false
-                        acc = 0f
-                        onDragEnd()
-                    }
-                )
+                    )
+                } catch (e: IllegalStateException) {
+                    // View may have been detached before gesture detection
+                }
             }
             .pointerInput(minimumValue, maximumValue) {
                 if (maximumValue < minimumValue) return@pointerInput
 
-                detectTapGestures(
-                    onPress = { offset ->
-                        onDragStart((offset.x / size.width * (maximumValue - minimumValue) + minimumValue).roundToLong())
-                    },
-                    onTap = {
-                        onDragEnd()
-                    }
-                )
+                try {
+                    detectTapGestures(
+                        onPress = { offset ->
+                            try {
+                                onDragStart((offset.x / size.width * (maximumValue - minimumValue) + minimumValue).roundToLong())
+                            } catch (e: IllegalStateException) {
+                                // View may have been detached
+                            }
+                        },
+                        onTap = {
+                            try {
+                                onDragEnd()
+                            } catch (e: IllegalStateException) {
+                                // View may have been detached
+                            }
+                        }
+                    )
+                } catch (e: IllegalStateException) {
+                    // View may have been detached before gesture detection
+                }
             }
             .padding(horizontal = scrubberRadius)
             .drawWithContent {

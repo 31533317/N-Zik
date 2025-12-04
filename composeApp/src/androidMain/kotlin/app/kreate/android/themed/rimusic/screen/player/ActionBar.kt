@@ -705,15 +705,18 @@ fun BoxScope.ActionBar(
                         icon = R.drawable.ellipsis_vertical,
                         color = colorPalette().accent,
                         onClick = {
-                            menuState.display {
-                                PlayerMenu(
-                                    navController = navController,
-                                    onDismiss = menuState::hide,
-                                    mediaItem = mediaItem,
-                                    binder = binder,
-                                    onClosePlayer = onDismiss,
-                                    disableScrollingText = disableScrollingText
-                                )
+                            val currentMediaItem = binder.player.currentMediaItem
+                            if (currentMediaItem != null) {
+                                menuState.display {
+                                    PlayerMenu(
+                                        navController = navController,
+                                        onDismiss = menuState::hide,
+                                        mediaItem = currentMediaItem,
+                                        binder = binder,
+                                        onClosePlayer = onDismiss,
+                                        disableScrollingText = disableScrollingText
+                                    )
+                                }
                             }
                         },
                         modifier = Modifier

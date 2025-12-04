@@ -105,25 +105,42 @@ private suspend fun PointerInputScope.detectDrags(
 ) {
     var acc = 0f
 
-    detectHorizontalDragGestures(onDragStart = {
-        isDragging.targetState = true
-    }, onHorizontalDrag = { _, delta ->
-        acc += delta / size.width * (maximumValue - minimumValue)
+    try {
+        detectHorizontalDragGestures(onDragStart = {
+            isDragging.targetState = true
+        }, onHorizontalDrag = { _, delta ->
+            try {
+                acc += delta / size.width * (maximumValue - minimumValue)
 
-        if (acc !in -1f..1f) {
-            onSeek(acc)
-            acc -= acc
-        }
-    }, onDragEnd = {
-        isDragging.targetState = false
-        acc = 0f
-        onSeekFinished()
-    }, onDragCancel = {
-        isDragging.targetState = false
-        acc = 0f
-
-        onSeekFinished()
-    })
+                if (acc !in -1f..1f) {
+                    onSeek(acc)
+                    acc -= acc
+                }
+            } catch (e: IllegalStateException) {
+                // View may have been detached during drag
+                isDragging.targetState = false
+                acc = 0f
+            }
+        }, onDragEnd = {
+            isDragging.targetState = false
+            acc = 0f
+            try {
+                onSeekFinished()
+            } catch (e: IllegalStateException) {
+                // View may have been detached
+            }
+        }, onDragCancel = {
+            isDragging.targetState = false
+            acc = 0f
+            try {
+                onSeekFinished()
+            } catch (e: IllegalStateException) {
+                // View may have been detached
+            }
+        })
+    } catch (e: IllegalStateException) {
+        // View may have been detached before gesture detection
+    }
 }
 
 private suspend fun PointerInputScope.detectTaps(
