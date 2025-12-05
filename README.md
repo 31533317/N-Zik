@@ -185,8 +185,7 @@ Join us on Crowdin!
 ## 🔄 Automation & Maintenance
 [![Automatic Dependency Submission](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/dependency-graph/auto-submission/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/dependency-graph/auto-submission)  
 [![Dependabot Updates](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/dependabot/dependabot-updates)  
-[![Chores](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml)  
-[![Close issues upon a release](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-issues-on-release.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-issues-on-release.yaml)  
+[![Chores](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml)   
 [![Close stale tickets weekly](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-stale-tickets.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-stale-tickets.yaml)  
 [![Comment or close on label](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/comment-on-label.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/comment-on-label.yaml)
 
