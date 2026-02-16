@@ -265,7 +265,7 @@
   <string name="catalan">Català</string>
   <string name="disable_scrolling_text">Desactiva el text de desplaçament</string>
   <string name="scrolling_text_is_used_for_long_texts">El text de desplaçament s\'utilitza per a textos llargs</string>
-  <string name="audio_quality_format">Format de qualitat d\'àudio</string>
+  <string name="audio_quality_format">Audio Quality</string>
   <string name="persian">Persa</string>
   <string name="hungarian">Hongarès</string>
   <string name="korean">Coreà</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">BARRA D\'ACCIÓ DEL REPRODUCTOR</string>
   <string name="tab_data">Dades</string>
   <string name="image_cache_max_size">Mida màxima de la memòria cau d\'imatges</string>
+  <string name="network_status">Quality Status</string>
+  <string name="image_quality_format">Image Quality</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">Baixa</string>
+  <string name="network_quality_medium">Mitjà</string>
+  <string name="network_quality_high">Alta</string>
   <string name="song_cache_max_size">Mida màxima de la memòria cau de cançons</string>
   <string name="song_download_max_size">Mida màxima de la descàrrega de la cançó</string>
   <string name="save_to_backup">Desa una còpia de seguretat</string>

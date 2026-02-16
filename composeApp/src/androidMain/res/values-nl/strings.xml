@@ -265,7 +265,7 @@
   <string name="catalan">Catalaans (Catalaľ)</string>
   <string name="disable_scrolling_text">Scrollende tekst uitschakelen</string>
   <string name="scrolling_text_is_used_for_long_texts">Scrollende tekst wordt gebruikt voor lange teksten</string>
-  <string name="audio_quality_format">Audiokwaliteit formaat</string>
+  <string name="audio_quality_format">Audio Kwaliteit</string>
   <string name="persian">Perzisch (½ ½ ½ )</string>
   <string name="hungarian">Hongaars (Magyar)</string>
   <string name="korean">Koreaans (½ ½ ½ ľľľľľ)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">SPELER ACTIE BALK</string>
   <string name="tab_data">Gegevens</string>
   <string name="image_cache_max_size">Afbeeldingscache max grootte</string>
+  <string name="network_status">Kwaliteit status</string>
+  <string name="image_quality_format">Afbeelding kwaliteit</string>
+  <string name="audio_quality_auto_fmt">Automatisch (gedetecteerd: %1$s)</string>
+  <string name="network_quality_low">Laag</string>
+  <string name="network_quality_medium">Normaal</string>
+  <string name="network_quality_high">Hoog</string>
   <string name="song_cache_max_size">Nummercache max grootte</string>
   <string name="song_download_max_size">Nummerdownload max grootte</string>
   <string name="save_to_backup">Opslaan in backup</string>

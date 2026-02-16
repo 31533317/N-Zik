@@ -265,7 +265,7 @@
   <string name="catalan">加泰罗尼亚（加泰罗尼亚）</string>
   <string name="disable_scrolling_text">禁用滚动文本</string>
   <string name="scrolling_text_is_used_for_long_texts">滚动文本用于长文本</string>
-  <string name="audio_quality_format">音频质量格式</string>
+  <string name="audio_quality_format">Audio Quality</string>
   <string name="persian">波斯语 (繁体字)</string>
   <string name="hungarian">匈牙利语(Magyar)</string>
   <string name="korean">韩语(从每秒到每秒每秒)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">PLAYER ACTION BAR</string>
   <string name="tab_data">Data</string>
   <string name="image_cache_max_size">Image cache max size</string>
+  <string name="network_status">Quality Status</string>
+  <string name="image_quality_format">Image Quality</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">低</string>
+  <string name="network_quality_medium">中</string>
+  <string name="network_quality_high">高</string>
   <string name="song_cache_max_size">Song cache max size</string>
   <string name="song_download_max_size">Song download max size</string>
   <string name="save_to_backup">Save to backup</string>

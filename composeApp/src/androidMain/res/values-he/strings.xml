@@ -265,7 +265,7 @@
   <string name="catalan">Catalan (Catalá)</string>
   <string name="disable_scrolling_text">השבת טקסט גלילה</string>
   <string name="scrolling_text_is_used_for_long_texts">טקסט גלילה משמש לטקסטים ארוכים</string>
-  <string name="audio_quality_format">פורמט איכות שמע</string>
+  <string name="audio_quality_format">Audio Quality</string>
   <string name="persian">Persian (فارسی)</string>
   <string name="hungarian">Hungarian (Magyar)</string>
   <string name="korean">Korean (한국인)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">סרגל הפעולה של הנגן</string>
   <string name="tab_data">נתונים</string>
   <string name="image_cache_max_size">גודל מקסימלי של מטמון תמונה</string>
+  <string name="network_status">Quality Status</string>
+  <string name="image_quality_format">Image Quality</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">נמוך</string>
+  <string name="network_quality_medium">בינוני</string>
+  <string name="network_quality_high">גבוה</string>
   <string name="song_cache_max_size">גודל מקסימלי של מטמון השיר</string>
   <string name="song_download_max_size">גודל מקסימלי להורדה של שיר</string>
   <string name="save_to_backup">שמור לגיבוי</string>

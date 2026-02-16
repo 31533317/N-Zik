@@ -265,7 +265,7 @@
   <string name="catalan">Catalan (Catalá)</string>
   <string name="disable_scrolling_text">Szöveggörgetés letiltása</string>
   <string name="scrolling_text_is_used_for_long_texts">A szöveg görgetése hosszú szövegekhez használatos</string>
-  <string name="audio_quality_format">Hangminőség formátuma</string>
+  <string name="audio_quality_format">Audio Quality</string>
   <string name="persian">Persian (فارسی)</string>
   <string name="hungarian">Hungarian (Magyar)</string>
   <string name="korean">Korean (한국인)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">LEJÁTSZÓ AKCIÓ SÁV</string>
   <string name="tab_data">Adat</string>
   <string name="image_cache_max_size">Kép gyorsítótár maximális mérete</string>
+  <string name="network_status">Quality Status</string>
+  <string name="image_quality_format">Image Quality</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">Alacsony</string>
+  <string name="network_quality_medium">Közepes</string>
+  <string name="network_quality_high">Magas</string>
   <string name="song_cache_max_size">Dal gyorsítótár maximális mérete</string>
   <string name="song_download_max_size">Dal letöltés maximális mérete</string>
   <string name="save_to_backup">Mentés biztonsági mentésbe</string>

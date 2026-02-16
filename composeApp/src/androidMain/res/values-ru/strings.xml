@@ -265,7 +265,7 @@
   <string name="catalan">Каталанский (Каталогской)</string>
   <string name="disable_scrolling_text">Отключить прокрутку текста</string>
   <string name="scrolling_text_is_used_for_long_texts">Прокрутка текста используется для длинных текстов</string>
-  <string name="audio_quality_format">Формат качества аудио</string>
+  <string name="audio_quality_format">Качество звука</string>
   <string name="persian">Персидский (فارس&lt;unk&gt; )</string>
   <string name="hungarian">Венгерский (Magyar)</string>
   <string name="korean">Корейский (&lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; )</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">ПАНЕЛЬ ДЕЙСТВИЙ ПЛЕЕРА</string>
   <string name="tab_data">Данные</string>
   <string name="image_cache_max_size">Макс. размер кэша изображений</string>
+  <string name="network_status">Состояние качества</string>
+  <string name="image_quality_format">Качество изображения</string>
+  <string name="audio_quality_auto_fmt">Авто (обнаружено: %1$s)</string>
+  <string name="network_quality_low">Низкий</string>
+  <string name="network_quality_medium">Средний</string>
+  <string name="network_quality_high">Высокий</string>
   <string name="song_cache_max_size">Макс. размер кэша песен</string>
   <string name="song_download_max_size">Макс. размер загруженных песен</string>
   <string name="save_to_backup">Создать резервную копию</string>

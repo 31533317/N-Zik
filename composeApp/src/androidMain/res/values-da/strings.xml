@@ -265,7 +265,7 @@
   <string name="catalan">Catalansk</string>
   <string name="disable_scrolling_text">Deaktivér rullende tekst</string>
   <string name="scrolling_text_is_used_for_long_texts">Rullende tekst bruges til lang tekst</string>
-  <string name="audio_quality_format">Lydkvalitetsformat</string>
+  <string name="audio_quality_format">Lydkvalitet</string>
   <string name="persian">Persisk</string>
   <string name="hungarian">Ungarsk</string>
   <string name="korean">Koreansk</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">AFSPILLERHANDLINGSLINJE</string>
   <string name="tab_data">Data</string>
   <string name="image_cache_max_size">Maks. størrelse for billedcache</string>
+  <string name="network_status">Kvalitet Status</string>
+  <string name="image_quality_format">Billedkvalitet</string>
+  <string name="audio_quality_auto_fmt">Auto (Detekteret: %1$s)</string>
+  <string name="network_quality_low">Lav</string>
+  <string name="network_quality_medium">Mellem</string>
+  <string name="network_quality_high">Høj</string>
   <string name="song_cache_max_size">Maks. størrelse for sangcache</string>
   <string name="song_download_max_size">Maks. størrelse for sanghentning</string>
   <string name="save_to_backup">Gem til sikkerhedskopi</string>

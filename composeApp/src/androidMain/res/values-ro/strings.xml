@@ -265,7 +265,7 @@
   <string name="catalan">Catalană (Català)</string>
   <string name="disable_scrolling_text">Dezactivează textul derulant</string>
   <string name="scrolling_text_is_used_for_long_texts">Textul derulant este folosit pentru texte lungi</string>
-  <string name="audio_quality_format">Format de calitate audio</string>
+  <string name="audio_quality_format">Audio Quality</string>
   <string name="persian">Persană (فارسی)</string>
   <string name="hungarian">Maghiară (Magyar)</string>
   <string name="korean">Coreeană (한국어)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">BARA DE ACȚIUNE A PLAYERULUI</string>
   <string name="tab_data">Date</string>
   <string name="image_cache_max_size">Dimensiunea maximă a cache-ului de imagini</string>
+  <string name="network_status">Quality Status</string>
+  <string name="image_quality_format">Image Quality</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">Scăzută</string>
+  <string name="network_quality_medium">Mediu</string>
+  <string name="network_quality_high">Înaltă</string>
   <string name="song_cache_max_size">Dimensiunea maximă a cache-ului de melodii</string>
   <string name="song_download_max_size">Dimensiunea maximă a descărcărilor de melodii</string>
   <string name="save_to_backup">Salvează în o copie de siguranță</string>
