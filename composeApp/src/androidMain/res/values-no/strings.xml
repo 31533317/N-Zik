@@ -265,7 +265,7 @@
   <string name="catalan">Katalansk (Catalaā )</string>
   <string name="disable_scrolling_text">Deaktiver rullende tekst</string>
   <string name="scrolling_text_is_used_for_long_texts">Rullende tekst brukes for lange tekster</string>
-  <string name="audio_quality_format">Lydkvalitets format</string>
+  <string name="audio_quality_format">Lyd Kvalitet</string>
   <string name="persian">Persian</string>
   <string name="hungarian">Ungarsk (Magyar)</string>
   <string name="korean">Koreansk (″″εεεε########################)-</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">SPILLER HANDLINGSLINJE</string>
   <string name="tab_data">Data</string>
   <string name="image_cache_max_size">Maks størrelse på bildebuffer</string>
+  <string name="network_status">Kvalitet Status</string>
+  <string name="image_quality_format">Bilde kvalitet</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">Lav</string>
+  <string name="network_quality_medium">Medium</string>
+  <string name="network_quality_high">Høy</string>
   <string name="song_cache_max_size">Maks størrelse på sangbuffer</string>
   <string name="song_download_max_size">Sang maks nedlastingsstørrelse</string>
   <string name="save_to_backup">Lagre til sikkerhetskopi</string>
