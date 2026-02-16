@@ -143,6 +143,12 @@ Use this command to clone the repo
 ```
 git clone -b NZik --single-branch --recursive https://github.com/NEVARLeVrai/N-Zik.git
 ```
+Don't forget to add 'release_notes.txt' in ComposeApp/res/raw/release_notes.txt
+Add in the file
+```
+New:
+- Initial release
+```
 
 ## 🌍 Help Translate
 
