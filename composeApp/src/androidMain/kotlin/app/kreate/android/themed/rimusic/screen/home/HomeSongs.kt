@@ -3,6 +3,7 @@ package app.kreate.android.themed.rimusic.screen.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -337,7 +338,10 @@ fun HomeSongs(
     LazyColumn(
         state = lazyListState,
         userScrollEnabled = !isLoading,
-        contentPadding = PaddingValues( bottom = Dimensions.bottomSpacer )
+        contentPadding = PaddingValues( bottom = Dimensions.bottomSpacer ),
+        modifier = Modifier
+            .background(colorPalette().background0)
+            .fillMaxSize()
     ) {
         if( isLoading )
             items(
@@ -380,7 +384,7 @@ fun HomeSongs(
                     itemSelector = itemSelector,
                     navController = navController,
                     isRecommended = song in relatedSongs,
-                    modifier = Modifier.animateItem(),
+                    modifier = Modifier.background(colorPalette().background0).animateItem(),
                     thumbnailOverlay = {
                         if ( songSort.sortBy == SongSortBy.PlayTime || builtInPlaylist == BuiltInPlaylist.Top ) {
                             var text = song.formattedTotalPlayTime
