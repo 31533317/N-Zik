@@ -17,14 +17,14 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Install BeautifulSoup4 dependency
         run: pip install beautifulsoup4 requests
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Run get_developers.py script
         env:
@@ -40,6 +40,6 @@ jobs:
         run: echo "date=$(date +'%m-%d-%Y')" >> $GITHUB_OUTPUT
 
       - name: Push changes
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "In-app contributors list updated ${{ steps.date.outputs.date }}"

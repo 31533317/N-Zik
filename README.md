@@ -137,6 +137,13 @@ Here are the languages currently supported:
 Pull requests are welcome!  
 Feel free to fix bugs, enhance features, or suggest new ideas.
 
+# 📜 Clone the repo
+
+Use this command to clone the repo
+```
+git clone -b NZik --single-branch --recursive https://github.com/NEVARLeVrai/N-Zik.git
+```
+
 ## 🌍 Help Translate
 
 Want to:
