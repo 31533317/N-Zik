@@ -1,0 +1,7 @@
+Updated:
+- Updated build system to Gradle 9.2.1 and AGP 9.0.1 for better performance
+- Updated NewPipe Extractor to v0.25.2 for improved YouTube support
+- Added kotlinx-serialization and MetrolistExtractor support
+- Improved project structure and dependencies organization
+- Updated Ktor dependencies configuration
+- Updated documentation
