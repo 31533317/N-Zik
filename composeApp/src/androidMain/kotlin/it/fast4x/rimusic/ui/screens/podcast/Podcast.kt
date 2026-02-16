@@ -738,6 +738,7 @@ fun Podcast(
                             thumbnailSizePx = songThumbnailSizePx,
                             thumbnailSizeDp = songThumbnailSizeDp,
                             modifier = Modifier
+                                .background(colorPalette().background0)
                                 .combinedClickable(
                                     onLongClick = {
                                         menuState.display {

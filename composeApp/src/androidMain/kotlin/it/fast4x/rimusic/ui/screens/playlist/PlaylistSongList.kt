@@ -1035,6 +1035,7 @@ fun PlaylistSongList(
                     ) {
                         SongItem(
                             song = ytSong.asSong,
+                            modifier = Modifier.background(colorPalette().background0),
                             onClick = {
                                 if ( ytSong.key !in dislikedSongs ) {
                                     searching = false

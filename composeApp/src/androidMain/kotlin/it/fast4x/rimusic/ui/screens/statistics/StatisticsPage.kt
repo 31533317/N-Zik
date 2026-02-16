@@ -354,6 +354,7 @@ fun StatisticsPage(
                                     )
                                 },
                                 modifier = Modifier
+                                    .background(colorPalette().background0)
                                     .combinedClickable(
                                         onLongClick = {
                                             menuState.display {
