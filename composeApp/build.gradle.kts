@@ -80,6 +80,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -279,20 +280,26 @@ dependencies {
     implementation(libs.androidx.glance.widgets)
     implementation(libs.kizzy.rpc)
     implementation(libs.gson)
-    implementation (libs.hypnoticcanvas)
-    implementation (libs.hypnoticcanvas.shaders)
+    implementation(libs.hypnoticcanvas)
+    implementation(libs.hypnoticcanvas.shaders)
     implementation(libs.github.jeziellago.compose.markdown)
 
     implementation(libs.room)
     ksp(libs.room.compiler)
 
     implementation(projects.innertube)
-    implementation(projects.oldtube)
     implementation(projects.kugou)
     implementation(projects.lrclib)
     implementation(projects.piped)
 
     coreLibraryDesugaring(libs.desugaring.nio)
+
+    testImplementation(libs.junit5.jupiter.api)
+    testRuntimeOnly(libs.junit5.jupiter.engine)
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+    implementation(libs.jetbrains.annotations)
+    implementation(libs.okhttp3.okhttp)
 
     // Debug only
     debugImplementation(libs.ui.tooling.preview.android)

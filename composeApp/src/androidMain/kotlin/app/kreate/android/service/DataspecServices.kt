@@ -38,7 +38,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
-import me.knighthat.innertube.Endpoints
 import me.knighthat.utils.Toaster
 import org.jetbrains.annotations.Blocking
 import org.jetbrains.annotations.NonBlocking
@@ -59,7 +58,7 @@ private const val CHUNK_LENGTH = 512 * 1024L     // 512Kb
 private var justInserted: String = ""
 
 /**
- * Reach out to [Endpoints.NEXT] endpoint for song's information.
+ * Reach out to `next` endpoint for song's information.
  *
  * Info includes:
  * - Titles
