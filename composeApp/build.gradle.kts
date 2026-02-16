@@ -155,9 +155,8 @@ android {
 
     buildTypes {
         debug {
-            manifestPlaceholders += mapOf()
+            manifestPlaceholders += mapOf("appName" to "$APP_NAME-debug")
             applicationIdSuffix = ".debug"
-            manifestPlaceholders["appName"] = "$APP_NAME-debug"
 
             buildConfigField( "Boolean", "IS_AUTOUPDATE", "false" )
             signingConfig = signingConfigs.getByName("debug")
@@ -285,7 +284,8 @@ dependencies {
     implementation(libs.github.jeziellago.compose.markdown)
 
     implementation(libs.room)
-    ksp(libs.room.compiler)
+    add("kspAndroid", libs.room.compiler)
+    add("kspDesktop", libs.room.compiler)
 
     implementation(projects.innertube)
     implementation(projects.kugou)
