@@ -265,7 +265,7 @@
   <string name="catalan">Каталонська (Catalá)</string>
   <string name="disable_scrolling_text">Вимкнути прокрутку тексту</string>
   <string name="scrolling_text_is_used_for_long_texts">Прокрутка тексту використовується для довгих текстів</string>
-  <string name="audio_quality_format">Якість звуку Формат</string>
+  <string name="audio_quality_format">Якість звуку</string>
   <string name="persian">Персидська (ди-цзю)</string>
   <string name="hungarian">Угорська (Magyar)</string>
   <string name="korean">Корейська (ди-цзюй цзиґ)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">ПАНЕЛЬ ДІЇ ПРОГРАВАЧА</string>
   <string name="tab_data">Дані</string>
   <string name="image_cache_max_size">Максимальний розмір кешу зображень</string>
+  <string name="network_status">Стан якості</string>
+  <string name="image_quality_format">Якість зображення</string>
+  <string name="audio_quality_auto_fmt">Авто (виявлено: %1$s)</string>
+  <string name="network_quality_low">Низько</string>
+  <string name="network_quality_medium">Середні</string>
+  <string name="network_quality_high">Висока</string>
   <string name="song_cache_max_size">Максимальний розмір кешу пісень</string>
   <string name="song_download_max_size">Максимальний розмір завантаження пісень</string>
   <string name="save_to_backup">Зберегти до резервної копії</string>
