@@ -86,8 +86,11 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             implementation(projects.innertube)
+            implementation(projects.oldtube)
             implementation(projects.piped)
             implementation(projects.invidious)
+            implementation(projects.discord)
+            implementation(projects.metrolist)
 
             implementation(libs.room)
             implementation(libs.room.runtime)
@@ -288,9 +291,12 @@ dependencies {
     add("kspDesktop", libs.room.compiler)
 
     implementation(projects.innertube)
+    implementation(projects.oldtube)
     implementation(projects.kugou)
     implementation(projects.lrclib)
     implementation(projects.piped)
+    implementation(projects.discord)
+    implementation(projects.metrolist)
 
     coreLibraryDesugaring(libs.desugaring.nio)
 
