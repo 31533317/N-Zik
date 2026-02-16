@@ -374,6 +374,12 @@
   <string name="player_action_bar">PANEL AKCÍ PŘEHRÁVAČE</string>
   <string name="tab_data">Data</string>
   <string name="image_cache_max_size">Maximální velikost mezipaměti obrázků</string>
+  <string name="network_status">Stav kvality</string>
+  <string name="image_quality_format">Kvalita obrázku</string>
+  <string name="audio_quality_auto_fmt">Automaticky (nalezeno: %1$s)</string>
+  <string name="network_quality_low">Nízká</string>
+  <string name="network_quality_medium">Střední</string>
+  <string name="network_quality_high">Vysoká</string>
   <string name="song_cache_max_size">Maximální velikost mezipaměti skladeb</string>
   <string name="song_download_max_size">Maximální velikost stahování skladeb</string>
   <string name="save_to_backup">Uložit do zálohy</string>
