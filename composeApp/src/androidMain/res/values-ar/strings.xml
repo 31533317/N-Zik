@@ -265,7 +265,7 @@
   <string name="catalan">Catalan</string>
   <string name="disable_scrolling_text">Disable scrolling text</string>
   <string name="scrolling_text_is_used_for_long_texts">Scrolling text is used for long texts</string>
-  <string name="audio_quality_format">Audio quality Format</string>
+  <string name="audio_quality_format">جودة الصوت</string>
   <string name="persian">Persian</string>
   <string name="hungarian">Hungarian</string>
   <string name="korean">Korean</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">PLAYER ACTION BAR</string>
   <string name="tab_data">Data</string>
   <string name="image_cache_max_size">Image cache max size</string>
+  <string name="network_status">حالة الجودة</string>
+  <string name="image_quality_format">جودة الصورة</string>
+  <string name="audio_quality_auto_fmt">تلقائي (تم اكتشافه: %1$s)</string>
+  <string name="network_quality_low">Low</string>
+  <string name="network_quality_medium">متوسط</string>
+  <string name="network_quality_high">High</string>
   <string name="song_cache_max_size">Song cache max size</string>
   <string name="song_download_max_size">Song download max size</string>
   <string name="save_to_backup">Save to backup</string>

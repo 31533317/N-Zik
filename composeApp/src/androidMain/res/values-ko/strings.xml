@@ -265,7 +265,7 @@
   <string name="catalan">Catalan (Catalá)</string>
   <string name="disable_scrolling_text">텍스트 스크롤 비활성화</string>
   <string name="scrolling_text_is_used_for_long_texts">긴 텍스트를 스크롤 하기</string>
-  <string name="audio_quality_format">음악 품질</string>
+  <string name="audio_quality_format">Audio Quality</string>
   <string name="persian">Persian (فارسی)</string>
   <string name="hungarian">Hungarian (Magyar)</string>
   <string name="korean">Korean (한국인)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">플레이어 액션바</string>
   <string name="tab_data">데이터</string>
   <string name="image_cache_max_size">이미지 캐시 최대 크기</string>
+  <string name="network_status">Quality Status</string>
+  <string name="image_quality_format">Image Quality</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">낮게</string>
+  <string name="network_quality_medium">중간</string>
+  <string name="network_quality_high">높게</string>
   <string name="song_cache_max_size">음악 캐시 최대 크기</string>
   <string name="song_download_max_size">음악 다운로드 최대 크기</string>
   <string name="save_to_backup">백업 저장</string>

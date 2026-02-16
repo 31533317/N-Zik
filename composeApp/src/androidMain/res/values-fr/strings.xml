@@ -265,7 +265,7 @@
   <string name="catalan">Catalan (Català)</string>
   <string name="disable_scrolling_text">Désactiver le défilement du texte</string>
   <string name="scrolling_text_is_used_for_long_texts">Le défilement du texte est utilisé pour les longs textes</string>
-  <string name="audio_quality_format">Format de la qualité audio</string>
+  <string name="audio_quality_format">Audio Quality</string>
   <string name="persian">Persan (فارسی)</string>
   <string name="hungarian">Hongrois (Magyar)</string>
   <string name="korean">Coréen (한국인)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">BARRE D\'ACTION DU LECTEUR</string>
   <string name="tab_data">Données</string>
   <string name="image_cache_max_size">Taille maximale du cache des images</string>
+  <string name="network_status">Quality Status</string>
+  <string name="image_quality_format">Image Quality</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">Bas</string>
+  <string name="network_quality_medium">Moyen</string>
+  <string name="network_quality_high">Élevé</string>
   <string name="song_cache_max_size">Taille maximale du cache des titres</string>
   <string name="song_download_max_size">Taille maximale du téléchargement des titres</string>
   <string name="save_to_backup">Sauvegarder pour restaurer</string>

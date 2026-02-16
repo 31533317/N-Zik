@@ -374,6 +374,12 @@
   <string name="player_action_bar">Spelarens snabbknappar</string>
   <string name="tab_data">Data</string>
   <string name="image_cache_max_size">Bildcachens maxstorlek</string>
+  <string name="network_status">Kvalitet Status</string>
+  <string name="image_quality_format">Bildens kvalitet</string>
+  <string name="audio_quality_auto_fmt">Auto (upptäckt: %1$s)</string>
+  <string name="network_quality_low">Låg</string>
+  <string name="network_quality_medium">Mellan</string>
+  <string name="network_quality_high">Hög</string>
   <string name="song_cache_max_size">Låtcachens maxstorlek</string>
   <string name="song_download_max_size">Maxstorlek för låtnedladdning</string>
   <string name="save_to_backup">Spara till säkerhetskopia</string>

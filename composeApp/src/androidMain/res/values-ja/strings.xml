@@ -265,7 +265,7 @@
   <string name="catalan">カタロニア語</string>
   <string name="disable_scrolling_text">テキストスクロールを無効化</string>
   <string name="scrolling_text_is_used_for_long_texts">長いテキストがスクロールされます</string>
-  <string name="audio_quality_format">音質</string>
+  <string name="audio_quality_format">オーディオ品質</string>
   <string name="persian">ペルシャ語（&lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; ）</string>
   <string name="hungarian">ハンガリー語(マグヤール)</string>
   <string name="korean">朝鮮語 (&lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; )</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">プレイヤーの操作用バー</string>
   <string name="tab_data">データ</string>
   <string name="image_cache_max_size">画像キャッシュの最大サイズ</string>
+  <string name="network_status">品質の状態</string>
+  <string name="image_quality_format">画像品質</string>
+  <string name="audio_quality_auto_fmt">自動 (検出: %1$s)</string>
+  <string name="network_quality_low">低</string>
+  <string name="network_quality_medium">中</string>
+  <string name="network_quality_high">高</string>
   <string name="song_cache_max_size">曲キャッシュの最大サイズ</string>
   <string name="song_download_max_size">曲ダウンロードの最大サイズ</string>
   <string name="save_to_backup">バックアップに保存</string>

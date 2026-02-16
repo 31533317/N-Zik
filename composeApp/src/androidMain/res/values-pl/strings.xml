@@ -265,7 +265,7 @@
   <string name="catalan">Kataloński (Catala)</string>
   <string name="disable_scrolling_text">Wyłącz przewijanie tekstu</string>
   <string name="scrolling_text_is_used_for_long_texts">Przewijanie tekstu jest używane do długich tekstów</string>
-  <string name="audio_quality_format">Format jakości audio</string>
+  <string name="audio_quality_format">Jakość dźwięku</string>
   <string name="persian">perski (&lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; )</string>
   <string name="hungarian">węgierski (Magyar)</string>
   <string name="korean">Koreański (&lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; &lt;unk&gt; )</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">PASEK AKCJI ODTWARZACZA</string>
   <string name="tab_data">Dane</string>
   <string name="image_cache_max_size">Maksymalny rozmiar pamięci podręcznej obrazów</string>
+  <string name="network_status">Status jakości</string>
+  <string name="image_quality_format">Jakość obrazu</string>
+  <string name="audio_quality_auto_fmt">Auto (Wykryto: %1$s)</string>
+  <string name="network_quality_low">Niska</string>
+  <string name="network_quality_medium">Średni</string>
+  <string name="network_quality_high">Wysoka</string>
   <string name="song_cache_max_size">Maksymalny rozmiar pamięci podręcznej utworów</string>
   <string name="song_download_max_size">Maksymalny rozmiar pobranych utworów</string>
   <string name="save_to_backup">Zapisz do kopii zapasowej</string>
