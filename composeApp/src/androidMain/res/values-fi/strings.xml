@@ -265,7 +265,7 @@
   <string name="catalan">Katalaani (Katalaatti)</string>
   <string name="disable_scrolling_text">Poista vieritysteksti käytöstä</string>
   <string name="scrolling_text_is_used_for_long_texts">Vieritystekstiä käytetään pitkiin teksteihin</string>
-  <string name="audio_quality_format">Äänenlaatu</string>
+  <string name="audio_quality_format">Äänen Laatu</string>
   <string name="persian">Persia (kk.v)</string>
   <string name="hungarian">Unkari (Magyar)</string>
   <string name="korean">Korealainen (kk.vvvvvvvvv)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">SOITTIMEN TOIMINTOPALKKI</string>
   <string name="tab_data">Tiedot</string>
   <string name="image_cache_max_size">Kuvien välimuistin enimmäiskoko</string>
+  <string name="network_status">Laatu Tila</string>
+  <string name="image_quality_format">Kuvan Laatu</string>
+  <string name="audio_quality_auto_fmt">Automaattinen (havaittu: %1$s)</string>
+  <string name="network_quality_low">Matala</string>
+  <string name="network_quality_medium">Keskikokoinen</string>
+  <string name="network_quality_high">Korkea</string>
   <string name="song_cache_max_size">Kappaleiden välimuistin enimmäiskoko</string>
   <string name="song_download_max_size">Kappaleiden tallennustilan suurin koko</string>
   <string name="save_to_backup">Tallenna varmuuskopio</string>
