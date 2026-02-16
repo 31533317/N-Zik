@@ -287,7 +287,6 @@ dependencies {
     ksp(libs.room.compiler)
 
     implementation(projects.innertube)
-    implementation(projects.oldtube)
     implementation(projects.kugou)
     implementation(projects.lrclib)
     implementation(projects.piped)
