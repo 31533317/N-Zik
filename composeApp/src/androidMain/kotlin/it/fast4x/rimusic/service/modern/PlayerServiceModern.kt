@@ -342,6 +342,7 @@ class PlayerServiceModern : MediaLibraryService(),
 
         runCatching {
             bitmapProvider = BitmapProvider(
+                scope = coroutineScope,
                 bitmapSize = (512 * resources.displayMetrics.density).roundToInt(),
                 colorProvider = { isSystemInDarkMode ->
                     if (isSystemInDarkMode) Color.BLACK else Color.WHITE

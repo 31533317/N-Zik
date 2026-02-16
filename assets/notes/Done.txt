@@ -1,3 +1,7 @@
-Fixed swiper gestures icons
-Fix Home/Quick Picks Refresh & Shuffle Stability
-Fixed Songs Screen Background Color
+1: Fixed swiper gestures icons
+2: Fix Home/Quick Picks Refresh & Shuffle Stability
+3: Fixed Songs Screen Background Color
+4: Implemented Progressive Adaptive Image Cache (LOW/MEDIUM/HIGH based on network)
+5: Added Real-time Network Quality Status (Image/Audio) in Settings
+6: Added Manual Quality Overrides (Image/Audio) in Settings
+7: Disabled "Metered Connection" by default for better initial experience
