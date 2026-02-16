@@ -13,8 +13,7 @@
 [![Total Downloads (all releases)](https://img.shields.io/github/downloads/NEVARLeVrai/N-Zik/total?label=Total%20Downloads%20(all))](https://github.com/NEVARLeVrai/N-Zik/releases) [![Latest Release Downloads](https://img.shields.io/github/downloads/NEVARLeVrai/N-Zik/latest/total?label=Latest%20Release%20Downloads)](https://github.com/NEVARLeVrai/N-Zik/releases/latest) 
 
 [![Localization Progress](https://badges.crowdin.net/N-Zik/localized.svg)](https://crowdin.com/project/N-Zik) [![License: GPL v3](https://img.shields.io/github/license/NEVARLeVrai/N-Zik?color=blue)](https://www.gnu.org/licenses/gpl-3.0)
-[![CodeFactor](https://www.codefactor.io/repository/github/nevarlevrai/n-zik/badge)](https://www.codefactor.io/repository/github/nevarlevrai/n-zik) [![CodeQL](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/github-code-scanning/codeql)
-
+[![CodeFactor](https://www.codefactor.io/repository/github/nevarlevrai/n-zik/badge)](https://www.codefactor.io/repository/github/nevarlevrai/n-zik)
 </div>
 
 # 🎧 Features
@@ -201,6 +200,7 @@ Join us on Crowdin!
 [![Chores](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml)   
 [![Close stale tickets weekly](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-stale-tickets.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-stale-tickets.yaml)  
 [![Comment or close on label](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/comment-on-label.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/comment-on-label.yaml)
+[![CodeQL](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/github-code-scanning/codeql)
 
 ## 🌐 Localization
 [![Sync Crowdin Translations](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/sync-crowdin-translations.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/sync-crowdin-translations.yaml)  
