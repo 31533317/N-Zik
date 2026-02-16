@@ -90,7 +90,10 @@ kotlin {
             implementation(projects.piped)
             implementation(projects.invidious)
             implementation(projects.discord)
-            implementation(projects.metrolist)
+            implementation(projects.metrolist) {
+                exclude(group = "com.google.protobuf", module = "protobuf-java")
+                exclude(group = "com.github.mostafaalagamy", module = "MetrolistExtractor")
+            }
 
             implementation(libs.room)
             implementation(libs.room.runtime)
@@ -207,7 +210,7 @@ android {
     }
 
     sourceSets.all {
-        kotlin.srcDir("src/$name/kotlin")
+        kotlin.srcDirs("src/$name/kotlin")
     }
 
     compileOptions {
@@ -296,7 +299,10 @@ dependencies {
     implementation(projects.lrclib)
     implementation(projects.piped)
     implementation(projects.discord)
-    implementation(projects.metrolist)
+    implementation(projects.metrolist) {
+        exclude(group = "com.google.protobuf", module = "protobuf-java")
+        exclude(group = "com.github.mostafaalagamy", module = "MetrolistExtractor")
+    }
 
     coreLibraryDesugaring(libs.desugaring.nio)
 
