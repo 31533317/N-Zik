@@ -1,1 +1,2 @@
 Fixed swiper gestures icons
+Fix Home/Quick Picks Refresh & Shuffle Stability
