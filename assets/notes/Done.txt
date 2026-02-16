@@ -5,4 +5,5 @@
 5: Added Real-time Network Quality Status (Image/Audio) in Settings
 6: Added Manual Quality Overrides (Image/Audio) in Settings
 7: Disabled "Metered Connection" by default for better initial experience
-8: Fixed visualizer freezes
+8: Extended Background Color Fix to Search results, Albums, Artists, Playlists, Podcasts, and Statistics screens.
+9: Fixed visualizer freezes
