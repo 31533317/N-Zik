@@ -1,10 +1,12 @@
 package it.fast4x.rimusic.ui.components
 
 import androidx.annotation.OptIn
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -55,6 +57,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import me.knighthat.sync.YouTubeSync
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwipeableContent(
     swipeToLeftIcon: Int? = null,
@@ -79,7 +82,7 @@ fun SwipeableContent(
     val current = LocalViewConfiguration.current
     CompositionLocalProvider(LocalViewConfiguration provides object : ViewConfiguration by current{
         override val touchSlop: Float
-            get() = current.touchSlop * 5f
+            get() = current.touchSlop * 2f
     }) {
         SwipeToDismissBox(
             gesturesEnabled = isSwipeToActionEnabled,
@@ -88,28 +91,29 @@ fun SwipeableContent(
             //.clip(RoundedCornerShape(12.dp)),
             state = dismissState,
             backgroundContent = {
+                val offset = try { dismissState.requireOffset() } catch (e: Exception) { 0f }
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
-                        //.background(colorPalette.background1)
+                        .background(colorPalette().background1)
                         .padding(horizontal = 16.dp),
-                    horizontalArrangement = when (dismissState.targetValue) {
-                        SwipeToDismissBoxValue.StartToEnd -> Arrangement.Start
-                        SwipeToDismissBoxValue.EndToStart -> Arrangement.End
-                        SwipeToDismissBoxValue.Settled -> Arrangement.Center
+                    horizontalArrangement = when {
+                        offset > 0 -> Arrangement.Start
+                        offset < 0 -> Arrangement.End
+                        else -> Arrangement.Center
                     },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val icon = when (dismissState.targetValue) {
-                        SwipeToDismissBoxValue.StartToEnd -> if (swipeToRightIcon == null) null else ImageVector.vectorResource(
+                    val icon = when {
+                        offset > 0 -> if (swipeToRightIcon == null) null else ImageVector.vectorResource(
                             swipeToRightIcon
                         )
 
-                        SwipeToDismissBoxValue.EndToStart -> if (swipeToLeftIcon == null) null else ImageVector.vectorResource(
+                        offset < 0 -> if (swipeToLeftIcon == null) null else ImageVector.vectorResource(
                             swipeToLeftIcon
                         )
 
-                        SwipeToDismissBoxValue.Settled -> null
+                        else -> null
                     }
                     if (icon != null)
                         Icon(

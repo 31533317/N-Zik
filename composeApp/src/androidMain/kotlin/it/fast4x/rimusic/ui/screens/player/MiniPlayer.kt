@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -102,9 +103,7 @@ import me.knighthat.utils.Toaster
 import kotlin.math.absoluteValue
 
 @androidx.annotation.OptIn(UnstableApi::class)
-@OptIn(ExperimentalFoundationApi::class,
-    ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
-    ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MiniPlayer(
     showPlayer: () -> Unit,
@@ -224,34 +223,38 @@ fun MiniPlayer(
             )
              */
 
+            val offset = try { dismissState.requireOffset() } catch (e: Exception) { 0f }
             Row(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(colorPalette().background1)
                     .padding(horizontal = 16.dp),
-                horizontalArrangement = when (dismissState.targetValue) {
-                    SwipeToDismissBoxValue.StartToEnd -> Arrangement.Start
-                    SwipeToDismissBoxValue.EndToStart -> Arrangement.End
-                    SwipeToDismissBoxValue.Settled -> Arrangement.Center
+                horizontalArrangement = when {
+                    offset > 0 -> Arrangement.Start
+                    offset < 0 -> Arrangement.End
+                    else -> Arrangement.Center
                 },
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = when (dismissState.targetValue) {
-                        SwipeToDismissBoxValue.StartToEnd -> {
-                            if (miniPlayerType == MiniPlayerType.Modern)
-                                ImageVector.vectorResource(R.drawable.play_skip_back)
-                            else if ( isSongLiked )
-                                ImageVector.vectorResource(R.drawable.heart)
-                            else
-                                ImageVector.vectorResource(R.drawable.heart_outline)
-                        }
-                        SwipeToDismissBoxValue.EndToStart ->  ImageVector.vectorResource(R.drawable.play_skip_forward)
-                        SwipeToDismissBoxValue.Settled ->  ImageVector.vectorResource(R.drawable.play)
-                    },
-                    contentDescription = null,
-                    tint = colorPalette().iconButtonPlayer,
-                )
+                val icon = when {
+                    offset > 0 -> {
+                        if (miniPlayerType == MiniPlayerType.Modern)
+                            ImageVector.vectorResource(R.drawable.play_skip_back)
+                        else if (isSongLiked)
+                            ImageVector.vectorResource(R.drawable.heart)
+                        else
+                            ImageVector.vectorResource(R.drawable.heart_outline)
+                    }
+
+                    offset < 0 -> ImageVector.vectorResource(R.drawable.play_skip_forward)
+                    else -> null
+                }
+                if (icon != null)
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = colorPalette().iconButtonPlayer,
+                    )
             }
         }
     ) {
