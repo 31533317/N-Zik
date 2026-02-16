@@ -23,20 +23,31 @@ class WfmAnalog(
 
     private val path = Path()
     private var skipFrame = false
-    lateinit var waveform : ByteArray
+    private val fft = DoubleArray(256)
+    private lateinit var waveform : ByteArray
 
     override fun calc(helper: VisualizerHelper) {
-        val fft = helper.getFftMagnitudeRange(startHz, endHz)
+        val filled = helper.fillFftMagnitudeRange(startHz, endHz, fft)
+        
+        var quiet = true
+        for (i in 0 until filled) {
+            if (fft[i] > 5f) {
+                quiet = false
+                break
+            }
+        }
 
-        if (isQuiet(fft)) {
+        if (quiet) {
             skipFrame = true
             return
-        } else skipFrame = false
+        } else {
+            skipFrame = false
+        }
 
         waveform = helper.getWave()
     }
 
-    @ExperimentalUnsignedTypes
+    @OptIn(ExperimentalUnsignedTypes::class)
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {
         if (skipFrame) return
 

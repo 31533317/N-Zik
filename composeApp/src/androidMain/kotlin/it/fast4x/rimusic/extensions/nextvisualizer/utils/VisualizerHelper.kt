@@ -44,6 +44,28 @@ class VisualizerHelper(sessionId: Int) {
     }
 
     /**
+     * Fill the provided output array with Fft values from startHz to endHz
+     * Returns the number of elements copied
+     */
+    fun fillFftMagnitudeRange(startHz: Int, endHz: Int, output: DoubleArray): Int {
+        val sIndex = hzToFftIndex(startHz)
+        val eIndex = hzToFftIndex(endHz)
+        
+        // Update internal fftM
+        getFftMagnitude()
+        
+        val length = eIndex - sIndex
+        if (length <= 0) return 0
+        
+        val copyLength = Math.min(length, output.size)
+        // Safe copy
+        if (sIndex + copyLength <= fftM.size) {
+            System.arraycopy(fftM, sIndex, output, 0, copyLength)
+        }
+        return copyLength
+    }
+
+    /**
      * Get Fft values from startHz to endHz
      */
     fun getFftMagnitudeRange(startHz: Int, endHz: Int): DoubleArray {

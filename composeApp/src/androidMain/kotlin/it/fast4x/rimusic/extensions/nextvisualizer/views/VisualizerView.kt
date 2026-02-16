@@ -33,6 +33,10 @@ class VisualizerView : View {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
+    init {
+        setLayerType(LAYER_TYPE_HARDWARE, paint)
+    }
+
     fun setup(visualizerHelper: VisualizerHelper, painter: Painter) {
         this.visualizerHelper = visualizerHelper
         this.painter = Compose(painter, simpleText)
@@ -41,7 +45,6 @@ class VisualizerView : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (this::painter.isInitialized && this::visualizerHelper.isInitialized) {
-            setLayerType(LAYER_TYPE_HARDWARE, paint)
             canvas?.apply {
                 simpleText.text = if (fps) "FPS: ${frameManager.fps()}" else ""
                 painter.calc(visualizerHelper)

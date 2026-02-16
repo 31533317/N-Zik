@@ -132,6 +132,30 @@ abstract class Painter {
     }
 
     /**
+     * Patch the Fft so that the start and the end connect perfectly. Use this with `interpolateFftCircle()`
+     * Writes into dest buffer. dest must be at least srcLen + 2.
+     * Returns new length (srcLen + 2).
+     */
+    fun fillCircleFft(src: DoubleArray, srcLen: Int, dest: DoubleArray): Int {
+        if (srcLen <= 0) return 0
+        
+        // Capture values before modification (in case src == dest)
+        val valForFirst = if (srcLen >= 2) src[srcLen - 2] else src[0]
+        val valForLastMinus1 = src[0]
+        val valForLast = if (srcLen >= 2) src[1] else src[0]
+        
+        // dest[1..srcLen] = src[0..srcLen-1]
+        // System.arraycopy handles overlap safely
+        System.arraycopy(src, 0, dest, 1, srcLen)
+        
+        dest[0] = valForFirst
+        dest[srcLen] = valForLastMinus1
+        dest[srcLen + 1] = valForLast
+        
+        return srcLen + 2
+    }
+
+    /**
      * Patch the Fft to a MirrorFft
      *
      * @param fft Fft
@@ -161,6 +185,16 @@ abstract class Painter {
                 fft.sliceArray(0..fft.lastIndex / 2) + fft.sliceArray(0..fft.lastIndex / 2).reversedArray()
             }
             else -> fft
+        }
+    }
+
+    /**
+     * Boost high values while suppress low values, generally give a powerful feeling
+     * In-place modification.
+     */
+    fun applyPowerFft(fft: DoubleArray, length: Int, param: Double = 100.0) {
+        for (i in 0 until length) {
+            fft[i] = fft[i] * fft[i] / param
         }
     }
 

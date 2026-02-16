@@ -28,23 +28,40 @@ class FftAnalog(
     private var points = Array(0) { GravityModel() }
     private val path = Path()
     private var skipFrame = false
-    lateinit var fft: DoubleArray
+    private val fft = DoubleArray(256)
     lateinit var psf: PolynomialSplineFunction
 
     override fun calc(helper: VisualizerHelper) {
-        fft = helper.getFftMagnitudeRange(startHz, endHz)
+        val filled = helper.fillFftMagnitudeRange(startHz, endHz, fft)
+        var processingFft = fft
+        var validSize = filled
 
-        if (isQuiet(fft)) {
+        var quiet = true
+        for (i in 0 until validSize) {
+            if (processingFft[i] > 5f) {
+                quiet = false
+                break
+            }
+        }
+        
+        if (quiet) {
             skipFrame = true
             return
         } else skipFrame = false
 
-        if (power) fft = getPowerFft(fft)
-        if (mirror) fft = getMirrorFft(fft)
+        if (power) applyPowerFft(processingFft, validSize)
+        
+        if (mirror) {
+            val temp = processingFft.copyOfRange(0, validSize)
+            val mirrored = getMirrorFft(temp)
+            processingFft = mirrored
+            validSize = mirrored.size
+        }
 
-        if (points.size != fft.size) points =
-            Array(fft.size) { GravityModel(0f) }
-        points.forEachIndexed { index, bar -> bar.update(fft[index].toFloat() * ampR) }
+        if (points.size != validSize) points =
+            Array(validSize) { GravityModel(0f) }
+            
+        points.forEachIndexed { index, bar -> bar.update(processingFft[index].toFloat() * ampR) }
 
         psf = interpolateFft(points, num, interpolator)
     }

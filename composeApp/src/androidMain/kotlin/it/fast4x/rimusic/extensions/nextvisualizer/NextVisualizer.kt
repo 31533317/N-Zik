@@ -74,7 +74,9 @@ import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.resize
 import it.fast4x.rimusic.utils.semiBold
 import it.fast4x.rimusic.utils.visualizerEnabledKey
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @OptIn(UnstableApi::class)
@@ -118,15 +120,6 @@ fun NextVisualizer() {
                     modifier = Modifier.fillMaxWidth(0.75f),
                     style = typography().xs.semiBold
                 )
-                /*
-                Spacer(modifier = Modifier.height(12.dp))
-                SecondaryTextButton(
-                    text = stringResource(R.string.grant_permission),
-                    onClick = {
-                        relaunchPermission = !relaunchPermission
-                    }
-                )
-                 */
                 Spacer(modifier = Modifier.height(20.dp))
                 SecondaryTextButton(
                     text = stringResource(R.string.open_permission_settings),
@@ -138,18 +131,76 @@ fun NextVisualizer() {
                         )
                     }
                 )
-
             }
 
         } else {
 
             val binder = LocalPlayerServiceBinder.current
-            val visualizerView = VisualizerView(context)
-            val helper = VisualizerHelper(binder?.player?.audioSessionId ?: 0)
+            val visualizerView = remember { VisualizerView(context) }
+            val helper = remember(binder?.player?.audioSessionId) {
+                VisualizerHelper(binder?.player?.audioSessionId ?: 0)
+            }
 
-            val visualizersList = getVisualizers()
+            var bitmapCover by remember { mutableStateOf(APP_ICON_BITMAP) }
+            var circleBitmap by remember { mutableStateOf(Icon.getCircledBitmap(APP_ICON_BITMAP)) }
+            val color = colorPalette().text.hashCode()
+
+            val coroutineScope = rememberCoroutineScope()
+            val currentArtworkUri = binder?.player?.currentMediaItem?.mediaMetadata?.artworkUri
+
+            LaunchedEffect(currentArtworkUri) {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val bitmap = getBitmapFromUrl(
+                            context,
+                            currentArtworkUri.toString().resize(1200, 1200)
+                        )
+                        withContext(Dispatchers.Main) {
+                            bitmapCover = bitmap
+                            circleBitmap = Icon.getCircledBitmap(bitmap)
+                        }
+                    } catch (e: Exception) {
+                        Timber.e("Failed to get bitmap in NextVisualizer ${e.stackTraceToString()}")
+                        withContext(Dispatchers.Main) {
+                            bitmapCover = APP_ICON_BITMAP
+                            circleBitmap = Icon.getCircledBitmap(APP_ICON_BITMAP)
+                        }
+                    }
+                }
+            }
+
+            binder?.player?.DisposableListener {
+                object : Player.Listener {
+                    override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                        coroutineScope.launch(Dispatchers.IO) {
+                            try {
+                                val bitmap = getBitmapFromUrl(
+                                    context,
+                                    mediaItem?.mediaMetadata?.artworkUri.toString()
+                                        .resize(1200, 1200)
+                                )
+                                withContext(Dispatchers.Main) {
+                                    bitmapCover = bitmap
+                                    circleBitmap = Icon.getCircledBitmap(bitmap)
+                                }
+                            } catch (e: Exception) {
+                                withContext(Dispatchers.Main) {
+                                    bitmapCover = APP_ICON_BITMAP
+                                    circleBitmap = Icon.getCircledBitmap(APP_ICON_BITMAP)
+                                }
+                                Timber.e("Failed to get bitmap in NextVisualizer ${e.stackTraceToString()}")
+                            }
+                        }
+                    }
+                }
+            }
+            
+            val visualizersList = remember(bitmapCover, circleBitmap, color) {
+                createVisualizersList(bitmapCover, circleBitmap, color)
+            }
+            
             var currentVisualizer by rememberPreference(currentVisualizerKey, 0)
-            if (currentVisualizer < 0) currentVisualizer = 0
+            if (currentVisualizer < 0 || currentVisualizer >= visualizersList.size) currentVisualizer = 0
 
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -159,133 +210,53 @@ fun NextVisualizer() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(),
-                        /*
-                        .border(
-                            BorderStroke(
-                                8.dp,
-                                colorPalette().accent
-                            )
-                        ),
-                         */
-                    factory = {
-                        visualizerView
-                        /*
-                        visualizerView.apply {
-                            helper.let {
-                                println("VisualizerView inside")
-                                setup(helper, visualizersList[currentVisualizer])
-                                setOnClickListener {
-                                    if (current < list.lastIndex) current++ else current = 0
-                                    //visualizerView.setup(helper, visualizersList[currentVisualizer])
-                                }
-                            }
-                        }
-
-                         */
-                    },
+                    factory = { visualizerView },
                     update = {
                         it.setup(helper, visualizersList[currentVisualizer])
                     }
-
                 )
 
-
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.BottomCenter)
-                            .height(50.dp)
-                    ) {
-                        IconButton(
-                            onClick = {
-                                if (currentVisualizer <= visualizersList.lastIndex) currentVisualizer--
-                                if (currentVisualizer < 0) currentVisualizer = visualizersList.lastIndex
-                            },
-                            icon = R.drawable.arrow_left,
-                            color = colorPalette().text,
-                            modifier = Modifier
-                                .size(32.dp)
-                        )
-                        
-                        BasicText(
-                            text = "${currentVisualizer + 1}/${visualizersList.size}",
-                            style = typography().xs.semiBold.copy(color = colorPalette().text),
-                        )
-                        
-                        IconButton(
-                            onClick = { if (currentVisualizer < visualizersList.lastIndex) currentVisualizer++ else currentVisualizer = 0 },
-                            icon = R.drawable.arrow_right,
-                            color = colorPalette().text,
-                            modifier = Modifier
-                                .size(32.dp)
-                        )
-                    }
-
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .height(50.dp)
+                ) {
+                    IconButton(
+                        onClick = {
+                            if (currentVisualizer > 0) currentVisualizer--
+                            else currentVisualizer = visualizersList.lastIndex
+                        },
+                        icon = R.drawable.arrow_left,
+                        color = colorPalette().text,
+                        modifier = Modifier.size(32.dp)
+                    )
+                    
+                    BasicText(
+                        text = "${currentVisualizer + 1}/${visualizersList.size}",
+                        style = typography().xs.semiBold.copy(color = colorPalette().text),
+                    )
+                    
+                    IconButton(
+                        onClick = {
+                            if (currentVisualizer < visualizersList.lastIndex) currentVisualizer++
+                            else currentVisualizer = 0
+                        },
+                        icon = R.drawable.arrow_right,
+                        color = colorPalette().text,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
             }
         }
     }
 }
 
-@OptIn(UnstableApi::class)
-@Composable
-fun getVisualizers(): List<Painter> {
-
-    val context = LocalContext.current
-    val circleBitmap: Bitmap
+fun createVisualizersList(background: Bitmap, circleBitmap: Bitmap, color: Int): List<Painter> {
     val ampR = 3f
     val yR = 0.2f
-    val color = colorPalette().text.hashCode()
-    var bitmapCover by remember { mutableStateOf( APP_ICON_BITMAP ) }
-    val binder = LocalPlayerServiceBinder.current
-    val coroutineScope = rememberCoroutineScope()
-    LaunchedEffect(Unit) {
-            try {
-                bitmapCover = getBitmapFromUrl(
-                    context,
-                    binder?.player?.currentWindow?.mediaItem?.mediaMetadata?.artworkUri.toString()
-                        .resize(1200, 1200)
-                )
-            } catch (e: Exception) {
-                Timber.e("Failed to get bitmap in NextVisualizer ${e.stackTraceToString()}")
-            }
-    }
-    /*
-    LaunchedEffect(Unit, binder?.player?.currentWindow?.mediaItem?.mediaId) {
-        try {
-            bitmapCover = getBitmapFromUrl(
-                context,
-                binder?.player?.currentWindow?.mediaItem?.mediaMetadata?.artworkUri.toString().resize(1200, 1200)
-            )
-        } catch (e: Exception) {
-            Timber.e("Failed get bitmap in NextVisualizer ${e.stackTraceToString()}")
-        }
-    }
-     */
-
-    binder?.player?.DisposableListener {
-        object : Player.Listener {
-            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                coroutineScope.launch {
-                    try {
-                        bitmapCover = getBitmapFromUrl(
-                            context,
-                            binder.player.currentWindow?.mediaItem?.mediaMetadata?.artworkUri.toString()
-                                .resize(1200, 1200)
-                        )
-                    } catch (e: Exception) {
-                        bitmapCover = APP_ICON_BITMAP
-                        Timber.e("Failed to get bitmap in NextVisualizer ${e.stackTraceToString()}")
-                    }
-                }
-            }
-        }
-    }
-
-    val background: Bitmap = bitmapCover //ContextCompat.getDrawable(context, R.drawable.app_logo)?.toBitmap()!!
-    val bitmap: Bitmap = bitmapCover //ContextCompat.getDrawable(context, R.drawable.app_logo)?.toBitmap()!!
-    circleBitmap = bitmap.let { Icon.getCircledBitmap(it) }
     return listOf(
         // Basic components
         Move(WfmAnalog(colorPaint = color, ampR = ampR)),
@@ -391,96 +362,4 @@ fun getVisualizers(): List<Painter> {
             }
         )
     )
-    /*
-    return listOf(
-        // Basic components
-        Compose(
-            Move(WfmAnalog(ampR = 2f)),
-            Move(FftBar(ampR = 2f), yR = -.1f),
-            //Move(FftLine(), yR = .1f),
-            //Move(FftWave(), yR = .3f),
-            //Move(FftWaveRgb(), yR = .5f)
-        ),
-        Compose(
-            Move(WfmAnalog(), yR = -.3f),
-            Move(FftBar(), yR = -.1f),
-            Move(FftLine(), yR = .1f),
-            Move(FftWave(), yR = .3f),
-            Move(FftWaveRgb(), yR = .5f)
-        ),
-        Compose(
-            Move(FftBar(side = "b"), yR = -.3f),
-            Move(FftLine(side = "b"), yR = -.1f),
-            Move(FftWave(side = "b"), yR = .1f),
-            Move(FftWaveRgb(side = "b"), yR = .3f)
-        ),
-        Compose(
-            Move(FftBar(side = "ab"), yR = -.3f),
-            Move(FftLine(side = "ab"), yR = -.1f),
-            Move(FftWave(side = "ab"), yR = .1f),
-            Move(FftWaveRgb(side = "ab"), yR = .3f)
-        ),
-        // Basic components (Circle)
-        Compose(
-            Move(FftCLine(), xR = -.3f),
-            FftCWave(),
-            Move(FftCWaveRgb(), xR = .3f)
-        ),
-        Compose(
-            Move(FftCLine(side = "b"), xR = -.3f),
-            FftCWave(side = "b"),
-            Move(FftCWaveRgb(side = "b"), xR = .3f)
-        ),
-        Compose(
-            Move(FftCLine(side = "ab"), xR = -.3f),
-            FftCWave(side = "ab"),
-            Move(FftCWaveRgb(side = "ab"), xR = .3f)
-        ),
-        //Blend
-        Blend(
-            FftLine().apply {
-                paint.strokeWidth = 8f;paint.strokeCap = Paint.Cap.ROUND
-            },
-            Gradient(preset = Gradient.LINEAR_HORIZONTAL)
-        ),
-        Blend(
-            FftLine().apply {
-                paint.strokeWidth = 8f;paint.strokeCap = Paint.Cap.ROUND
-            },
-            Gradient(preset = Gradient.LINEAR_VERTICAL, hsv = true)
-        ),
-        Blend(
-            FftLine().apply {
-                paint.strokeWidth = 8f;paint.strokeCap = Paint.Cap.ROUND
-            },
-            Gradient(preset = Gradient.LINEAR_VERTICAL_MIRROR, hsv = true)
-        ),
-        Blend(
-            FftCLine().apply {
-                paint.strokeWidth = 8f;paint.strokeCap = Paint.Cap.ROUND
-            },
-            Gradient(preset = Gradient.RADIAL)
-        ),
-        Blend(
-            FftCBar(side = "ab", gapX = 8f).apply {
-                paint.style = Paint.Style.FILL
-            },
-            Gradient(preset = Gradient.SWEEP, hsv = true)
-        ),
-        // Composition
-        Glitch(Beat(Preset.getPresetWithBitmap("cIcon", circleBitmap))),
-        Compose(
-            WfmAnalog().apply { paint.alpha = 150 },
-            Shake(Preset.getPresetWithBitmap("cWaveRgbIcon", circleBitmap)).apply {
-                animX.duration = 1000
-                animY.duration = 2000
-            }),
-        Compose(
-            Preset.getPresetWithBitmap("liveBg", background),
-            FftCLine().apply {
-                paint.strokeWidth = 8f;paint.strokeCap = Paint.Cap.ROUND
-            }
-        )
-    )
-     */
 }

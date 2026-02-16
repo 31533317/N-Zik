@@ -19,10 +19,20 @@ class Glitch(
     override var paint = Paint()
 
     private val energy = GravityModel(0f)
+    private val fft = DoubleArray(256)
     private var count = 0
 
     override fun calc(helper: VisualizerHelper) {
-        energy.update(helper.getFftMagnitudeRange(startHz, endHz).average().toFloat())
+        val filled = helper.fillFftMagnitudeRange(startHz, endHz, fft)
+        
+        var sum = 0.0
+        for (i in 0 until filled) {
+            sum += fft[i]
+        }
+        val average = if (filled > 0) sum / filled else 0.0
+        
+        energy.update(average.toFloat())
+        
         if (energy.height > peak) count = (duration / 1000f * 60f).toInt()
         painters.forEach { painter ->
             painter.calc(helper)

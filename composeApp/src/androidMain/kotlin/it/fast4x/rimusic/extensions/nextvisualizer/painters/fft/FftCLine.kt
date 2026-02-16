@@ -31,22 +31,41 @@ class FftCLine(
 
     private var points = Array(0) { GravityModel() }
     private var skipFrame = false
-    lateinit var fft: DoubleArray
+    private val fft = DoubleArray(260)
     lateinit var psf: PolynomialSplineFunction
 
     override fun calc(helper: VisualizerHelper) {
-        fft = helper.getFftMagnitudeRange(startHz, endHz)
-        if (isQuiet(fft)) {
+        val filled = helper.fillFftMagnitudeRange(startHz, endHz, fft)
+        
+        var quiet = true
+        for (i in 0 until filled) {
+            if (fft[i] > 5f) {
+                quiet = false
+                break
+            }
+        }
+        
+        if (quiet) {
             skipFrame = true
             return
         } else skipFrame = false
 
-        if (power) fft = getPowerFft(fft)
-        fft = if (mirror) getMirrorFft(fft)
-        else getCircleFft(fft)
+        if (power) applyPowerFft(fft, filled)
+        
+        var processingFft = fft
+        var validSize = filled
+        
+        if (mirror) {
+             val temp = fft.copyOfRange(0, validSize)
+             processingFft = getMirrorFft(temp)
+             validSize = processingFft.size
+        } else {
+             validSize = fillCircleFft(fft, validSize, fft)
+             processingFft = fft
+        }
 
-        if (points.size != fft.size) points = Array(fft.size) { GravityModel(0f) }
-        points.forEachIndexed { index, bar -> bar.update(fft[index].toFloat() * ampR) }
+        if (points.size != validSize) points = Array(validSize) { GravityModel(0f) }
+        points.forEachIndexed { index, bar -> bar.update(processingFft[index].toFloat() * ampR) }
 
         psf = interpolateFftCircle(points, num, interpolator)
     }
