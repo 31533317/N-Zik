@@ -56,7 +56,7 @@ jobs:
         run: ls -l composeApp/build/outputs/apk/full/
 
       - name: Upload artifacts for signing
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v6
         with:
           name: unsigned-release
           path: composeApp/build/outputs/apk/full/*.apk
@@ -91,7 +91,7 @@ jobs:
           for filename in signed/*.apk; do mv "$filename" "${filename//-signed}"; done
 
       - name: Upload for release
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v6
         with:
           name: signed-apks
           path: signed/*.apk

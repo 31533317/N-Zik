@@ -110,7 +110,7 @@ jobs:
         run: ./gradlew assembleBeta
 
       - name: Upload artifacts for signing
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: unsigned-release
           path: composeApp/build/outputs/apk/beta/*.apk
@@ -145,7 +145,7 @@ jobs:
           for filename in signed/*.apk; do mv "$filename" "${filename//-signed}"; done
 
       - name: Upload for release
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: signed-apk
           path: signed/*.apk

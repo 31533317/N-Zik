@@ -116,7 +116,7 @@ jobs:
         run: ./gradlew assembleFull
 
       - name: Upload artifacts for signing
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v6
         with:
           name: unsigned-full
           path: composeApp/build/outputs/apk/full/*.apk
@@ -155,7 +155,7 @@ jobs:
         run: ./gradlew assembleMinified
 
       - name: Upload artifacts for signing
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v6
         with:
           name: unsigned-minified
           path: composeApp/build/outputs/apk/minified/*.apk
@@ -190,7 +190,7 @@ jobs:
           for filename in signed/*.apk; do mv "$filename" "${filename//-signed}"; done
    
       - name: Upload for release
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v6
         with:
           name: signed-apks
           path: signed/*.apk
