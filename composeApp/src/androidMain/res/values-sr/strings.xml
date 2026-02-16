@@ -265,7 +265,7 @@
   <string name="catalan">Catalan (Catalá)</string>
   <string name="disable_scrolling_text">Онемогући померање текста</string>
   <string name="scrolling_text_is_used_for_long_texts">Померајући текст се користи за дугачке текстове</string>
-  <string name="audio_quality_format">Формат квалитета Звука</string>
+  <string name="audio_quality_format">Audio Quality</string>
   <string name="persian">Persian (فارسی)</string>
   <string name="hungarian">Hungarian (Magyar)</string>
   <string name="korean">Korean (한국인)</string>
@@ -374,6 +374,12 @@
   <string name="player_action_bar">АКЦИОНА ТРАКА ПЛЕЈЕРА</string>
   <string name="tab_data">Подаци</string>
   <string name="image_cache_max_size">Максимална величина кеша Cлика</string>
+  <string name="network_status">Quality Status</string>
+  <string name="image_quality_format">Image Quality</string>
+  <string name="audio_quality_auto_fmt">Auto (Detected: %1$s)</string>
+  <string name="network_quality_low">Низак</string>
+  <string name="network_quality_medium">Средња</string>
+  <string name="network_quality_high">Висок</string>
   <string name="song_cache_max_size">Максимална величина кеш меморије песама</string>
   <string name="song_download_max_size">Максимална величина за преузимање песме</string>
   <string name="save_to_backup">Сачувај у резервну копију</string>
@@ -916,7 +922,7 @@
   <string name="please_wait">Please Wait</string>
   <string name="songs_liked_yt">Song(s) are Liked in YouTube</string>
   <string name="song_unliked_yt">Song is Unliked in YouTube</string>
-  <string name="add_rimusic_to_ytm_favorites">Like RiMusic Liked songs in Youtube</string>
+  <string name="add_rimusic_to_ytm_favorites">Like N-Zik Liked songs in Youtube</string>
   <string name="do_you_really_want_to_like_all_rimusictoytmusic">(estimated time) is required to like all the songs. This action cannot be resumed if cancelled in between. You need to close the app to cancel this process. Do you want to continue?</string>
   <string name="do_you_really_want_to_like_all">(estimated time) is required to like all the songs. You need to close the app to cancel this process. Do you want to continue?</string>
   <string name="songs_liked_yt_failed">Failed to like the song in YouTube</string>
@@ -992,7 +998,7 @@
   <string name="piped_login_successful">Piped login successful</string>
   <string name="piped_login_failed">Piped login failed</string>
   <string name="no_instances_found">No instances found</string>
-  <string name="discord_token_text">If you notice that the RPC doesnt work, try log off and log back</string>
+  <string name="discord_token_text">If you notice that the RPC doesnt work, try log off and log back, also make sure to restart the service and the app</string>
   <string name="account_info">Account info</string>
   <string name="save_visualizer_state">Save visualizer state</string>
   <string name="save_visualizer_state_description">Keep visualizer state between sessions</string>
@@ -1006,7 +1012,7 @@
   <string name="search_display_order_saved_searches_first">Saved searches first</string>
   <string name="search_display_order_description">Choose which appears first in search results</string>
   <string name="smart_recommendations_number">Number of recommendations</string>
-  <string name="smart_recommendations_adaptive_description">Adaptive: Scales with playlist size (10-150 recommendations)</string>
+  <string name="smart_recommendations_adaptive_description">Adaptive: Scales with playlist size (10-120 recommendations)</string>
   <string name="smart_recommendations_adaptive">Adaptive</string>
   <string name="unknown_title">Unknown Title</string>
   <string name="unknown_artist">Unknown Artist</string>
@@ -1014,9 +1020,9 @@
   <string name="up_to_date">Up to date</string>
   <string name="last_check_date">Last check</string>
   <string name="auto_update_settings">Auto update settings</string>
-  <string name="auto_update_enabled">Омогућено</string>
-  <string name="auto_update_ask">Питај</string>
-  <string name="auto_update_disabled">Онемогућено</string>
+  <string name="auto_update_enabled">Update enabled</string>
+  <string name="auto_update_ask">Ask user</string>
+  <string name="auto_update_disabled">Update disabled</string>
   <string name="tab_network">Network</string>
   <string name="about_description">The about section shows information about the app, the developers, troubleshooting and update options</string>
   <string name="other_settings_description">The miscellaneous section contains various optional settings and utilities</string>
