@@ -123,7 +123,7 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7.0.0
         with:
           path: upstream/unsigned
           merge-multiple: true
@@ -155,7 +155,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download signed APK
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7.0.0
         with:
           name: signed-apk
       - name: Upload built APK to pre-release
