@@ -1,15 +1,22 @@
 ---
-title: "Listen On uses old UI; migrate to new Settings UI"
+title: "Home page: returning moves user from previous position"
 labels: ["bug"]
 assignees: ["NEVARLeVrai"]
----
-
-## Form Values
-- **android-version:** Other
-- **app-version:** nightly
-- **required-actions:** true, true, true
-- **bug-trigger:** Open 'Listen On'. UI displayed is not up-to-date. Needs migration to new Settings UI.
-- **expectation:** Listen On should use new Settings UI for improved look and consistency.
-- **log:** 
-- **other-android-version:** 
-- **video:** 
+body: |
+  **Android Version**: Other
+  **App Version**: nightly
+  
+  **Required Actions**:
+  - true
+  - true
+  - true
+  
+  **Bug Trigger**: Leave home page, return: app moves you to a different spot than before.
+  
+  **Expectation**: Returning to home should restore user's previous position in UI.
+  
+  **Log**: 
+  
+  **Other Android Version**: 
+  
+  **Video**: 
