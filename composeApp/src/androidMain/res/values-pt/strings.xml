@@ -1020,9 +1020,9 @@
     <string name="up_to_date">Até a data</string>
     <string name="last_check_date">Última verificação</string>
     <string name="auto_update_settings">Configurações de atualização automática</string>
-    <string name="auto_update_enabled">Ativado</string>
-    <string name="auto_update_ask">Perguntar</string>
-    <string name="auto_update_disabled">Desativado</string>
+    <string name="auto_update_enabled">Atualização habilitada</string>
+    <string name="auto_update_ask">Perguntar ao usuário</string>
+    <string name="auto_update_disabled">Atualização desabilitada</string>
     <string name="tab_network">Rede</string>
     <string name="about_description">A seção \"Sobre\" mostra informações sobre o aplicativo, os desenvolvedores, solução de problemas e opções de atualização</string>
     <string name="other_settings_description">A seção diversas contém várias configurações opcionais e utilitários</string>
@@ -1061,5 +1061,5 @@
     <string name="cache_status">Status do cache</string>
     <string name="cache_working">Trabalho de cache</string>
     <string name="cache_empty">Cache vazio</string>
-    <string name="album_not_found">Album not found</string>
+    <string name="album_not_found">Álbum não encontrado</string>
 </resources>
