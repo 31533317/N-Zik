@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -20,6 +21,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -65,6 +68,7 @@ fun SwipeableContent(
     onSwipeToLeft: () -> Unit,
     onSwipeToRight: () -> Unit,
     modifier: Modifier = Modifier,
+    backgroundColor: Color = colorPalette().background1,
     content: @Composable () -> Unit
 ) {
     val hapticFeedback = LocalHapticFeedback.current
@@ -86,16 +90,15 @@ fun SwipeableContent(
     }) {
         SwipeToDismissBox(
             gesturesEnabled = isSwipeToActionEnabled,
-            modifier = modifier,
-            //.padding(horizontal = 16.dp)
-            //.clip(RoundedCornerShape(12.dp)),
+            modifier = modifier
+                .clip(RoundedCornerShape(10.dp)),
             state = dismissState,
             backgroundContent = {
                 val offset = try { dismissState.requireOffset() } catch (e: Exception) { 0f }
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(colorPalette().background1)
+                        .background(backgroundColor)
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = when {
                         offset > 0 -> Arrangement.Start
@@ -138,6 +141,7 @@ fun SwipeableQueueItem(
     onRemoveFromQueue: (() -> Unit) = {},
     onEnqueue: (() -> Unit) = {},
     modifier: Modifier = Modifier,
+    backgroundColor: Color = colorPalette().background0,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
@@ -212,7 +216,8 @@ fun SwipeableQueueItem(
         ),
         onSwipeToLeft = swipeLeftCallback,
         onSwipeToRight = swipeRighCallback,
-        modifier = modifier
+        modifier = modifier,
+        backgroundColor = backgroundColor
     ) {
         content()
     }

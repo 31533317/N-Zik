@@ -172,7 +172,7 @@ fun BoxScope.ActionBar(
     val binder = LocalPlayerServiceBinder.current ?: return
     val menuState = LocalMenuState.current
 
-    val mediaItem = binder?.player?.currentMediaItem ?: return
+    val mediaItem = binder.player.currentMediaItem ?: return
 
     val playerBackgroundColors by rememberPreference( playerBackgroundColorsKey, PlayerBackgroundColors.BlurredCoverColor )
     val blackGradient by rememberPreference( blackgradientKey, false )
@@ -197,7 +197,7 @@ fun BoxScope.ActionBar(
                                showQueue = true
                            }
                            .background(
-                               colorPalette().background2.copy(
+                               color = colorPalette().background2.copy(
                                    alpha =
                                        if (transparentBackgroundActionBarPlayer
                                            || (playerBackgroundColors == PlayerBackgroundColors.CoverColorGradient
@@ -207,8 +207,10 @@ fun BoxScope.ActionBar(
                                            0.0f
                                        else
                                            0.7f // 0.0 > 0.1
-                               )
+                               ),
+                               shape = if (isLandscape) CircleShape else RoundedCornerShape(0.dp)
                            )
+                           .clip(if (isLandscape) CircleShape else RoundedCornerShape(0.dp))
                            .pointerInput(Unit) {
                                if (swipeUpQueue)
                                    detectVerticalDragGestures(
@@ -245,12 +247,16 @@ fun BoxScope.ActionBar(
 
                     binder.player.DisposableListener {
                         object : Player.Listener {
-                            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-                                mediaItems.clear()
-                                mediaItems.addAll( timeline.mediaItems )
+                            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                                currentIndex = binder.player.currentMediaItemIndex
+                                nextIndex = binder.player.nextMediaItemIndex
                             }
 
-                            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                            override fun onTimelineChanged(timeline: Timeline, reason: Int) {
+                                mediaItems.clear()
+                                for (i in 0 until timeline.windowCount) {
+                                    mediaItems.add(timeline.getWindow(i, Timeline.Window()).mediaItem)
+                                }
                                 currentIndex = binder.player.currentMediaItemIndex
                                 nextIndex = binder.player.nextMediaItemIndex
                             }
@@ -262,7 +268,7 @@ fun BoxScope.ActionBar(
                         mediaItems.addAll( binder.player.mediaItems )
 
                         pagerStateQueue.requestScrollToPage(
-                            nextIndex.coerceIn( 0, pagerStateQueue.pageCount )
+                            nextIndex.coerceIn( 0, pagerStateQueue.pageCount.coerceAtLeast(1) )
                         )
                     }
 
@@ -714,6 +720,10 @@ fun BoxScope.ActionBar(
                                         mediaItem = currentMediaItem,
                                         binder = binder,
                                         onClosePlayer = onDismiss,
+                                        onShowSleepTimer = {
+                                            showSleepTimerState.value = true
+                                            menuState.hide()
+                                        },
                                         disableScrollingText = disableScrollingText
                                     )
                                 }

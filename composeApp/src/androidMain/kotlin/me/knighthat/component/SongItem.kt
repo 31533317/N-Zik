@@ -153,6 +153,7 @@ fun SongItem(
     navController: NavController? = null,
     isRecommended: Boolean = false,
     modifier: Modifier = Modifier,
+    backgroundColor: Color = colorPalette().background0,
     showThumbnail: Boolean = true,
     onLongClick: (() -> Unit)? = null,
     trailingContent: @Composable (RowScope.() -> Unit)? = null,
@@ -172,8 +173,9 @@ fun SongItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy( 12.dp ),
-        modifier = modifier.clip( RoundedCornerShape(10.dp) )
-                           .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
+                           .clip( RoundedCornerShape(10.dp) )
+                           .background( backgroundColor )
                            .conditional( isPlaying ) {
                                background( colorPalette.favoritesOverlay )
                            }
@@ -192,7 +194,8 @@ fun SongItem(
                                vertical = Dimensions.itemsVerticalPadding,
                                horizontal = 16.dp
                            )
-    ) {
+    )
+ {
         // Song's thumbnail
         Box(
             Modifier.size( Dimensions.thumbnails.song )

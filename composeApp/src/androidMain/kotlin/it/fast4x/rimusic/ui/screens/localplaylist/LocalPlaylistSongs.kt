@@ -890,7 +890,8 @@ fun LocalPlaylistSongs(
                             itemSelector = itemSelector,
                             navController = navController,
                             isRecommended = song in relatedSongs,
-                            modifier = Modifier.background(color = colorPalette().background0),
+                            modifier = Modifier,
+
                             trailingContent = {
                                 if( !positionLock.isLocked() )
                                     // Create a fake box to store drag anchor and checkbox

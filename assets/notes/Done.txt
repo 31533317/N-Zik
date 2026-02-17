@@ -5,7 +5,11 @@
 5: Added Real-time Network Quality Status (Image/Audio) in Settings
 6: Added Manual Quality Overrides (Image/Audio) in Settings
 7: Disabled "Metered Connection" by default for better initial experience
-8: Extended Background Color Fix to Search results, Albums, Artists, Playlists, Podcasts, and Statistics screens.
+8: Extended Background Color Fix to Search results, Albums, Artists, Playlists, Podcasts, and Statistics and many other screens.
 9: Fixed visualizer freezes
 10: Fixed Imagecache fallback logo get too many times triggered
 11: Playback random errors caused by cache issues
+12: Fixed android auto layout buggy with new UI
+13: Playing dots not aligned in old Menu info UI
+14: Transitioning old UI to new one for the 3 dots menu in player (example)
+15: Optimize app performance and code, remove reducant code and logs

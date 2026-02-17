@@ -217,6 +217,7 @@ fun Queue(
         Column {
             val queueType by rememberPreference( queueTypeKey, QueueType.Essential )
             val backgroundAlpha = if( queueType == QueueType.Modern ) .5f else 1f
+            val itemBackground = if ( queueType == QueueType.Modern ) androidx.compose.ui.graphics.Color.Transparent else colorPalette().background0
 
             LazyColumn(
                 state = reorderingState.lazyListState,
@@ -272,12 +273,13 @@ fun Queue(
                         val mediaItem = song.asMediaItem
                         SwipeableQueueItem(
                             mediaItem = mediaItem,
+                            backgroundColor = itemBackground,
                             onPlayNext = {
                                 val currentIndex = binder.player.currentMediaItemIndex
                                 val targetIndex = currentIndex + 1
                                 // if the song is already after the current, do nothing
                                 if (index > currentIndex) {
-                                    // Only move if not already in the next position
+                                     // Only move if not already in the next position
                                     if (index != targetIndex) {
                                         binder.player.moveMediaItem(index, targetIndex)
                                     }
@@ -330,6 +332,7 @@ fun Queue(
                                 song = song,
                                 itemSelector = itemSelector,
                                 navController = navController,
+                                backgroundColor = itemBackground,
                                 trailingContent = {
                                     if( !positionLock.isLocked() )
                                     // Create a fake box to store drag anchor and checkbox

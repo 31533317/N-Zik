@@ -47,6 +47,7 @@ junit5 = "6.0.3"
 webkit = "1.15.0"
 newpipe-extractor = "v0.25.2"
 kotlinx-serialization = "1.8.0"
+composeMaterial3 = "1.5.6"
 
 
 [libraries]
@@ -156,6 +157,7 @@ vlcj = {  group = "uk.co.caprica", name = "vlcj", version.ref = "vlcj" }
 brotli = { group = "org.brotli", name = "dec", version.ref = "brotli" }
 desugaring-nio = { group = "com.android.tools", name = "desugar_jdk_libs_nio", version.ref = "desugaring" }
 compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "shimmer" }
+androidx-compose-material3 = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeMaterial3" }
 
 
 [plugins]

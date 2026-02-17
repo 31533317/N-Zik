@@ -1,6 +1,7 @@
 package me.knighthat.component.song
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import app.kreate.android.R
 import it.fast4x.innertube.Innertube
@@ -30,7 +31,7 @@ class GoToArtist(
     override val messageId: Int = R.string.artists
     override val menuIconTitle: String
         @Composable
-        get() = appContext().getString( R.string.about ) + " ${song.cleanArtistsText()}"
+        get() = stringResource(R.string.more_of) + " ${song.cleanArtistsText()}"
 
     private var channelId: Optional<String> = Optional.empty()
 

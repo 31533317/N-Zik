@@ -382,7 +382,8 @@ fun AlbumDetails(
                             itemSelector = itemSelector,
                             navController = navController,
                             showThumbnail = false,
-                            modifier = Modifier.background(colorPalette().background0),
+                            modifier = Modifier,
+
                             thumbnailOverlay = {
                                 BasicText(
                                     text = "${index + 1}",

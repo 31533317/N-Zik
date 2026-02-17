@@ -289,32 +289,21 @@ class PlayerServiceModern : MediaLibraryService(),
         coroutineScope.launch {
             connectivityObserver.networkStatus.collect { isAvailable ->
                 isNetworkAvailable.value = isAvailable
-                        Timber.d("PlayerServiceModern network status: $isAvailable")
+                Timber.d("PlayerServiceModern network status: $isAvailable")
                 if (isAvailable && waitingForNetwork.value) {
                     waitingForNetwork.value = false
-                    withContext( Dispatchers.Main ) {
-                        binder.gracefulPlay()
+                    if (player.playWhenReady && player.playbackState != Player.STATE_IDLE) {
+                        withContext(Dispatchers.Main) {
+                            binder.gracefulPlay()
+                        }
                     }
                 }
             }
         }
 
         val notificationType = preferences.getEnum(notificationTypeKey, NotificationType.Default)
-        when(notificationType){
+        when (notificationType) {
             NotificationType.Default -> {
-                // DEFAULT NOTIFICATION PROVIDER
-                //        setMediaNotificationProvider(
-                //            DefaultMediaNotificationProvider(
-                //                this,
-                //                { NotificationId },
-                //                NotificationChannelId,
-                //                R.string.player
-                //            )
-                //            .apply {
-                //                setSmallIcon(R.drawable.app_icon)
-                //            }
-                //        )
-
                 // DEFAULT NOTIFICATION PROVIDER MODDED
                 setMediaNotificationProvider(CustomMediaNotificationProvider(this)
                     .apply {
@@ -322,10 +311,11 @@ class PlayerServiceModern : MediaLibraryService(),
                     }
                 )
             }
+
             NotificationType.Advanced -> {
                 // CUSTOM NOTIFICATION PROVIDER -> CUSTOM NOTIFICATION PROVIDER WITH ACTIONS AND PENDING INTENT
                 // ACTUALLY NOT STABLE
-                setMediaNotificationProvider(object : MediaNotification.Provider{
+                setMediaNotificationProvider(object : MediaNotification.Provider {
                     override fun createNotification(
                         mediaSession: MediaSession,
                         customLayout: ImmutableList<CommandButton>,
@@ -335,7 +325,13 @@ class PlayerServiceModern : MediaLibraryService(),
                         return updateCustomNotification(mediaSession)
                     }
 
-                    override fun handleCustomCommand(session: MediaSession, action: String, extras: Bundle): Boolean { return false }
+                    override fun handleCustomCommand(
+                        session: MediaSession,
+                        action: String,
+                        extras: Bundle
+                    ): Boolean {
+                        return false
+                    }
                 })
             }
         }
@@ -354,46 +350,46 @@ class PlayerServiceModern : MediaLibraryService(),
 
         preferences.registerOnSharedPreferenceChangeListener(this)
 
-        val preferences = preferences
         isPersistentQueueEnabled = preferences.getBoolean(persistentQueueKey, false)
 
         audioQualityFormat = preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.Auto)
         showLikeButton = preferences.getBoolean(showLikeButtonBackgroundPlayerKey, true)
         showDownloadButton = preferences.getBoolean(showDownloadButtonBackgroundPlayerKey, true)
 
-        val cacheSize = preferences.getEnum( exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`2GB` )
+        val cacheSize =
+            preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`2GB`)
 
-        val cacheEvictor = when( cacheSize ) {
+        val cacheEvictor = when (cacheSize) {
             ExoPlayerDiskCacheMaxSize.Unlimited -> NoOpCacheEvictor()
 
-            ExoPlayerDiskCacheMaxSize.Custom    -> {
-                val customCacheSize = preferences.getInt( exoPlayerCustomCacheKey, 32 ) * 1000 * 1000L
-                LeastRecentlyUsedCacheEvictor( customCacheSize )
+            ExoPlayerDiskCacheMaxSize.Custom -> {
+                val customCacheSize = preferences.getInt(exoPlayerCustomCacheKey, 32) * 1000 * 1000L
+                LeastRecentlyUsedCacheEvictor(customCacheSize)
             }
 
-            else                                -> LeastRecentlyUsedCacheEvictor( cacheSize.bytes )
+            else -> LeastRecentlyUsedCacheEvictor(cacheSize.bytes)
         }
 
-        val cacheDir = when( cacheSize ) {
+        val cacheDir = when (cacheSize) {
             // Temporary directory deletes itself after close
             // It means songs remain on device as long as it's open
-            ExoPlayerDiskCacheMaxSize.Disabled -> createTempDirectory( CACHE_DIRNAME ).toFile()
+            ExoPlayerDiskCacheMaxSize.Disabled -> createTempDirectory(CACHE_DIRNAME).toFile()
 
-            else                               ->
+            else ->
                 // Looks a bit ugly but what it does is
                 // check location set by user and return
                 // appropriate path with [CACHE_DIRNAME] appended.
-                when( preferences.getEnum( exoPlayerCacheLocationKey, ExoPlayerCacheLocation.System ) ) {
-                    ExoPlayerCacheLocation.System -> cacheDir
+                when (preferences.getEnum(exoPlayerCacheLocationKey, ExoPlayerCacheLocation.System)) {
+                    ExoPlayerCacheLocation.System -> super.getCacheDir()
                     ExoPlayerCacheLocation.Private -> filesDir
-                }.resolve( CACHE_DIRNAME )
+                }.resolve(CACHE_DIRNAME)
         }
 
         // Ensure this location exists
         cacheDir.mkdirs()
 
-        cache = SimpleCache( cacheDir, cacheEvictor, StandaloneDatabaseProvider(this) )
-        downloadCache = MyDownloadHelper.getDownloadCache( applicationContext )
+        cache = SimpleCache(cacheDir, cacheEvictor, StandaloneDatabaseProvider(this))
+        downloadCache = MyDownloadHelper.getDownloadCache(applicationContext)
 
 
         player = ExoPlayer.Builder(this)
@@ -455,11 +451,13 @@ class PlayerServiceModern : MediaLibraryService(),
                         PendingIntent.FLAG_IMMUTABLE
                     )
                 )
-                .setBitmapLoader(CoilBitmapLoader(
-                    this,
-                    coroutineScope,
-                    512 * resources.displayMetrics.density.toInt()
-                ))
+                .setBitmapLoader(
+                    CoilBitmapLoader(
+                        this,
+                        coroutineScope,
+                        512 * resources.displayMetrics.density.toInt()
+                    )
+                )
                 .build()
 
         player.skipSilenceEnabled = preferences.getBoolean(skipSilenceKey, false)
@@ -491,7 +489,7 @@ class PlayerServiceModern : MediaLibraryService(),
                 finalException: Exception?
             ) = run {
                 if (download.request.id != currentMediaItem.value?.mediaId) return@run
-                println("PlayerServiceModern onDownloadChanged current song ${currentMediaItem.value?.mediaId} state ${download.state} key ${download.request.id}")
+                Timber.d("PlayerServiceModern onDownloadChanged current song ${currentMediaItem.value?.mediaId} state ${download.state} key ${download.request.id}")
                 updateDownloadedState()
             }
         }
@@ -521,12 +519,14 @@ class PlayerServiceModern : MediaLibraryService(),
         )
 
         // Ensure that song is updated
-        currentSong.debounce(1000).collect(coroutineScope) { song ->
-            updateDownloadedState()
+        coroutineScope.launch {
+            currentSong.debounce(1000).collect { song ->
+                updateDownloadedState()
 
-            updateDefaultNotification()
-            withContext(Dispatchers.Main) {
-                updateWidgets()
+                updateDefaultNotification()
+                withContext(Dispatchers.Main) {
+                    updateWidgets()
+                }
             }
         }
 
@@ -819,7 +819,6 @@ class PlayerServiceModern : MediaLibraryService(),
         super.onPlayerError(error)
 
         Timber.e("PlayerServiceModern onPlayerError error code ${error.errorCode} message ${error.message} cause ${error.cause?.cause}")
-        println("PlayerServiceModern onPlayerError error code ${error.errorCode} message ${error.message} cause ${error.cause?.cause}")
 
         val playbackConnectionExeptionList = listOf(
             PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED, //primary error code to manage
@@ -844,7 +843,6 @@ class PlayerServiceModern : MediaLibraryService(),
 
         if (error.errorCode in playbackHttpExeptionList) {
             Timber.e("PlayerServiceModern onPlayerError recovered occurred errorCodeName ${error.errorCodeName} cause ${error.cause?.cause}")
-            println("PlayerServiceModern onPlayerError recovered occurred errorCodeName ${error.errorCodeName} cause ${error.cause?.cause}")
             player.pause()
             player.prepare()
             player.play()
@@ -928,7 +926,7 @@ class PlayerServiceModern : MediaLibraryService(),
             if (bassBoost == null) bassBoost = BassBoost(0, player.audioSessionId)
             val bassboostLevel =
                 (preferences.getFloat(bassboostLevelKey, 0.5f) * 1000f).toInt().toShort()
-            println("PlayerServiceModern maybeBassBoost bassboostLevel $bassboostLevel")
+            Timber.d("PlayerServiceModern maybeBassBoost bassboostLevel $bassboostLevel")
             bassBoost?.enabled = false
             bassBoost?.setStrength(bassboostLevel)
             bassBoost?.enabled = true
@@ -976,7 +974,6 @@ class PlayerServiceModern : MediaLibraryService(),
             }
         }.onFailure {
             Timber.e("PlayerService maybeNormalizeVolume load loudnessEnhancer ${it.stackTraceToString()}")
-            println("PlayerService maybeNormalizeVolume load loudnessEnhancer ${it.stackTraceToString()}")
             return
         }
 
@@ -1004,7 +1001,6 @@ class PlayerServiceModern : MediaLibraryService(),
                                 loudnessEnhancer?.enabled = true
                             } catch (e: Exception) {
                                 Timber.e("PlayerService maybeNormalizeVolume apply targetGain ${e.stackTraceToString()}")
-                                println("PlayerService maybeNormalizeVolume apply targetGain ${e.stackTraceToString()}")
                             }
                         }
             }
@@ -1393,8 +1389,7 @@ class PlayerServiceModern : MediaLibraryService(),
         newPosition: Player.PositionInfo,
         reason: Int
     ) {
-        Timber.d("PlayerServiceModern onPositionDiscontinuity oldPosition "+oldPosition.mediaItemIndex+" newPosition "+newPosition.mediaItemIndex+" reason "+reason)
-        println("PlayerServiceModern onPositionDiscontinuity oldPosition "+oldPosition.mediaItemIndex+" newPosition "+newPosition.mediaItemIndex+" reason "+reason)
+        Timber.d("PlayerServiceModern onPositionDiscontinuity oldPosition ${oldPosition.mediaItemIndex} newPosition ${newPosition.mediaItemIndex} reason $reason")
         
         // Discord presence: update on seek/skip
         if (reason == Player.DISCONTINUITY_REASON_SEEK || reason == Player.DISCONTINUITY_REASON_SKIP) {
@@ -1425,7 +1420,7 @@ class PlayerServiceModern : MediaLibraryService(),
     private fun maybeSavePlayerQueue() {
 
         if (!isPersistentQueueEnabled) return
-        println("PlayerServiceModern onCreate savePersistentQueue is enabled")
+        Timber.d("PlayerServiceModern onCreate savePersistentQueue is enabled")
 
         CoroutineScope(Dispatchers.Main).launch {
             val mediaItems = player.currentTimeline.mediaItems
@@ -1789,7 +1784,7 @@ class PlayerServiceModern : MediaLibraryService(),
                              ?.also {
                                  // Any call to [player] must happen on Main thread
                                  withContext( Dispatchers.Main ) {
-                                    /*
+                                     /*
                                         There are 2 possible outcomes when append is not enabled.
                                         User starts radio on currently playing song,
                                         or on a completely different song.
@@ -1890,7 +1885,7 @@ class PlayerServiceModern : MediaLibraryService(),
             startActivity(Intent(applicationContext, MainActivity::class.java)
                 .setAction(MainActivity.action_search)
                 .setFlags(FLAG_ACTIVITY_NEW_TASK + FLAG_ACTIVITY_CLEAR_TASK))
-            println("PlayerServiceModern actionSearch")
+            Timber.d("PlayerServiceModern actionSearch")
         }
     }
 
@@ -1937,7 +1932,7 @@ class PlayerServiceModern : MediaLibraryService(),
         const val PLAYLIST = "playlist"
         const val SEARCHED = "searched"
 
-        const val CACHE_DIRNAME = "exo_cache"
+        const val CACHE_DIRNAME = "exoplayer"
     }
 
 }

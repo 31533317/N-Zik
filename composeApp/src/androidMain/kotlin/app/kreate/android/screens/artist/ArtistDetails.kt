@@ -138,8 +138,8 @@ fun ArtistDetails(
                       section.items.fastAll { it is Innertube.SongItem }
                   }
                   ?.items
-                  ?.map {
-                      (it as Innertube.SongItem).asSong
+                  ?.mapNotNull {
+                      (it as? Innertube.SongItem)?.asSong
                   }
                   .orEmpty()
     }

@@ -181,9 +181,9 @@ fun HomeSongs(
                                                .sortAllWithSongs( songSort.sortBy, songSort.sortOrder, excludeHidden = hiddenSongs.isHiddenExcluded() )
                                                .map { list ->
                                                    list.fastFilter {
-                                                       val contentLength = it.format.contentLength ?: return@fastFilter false
-                                                       binder?.cache?.isCached( it.song.id, 0, contentLength ) == true
-                                                   }.map( FormatWithSong::song )
+                                                        val contentLength = it.format.contentLength ?: return@fastFilter false
+                                                        binder?.cache?.isCached( it.song.id, 0, contentLength ) == true
+                                                    }.map( FormatWithSong::song )
                                                }
 
             BuiltInPlaylist.Favorites -> Database.songTable.sortFavorites( songSort.sortBy, songSort.sortOrder )
@@ -379,12 +379,14 @@ fun HomeSongs(
                     binder?.player?.enqueue(mediaItem)
                 }
             ) {
+                val isRecommended = song in relatedSongs
+
                 SongItem(
                     song = song,
                     itemSelector = itemSelector,
                     navController = navController,
-                    isRecommended = song in relatedSongs,
-                    modifier = Modifier.background(colorPalette().background0).animateItem(),
+                    isRecommended = isRecommended,
+                    modifier = Modifier.animateItem(),
                     thumbnailOverlay = {
                         if ( songSort.sortBy == SongSortBy.PlayTime || builtInPlaylist == BuiltInPlaylist.Top ) {
                             var text = song.formattedTotalPlayTime
@@ -428,6 +430,7 @@ fun HomeSongs(
                     }
                 )
             }
+
         }
     }
 }

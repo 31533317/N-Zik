@@ -242,7 +242,8 @@ fun HistoryList(
                             me.knighthat.component.SongItem(
                                 song = event.song,
                                 navController = navController,
-                                modifier = Modifier.background(colorPalette().background0),
+                                modifier = Modifier,
+
                                 onClick = {
                                     binder?.player?.forcePlay(event.song.asMediaItem)
                                 }
@@ -285,7 +286,8 @@ fun HistoryList(
                             me.knighthat.component.SongItem(
                                 song = mediaItem.asSong,
                                 navController = navController,
-                                modifier = Modifier.background(colorPalette().background0),
+                                modifier = Modifier,
+
                                 onClick = {
                                     binder?.player?.forcePlay(mediaItem)
                                 },

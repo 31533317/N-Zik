@@ -294,7 +294,8 @@ fun ArtistLocalSongs(
                         SongItem(
                             song = song,
                             navController = navController,
-                            modifier = Modifier.background(colorPalette().background0),
+                            modifier = Modifier,
+
                             onClick = {
                                 binder?.stopRadio()
                                 binder?.player?.forcePlayAtIndex(

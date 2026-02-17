@@ -215,7 +215,8 @@ fun SearchResultScreen(
                                 SongItem(
                                     song = song.asSong,
                                     navController = navController,
-                                    modifier = Modifier.background(colorPalette().background0),
+                                    modifier = Modifier,
+
                                     onClick = {
                                         binder?.startRadio(song.asMediaItem, false, song.info?.endpoint)
                                     }

@@ -2,6 +2,7 @@ package it.fast4x.rimusic.ui.components.themed
 
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -37,7 +38,7 @@ fun NowPlayingSongIndicator (
             MusicAnimation(
                 color = colorPalette().onOverlay,
                 modifier = Modifier
-                    .height(containerSize / 2)
+                    .fillMaxHeight(0.5f)
             )
     }
 

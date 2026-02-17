@@ -259,7 +259,8 @@ fun OnDeviceSong(
                     song = song,
                     itemSelector = itemSelector,
                     navController = navController,
-                    modifier = Modifier.background(colorPalette().background0).animateItem(),
+                    modifier = Modifier.animateItem(),
+
                     onClick = {
                         search.hideIfEmpty()
 
