@@ -46,7 +46,7 @@ lombok = "1.18.42"
 junit5 = "6.0.3"
 webkit = "1.15.0"
 newpipe-extractor = "v0.25.2"
-kotlinx-serialization = "1.8.0"
+kotlinx-serialization = "1.10.0"
 composeMaterial3 = "1.5.6"
 
 
