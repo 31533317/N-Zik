@@ -1,0 +1,30 @@
+---
+name: Bug Report
+about: Create a report to help us improve
+title: 'Back button: some menus lose transition/animation'
+labels: [bug]
+assignees: [NEVARLeVrai]
+
+---
+
+## Environment  
+**Android Version:** Other  
+**App Version:** nightly  
+
+## Description  
+Using the back button sometimes results in lost menu transitions/animations across the app.
+
+## Expected Behavior  
+Back navigation should always trigger appropriate transitions/animations.
+
+## Logs  
+
+
+## Additional Info  
+- **Other Android Version:** 
+- **Video:** 
+
+## Required Actions  
+- true
+- true
+- true
