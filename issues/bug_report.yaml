@@ -1,0 +1,24 @@
+**Title**: Song menu in search should use new Settings UI  
+
+**Bug Report**  
+
+### Environment  
+- **Android Version**: Other  
+- **App Version**: nightly  
+
+### Required Actions  
+- [x] Action 1  
+- [x] Action 2  
+- [x] Action 3  
+
+### Bug Trigger  
+When using menu about a song in search, UI displayed is not new Settings UI.  
+
+### Expectation  
+Song menu in search should use modern Settings UI components.  
+
+### Logs  
+
+### Other Android Version  
+
+### Video  
