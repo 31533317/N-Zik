@@ -1,0 +1,30 @@
+---
+title: 'PiP mode: cover not displayed, app view improperly compressed'
+assignees:
+  - NEVARLeVrai
+labels:
+  - bug
+---
+
+### Bug Report
+
+#### Environment
+- **Android Version**: Other
+- **App Version**: nightly
+
+#### Required Actions
+- Action 1: true
+- Action 2: true
+- Action 3: true
+
+#### Bug Trigger
+Activate PiP mode: cover/art not shown. App view is compressed and not visually complete.
+
+#### Expectation
+PiP mode should display cover/art, show all controls, and have proper layout.
+
+#### Log
+
+#### Other Android Version
+
+#### Video
