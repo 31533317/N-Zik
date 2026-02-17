@@ -1,0 +1,34 @@
+---
+title: "Back button in Add to Playlist submenu fails navigation"
+assignees: 
+  - NEVARLeVrai
+labels: 
+  - bug
+---
+
+### Bug Description
+
+In Add to Playlist submenu, pressing the back button does not return to previous screen/menu as expected.
+
+### Expected Behavior
+
+Back button should perform proper navigation in all submenus.
+
+### Steps To Reproduce
+1. Navigate to Add to Playlist submenu.
+2. Press the back button.
+
+### Environment
+- Android Version: Other
+- App Version: nightly
+
+### Logs
+
+### Additional Information
+- Other Android Version:
+- Video:
+
+### Required Actions
+- [x] action 1
+- [x] action 2
+- [x] action 3
