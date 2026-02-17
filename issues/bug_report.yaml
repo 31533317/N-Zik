@@ -1,24 +1,28 @@
-**Title**: Song menu in search should use new Settings UI  
+---
+name: bug_report
+about: Create a report to help us improve
+title: "Image fallback in VM: requires page reload to fix"
+labels: [bug]
+assignees: ["NEVARLeVrai"]
+---
 
-**Bug Report**  
+## Description
+### Bug Trigger
+On VM, images sometimes do not load, fallback shown. Only page reload restores.
 
-### Environment  
-- **Android Version**: Other  
-- **App Version**: nightly  
+### Expected Behavior
+Images should load correctly without requiring reload; fallbacks minimized.
 
-### Required Actions  
-- [x] Action 1  
-- [x] Action 2  
-- [x] Action 3  
+## Environment
+- **Android Version:** Other
+- **App Version:** nightly
 
-### Bug Trigger  
-When using menu about a song in search, UI displayed is not new Settings UI.  
+## Additional Information
+- **Log:** 
+- **Other Android Versions:** 
+- **Video:** 
 
-### Expectation  
-Song menu in search should use modern Settings UI components.  
-
-### Logs  
-
-### Other Android Version  
-
-### Video  
+## Required Actions
+- [x] true
+- [x] true
+- [x] true
