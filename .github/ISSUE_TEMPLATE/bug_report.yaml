@@ -1,29 +1,15 @@
 ---
-name: Bug Report
-about: Create a report to notify the team of a bug.
-title: 'Sleep timer uses outdated UI; needs new Settings UI refactor'
-labels: [bug]
-assignees: [NEVARLeVrai]
+title: "Listen On uses old UI; migrate to new Settings UI"
+labels: ["bug"]
+assignees: ["NEVARLeVrai"]
 ---
 
-### Bug Details
-
-**Android Version:** Other  
-**App Version:** nightly  
-
-**Required Actions:**  
-- [x] true  
-- [x] true  
-- [x] true  
-
-**Bug Trigger:**  
-Open sleep timer function. Observe it uses previous UI design; lacks modern Settings UI elements. Needs refactor.  
-
-**Expectation:**  
-Sleep timer should present modern, consistent Settings UI, matching other settings screens.  
-
-**Log:**  
-
-**Other Android Version:**  
-
-**Video:**  
+## Form Values
+- **android-version:** Other
+- **app-version:** nightly
+- **required-actions:** true, true, true
+- **bug-trigger:** Open 'Listen On'. UI displayed is not up-to-date. Needs migration to new Settings UI.
+- **expectation:** Listen On should use new Settings UI for improved look and consistency.
+- **log:** 
+- **other-android-version:** 
+- **video:** 
