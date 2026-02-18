@@ -140,12 +140,6 @@ fun NextVisualizer() {
             val helper = remember(binder?.player?.audioSessionId) {
                 VisualizerHelper(binder?.player?.audioSessionId ?: 0)
             }
-            
-            androidx.compose.runtime.DisposableEffect(helper) {
-                onDispose {
-                    helper.release()
-                }
-            }
 
             var bitmapCover by remember { mutableStateOf(APP_ICON_BITMAP) }
             var circleBitmap by remember { mutableStateOf(Icon.getCircledBitmap(APP_ICON_BITMAP)) }
