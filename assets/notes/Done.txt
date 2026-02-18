@@ -1,2 +1,5 @@
 1: Optimized ImageCacheFactory to prevent fallback logo from being triggered too many times (It will make image load slower but it will improve performance over time)
 2: Pip mode now work properly
+3: Menu about a song in search should also use the new settings UI
+4: Fixed a bug where mroe of wasnt displaying all artists and button
+5: Update suggest in search to use new UI if u long press a song
