@@ -9,3 +9,4 @@
 12: Update discord library and improve RPC and token grab
 13: When long pressing an ui or a song the effect of longpress doesnt have corner radius
 14: Searching online and navigation around resultat make newer relustat to never load ? id you slide too fast
+15: Add artist video category under artist page
