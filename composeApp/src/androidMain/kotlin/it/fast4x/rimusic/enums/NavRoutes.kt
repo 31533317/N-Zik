@@ -25,7 +25,8 @@ enum class NavRoutes {
     newAlbums,
     moodsPage,
     podcast,
-    artistAlbums;
+    artistAlbums,
+    artistVideos;
 
     companion object {
 

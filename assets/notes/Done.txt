@@ -2,4 +2,4 @@
 2: Pip mode now work properly
 3: Menu about a song in search should also use the new settings UI
 4: Fixed a bug where more of wasnt displaying all artists and button
-5: Update suggest in search to use new UI if u long press a song
+5: Update suggest in search to use new UI if u long press a song only the front artist page work not More button

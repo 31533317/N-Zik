@@ -40,6 +40,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import app.kreate.android.themed.rimusic.screen.artist.ArtistAlbums
+import app.kreate.android.themed.rimusic.screen.artist.ArtistVideos
 import it.fast4x.rimusic.Database
 import it.fast4x.rimusic.enums.NavRoutes
 import it.fast4x.rimusic.enums.StatisticsType
@@ -415,6 +416,28 @@ fun AppNavigation(
             val params = navBackStackEntry.arguments?.getString("params").orEmpty()
 
             ArtistAlbums( navController, id, params, miniPlayer )
+        }
+
+        composable(
+            route = "${NavRoutes.artistVideos.name}/{id}?params={params}",
+            arguments = listOf(
+                navArgument(
+                    name = "id",
+                    builder = { type = NavType.StringType }
+                ),
+                navArgument(
+                    name = "params",
+                    builder = {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    }
+                )
+            )
+        ) { navBackStackEntry ->
+            val id = navBackStackEntry.arguments?.getString("id").orEmpty()
+            val params = navBackStackEntry.arguments?.getString("params").orEmpty()
+
+            ArtistVideos( navController, id, params, miniPlayer )
         }
     }
 }
