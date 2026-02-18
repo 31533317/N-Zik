@@ -1,0 +1,9 @@
+Improved:
+- Fixed swiper gestures icons
+- Improved Home/Quick Picks stability (Refresh & Shuffle)
+- Fixed background color consistency across various screens (Songs, Search, Albums, etc.)
+- Implemented Progressive Adaptive Image Cache (LOW/MEDIUM/HIGH)
+- Added Network Quality Status and Manual Quality Overrides in Settings
+- Optimized visualizer and fixed potential freezes
+- Improved Android Auto layout and UI alignment
+- General performance optimizations and code cleanup
