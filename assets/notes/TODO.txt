@@ -2,7 +2,6 @@
 2: "listen on" use old UI too it should use new settings UI
 3: back button in add to playlist in sub menu doesnt go back
 4: pip mode doesnt work properly doesnt show cover ? show the whole compressed app
-5: Still alot of image fallback on the VM need page reload to fix 
 6: search bar online doesnt show the text centered and icon centered inside the search bar
 7: if i click on back button accros the app somes menu lost transition ??
 8: sometimes when i come back to home page it move me from where i was before
@@ -11,3 +10,4 @@
 11: i need to finish settings UI
 12: Update discord library and improve RPC and token grab
 13: When long pressing an ui or a song the effect of longpress doesnt have corner radius
+14: Searching online and navigation around resultat make newer relustat to never load ? id you slide too fast
