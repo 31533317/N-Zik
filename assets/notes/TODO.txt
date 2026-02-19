@@ -5,8 +5,8 @@
 7: if i click on back button accros the app somes menu lost transition ??
 8: sometimes when i come back to home page it move me from where i was before
 9: grid view make loading slower in search results
-11: i need to finish settings UI
 12: Update discord library and improve RPC and token grab
 13: When long pressing an ui or a song the effect of longpress doesnt have corner radius
 14: Searching online and navigation around resultat make newer results to never load ? id you slide too fast
 15: Add artist video category under artist page, only video works not live performance
+16: I need to finish Player Appearance page UI and make it functional
