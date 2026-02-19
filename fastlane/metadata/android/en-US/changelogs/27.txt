@@ -1,0 +1,11 @@
+New:
+- Added artist video category under artist page
+
+Improved:
+- Optimized ImageCacheFactory to prevent fallback logo from being triggered too many times
+- Menu about a song in search now uses the new settings UI
+- Updated search suggestions to use new UI
+
+Fixed:
+- Pip mode now work properly
+- Fixed a bug where "More Of" wasn't displaying all artists and button
