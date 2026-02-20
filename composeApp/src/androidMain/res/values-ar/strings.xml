@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">أنت رقم 1، انقر واستمتع بالمفاجأة</string>
     <string name="easter_egg_last">أنت رقم واحد، انقر لفترة طويلة واستمتع بالمفاجأة</string>
     <string name="general_settings_description">القسم العام يحتوي على إعدادات للوظيفة العامة للتطبيق</string>
+    <string name="ui_settings_description">قسم واجهة المستخدم يحتوي على إعدادات لتعديل الواجهة العالمية والملاحة</string>
     <string name="pause_between_songs_description">إضافة إيقاف مؤقت بين الأغاني</string>
     <string name="notifications">الإشعارات</string>
     <string name="playback">تشغيل</string>

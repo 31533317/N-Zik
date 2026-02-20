@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">您是第一个数字，点击并享受惊喜。</string>
     <string name="easter_egg_last">您是一个数字，长按并享受惊喜。</string>
     <string name="general_settings_description">一般部分包含应用程序一般功能的设置</string>
+    <string name="ui_settings_description">The user interface section contains settings to modify the global interface and navigation</string>
     <string name="pause_between_songs_description">在歌曲之间添加暂停</string>
     <string name="notifications">通知</string>
     <string name="playback">回放</string>

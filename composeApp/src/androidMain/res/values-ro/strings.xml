@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">Ești numărul unu, fă clic și bucură-te de surpriză</string>
     <string name="easter_egg_last">Ești numărul unu, fă click lung și bucură-te de surpriză</string>
     <string name="general_settings_description">Secțiunea generală conține setări pentru funcționalitatea generală a aplicației</string>
+    <string name="ui_settings_description">Secțiunea interfață utilizator conține setări pentru a modifica interfața globală și navigația</string>
     <string name="pause_between_songs_description">Adaugă o pauză între melodii</string>
     <string name="notifications">Notificări</string>
     <string name="playback">Redare</string>

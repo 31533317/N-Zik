@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">Du bist ein Nummer Eins, klicke und genieße die Überraschung</string>
     <string name="easter_egg_last">Du bist eine Nummer eins, lange Klicke und genieße die Überraschung</string>
     <string name="general_settings_description">Der allgemeine Abschnitt enthält Einstellungen für die allgemeine Funktionalität der App</string>
+    <string name="ui_settings_description">Der Abschnitt der Benutzeroberfläche enthält Einstellungen zum Ändern der globalen Schnittstelle und der Navigation</string>
     <string name="pause_between_songs_description">Pause zwischen Liedern hinzufügen</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="playback">Wiedergabe</string>

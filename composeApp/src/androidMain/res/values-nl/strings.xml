@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">U bent een nummer één, klik en geniet van de verrassing</string>
     <string name="easter_egg_last">U bent een nummer één, lange klik en geniet van de verrassing</string>
     <string name="general_settings_description">De algemene sectie bevat instellingen voor de algemene functionaliteit van de app</string>
+    <string name="ui_settings_description">De gebruikersinterface sectie bevat instellingen om de globale interface en navigatie te wijzigen</string>
     <string name="pause_between_songs_description">Voeg een pauze toe tussen nummers</string>
     <string name="notifications">Notificaties</string>
     <string name="playback">Afspelen</string>

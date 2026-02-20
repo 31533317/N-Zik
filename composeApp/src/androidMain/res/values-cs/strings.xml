@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">Jste číslo jedna, klikněte a užijte si překvapení</string>
     <string name="easter_egg_last">Jste číslo jedna, dlouze klikni a užívejte si překvapení</string>
     <string name="general_settings_description">Obecná část obsahuje nastavení pro obecnou funkčnost aplikace</string>
+    <string name="ui_settings_description">Sekce uživatelského rozhraní obsahuje nastavení pro změnu globálního rozhraní a navigace</string>
     <string name="pause_between_songs_description">Přidat pauzu mezi skladbami</string>
     <string name="notifications">Oznámení</string>
     <string name="playback">Přehrát</string>

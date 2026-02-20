@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">Du er et nummer én, klik og nyd overraskelsen</string>
     <string name="easter_egg_last">Du er en nummer én, et langt klik og nyde overraskelsen</string>
     <string name="general_settings_description">Den generelle sektion indeholder indstillinger for appens generelle funktionalitet</string>
+    <string name="ui_settings_description">Afsnittet brugergrænseflade indeholder indstillinger til at ændre den globale grænseflade og navigation</string>
     <string name="pause_between_songs_description">Tilføj en pause mellem sange</string>
     <string name="notifications">Notifikationer</string>
     <string name="playback">Afspilning</string>

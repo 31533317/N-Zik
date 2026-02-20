@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">Olet ykkös, klikkaa ja nauti yllätyksestä</string>
     <string name="easter_egg_last">Olet numero yksi, pitkä klikkaa ja nauti yllätys</string>
     <string name="general_settings_description">Yleisessä osiossa on asetuksia sovelluksen yleisiä toimintoja varten</string>
+    <string name="ui_settings_description">Käyttöliittymäosiossa on asetuksia globaalin käyttöliittymän ja navigoinnin muokkaamiseen</string>
     <string name="pause_between_songs_description">Lisää tauko kappaleiden välillä</string>
     <string name="notifications">Ilmoitukset</string>
     <string name="playback">Toisto</string>
