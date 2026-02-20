@@ -22,7 +22,7 @@ fun Loader(
     modifier = modifier,
 ) {
     LoadingIndicator(
-        color = colorPalette().text,
+        color = colorPalette().accent,
         modifier = Modifier
             .align(Alignment.Center)
             .size(size)
