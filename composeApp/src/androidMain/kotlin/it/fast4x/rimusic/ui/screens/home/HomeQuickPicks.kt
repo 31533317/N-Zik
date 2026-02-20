@@ -402,6 +402,16 @@ fun HomeQuickPicks(
 
     val disableScrollingText by rememberPreference(disableScrollingTextKey, false)
 
+    var showLoader by remember { mutableStateOf(!loadedData) }
+    LaunchedEffect(loadedData) {
+        if (loadedData) {
+            kotlinx.coroutines.delay(600)
+            showLoader = false
+        } else {
+            showLoader = true
+        }
+    }
+
     PullToRefreshBox(
         isRefreshing = refreshing,
         onRefresh = ::refresh
@@ -510,7 +520,15 @@ fun HomeQuickPicks(
                         onClick = onSearchClick
                     )
 
-                WelcomeMessage()
+                if (showLoader) {
+                    androidx.compose.foundation.layout.Box(
+                        modifier = Modifier.fillMaxWidth().height(this@BoxWithConstraints.maxHeight),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        it.fast4x.rimusic.ui.components.themed.Loader()
+                    }
+                } else {
+                    WelcomeMessage()
 
                 if (showTips) {
                     Title2Actions(
@@ -1228,6 +1246,7 @@ fun HomeQuickPicks(
 
 
                 //} ?:
+                }
 
                 relatedPageResult?.exceptionOrNull()?.let {
                     BasicText(

@@ -1,12 +1,11 @@
 1: "sleep timer" use old UI should use new settings UI
 2: "listen on" use old UI too it should use new settings UI
 3: back button in add to playlist in sub menu doesnt go back
-6: search bar online doesnt show the text centered and icon centered inside the search bar
-7: if i click on back button accros the app somes menu lost transition ??
-8: sometimes when i come back to home page it move me from where i was before
-9: grid view make loading slower in search results
-12: Update discord library and improve RPC and token grab
-13: When long pressing an ui or a song the effect of longpress doesnt have corner radius
-14: Searching online and navigation around resultat make newer results to never load ? id you slide too fast
-15: Add artist video category under artist page, only video works not live performance
-16: I need to finish Player Appearance page UI and make it functional
+4: search bar online doesnt show the text centered and icon centered inside the search bar
+5: if i click on back button accros the app somes menu lost transition ??
+6: grid view make loading slower in search results
+7: Update discord library and improve RPC and token grab
+8: When long pressing an ui or a song the effect of longpress doesnt have corner radius
+9: Searching online and navigation around resultat make newer results to never load ? id you slide too fast
+10: Add artist video category under artist page, only video works not live performance
+11: I need to finish Player Appearance page UI and make it functional
