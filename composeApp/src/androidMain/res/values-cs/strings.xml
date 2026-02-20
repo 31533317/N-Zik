@@ -1063,4 +1063,7 @@
     <string name="cache_working">Práce mezipaměti</string>
     <string name="cache_empty">Mezipaměť je prázdná</string>
     <string name="album_not_found">Album nenalezeno</string>
+    <string name="content_type_all">Vše</string>
+    <string name="content_type_official">Úředník</string>
+    <string name="content_type_user_generated">Uživatel generován</string>
 </resources>
