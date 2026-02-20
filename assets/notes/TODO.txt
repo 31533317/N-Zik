@@ -9,3 +9,4 @@
 9: Searching online and navigation around resultat make newer results to never load ? id you slide too fast
 10: Add artist video category under artist page, only video works not live performance
 11: I need to finish Player Appearance page UI and make it functional
+12: Online video page still use the old more info menu
