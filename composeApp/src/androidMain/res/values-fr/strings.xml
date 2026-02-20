@@ -1047,6 +1047,7 @@ Volume BAS : titre précédent</string>
     <string name="easter_egg_number_one">Vous êtes numéro un, cliquez et profitez de la surprise</string>
     <string name="easter_egg_last">Vous êtes numéro un, faites un clic long et profitez de la surprise</string>
     <string name="general_settings_description">La section générale contient des paramètres pour les fonctionnalités générales de l\'application</string>
+    <string name="ui_settings_description">La section de l\'interface utilisateur contient des paramètres pour modifier l\'interface globale et la navigation</string>
     <string name="pause_between_songs_description">Ajouter une pause entre les chansons</string>
     <string name="notifications">Notifications</string>
     <string name="playback">Lecture</string>
