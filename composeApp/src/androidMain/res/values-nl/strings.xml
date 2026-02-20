@@ -1063,4 +1063,7 @@
     <string name="cache_working">Cache wordt uitgevoerd</string>
     <string name="cache_empty">Cache leeg</string>
     <string name="album_not_found">Album niet gevonden</string>
+    <string name="content_type_all">Alles</string>
+    <string name="content_type_official">Officiële</string>
+    <string name="content_type_user_generated">Gebruiker gegenereerd</string>
 </resources>
