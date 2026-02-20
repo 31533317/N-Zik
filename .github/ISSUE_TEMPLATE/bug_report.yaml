@@ -1,6 +1,6 @@
 name: 🐛Bug report
 description: Short description of how to trigger this bug
-title: Name captures the problem
+title: "[BUG]: "
 labels:
   - bug
 body:
