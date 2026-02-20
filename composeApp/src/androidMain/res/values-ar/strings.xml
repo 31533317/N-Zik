@@ -1063,4 +1063,7 @@
     <string name="cache_working">عمل المخبئ</string>
     <string name="cache_empty">ذاكرة التخزين المؤقت فارغة</string>
     <string name="album_not_found">الألبوم غير موجود</string>
+    <string name="content_type_all">All</string>
+    <string name="content_type_official">رسمي</string>
+    <string name="content_type_user_generated">تم إنشاء المستخدم</string>
 </resources>
