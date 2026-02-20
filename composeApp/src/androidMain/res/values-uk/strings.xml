@@ -1063,4 +1063,7 @@
     <string name="cache_working">Кеш роботи</string>
     <string name="cache_empty">Кеш порожній</string>
     <string name="album_not_found">Альбом не знайдено</string>
+    <string name="content_type_all">Усе</string>
+    <string name="content_type_official">Офіційний</string>
+    <string name="content_type_user_generated">Створено користувачем</string>
 </resources>
