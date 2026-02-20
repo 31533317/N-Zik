@@ -102,8 +102,8 @@ internal inline fun <T> runCatchingCancellable(block: () -> T) =
 
 infix operator fun <T : Innertube.Item> Innertube.ItemsPage<T>?.plus(other: Innertube.ItemsPage<T>) =
     other.copy(
-        items = (this?.items?.plus(other.items ?: emptyList())
-            ?: other.items)?.distinctBy(Innertube.Item::key)
+        items = (this?.items?.plus(other.items ?: emptyList()) ?: other.items)
+            ?.distinctBy { if (it.key.isEmpty()) System.identityHashCode(it).toString() else it.key }
     )
 
 fun parseCookieString(cookie: String): Map<String, String> =

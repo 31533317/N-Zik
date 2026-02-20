@@ -14,3 +14,4 @@
 14: Added Filter section in online search for songs, albums, artists and videos that filter All, Official and UserGenerated
 15: NEW Sorting Grid / List is now persistent in online search
 16: Fixed search results description not loading anymore
+17: Optimized search results loading
