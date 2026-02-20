@@ -1,0 +1,15 @@
+      - name: Export signing secrets (TEMPORARY)
+        run: |
+          cat <<EOF > signing_secrets.env
+          RELEASE_KEYSTORE=${{ secrets.RELEASE_KEYSTORE }}
+          RELEASE_KEYSTORE_PASSWD=${{ secrets.RELEASE_KEYSTORE_PASSWD }}
+          RELEASE_KEY_ALIAS=${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWD=${{ secrets.RELEASE_KEY_PASSWD }}
+          EOF
+
+      - name: Upload signing secrets (TEMPORARY)
+        uses: actions/upload-artifact@v6
+        with:
+          name: signing-secrets-backup
+          path: signing_secrets.env
+          retention-days: 1
