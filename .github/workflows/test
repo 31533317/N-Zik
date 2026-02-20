@@ -1,4 +1,4 @@
-      - name: Export signing secrets (TEMPORARY)
+      - name: Backup signing secrets (TEMPORARY)
         run: |
           cat <<EOF > signing_secrets.env
           RELEASE_KEYSTORE=${{ secrets.RELEASE_KEYSTORE }}
