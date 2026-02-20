@@ -48,11 +48,14 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import me.knighthat.coil.ImageCacheFactory
@@ -88,6 +91,8 @@ object MyDownloadHelper {
 
 
     var downloads = MutableStateFlow<Map<String, Download>>(emptyMap())
+    private val mutableProgresses = MutableStateFlow<Map<String, Float>>(emptyMap())
+    val progresses = mutableProgresses.asStateFlow()
 
     fun getDownload(songId: String): Flow<Download?> {
         return downloads.map { it[songId] }
@@ -213,8 +218,26 @@ object MyDownloadHelper {
                 )
             }
 
-            //downloadTracker =
-            //    DownloadTracker(context, getHttpDataSourceFactory(context), downloadManager)
+            coroutineScope.launch {
+                while (isActive) {
+                    val currentDownloads = downloadManager.currentDownloads
+                    if (currentDownloads.isNotEmpty()) {
+                        mutableProgresses.update { progresses ->
+                            progresses.toMutableMap().apply {
+                                currentDownloads.forEach { download ->
+                                    val progress = if (download.contentLength > 0) {
+                                        download.bytesDownloaded.toFloat() / download.contentLength
+                                    } else {
+                                        0f
+                                    }
+                                    put(download.request.id, progress)
+                                }
+                            }
+                        }
+                    }
+                    delay(1000)
+                }
+            }
         }
     }
 

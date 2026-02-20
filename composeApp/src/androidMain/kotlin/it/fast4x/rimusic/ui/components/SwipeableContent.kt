@@ -1,3 +1,4 @@
+@file:kotlin.OptIn(ExperimentalMaterial3ExpressiveApi::class)
 package it.fast4x.rimusic.ui.components
 
 import androidx.annotation.OptIn
@@ -6,8 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
@@ -107,23 +112,25 @@ fun SwipeableContent(
                     },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val icon = when {
-                        offset > 0 -> if (swipeToRightIcon == null) null else ImageVector.vectorResource(
-                            swipeToRightIcon
-                        )
-
-                        offset < 0 -> if (swipeToLeftIcon == null) null else ImageVector.vectorResource(
-                            swipeToLeftIcon
-                        )
-
+                    val iconId = when {
+                        offset > 0 -> swipeToRightIcon
+                        offset < 0 -> swipeToLeftIcon
                         else -> null
                     }
-                    if (icon != null)
+                    if (iconId == app.kreate.android.R.drawable.download_progress) {
+                        CircularWavyProgressIndicator(
+                            color = colorPalette().accent,
+                            modifier = Modifier.size(20.dp),
+                            stroke = Stroke(width = with(androidx.compose.ui.platform.LocalDensity.current) { 2.dp.toPx() }),
+                            trackStroke = Stroke(width = with(androidx.compose.ui.platform.LocalDensity.current) { 2.dp.toPx() })
+                        )
+                    } else if (iconId != null) {
                         Icon(
-                            imageVector = icon,
+                            imageVector = ImageVector.vectorResource(iconId),
                             contentDescription = null,
                             tint = colorPalette().accent,
                         )
+                    }
                 }
             }
         ) {
