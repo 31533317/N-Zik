@@ -1,3 +1,4 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
 package it.fast4x.rimusic.ui.screens.player
 
 import androidx.compose.animation.core.LinearEasing
@@ -60,6 +61,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.navigation.NavController
 import app.kreate.android.R
 import it.fast4x.rimusic.Database
@@ -127,6 +130,9 @@ fun MiniPlayer(
     var playerError by remember {
         mutableStateOf<PlaybackException?>(binder.player.playerError)
     }
+    var isBuffering by remember {
+        mutableStateOf(binder.player.playbackState == Player.STATE_BUFFERING)
+    }
 
     binder.player.DisposableListener {
         object : Player.Listener {
@@ -141,6 +147,7 @@ fun MiniPlayer(
             override fun onPlaybackStateChanged(playbackState: Int) {
                 playerError = binder.player.playerError
                 shouldBePlaying = if (playerError == null) binder.player.shouldBePlaying else false
+                isBuffering = playbackState == Player.STATE_BUFFERING
             }
 
             override fun onPlayerError(playbackException: PlaybackException) {
@@ -409,15 +416,28 @@ fun MiniPlayer(
                         .background(colorPalette().background2)
                         .size(42.dp)
                 ) {
-                    Image(
-                        painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(colorPalette().iconButtonPlayer),
-                        modifier = Modifier
-                            .rotate(rotationAngle)
-                            .align(Alignment.Center)
-                            .size(24.dp)
-                    )
+                    if (isBuffering) {
+                        CircularWavyProgressIndicator(
+                            color = colorPalette().accent,
+                            trackColor = colorPalette().text,
+                            modifier = Modifier
+                                .rotate(rotationAngle)
+                                .align(Alignment.Center)
+                                .size(24.dp),
+                            stroke = Stroke(width = with(androidx.compose.ui.platform.LocalDensity.current) { 2.dp.toPx() }),
+                            trackStroke = Stroke(width = with(androidx.compose.ui.platform.LocalDensity.current) { 2.dp.toPx() })
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette().iconButtonPlayer),
+                            modifier = Modifier
+                                .rotate(rotationAngle)
+                                .align(Alignment.Center)
+                                .size(24.dp)
+                        )
+                    }
                 }
                if (miniPlayerType == MiniPlayerType.Essential)
                 it.fast4x.rimusic.ui.components.themed.IconButton(

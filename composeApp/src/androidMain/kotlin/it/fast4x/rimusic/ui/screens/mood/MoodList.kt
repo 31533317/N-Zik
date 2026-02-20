@@ -50,6 +50,7 @@ import it.fast4x.rimusic.ui.items.AlbumItem
 import it.fast4x.rimusic.ui.items.AlbumItemPlaceholder
 import it.fast4x.rimusic.ui.items.ArtistItem
 import it.fast4x.rimusic.ui.items.PlaylistItem
+import it.fast4x.rimusic.ui.components.themed.Loader
 import it.fast4x.rimusic.ui.styling.Dimensions
 import it.fast4x.rimusic.ui.styling.px
 import it.fast4x.rimusic.utils.center
@@ -216,19 +217,10 @@ fun MoodList(
                     .align(Alignment.CenterHorizontally)
                     .padding(all = 16.dp)
             )
-        } ?: ShimmerHost {
-            HeaderPlaceholder(modifier = Modifier.shimmer())
-            repeat(4) {
-                TextPlaceholder(modifier = sectionTextModifier)
-                Row {
-                    repeat(6) {
-                        AlbumItemPlaceholder(
-                            thumbnailSizeDp = thumbnailSizeDp,
-                            alternative = true
-                        )
-                    }
-                }
-            }
-        }
+        } ?: Loader(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(windowInsets.asPaddingValues())
+        )
     }
 }

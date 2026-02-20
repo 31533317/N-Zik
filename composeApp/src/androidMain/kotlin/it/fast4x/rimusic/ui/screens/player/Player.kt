@@ -211,6 +211,7 @@ import it.fast4x.rimusic.utils.noblurKey
 import it.fast4x.rimusic.utils.playAtIndex
 import it.fast4x.rimusic.utils.playNext
 import it.fast4x.rimusic.utils.playPrevious
+import it.fast4x.rimusic.utils.playbackStateState
 import it.fast4x.rimusic.utils.playerBackgroundColorsKey
 import it.fast4x.rimusic.utils.playerThumbnailSizeKey
 import it.fast4x.rimusic.utils.playerThumbnailSizeLKey
@@ -489,6 +490,9 @@ fun Player(
         .collectAsState(initial = null)
 
     val positionAndDuration by binder.player.positionAndDurationState()
+    val playbackState by binder.player.playbackStateState()
+    val isBuffering = playbackState == Player.STATE_BUFFERING
+
     var timeRemaining by remember { mutableIntStateOf(0) }
     timeRemaining = positionAndDuration.second.toInt() - positionAndDuration.first.toInt()
 
@@ -1115,12 +1119,12 @@ fun Player(
     }
 
     @Composable
-    fun Controller( mediaItem: MediaItem, modifier: Modifier ) {
+    fun Controller( mediaItem: MediaItem, modifier: Modifier, isBuffering: Boolean ) {
         Controls(
             navController = navController,
             onCollapse = onDismiss,
-            onBlurScaleChange = { blurAdjuster.strength = it },
-            expandPlayer = expandedplayer,
+            onBlurScaleChange = { strength -> blurAdjuster.strength = strength },
+            expandedplayer = expandedplayer,
             titleExpanded = titleExpanded,
             timelineExpanded = timelineExpanded,
             controlsExpanded = controlsExpanded,
@@ -1129,6 +1133,7 @@ fun Player(
             artistIds = artistInfos,
             albumId = albumId,
             shouldBePlaying = shouldBePlaying,
+            isBuffering = isBuffering,
             positionAndDuration = positionAndDuration,
             modifier = modifier,
         )
@@ -1589,7 +1594,8 @@ fun Player(
                             Modifier.padding(vertical = 8.dp)
                                     .conditional( playerType == PlayerType.Essential ) {
                                         fillMaxHeight().weight( 1f )
-                                    }
+                                    },
+                            isBuffering = isBuffering
                         )
                     } else {
                         val index = (
@@ -1606,7 +1612,8 @@ fun Player(
 
                         Controller(
                             player.getMediaItemAt(index),
-                            Modifier.padding( vertical = 8.dp )
+                            Modifier.padding( vertical = 8.dp ),
+                            isBuffering = isBuffering
                         )
                     }
                     if (!showthumbnail || playerType == PlayerType.Modern) {
@@ -1812,6 +1819,7 @@ fun Player(
                                             artistIds = artistInfos,
                                             albumId = albumId,
                                             shouldBePlaying = shouldBePlaying,
+                                            isBuffering = isBuffering,
                                             position = positionAndDuration.first,
                                             duration = positionAndDuration.second,
                                             modifier = Modifier
@@ -2250,7 +2258,8 @@ fun Player(
                         Controller(
                             mediaItem,
                             Modifier.padding( vertical = 4.dp )
-                                    .fillMaxWidth()
+                                    .fillMaxWidth(),
+                            isBuffering = isBuffering
                         )
                     } else if (!(swipeAnimationNoThumbnail == SwipeAnimationNoThumbnail.Scale && isDraggedFS)){
                         val index = (
@@ -2268,7 +2277,8 @@ fun Player(
                         Controller(
                             player.getMediaItemAt(index),
                             Modifier.padding( vertical = 4.dp )
-                                    .fillMaxWidth()
+                                    .fillMaxWidth(),
+                            isBuffering = isBuffering
                         )
                     }
                 }
