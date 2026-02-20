@@ -38,6 +38,8 @@ object Preference {
     val PLAYLIST_SONGS_SORT_ORDER = Key( "PlaylistSongsSortOrder", SortOrder.Ascending )
     //</editor-fold>
 
+    val SEARCH_RESULT_GRID_STATES = Key( "searchResultGridStates", "1111111" )
+
     @Composable
     inline fun <reified T: Enum<T>> remember( key: Key<T>): MutableState<T> =
         rememberPreference( key.key, key.default )

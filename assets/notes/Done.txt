@@ -12,3 +12,5 @@
 12: Fixed in stats page when i click on download button download_progress goes in pending
 13: Fixed podcast not loading anymore thx to fast4x new api knowledge base
 14: Added Filter section in online search for songs, albums, artists and videos that filter All, Official and UserGenerated
+15: NEW Sorting Grid / List is now persistent in online search
+16: Fixed search results description not loading anymore
