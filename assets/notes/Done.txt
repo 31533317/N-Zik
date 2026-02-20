@@ -3,3 +3,11 @@
 3: Bumped Material 3 to New 3 EXPRESIVE
 4: replaced the download_progress by the new Wavy Material 3 EXPRESIVE icon, only for in app action
 5: Online video page still use the old more info menu
+6: Use Expressive Loader as initial placeholder in search
+7: Use Expressive Loader as initial placeholder in history
+8: Use Expressive Loader as initial placeholder in playlist click
+9: Use Expressive Loader as initial placeholder in album click
+10: Use Expressive Loader as initial placeholder in artist click
+11: Use Expressive loader as initial placeholder in podcast click
+12: Fixed in stats page when i click on download button download_progress goes in pending
+13: Fixed podcast not loading anymore thx to fast4x new api knowledge base
