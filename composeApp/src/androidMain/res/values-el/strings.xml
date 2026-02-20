@@ -1045,6 +1045,7 @@
     <string name="easter_egg_number_one">Είστε ένας αριθμός ένα, κάντε κλικ και απολαύστε την έκπληξη</string>
     <string name="easter_egg_last">Είστε ένας αριθμός ένα, μακρύ κλικ και να απολαύσετε την έκπληξη</string>
     <string name="general_settings_description">Η γενική ενότητα περιέχει ρυθμίσεις για τη γενική λειτουργικότητα της εφαρμογής</string>
+    <string name="ui_settings_description">Η ενότητα διασύνδεσης χρήστη περιέχει ρυθμίσεις για την τροποποίηση της καθολικής διεπαφής και πλοήγησης</string>
     <string name="pause_between_songs_description">Προσθήκη παύσης μεταξύ τραγουδιών</string>
     <string name="notifications">Ειδοποιήσεις</string>
     <string name="playback">Αναπαραγωγή</string>
