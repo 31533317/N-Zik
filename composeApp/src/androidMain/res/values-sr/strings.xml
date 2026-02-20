@@ -1063,4 +1063,7 @@
     <string name="cache_working">Cache working</string>
     <string name="cache_empty">Cache empty</string>
     <string name="album_not_found">Album not found</string>
+    <string name="content_type_all">Све</string>
+    <string name="content_type_official">Official</string>
+    <string name="content_type_user_generated">User Generated</string>
 </resources>
