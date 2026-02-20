@@ -52,7 +52,9 @@ import it.fast4x.rimusic.ui.items.PlaylistItem
 import it.fast4x.rimusic.ui.items.SongItemPlaceholder
 import it.fast4x.rimusic.ui.items.VideoItem
 import it.fast4x.rimusic.ui.items.VideoItemPlaceholder
+import me.knighthat.component.menu.video.VideoItemMenu
 import it.fast4x.rimusic.ui.styling.Dimensions
+
 import it.fast4x.rimusic.ui.styling.px
 import it.fast4x.rimusic.utils.addNext
 import it.fast4x.rimusic.utils.asMediaItem
@@ -498,14 +500,13 @@ fun SearchResultScreen(
                                         .combinedClickable(
                                             onLongClick = {
                                                 menuState.display {
-                                                    NonQueuedMediaItemMenu(
+                                                    VideoItemMenu(
                                                         navController = navController,
-                                                        mediaItem = video.asMediaItem,
-                                                        onDismiss = menuState::hide,
-                                                        disableScrollingText = disableScrollingText
-                                                    )
+                                                        song = video.asMediaItem.asSong
+                                                    ).MenuComponent()
                                                 }
                                                 hapticFeedback.performHapticFeedback(
+
                                                     HapticFeedbackType.LongPress
                                                 )
                                             },
