@@ -1063,4 +1063,7 @@
     <string name="cache_working">Cache funzionante</string>
     <string name="cache_empty">Cache vuota</string>
     <string name="album_not_found">Album non trovato</string>
+    <string name="content_type_all">Tutto</string>
+    <string name="content_type_official">Ufficiale</string>
+    <string name="content_type_user_generated">Generato Dall\'Utente</string>
 </resources>
