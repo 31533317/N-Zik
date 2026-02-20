@@ -197,6 +197,20 @@ object Innertube {
         override val key get() = info?.endpoint?.videoId ?: ""
         override val title get() = info?.name
 
+        val isOfficialMusicVideo: Boolean
+            get() = info
+                ?.endpoint
+                ?.watchEndpointMusicSupportedConfigs
+                ?.watchEndpointMusicConfig
+                ?.musicVideoType == "MUSIC_VIDEO_TYPE_OMV"
+
+        val isUserGeneratedContent: Boolean
+            get() = info
+                ?.endpoint
+                ?.watchEndpointMusicSupportedConfigs
+                ?.watchEndpointMusicConfig
+                ?.musicVideoType == "MUSIC_VIDEO_TYPE_UGC"
+
         companion object {
 
             fun parse( plRenderer: PlaylistPanelVideoRenderer ): SongItem {
