@@ -1063,4 +1063,7 @@
     <string name="cache_working">Pamięć podręczna działa</string>
     <string name="cache_empty">Pamięć podręczna pusta</string>
     <string name="album_not_found">Nie znaleziono albumu</string>
+    <string name="content_type_all">Wszystko</string>
+    <string name="content_type_official">Oficjalny</string>
+    <string name="content_type_user_generated">Wygenerowano użytkownika</string>
 </resources>
