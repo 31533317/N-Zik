@@ -42,7 +42,7 @@
 - 🎭 **Custom themes** — Personalize your experience with theme options
 - ⏲️ **Sleep timer** — Auto-stop playback after a customizable duration
 - 🎚️ **Audio controls** — App & device volume, playback speed, pitch, normalization, skip silence
-- 📺 **Wide compatibility** — Android Auto, Android TV, and YouTube video support
+- 📺 **Wide compatibility** — Android Auto, Android Automotive ,Android TV, and YouTube video support
 - 🧪 **Experimental widgets**
 - 🔁 **Update checker** — Optional automatic update notifications
 - 📤 **Export media** — Save your cached/downloaded music externally
@@ -164,6 +164,7 @@ Join us on Crowdin!
 # 🫂 Acknowledgements
 
 ### 🛠 Based on / Inspired by:
+- [**RiPlay**](https://github.com/fast4x/RiPlay)
 - [**Kreate**](https://github.com/knighthat/Kreate)
 - [**RiMusic**](https://github.com/fast4x/RiMusic)
 - [**ViMusic**](https://github.com/vfsfitvnm/ViMusic)
