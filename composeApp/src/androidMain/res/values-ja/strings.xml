@@ -1063,4 +1063,7 @@
     <string name="cache_working">キャッシュの実行</string>
     <string name="cache_empty">キャッシュが空です</string>
     <string name="album_not_found">アルバムが見つかりません</string>
+    <string name="content_type_all">すべて</string>
+    <string name="content_type_official">オフィシャル</string>
+    <string name="content_type_user_generated">ユーザーが生成されました</string>
 </resources>

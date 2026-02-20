@@ -1063,4 +1063,7 @@
     <string name="cache_working">Cache arbejder</string>
     <string name="cache_empty">Cache tom</string>
     <string name="album_not_found">Albummet blev ikke fundet</string>
+    <string name="content_type_all">Alle</string>
+    <string name="content_type_official">Officiel</string>
+    <string name="content_type_user_generated">Bruger Genereret</string>
 </resources>

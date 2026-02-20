@@ -1063,4 +1063,7 @@
     <string name="cache_working">Cache arbeid</string>
     <string name="cache_empty">Cachen er tom</string>
     <string name="album_not_found">Fant ikke albumet</string>
+    <string name="content_type_all">All tid</string>
+    <string name="content_type_official">Offisiell</string>
+    <string name="content_type_user_generated">Bruker generert</string>
 </resources>

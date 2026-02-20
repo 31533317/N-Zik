@@ -1063,4 +1063,7 @@
     <string name="cache_working">Προσωρινή μνήμη λειτουργεί</string>
     <string name="cache_empty">Κρύπτη άδεια</string>
     <string name="album_not_found">Το άλμπουμ δεν βρέθηκε</string>
+    <string name="content_type_all">Όλα</string>
+    <string name="content_type_official">Επίσημο</string>
+    <string name="content_type_user_generated">Ο Χρήστης Δημιουργήθηκε</string>
 </resources>

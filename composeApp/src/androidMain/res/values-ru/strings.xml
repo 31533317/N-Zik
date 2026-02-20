@@ -1063,4 +1063,7 @@
     <string name="cache_working">Обработка кэша</string>
     <string name="cache_empty">Очистить кэш</string>
     <string name="album_not_found">Альбом не найден</string>
+    <string name="content_type_all">Всё</string>
+    <string name="content_type_official">Официальный</string>
+    <string name="content_type_user_generated">Пользователь создан</string>
 </resources>

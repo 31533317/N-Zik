@@ -1065,4 +1065,7 @@ Volume BAS : titre précédent</string>
     <string name="cache_working">Fonctionnement du cache</string>
     <string name="cache_empty">Cache vide</string>
     <string name="album_not_found">Album introuvable</string>
+    <string name="content_type_all">Tout</string>
+    <string name="content_type_official">Officiel</string>
+    <string name="content_type_user_generated">Utilisateur généré</string>
 </resources>

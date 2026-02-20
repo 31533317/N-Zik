@@ -1063,4 +1063,7 @@
     <string name="cache_working">缓存正常工作</string>
     <string name="cache_empty">缓存为空</string>
     <string name="album_not_found">找不到相册</string>
+    <string name="content_type_all">所有</string>
+    <string name="content_type_official">Official</string>
+    <string name="content_type_user_generated">User Generated</string>
 </resources>

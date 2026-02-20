@@ -1063,4 +1063,7 @@
     <string name="cache_working">Funcționare cache</string>
     <string name="cache_empty">Geocutie goală</string>
     <string name="album_not_found">Albumul nu a fost găsit</string>
+    <string name="content_type_all">Total</string>
+    <string name="content_type_official">Oficial</string>
+    <string name="content_type_user_generated">Utilizator generat</string>
 </resources>
