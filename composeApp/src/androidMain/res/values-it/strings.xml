@@ -1060,7 +1060,6 @@
     <string name="check_beta_update_enabled">BETA abilitato</string>
     <string name="check_beta_update_disabled">BETA disabilitato</string>
     <string name="cache_status">Stato cache</string>
-    <string name="cache_working">Cache funzionante</string>
     <string name="cache_empty">Cache vuota</string>
     <string name="album_not_found">Album non trovato</string>
     <string name="content_type_all">Tutto</string>
