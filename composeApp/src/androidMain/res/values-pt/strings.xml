@@ -229,7 +229,7 @@
     <string name="disable_song_switching_via_swipe">Desativar troca de música através do deslize</string>
     <string name="interface_in_use">Interface em utilização</string>
     <string name="user_interface">Interface do utilizador</string>
-    <string name="ui_tab">Interface do usuário</string>
+    <string name="ui_tab">IU</string>
     <string name="system_language">Linguagem do sistema</string>
     <string name="biggest">Maior</string>
     <string name="set_custom_cache">Definir cache personalizado</string>
