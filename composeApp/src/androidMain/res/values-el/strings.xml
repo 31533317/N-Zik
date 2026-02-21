@@ -1060,7 +1060,6 @@
     <string name="check_beta_update_enabled">ΒΗΤΑ ενεργοποιημένη</string>
     <string name="check_beta_update_disabled">Η ΒΗΤΑ απενεργοποιήθηκε</string>
     <string name="cache_status">Κατάσταση λανθάνουσας μνήμης</string>
-    <string name="cache_working">Προσωρινή μνήμη λειτουργεί</string>
     <string name="cache_empty">Κρύπτη άδεια</string>
     <string name="album_not_found">Το άλμπουμ δεν βρέθηκε</string>
     <string name="content_type_all">Όλα</string>
