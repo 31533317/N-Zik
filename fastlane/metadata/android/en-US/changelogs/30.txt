@@ -1,0 +1,12 @@
+New:
+- Revamp Listen On and Sleep Timer UI
+
+Improved:
+- Improved floating bar logic
+- Improved Performance of the player
+
+Fixed:
+- Fixed default presets
+- Fixed wavy timeline
+- Fixed player position on non-floating nav bar
+- Fixed weird transparency on the player when the nav bar was floating
