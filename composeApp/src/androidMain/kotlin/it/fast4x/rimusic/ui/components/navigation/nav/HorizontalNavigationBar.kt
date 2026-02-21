@@ -83,13 +83,9 @@ class HorizontalNavigationBar(
     @Composable
     private fun bottomPadding(): Dp {
         return if ( NavigationBarPosition.BottomFloating.isCurrent() )
-            with( LocalDensity.current ) {
-                (WindowInsets.systemBars.getBottom( this ).toDp() - 10.dp).coerceAtLeast(2.dp)
-            }
+            Dimensions.navBarBottomPadding(true)
         else if ( NavigationBarPosition.Bottom.isCurrent() )
-            with( LocalDensity.current ) {
-                WindowInsets.systemBars.getBottom( this ).toDp()
-            }
+            Dimensions.navBarBottomPadding(false)
         else
             5.dp
     }
@@ -156,7 +152,7 @@ class HorizontalNavigationBar(
         val isFloating = NavigationBarPosition.BottomFloating.isCurrent()
         val isIconOnly = NavigationBarType.IconOnly.isCurrent()
         
-        val floatingHeight = if (isIconOnly) 64.dp else 80.dp
+        val floatingHeight = if (isIconOnly) Dimensions.floatingNavBarIconOnlyHeight else Dimensions.floatingNavBarHeight
         val widthFraction = if (isIconOnly) {
             if (buttonList.size > 5) 0.95f else 0.85f
         } else {

@@ -199,7 +199,7 @@ fun MiniPlayer(
         }
     )
     val backgroundProgress by rememberPreference(backgroundProgressKey, BackgroundProgress.MiniPlayer)
-    val effectRotationEnabled by rememberPreference(effectRotationKey, true)
+    val effectRotationEnabled by rememberPreference(effectRotationKey, false)
     val shouldBePlayingTransition = updateTransition(shouldBePlaying, label = "shouldBePlaying")
     val playPauseRoundness by shouldBePlayingTransition.animateDp(
         transitionSpec = { tween(durationMillis = 100, easing = LinearEasing) },

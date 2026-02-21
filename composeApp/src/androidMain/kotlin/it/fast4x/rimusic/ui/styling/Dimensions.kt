@@ -4,6 +4,8 @@ import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.NavigationBarType
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -21,6 +23,29 @@ object Dimensions {
     val navigationRailIconOffset = 6.dp
     val headerHeight = 140.dp
     val halfheaderHeight = 60.dp
+
+    val standardNavBarHeight = 64.dp
+    val floatingNavBarHeight = 84.dp
+    val floatingNavBarIconOnlyHeight = 64.dp
+
+    @Composable
+    fun navBarBottomPadding(isFloating: Boolean): Dp {
+        return if (isFloating) {
+            with(LocalDensity.current) {
+                val systemBottom = WindowInsets.systemBars.getBottom(this).toDp()
+                if (systemBottom > 30.dp) {
+                    systemBottom + 20.dp // Elevated slightly for buttons
+                } else {
+                    (systemBottom + 20.dp).coerceAtLeast(50.dp) // Balanced float for gestures
+                }
+            }
+        } else {
+            with(LocalDensity.current) {
+                WindowInsets.systemBars.getBottom(this).toDp()
+            }
+        }
+    }
+
     val miniPlayerHeight: Dp
         @Composable
         get() = if (NavigationBarPosition.BottomFloating.isCurrent()) 72.dp else 65.dp
@@ -41,10 +66,13 @@ object Dimensions {
             val isMiniPlayerActive = binder?.player?.currentMediaItem != null
 
             return if (isFloating) {
+                val barHeight = if (isIconOnly) floatingNavBarIconOnlyHeight else floatingNavBarHeight
+                val barBottom = navBarBottomPadding(true)
+                val visualGap = 10.dp
                 if (isMiniPlayerActive) {
-                    if (isIconOnly) 158.dp else 172.dp
+                    barHeight + barBottom + miniPlayerHeight + visualGap
                 } else {
-                    if (isIconOnly) 90.dp else 100.dp
+                    barHeight + barBottom + visualGap
                 }
             } else 100.dp
 

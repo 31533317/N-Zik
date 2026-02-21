@@ -276,7 +276,7 @@ fun Player(
     // Settings
     val disablePlayerHorizontalSwipe by rememberPreference(disablePlayerHorizontalSwipeKey, false)
     val showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, true)
-    val effectRotationEnabled by rememberPreference(effectRotationKey, true)
+    val effectRotationEnabled by rememberPreference(effectRotationKey, false)
     val playerThumbnailSize by rememberPreference( playerThumbnailSizeKey, PlayerThumbnailSize.Biggest )
     var playerThumbnailSizeL by rememberPreference( playerThumbnailSizeLKey, PlayerThumbnailSize.Biggest )
     val showvisthumbnail by rememberPreference(showvisthumbnailKey, true)

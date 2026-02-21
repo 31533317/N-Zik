@@ -370,7 +370,7 @@ fun Lyrics(
             mutableStateOf(false)
         }
         val lightTheme = colorPaletteMode == ColorPaletteMode.Light || (colorPaletteMode == ColorPaletteMode.System && (!isSystemInDarkTheme()))
-        val effectRotationEnabled by rememberPreference(effectRotationKey, true)
+        val effectRotationEnabled by rememberPreference(effectRotationKey, false)
         var landscapeControls by rememberPreference(landscapeControlsKey, true)
         var jumpPrevious by rememberPreference(jumpPreviousKey,"3")
         var isRotated by rememberSaveable { mutableStateOf(false) }

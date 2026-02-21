@@ -87,18 +87,22 @@ fun Skeleton(
     
     val hasNavBar = navigationBar.buttonList.size >= 2
 
-    val modifiedInsets by remember(currentInsets, isFloating, isIconOnly, isMiniPlayerActive, hasNavBar) {
+    val navBarBottomPadding = Dimensions.navBarBottomPadding(isFloating)
+    val miniPlayerHeight = Dimensions.miniPlayerHeight
+
+    val modifiedInsets by remember(currentInsets, isFloating, isIconOnly, isMiniPlayerActive, hasNavBar, navBarBottomPadding, miniPlayerHeight) {
         derivedStateOf {
-            if (isFloating && hasNavBar) {
+            if (isFloating) {
+                val barHeight = if (hasNavBar) (if (isIconOnly) Dimensions.floatingNavBarIconOnlyHeight else Dimensions.floatingNavBarHeight) else 0.dp
+                val visualGap = 10.dp
                 val desiredBottom = if (isMiniPlayerActive) {
-                    if (isIconOnly) 158.dp else 172.dp
+                    barHeight + navBarBottomPadding + miniPlayerHeight + visualGap
                 } else {
-                    if (isIconOnly) 60.dp else 72.dp
+                    barHeight + navBarBottomPadding + visualGap
                 }
                 currentInsets.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
                     .add(WindowInsets(bottom = desiredBottom))
             } else currentInsets
-
         }
     }
 
@@ -128,11 +132,12 @@ fun Skeleton(
             modifier = modifier,
             containerColor = colorPalette().background0,
             topBar = appHeader,
+            contentWindowInsets = modifiedInsets,
             bottomBar = {
                 if ( NavigationBarPosition.Bottom.isCurrent() )
                     navigationBar.Draw()
             }
-        ) {
+        ) { scaffoldPadding ->
             val paddingSides = WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal
             val innerPadding =
                 if( NavigationBarPosition.Top.isCurrent() )
@@ -140,62 +145,74 @@ fun Skeleton(
                 else
                     PaddingValues( Dp.Hairline )
 
-            Box(
-                Modifier
-                    .padding(it)
-                    .padding(innerPadding)
-                    .fillMaxSize()
-            ) {
-                Row(
+            Box(Modifier.fillMaxSize()) {
+                // Main Content Area (Now fills screen behind floating UI)
+                Box(
                     Modifier
-                        .background(colorPalette().background0)
+                        .padding(top = scaffoldPadding.calculateTopPadding())
+                        .padding(innerPadding)
                         .fillMaxSize()
                 ) {
-                    if( NavigationBarPosition.Left.isCurrent() )
-                        navigationBar.Draw()
-
-                    val topPadding = if ( UiType.ViMusic.isCurrent() ) 30.dp else 0.dp
-                    AnimatedContent(
-                        targetState = tabIndex,
-                        transitionSpec = transition(),
-                        content = content,
-                        label = "",
-                        modifier = Modifier.weight(1f).fillMaxHeight().padding( top = topPadding )
-                    )
-
-                    if( NavigationBarPosition.Right.isCurrent() )
-                        navigationBar.Draw()
-                }
-
-                if ( isFloating ) {
-                    Box(
-                        modifier = Modifier.align(Alignment.BottomCenter)
+                    Row(
+                        Modifier
+                            .background(colorPalette().background0)
+                            .fillMaxSize()
                     ) {
-                        navigationBar.Draw()
+                        if( NavigationBarPosition.Left.isCurrent() )
+                            navigationBar.Draw()
+
+                        val topPadding = if ( UiType.ViMusic.isCurrent() ) 30.dp else 0.dp
+                        AnimatedContent(
+                            targetState = tabIndex,
+                            transitionSpec = transition(),
+                            content = content,
+                            label = "",
+                            modifier = Modifier.weight(1f).fillMaxHeight().padding( top = topPadding )
+                        )
+
+                        if( NavigationBarPosition.Right.isCurrent() )
+                            navigationBar.Draw()
                     }
                 }
 
-                val playerPosition by rememberPreference(playerPositionKey, PlayerPosition.Bottom)
-                val playerAlignment =
-                    if (playerPosition == PlayerPosition.Top)
-                        Alignment.TopCenter
-                    else
-                        Alignment.BottomCenter
+                // Floating UI Overlay (Sync with screen bottom, NOT scaffold content)
+                Box(Modifier.fillMaxSize()) {
+                    if ( isFloating ) {
+                        Box(
+                            modifier = Modifier.align(Alignment.BottomCenter)
+                        ) {
+                            navigationBar.Draw()
+                        }
+                    }
 
-                val playerPaddingBottom = if (isFloating && playerPosition == PlayerPosition.Bottom && hasNavBar) {
-                    if (isIconOnly) 84.dp else 98.dp
-                } else 5.dp
+                    val playerPosition by rememberPreference(playerPositionKey, PlayerPosition.Bottom)
+                    val playerAlignment =
+                        if (playerPosition == PlayerPosition.Top)
+                            Alignment.TopCenter
+                        else
+                            Alignment.BottomCenter
+
+                    val playerPaddingBottom = if (playerPosition == PlayerPosition.Bottom) {
+                        if (isFloating) {
+                            if (hasNavBar) {
+                                val barHeight = if (isIconOnly) Dimensions.floatingNavBarIconOnlyHeight else Dimensions.floatingNavBarHeight
+                                barHeight + navBarBottomPadding + 4.dp
+                            } else {
+                                navBarBottomPadding
+                            }
+                        } else 5.dp
+                    } else 5.dp
 
 
-                Box(
-                    Modifier
-                        .padding( top = 5.dp, bottom = playerPaddingBottom )
-                        .align( playerAlignment ),
-                    content = { miniPlayer?.invoke() }
-                )
+                    Box(
+                        Modifier
+                            .padding( top = 5.dp, bottom = playerPaddingBottom )
+                            .align( playerAlignment ),
+                        content = { miniPlayer?.invoke() }
+                    )
+                }
             }
         }
-
         NewUpdateAvailableDialog.Render()
         CheckForUpdateDialog.Render()
 
