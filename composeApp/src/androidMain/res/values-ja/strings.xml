@@ -1060,7 +1060,6 @@
     <string name="check_beta_update_enabled">ベータ版は有効です</string>
     <string name="check_beta_update_disabled">ベータ版は無効になっています</string>
     <string name="cache_status">キャッシュの状態</string>
-    <string name="cache_working">キャッシュの実行</string>
     <string name="cache_empty">キャッシュが空です</string>
     <string name="album_not_found">アルバムが見つかりません</string>
     <string name="content_type_all">すべて</string>

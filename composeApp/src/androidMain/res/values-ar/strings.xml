@@ -1060,7 +1060,6 @@
     <string name="check_beta_update_enabled">تم تمكين BETA</string>
     <string name="check_beta_update_disabled">BETA معطل</string>
     <string name="cache_status">حالة ذاكرة التخزين المؤقت</string>
-    <string name="cache_working">عمل المخبئ</string>
     <string name="cache_empty">ذاكرة التخزين المؤقت فارغة</string>
     <string name="album_not_found">الألبوم غير موجود</string>
     <string name="content_type_all">All</string>
