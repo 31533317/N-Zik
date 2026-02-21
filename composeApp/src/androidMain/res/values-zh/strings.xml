@@ -441,7 +441,7 @@
     <string name="style_list">List</string>
     <string name="click_to_switch_to">点击切换到</string>
     <string name="direction_bottom">Direction bottom</string>
-    <string name="direction_bottom_floating">Bottom Floating</string>
+    <string name="direction_bottom_floating">底部浮动中</string>
     <string name="event_shake">晃动手势</string>
     <string name="shake_to_change_song">Shake to change song</string>
     <string name="history">History</string>
