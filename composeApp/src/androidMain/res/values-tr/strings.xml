@@ -1060,7 +1060,6 @@
     <string name="check_beta_update_enabled">BETA enabled</string>
     <string name="check_beta_update_disabled">BETA disabled</string>
     <string name="cache_status">Cache status</string>
-    <string name="cache_working">Cache working</string>
     <string name="cache_empty">Cache empty</string>
     <string name="album_not_found">Album not found</string>
     <string name="content_type_all">Tümü</string>
