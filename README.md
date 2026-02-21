@@ -201,6 +201,7 @@ Join us on Crowdin!
 [![Chores](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/house-keeper.yaml)   
 [![Close stale tickets weekly](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-stale-tickets.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/close-stale-tickets.yaml)  
 [![Comment or close on label](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/comment-on-label.yaml/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/comment-on-label.yaml)
+
 [![CodeQL](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/NEVARLeVrai/N-Zik/actions/workflows/github-code-scanning/codeql)
 
 ## 🌐 Localization
