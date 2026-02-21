@@ -3,7 +3,6 @@
 3: back button in add to playlist in sub menu doesnt go back
 4: search bar online doesnt show the text centered and icon centered inside the search bar
 5: if i click on back button accros the app somes menu lost transition ??
-6: grid view make loading slower in search results
 7: Update discord library and improve RPC and token grab
 8: When long pressing an ui or a song the effect of longpress doesnt have corner radius
 9: Searching online and navigation around resultat make newer results to never load ? id you slide too fast
