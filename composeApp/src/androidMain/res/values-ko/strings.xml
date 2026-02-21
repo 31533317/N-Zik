@@ -441,6 +441,7 @@
     <string name="style_list">목록</string>
     <string name="click_to_switch_to">Click this to switch to</string>
     <string name="direction_bottom">하단</string>
+    <string name="direction_bottom_floating">Bottom Floating</string>
     <string name="event_shake">Shake gesture</string>
     <string name="shake_to_change_song">노래를 변경하려면 흔드세요.</string>
     <string name="history">기록</string>
