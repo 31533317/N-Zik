@@ -276,17 +276,7 @@ fun DataSettings() {
 
                         CacheSpaceIndicator(cacheType = CacheType.Images, horizontalPadding = 20.dp)
                         
-                        SettingsDescription(text = "${Formatter.formatShortFileSize(context, diskCacheSize)} ${stringResource(R.string.used)} (${diskCacheSize * 100 / coilDiskCacheMaxSize.bytes}%)")
-                         
-                        // Add diagnostic cache
-                         val cacheSize = me.knighthat.coil.ImageCacheFactory.getCacheSize()
-                         
-                         SettingsDescription(
-                             text = "${stringResource(R.string.cache_status)}: ${
-                                 if (cacheSize > 0) stringResource(R.string.cache_working) 
-                                 else stringResource(R.string.cache_empty)
-                            }"
-                        )
+                        SettingsDescription(text = "${Formatter.formatShortFileSize(context, diskCacheSize)} ${stringResource(R.string.used)} (${if (coilDiskCacheMaxSize.bytes > 0) "${diskCacheSize * 100 / coilDiskCacheMaxSize.bytes}%" else stringResource(R.string.unlimited)})")
 
                         }
                     }
@@ -347,7 +337,7 @@ fun DataSettings() {
 
                         CacheSpaceIndicator(cacheType = CacheType.CachedSongs, horizontalPadding = 20.dp)
                         
-                        SettingsDescription(text = "${Formatter.formatShortFileSize(context, diskCacheSize)} ${stringResource(R.string.used)} (${diskCacheSize * 100 / exoPlayerDiskCacheMaxSize.bytes}%)")
+                        SettingsDescription(text = "${Formatter.formatShortFileSize(context, diskCacheSize)} ${stringResource(R.string.used)} (${if (exoPlayerDiskCacheMaxSize.bytes > 0) "${diskCacheSize * 100 / exoPlayerDiskCacheMaxSize.bytes}%" else stringResource(R.string.unlimited)})")
                         }
                     }
 
