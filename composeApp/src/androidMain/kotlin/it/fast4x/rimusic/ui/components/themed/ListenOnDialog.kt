@@ -3,7 +3,6 @@ package it.fast4x.rimusic.ui.components.themed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import app.kreate.android.R
-import it.fast4x.rimusic.ui.components.themed.SelectorDialog
 import it.fast4x.rimusic.models.Info
 import it.fast4x.rimusic.utils.ExternalUris
 
@@ -13,9 +12,10 @@ fun ListenOnDialog(
     onDismiss: () -> Unit,
     onPlayOnUrl: (String) -> Unit
 ) {
-    SelectorDialog(
+    ValueSelectorDialog(
         title = stringResource(R.string.listen_on),
         onDismiss = onDismiss,
+        selectedValue = Info("none", null),
         values = listOf(
             Info(
                 ExternalUris.youtube(mediaId),
@@ -34,6 +34,9 @@ fun ListenOnDialog(
                 stringResource(R.string.listen_on_invidious)
             )
         ),
-        onValueSelected = onPlayOnUrl
+        onValueSelected = {
+            onPlayOnUrl(it.id)
+        },
+        valueText = { it.name ?: "" }
     )
 }

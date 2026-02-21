@@ -1,12 +1,10 @@
-1: "sleep timer" use old UI should use new settings UI
-2: "listen on" use old UI too it should use new settings UI
-3: back button in add to playlist in sub menu doesnt go back
-4: search bar online doesnt show the text centered and icon centered inside the search bar
-5: if i click on back button accros the app somes menu lost transition ??
-7: Update discord library and improve RPC and token grab
-8: When long pressing an ui or a song the effect of longpress doesnt have corner radius
-9: Searching online and navigation around resultat make newer results to never load ? id you slide too fast
-10: Add artist video category under artist page, only video works not live performance
-11: I need to finish Player Appearance page UI and make it functional
-12: Replace old fast4x innertube api with new fast4x environment api
-13: STABLE and BETA string in changelog doesnt work properly
+1: back button in add to playlist in sub menu doesnt go back
+2: search bar online doesnt show the text centered and icon centered inside the search bar
+3: if i click on back button accros the app somes menu lost transition ??
+4: Update discord library and improve RPC and token grab
+5: When long pressing an ui or a song the effect of longpress doesnt have corner radius
+6: Searching online and navigation around resultat make newer results to never load ? id you slide too fast
+7: Add artist video category under artist page, only video works not live performance
+8: I need to finish Player Appearance page UI and make it functional
+9: Replace old fast4x innertube api with new fast4x environment api
+10: STABLE and BETA string in changelog doesnt work properly

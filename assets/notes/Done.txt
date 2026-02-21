@@ -4,3 +4,4 @@
 4: Fixed wavy timeline
 5: Fixed player position on non-floating nav bar
 6: Fixed weird transparency on the player when the nav bar was floating
+7: Revamp Listen On and Sleep Timer UI

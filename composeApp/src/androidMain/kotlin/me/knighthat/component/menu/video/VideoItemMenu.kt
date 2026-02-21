@@ -49,7 +49,7 @@ import it.fast4x.rimusic.ui.components.themed.Enqueue
 import it.fast4x.rimusic.ui.components.themed.IconButton
 import it.fast4x.rimusic.ui.components.themed.PlayNext
 import it.fast4x.rimusic.ui.components.themed.PlaylistsMenu
-import it.fast4x.rimusic.ui.components.themed.SelectorDialog
+import it.fast4x.rimusic.ui.components.themed.ListenOnDialog
 import it.fast4x.rimusic.ui.styling.favoritesIcon
 import it.fast4x.rimusic.utils.addNext
 import it.fast4x.rimusic.utils.asMediaItem
@@ -157,28 +157,10 @@ class VideoItemMenu private constructor(
 
         //region Dialog renders
         if (showListenOnDialog) {
-            SelectorDialog(
-                title = stringResource(R.string.listen_on),
+            ListenOnDialog(
+                mediaId = song.id,
                 onDismiss = { showListenOnDialog = false },
-                values = listOf(
-                    Info(
-                        "https://youtube.com/watch?v=${song.id}",
-                        stringResource(R.string.listen_on_youtube)
-                    ),
-                    Info(
-                        "https://music.youtube.com/watch?v=${song.id}",
-                        stringResource(R.string.listen_on_youtube_music)
-                    ),
-                    Info(
-                        "https://piped.kavin.rocks/watch?v=${song.id}&playerAutoPlay=true",
-                        stringResource(R.string.listen_on_piped)
-                    ),
-                    Info(
-                        "https://yewtu.be/watch?v=${song.id}&autoplay=1",
-                        stringResource(R.string.listen_on_invidious)
-                    )
-                ),
-                onValueSelected = {
+                onPlayOnUrl = {
                     showListenOnDialog = false
                     menuState.hide()
                     uriHandler.openUri(it)
