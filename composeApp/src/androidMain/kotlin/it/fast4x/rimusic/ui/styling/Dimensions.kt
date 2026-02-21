@@ -36,7 +36,7 @@ object Dimensions {
                 if (systemBottom > 30.dp) {
                     systemBottom + 20.dp // Elevated slightly for buttons
                 } else {
-                    (systemBottom + 20.dp).coerceAtLeast(50.dp) // Balanced float for gestures
+                    (systemBottom + 5.dp).coerceAtLeast(25.dp)
                 }
             }
         } else {
