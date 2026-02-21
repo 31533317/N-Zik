@@ -1060,7 +1060,6 @@
     <string name="check_beta_update_enabled">БЕТА увімкнена</string>
     <string name="check_beta_update_disabled">БЕТА вимкнена</string>
     <string name="cache_status">Статус кешу</string>
-    <string name="cache_working">Кеш роботи</string>
     <string name="cache_empty">Кеш порожній</string>
     <string name="album_not_found">Альбом не знайдено</string>
     <string name="content_type_all">Усе</string>
