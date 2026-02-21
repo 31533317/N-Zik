@@ -229,7 +229,7 @@
     <string name="disable_song_switching_via_swipe">Desativar troca de música através do deslize</string>
     <string name="interface_in_use">Interface em utilização</string>
     <string name="user_interface">Interface do utilizador</string>
-    <string name="ui_tab">IU</string>
+    <string name="ui_tab">Interface do usuário</string>
     <string name="system_language">Linguagem do sistema</string>
     <string name="biggest">Maior</string>
     <string name="set_custom_cache">Definir cache personalizado</string>
@@ -441,6 +441,7 @@
     <string name="style_list">Lista</string>
     <string name="click_to_switch_to">Clique aqui para mudar para</string>
     <string name="direction_bottom">Embaixo</string>
+    <string name="direction_bottom_floating">Flutuante Inferior</string>
     <string name="event_shake">Gestos ao agitar</string>
     <string name="shake_to_change_song">Agitar para mudar a música</string>
     <string name="history">Histórico</string>
