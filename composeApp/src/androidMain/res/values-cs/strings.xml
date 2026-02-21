@@ -441,6 +441,7 @@
     <string name="style_list">Seznam</string>
     <string name="click_to_switch_to">Kliknutím přepnete na</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">Plovoucí dole</string>
     <string name="event_shake">Zatřepat</string>
     <string name="shake_to_change_song">Zatřepat pro změnu skladby</string>
     <string name="history">Historie</string>

@@ -441,6 +441,7 @@
     <string name="style_list">Lista</string>
     <string name="click_to_switch_to">Napsauta tätä vaihtaaksesi</string>
     <string name="direction_bottom">Alhaalla</string>
+    <string name="direction_bottom_floating">Alhaalla Kelluva</string>
     <string name="event_shake">Ravista elettä</string>
     <string name="shake_to_change_song">Ravista vaihtaaksesi kappaletta</string>
     <string name="history">Historia</string>

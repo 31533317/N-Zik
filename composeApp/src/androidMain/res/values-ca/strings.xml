@@ -441,6 +441,7 @@
     <string name="style_list">Llista</string>
     <string name="click_to_switch_to">Feu clic per canviar a</string>
     <string name="direction_bottom">A baix</string>
+    <string name="direction_bottom_floating">Bottom Floating</string>
     <string name="event_shake">Sacseja</string>
     <string name="shake_to_change_song">Sacseja per canviar de cançó</string>
     <string name="history">Historial</string>

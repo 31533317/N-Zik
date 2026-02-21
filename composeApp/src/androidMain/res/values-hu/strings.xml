@@ -441,6 +441,7 @@
     <string name="style_list">Lista</string>
     <string name="click_to_switch_to">Click this to switch to</string>
     <string name="direction_bottom">Alulra</string>
+    <string name="direction_bottom_floating">Bottom Floating</string>
     <string name="event_shake">Shake gesture</string>
     <string name="shake_to_change_song">Rázd meg dalváltáshoz</string>
     <string name="history">Előzmények</string>

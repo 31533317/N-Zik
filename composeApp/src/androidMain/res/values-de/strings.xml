@@ -441,6 +441,7 @@
     <string name="style_list">Liste</string>
     <string name="click_to_switch_to">Klicke zum Wechseln zu</string>
     <string name="direction_bottom">Unten</string>
+    <string name="direction_bottom_floating">Untere Schwebende</string>
     <string name="event_shake">Schütteln</string>
     <string name="shake_to_change_song">Schütteln um Song zu wechseln</string>
     <string name="history">Verlauf</string>

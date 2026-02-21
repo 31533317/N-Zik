@@ -441,6 +441,7 @@
     <string name="style_list">Lista</string>
     <string name="click_to_switch_to">Clique aqui para mudar para</string>
     <string name="direction_bottom">Embaixo</string>
+    <string name="direction_bottom_floating">Flutuante Inferior</string>
     <string name="event_shake">Gestos ao agitar</string>
     <string name="shake_to_change_song">Agitar para mudar a música</string>
     <string name="history">Histórico</string>
