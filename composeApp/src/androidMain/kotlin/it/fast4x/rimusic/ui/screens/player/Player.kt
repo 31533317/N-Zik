@@ -1,5 +1,6 @@
 package it.fast4x.rimusic.ui.screens.player
 
+import it.fast4x.rimusic.ui.components.themed.SleepTimerDialog
 import android.annotation.SuppressLint
 import android.graphics.RenderEffect
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -59,6 +60,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -489,20 +491,34 @@ fun Player(
         ?: flowOf(null))
         .collectAsState(initial = null)
 
-    val positionAndDuration by binder.player.positionAndDurationState()
+    val positionAndDurationState = binder.player.positionAndDurationState()
     val playbackState by binder.player.playbackStateState()
     val isBuffering = playbackState == Player.STATE_BUFFERING
 
-    var timeRemaining by remember { mutableIntStateOf(0) }
-    timeRemaining = positionAndDuration.second.toInt() - positionAndDuration.first.toInt()
+    val durationState = remember {
+        derivedStateOf { positionAndDurationState.value.second }
+    }
 
-    if (sleepTimerMillisLeft != null)
-        if (sleepTimerMillisLeft!! < timeRemaining.toLong() && !delayedSleepTimer)  {
-            binder.cancelSleepTimer()
-            binder.startSleepTimer(timeRemaining.toLong())
-            delayedSleepTimer = true
-            Toaster.n( R.string.info_sleep_timer_delayed_at_end_of_song )
+    val timeRemainingState = remember {
+        derivedStateOf { 
+            if (durationState.value == androidx.media3.common.C.TIME_UNSET) 0
+            else durationState.value.toInt() - positionAndDurationState.value.first.toInt() 
         }
+    }
+    val timeRemaining by timeRemainingState
+
+    LaunchedEffect(binder, delayedSleepTimer, sleepTimerMillisLeft) {
+        snapshotFlow { timeRemainingState.value }.collect { timeRemaining ->
+            if (sleepTimerMillisLeft != null) {
+                if (sleepTimerMillisLeft!! < timeRemaining.toLong() && !delayedSleepTimer) {
+                    binder.cancelSleepTimer()
+                    binder.startSleepTimer(timeRemaining.toLong())
+                    delayedSleepTimer = true
+                    Toaster.n(R.string.info_sleep_timer_delayed_at_end_of_song)
+                }
+            }
+        }
+    }
 
     val windowInsets = WindowInsets.systemBars
 
@@ -547,146 +563,16 @@ fun Player(
     val screenHeight = configuration.screenHeightDp.dp
 
     if (isShowingSleepTimerDialog) {
-        if (sleepTimerMillisLeft != null) {
-            ConfirmationDialog(
-                text = stringResource(R.string.stop_sleep_timer),
-                cancelText = stringResource(R.string.no),
-                confirmText = stringResource(R.string.stop),
-                onDismiss = { isShowingSleepTimerDialog = false },
-                onConfirm = {
-                    binder.cancelSleepTimer()
-                    delayedSleepTimer = false
-                    //onDismiss()
-                }
-            )
-        } else {
-            DefaultDialog(
-                onDismiss = { isShowingSleepTimerDialog = false }
-            ) {
-                var amount by remember {
-                    mutableStateOf(1)
-                }
-
-                BasicText(
-                    text = stringResource(R.string.set_sleep_timer),
-                    style = typography().s.semiBold,
-                    modifier = Modifier
-                        .padding(vertical = 8.dp, horizontal = 24.dp)
-                )
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 16.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    modifier = Modifier
-                        .padding(vertical = 10.dp)
-                ) {
-                    if (!showCircularSlider) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .alpha(if (amount <= 1) 0.5f else 1f)
-                                .clip(CircleShape)
-                                .clickable(enabled = amount > 1) { amount-- }
-                                .size(48.dp)
-                                .background(colorPalette().background0)
-                        ) {
-                            BasicText(
-                                text = "-",
-                                style = typography().xs.semiBold
-                            )
-                        }
-
-                        Box(contentAlignment = Alignment.Center) {
-                            BasicText(
-                                text = stringResource(
-                                    R.string.left,
-                                    formatAsDuration(amount * 5 * 60 * 1000L)
-                                ),
-                                style = typography().s.semiBold,
-                                modifier = Modifier
-                                    .clickable {
-                                        showCircularSlider = !showCircularSlider
-                                    }
-                            )
-                        }
-
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .alpha(if (amount >= 60) 0.5f else 1f)
-                                .clip(CircleShape)
-                                .clickable(enabled = amount < 60) { amount++ }
-                                .size(48.dp)
-                                .background(colorPalette().background0)
-                        ) {
-                            BasicText(
-                                text = "+",
-                                style = typography().xs.semiBold
-                            )
-                        }
-
-                    } else {
-                        CircularSlider(
-                            stroke = 40f,
-                            thumbColor = colorPalette().accent,
-                            text = formatAsDuration(amount * 5 * 60 * 1000L),
-                            modifier = Modifier
-                                .size(300.dp),
-                            onChange = {
-                                amount = (it * 120).toInt()
-                            }
-                        )
-                    }
-                }
-
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier
-                        .padding(bottom = 20.dp)
-                        .fillMaxWidth()
-                ) {
-                    SecondaryTextButton(
-                        text = stringResource(R.string.set_to) + " "
-                                + formatAsDuration(timeRemaining.toLong())
-                                + " " + stringResource(R.string.end_of_song),
-                        onClick = {
-                            binder.startSleepTimer(timeRemaining.toLong())
-                            isShowingSleepTimerDialog = false
-                        }
-                    )
-                }
-
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-
-                    IconButton(
-                        onClick = { showCircularSlider = !showCircularSlider },
-                        icon = R.drawable.time,
-                        color = colorPalette().text
-                    )
-                    IconButton(
-                        onClick = { isShowingSleepTimerDialog = false },
-                        icon = R.drawable.close,
-                        color = colorPalette().text
-                    )
-                    IconButton(
-                        enabled = amount > 0,
-                        onClick = {
-                            binder.startSleepTimer(amount * 5 * 60 * 1000L)
-                            isShowingSleepTimerDialog = false
-                        },
-                        icon = R.drawable.checkmark,
-                        color = colorPalette().accent
-                    )
-                }
-            }
-        }
+        SleepTimerDialog(
+            sleepTimerMillisLeft = sleepTimerMillisLeft,
+            timeRemaining = timeRemaining.toLong(),
+            onDismiss = { isShowingSleepTimerDialog = false },
+            onCancelSleepTimer = { 
+                binder.cancelSleepTimer()
+                delayedSleepTimer = false
+            },
+            onStartSleepTimer = { time -> binder.startSleepTimer(time) }
+        )
     }
 
     val color = colorPalette()
@@ -1119,7 +1005,13 @@ fun Player(
     }
 
     @Composable
-    fun Controller( mediaItem: MediaItem, modifier: Modifier, isBuffering: Boolean ) {
+    fun Controller( 
+        mediaItem: MediaItem, 
+        modifier: Modifier, 
+        isBuffering: Boolean,
+        position: () -> Long,
+        duration: () -> Long
+    ) {
         Controls(
             navController = navController,
             onCollapse = onDismiss,
@@ -1134,7 +1026,8 @@ fun Player(
             albumId = albumId,
             shouldBePlaying = shouldBePlaying,
             isBuffering = isBuffering,
-            positionAndDuration = positionAndDuration,
+            position = position,
+            duration = duration,
             modifier = modifier,
         )
     }
@@ -1299,8 +1192,8 @@ fun Player(
                                 color = color.favoritesOverlay,
                                 topLeft = Offset.Zero,
                                 size = Size(
-                                    width = positionAndDuration.first.toFloat() /
-                                            positionAndDuration.second.absoluteValue * size.width,
+                                    width = positionAndDurationState.value.first.toFloat() /
+                                            (durationState.value.absoluteValue.takeIf { it > 0 } ?: 1L) * size.width,
                                     height = size.maxDimension
                                 )
                             )
@@ -1595,7 +1488,9 @@ fun Player(
                                     .conditional( playerType == PlayerType.Essential ) {
                                         fillMaxHeight().weight( 1f )
                                     },
-                            isBuffering = isBuffering
+                            isBuffering = isBuffering,
+                            position = { positionAndDurationState.value.first },
+                            duration = { durationState.value }
                         )
                     } else {
                         val index = (
@@ -1613,7 +1508,9 @@ fun Player(
                         Controller(
                             player.getMediaItemAt(index),
                             Modifier.padding( vertical = 8.dp ),
-                            isBuffering = isBuffering
+                            isBuffering = isBuffering,
+                            position = { positionAndDurationState.value.first },
+                            duration = { durationState.value }
                         )
                     }
                     if (!showthumbnail || playerType == PlayerType.Modern) {
@@ -1812,7 +1709,9 @@ fun Player(
                                             timelineExpanded = timelineExpanded,
                                             controlsExpanded = controlsExpanded,
                                             isShowingLyrics = isShowingLyrics,
-                                            media = mediaItem.toUiMedia(positionAndDuration.second),
+                                            media = remember(mediaItem.mediaId, durationState.value) {
+                                                mediaItem.toUiMedia(durationState.value)
+                                            },
                                             mediaId = mediaItem.mediaId,
                                             title = cleanPrefix( player.getMediaItemAt(it).mediaMetadata.title.toString() ),
                                             artist = cleanPrefix( player.getMediaItemAt(it).mediaMetadata.artist.toString() ),
@@ -1820,8 +1719,8 @@ fun Player(
                                             albumId = albumId,
                                             shouldBePlaying = shouldBePlaying,
                                             isBuffering = isBuffering,
-                                            position = positionAndDuration.first,
-                                            duration = positionAndDuration.second,
+                                            position = { positionAndDurationState.value.first },
+                                            duration = { durationState.value },
                                             modifier = Modifier
                                                 .padding(vertical = 4.dp)
                                                 .fillMaxWidth(),
@@ -1872,8 +1771,8 @@ fun Player(
                                 color = color.favoritesOverlay,
                                 topLeft = Offset.Zero,
                                 size = Size(
-                                    width = positionAndDuration.first.toFloat() /
-                                            positionAndDuration.second.absoluteValue * size.width,
+                                    width = positionAndDurationState.value.first.toFloat() /
+                                            (durationState.value.absoluteValue.takeIf { it > 0 } ?: 1L) * size.width,
                                     height = size.maxDimension
                                 )
                             )
@@ -2259,7 +2158,9 @@ fun Player(
                             mediaItem,
                             Modifier.padding( vertical = 4.dp )
                                     .fillMaxWidth(),
-                            isBuffering = isBuffering
+                            isBuffering = isBuffering,
+                            position = { positionAndDurationState.value.first },
+                            duration = { durationState.value }
                         )
                     } else if (!(swipeAnimationNoThumbnail == SwipeAnimationNoThumbnail.Scale && isDraggedFS)){
                         val index = (
@@ -2278,7 +2179,9 @@ fun Player(
                             player.getMediaItemAt(index),
                             Modifier.padding( vertical = 4.dp )
                                     .fillMaxWidth(),
-                            isBuffering = isBuffering
+                            isBuffering = isBuffering,
+                            position = { positionAndDurationState.value.first },
+                            duration = { durationState.value }
                         )
                     }
                 }

@@ -64,6 +64,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.navigation.NavController
 import app.kreate.android.R
@@ -180,7 +181,10 @@ fun MiniPlayer(
         }
     }
 
-    val positionAndDuration by binder.player.positionAndDurationState()
+    val positionAndDurationState = binder.player.positionAndDurationState()
+    val durationState = remember {
+        derivedStateOf { positionAndDurationState.value.second }
+    }
 
     val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
@@ -320,8 +324,8 @@ fun MiniPlayer(
                             color = colorPalette.favoritesOverlay,
                             topLeft = Offset.Zero,
                             size = Size(
-                                width = positionAndDuration.first.toFloat() /
-                                        positionAndDuration.second.absoluteValue * size.width,
+                                width = positionAndDurationState.value.first.toFloat() /
+                                        (durationState.value.absoluteValue.takeIf { it > 0 } ?: 1L) * size.width,
                                 height = size.maxDimension
                             )
                         )

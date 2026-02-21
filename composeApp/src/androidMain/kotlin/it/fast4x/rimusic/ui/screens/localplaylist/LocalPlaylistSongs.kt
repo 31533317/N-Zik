@@ -138,6 +138,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import it.fast4x.rimusic.utils.ExternalUris
 import me.knighthat.component.ResetCache
 import me.knighthat.component.SongItem
 import me.knighthat.component.playlist.PinPlaylist
@@ -354,7 +355,7 @@ fun LocalPlaylistSongs(
         val browseId = playlist?.browseId?.removePrefix( "VL" )
 
         binder?.player?.pause()
-        uriHandler.openUri( "https://youtube.com/playlist?list=$browseId" )
+        uriHandler.openUri( ExternalUris.youtubePlaylist(browseId ?: "") )
     }
     val resetCache = ResetCache( ::getSongs )
 

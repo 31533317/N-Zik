@@ -28,7 +28,7 @@ import kotlin.math.roundToInt
 @Composable
 fun GetControls(
     binder: PlayerServiceModern.Binder,
-    position: Long,
+    position: () -> Long,
     shouldBePlaying: Boolean,
     isBuffering: Boolean,
     likedAt: Long?,

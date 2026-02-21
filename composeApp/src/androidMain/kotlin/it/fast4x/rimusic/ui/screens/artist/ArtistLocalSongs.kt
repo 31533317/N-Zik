@@ -61,6 +61,7 @@ import it.fast4x.rimusic.utils.showFloatingIconKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import it.fast4x.rimusic.utils.ExternalUris
 import it.fast4x.rimusic.colorPalette
 import me.knighthat.utils.Toaster
 import android.content.Intent
@@ -624,7 +625,7 @@ fun ArtistHeader(
                 .align(Alignment.TopEnd)
                 .padding(top = 5.dp, end = 5.dp),
             onClick = {
-                val url = "https://music.youtube.com/channel/${localArtist.id}"
+                val url = ExternalUris.youtubeMusicChannel(localArtist.id)
                 val sendIntent = Intent().apply {
                     action = Intent.ACTION_SEND
                     type = "text/plain"

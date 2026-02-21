@@ -62,6 +62,7 @@ import androidx.media3.exoplayer.offline.Download
 import androidx.navigation.NavController
 import app.kreate.android.R
 import it.fast4x.rimusic.Database
+import it.fast4x.rimusic.utils.ExternalUris
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.MODIFIED_PREFIX
 import it.fast4x.rimusic.MONTHLY_PREFIX
@@ -616,7 +617,7 @@ fun BaseMediaItemMenu(
                 type = "text/plain"
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    "https://music.youtube.com/watch?v=${mediaItem.mediaId}"
+                    ExternalUris.youtubeMusic(mediaItem.mediaId)
                 )
             }
 
@@ -676,7 +677,7 @@ fun MiniMediaItemMenu(
                 type = "text/plain"
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    "https://music.youtube.com/watch?v=${mediaItem.mediaId}"
+                    ExternalUris.youtubeMusic(mediaItem.mediaId)
                 )
             }
 
@@ -1276,7 +1277,6 @@ fun MediaItemMenu(
                     )
                 }
 
-                // TODO: find solution to this shit
                 onShowSleepTimer?.let {
                     val binder = LocalPlayerServiceBinder.current
                     var isShowingSleepTimerDialog by remember {
@@ -1287,156 +1287,32 @@ fun MediaItemMenu(
                         ?: flowOf(null))
                         .collectAsState(initial = null)
 
-                    val positionAndDuration = binder?.player?.positionAndDurationState()
-
-                    var timeRemaining by remember { mutableIntStateOf(0) }
-
-                    if (positionAndDuration != null) {
-                        timeRemaining = positionAndDuration.value.second.toInt() - positionAndDuration.value.first.toInt()
+                    val positionAndDurationState = binder?.player?.positionAndDurationState()
+                    val durationState = remember {
+                        derivedStateOf { positionAndDurationState?.value?.second ?: 0L }
                     }
+
+                    val timeRemainingState = remember {
+                        derivedStateOf { 
+                            if (positionAndDurationState != null) {
+                                (positionAndDurationState.value.second - positionAndDurationState.value.first).toInt()
+                            } else {
+                                0
+                            }
+                        }
+                    }
+                    val timeRemaining by timeRemainingState
 
                     //val timeToStop = System.currentTimeMillis()
 
                     if (isShowingSleepTimerDialog) {
-                        if (sleepTimerMillisLeft != null) {
-                            ConfirmationDialog(
-                                text = stringResource(R.string.stop_sleep_timer),
-                                cancelText = stringResource(R.string.no),
-                                confirmText = stringResource(R.string.stop),
-                                onDismiss = { isShowingSleepTimerDialog = false },
-                                onConfirm = {
-                                    binder?.cancelSleepTimer()
-                                    onDismiss()
-                                }
-                            )
-                        } else {
-                            DefaultDialog(
-                                onDismiss = { isShowingSleepTimerDialog = false }
-                            ) {
-                                var amount by remember {
-                                    mutableStateOf(1)
-                                }
-
-                                BasicText(
-                                    text = stringResource(R.string.set_sleep_timer),
-                                    style = typography().s.semiBold,
-                                    modifier = Modifier
-                                        .padding(vertical = 8.dp, horizontal = 24.dp)
-                                )
-
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(
-                                        space = 16.dp,
-                                        alignment = Alignment.CenterHorizontally
-                                    ),
-                                    modifier = Modifier
-                                        .padding(vertical = 10.dp)
-                                ) {
-                                    if (!showCircularSlider) {
-                                        Box(
-                                            contentAlignment = Alignment.Center,
-                                            modifier = Modifier
-                                                .alpha(if (amount <= 1) 0.5f else 1f)
-                                                .clip(CircleShape)
-                                                .clickable(enabled = amount > 1) { amount-- }
-                                                .size(48.dp)
-                                                .background(colorPalette().background0)
-                                        ) {
-                                            BasicText(
-                                                text = "-",
-                                                style = typography().xs.semiBold
-                                            )
-                                        }
-
-                                        Box(contentAlignment = Alignment.Center) {
-                                            BasicText(
-                                                text = stringResource(
-                                                    R.string.left,
-                                                    formatAsDuration(amount * 5 * 60 * 1000L)
-                                                ),
-                                                style = typography().s.semiBold,
-                                                modifier = Modifier
-                                                    .clickable {
-                                                        showCircularSlider = !showCircularSlider
-                                                    }
-                                            )
-                                        }
-
-                                        Box(
-                                            contentAlignment = Alignment.Center,
-                                            modifier = Modifier
-                                                .alpha(if (amount >= 60) 0.5f else 1f)
-                                                .clip(CircleShape)
-                                                .clickable(enabled = amount < 60) { amount++ }
-                                                .size(48.dp)
-                                                .background(colorPalette().background0)
-                                        ) {
-                                            BasicText(
-                                                text = "+",
-                                                style = typography().xs.semiBold
-                                            )
-                                        }
-
-                                    } else {
-                                        CircularSlider(
-                                            stroke = 40f,
-                                            thumbColor = colorPalette().accent,
-                                            text = formatAsDuration(amount * 5 * 60 * 1000L),
-                                            modifier = Modifier
-                                                .size(300.dp),
-                                            onChange = {
-                                                amount = (it * 120).toInt()
-                                            }
-                                        )
-                                    }
-                                }
-
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceEvenly,
-                                    modifier = Modifier
-                                        .padding(bottom = 20.dp)
-                                        .fillMaxWidth()
-                                ) {
-                                    SecondaryTextButton(
-                                        text = stringResource(R.string.set_to) + " "
-                                                + formatAsDuration(timeRemaining.toLong())
-                                                + " " + stringResource(R.string.end_of_song),
-                                        onClick = {
-                                            binder?.startSleepTimer(timeRemaining.toLong())
-                                            isShowingSleepTimerDialog = false
-                                        }
-                                    )
-                                }
-
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceEvenly,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
-
-                                    IconButton(
-                                        onClick = { showCircularSlider = !showCircularSlider },
-                                        icon = R.drawable.time,
-                                        color = colorPalette().text
-                                    )
-                                    IconButton(
-                                        onClick = { isShowingSleepTimerDialog = false },
-                                        icon = R.drawable.close,
-                                        color = colorPalette().text
-                                    )
-                                    IconButton(
-                                        enabled = amount > 0,
-                                        onClick = {
-                                            binder?.startSleepTimer(amount * 5 * 60 * 1000L)
-                                            isShowingSleepTimerDialog = false
-                                        },
-                                        icon = R.drawable.checkmark,
-                                        color = colorPalette().accent
-                                    )
-                                }
-                            }
-                        }
+                        SleepTimerDialog(
+                            sleepTimerMillisLeft = sleepTimerMillisLeft,
+                            timeRemaining = timeRemaining.toLong(),
+                            onDismiss = { isShowingSleepTimerDialog = false },
+                            onCancelSleepTimer = { binder?.cancelSleepTimer() },
+                            onStartSleepTimer = { time -> binder?.startSleepTimer(time) }
+                        )
                     }
 
                     MenuEntry(
@@ -1550,34 +1426,17 @@ fun MediaItemMenu(
                     onClick = { showSelectDialogListenOn = true }
                 )
 
-                if (showSelectDialogListenOn)
-                    SelectorDialog(
-                        title = stringResource(R.string.listen_on),
+                if (showSelectDialogListenOn) {
+                    it.fast4x.rimusic.ui.components.themed.ListenOnDialog(
+                        mediaId = mediaItem.mediaId,
                         onDismiss = { showSelectDialogListenOn = false },
-                        values = listOf(
-                            Info(
-                                "https://youtube.com/watch?v=${mediaItem.mediaId}",
-                                stringResource(R.string.listen_on_youtube)
-                            ),
-                            Info(
-                                "https://music.youtube.com/watch?v=${mediaItem.mediaId}",
-                                stringResource(R.string.listen_on_youtube_music)
-                            ),
-                            Info(
-                                "https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true",
-                                stringResource(R.string.listen_on_piped)
-                            ),
-                            Info(
-                                "https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1",
-                                stringResource(R.string.listen_on_invidious)
-                            )
-                        ),
-                        onValueSelected = {
+                        onPlayOnUrl = { url ->
                             binder?.player?.pause()
                             showSelectDialogListenOn = false
-                            uriHandler.openUri(it)
+                            uriHandler.openUri(url)
                         }
                     )
+                }
                 /*
                                 if (!isLocal) MenuEntry(
                                     icon = R.drawable.play,

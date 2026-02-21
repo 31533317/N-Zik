@@ -125,6 +125,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import it.fast4x.rimusic.utils.ExternalUris
 import me.knighthat.utils.Toaster
 
 
@@ -299,7 +300,7 @@ fun Podcast(
                                     .align(Alignment.TopEnd)
                                     .padding(top = 5.dp, end= 5.dp),
                                 onClick = {
-                                    ("https://music.youtube.com/playlist?list=${browseId.removePrefix("VL")}").let { url ->
+                                    (ExternalUris.youtubeMusicPlaylist(browseId.removePrefix("VL"))).let { url ->
                                         val sendIntent = Intent().apply {
                                             action = Intent.ACTION_SEND
                                             type = "text/plain"
@@ -521,25 +522,6 @@ fun Podcast(
                                         }
                                     )
                             )
-
-
-                            /*
-                            HeaderIconButton(
-                                icon = R.drawable.share_social,
-                                color = colorPalette().text,
-                                onClick = {
-                                    (playlistPage?.url ?: "https://music.youtube.com/playlist?list=${browseId.removePrefix("VL")}").let { url ->
-                                        val sendIntent = Intent().apply {
-                                            action = Intent.ACTION_SEND
-                                            type = "text/plain"
-                                            putExtra(Intent.EXTRA_TEXT, url)
-                                        }
-
-                                        context.startActivity(Intent.createChooser(sendIntent, null))
-                                    }
-                                }
-                            )
-                             */
 
                         }
                     }

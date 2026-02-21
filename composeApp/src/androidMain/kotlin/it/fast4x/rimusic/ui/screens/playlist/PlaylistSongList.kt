@@ -149,6 +149,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import it.fast4x.rimusic.utils.ExternalUris
 import me.bush.translator.Language
 import me.bush.translator.Translator
 import me.knighthat.component.SongItem
@@ -444,7 +445,7 @@ fun PlaylistSongList(
                                     .align(Alignment.TopEnd)
                                     .padding(top = 5.dp, end = 5.dp),
                                 onClick = {
-                                    (playlistPage?.playlist?.thumbnail?.url ?: "https://music.youtube.com/playlist?list=${browseId.removePrefix("VL")}").let { url ->
+                                    ExternalUris.youtubeMusicPlaylist(browseId.removePrefix("VL")).let { url ->
                                         val sendIntent = Intent().apply {
                                             action = Intent.ACTION_SEND
                                             type = "text/plain"
@@ -776,23 +777,6 @@ fun PlaylistSongList(
                             }
 
 
-                            /*
-                            HeaderIconButton(
-                                icon = R.drawable.share_social,
-                                color = colorPalette().text,
-                                onClick = {
-                                    (playlistPage?.url ?: "https://music.youtube.com/playlist?list=${browseId.removePrefix("VL")}").let { url ->
-                                        val sendIntent = Intent().apply {
-                                            action = Intent.ACTION_SEND
-                                            type = "text/plain"
-                                            putExtra(Intent.EXTRA_TEXT, url)
-                                        }
-
-                                        context.startActivity(Intent.createChooser(sendIntent, null))
-                                    }
-                                }
-                            )
-                             */
 
                         } else {
                             BasicText(

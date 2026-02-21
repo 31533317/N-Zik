@@ -58,6 +58,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import it.fast4x.rimusic.utils.ExternalUris
 import me.knighthat.coil.ImageCacheFactory
 import me.knighthat.utils.Toaster
 import timber.log.Timber
@@ -293,10 +294,10 @@ object MyDownloadHelper {
             .Builder(
                 /* id      = */ mediaItem.mediaId,
                 /* uri     = */ mediaItem.requestMetadata.mediaUri
-                    ?: Uri.parse("https://music.youtube.com/watch?v=${mediaItem.mediaId}")
+                    ?: Uri.parse(ExternalUris.youtubeMusic(mediaItem.mediaId))
             )
             .setCustomCacheKey(mediaItem.mediaId)
-            .setData("${mediaItem.mediaMetadata.artist.toString()} - ${mediaItem.mediaMetadata.title.toString()}".encodeToByteArray()) // Title in notification
+            .setData("${mediaItem.mediaMetadata.artist ?: ""} - ${mediaItem.mediaMetadata.title ?: ""}".encodeToByteArray()) // Title in notification
             .build()
 
         Database.asyncTransaction {

@@ -132,25 +132,17 @@ fun Skeleton(
             modifier = modifier,
             containerColor = colorPalette().background0,
             topBar = appHeader,
-            contentWindowInsets = modifiedInsets,
+            contentWindowInsets = currentInsets,
             bottomBar = {
                 if ( NavigationBarPosition.Bottom.isCurrent() )
                     navigationBar.Draw()
             }
         ) { scaffoldPadding ->
-            val paddingSides = WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal
-            val innerPadding =
-                if( NavigationBarPosition.Top.isCurrent() )
-                    windowInsets.only( paddingSides ).asPaddingValues()
-                else
-                    PaddingValues( Dp.Hairline )
-
             Box(Modifier.fillMaxSize()) {
                 // Main Content Area (Now fills screen behind floating UI)
                 Box(
                     Modifier
-                        .padding(top = scaffoldPadding.calculateTopPadding())
-                        .padding(innerPadding)
+                        .padding(scaffoldPadding)
                         .fillMaxSize()
                 ) {
                     Row(
@@ -200,7 +192,13 @@ fun Skeleton(
                             } else {
                                 navBarBottomPadding
                             }
-                        } else 5.dp
+                        } else {
+                            if (hasNavBar && NavigationBarPosition.Bottom.isCurrent()) {
+                                Dimensions.standardNavBarHeight + navBarBottomPadding + 4.dp
+                            } else {
+                                navBarBottomPadding + 5.dp
+                            }
+                        }
                     } else 5.dp
 
 

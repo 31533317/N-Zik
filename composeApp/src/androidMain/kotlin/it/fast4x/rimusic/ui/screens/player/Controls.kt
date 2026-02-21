@@ -90,7 +90,8 @@ fun Controls(
     albumId: String?,
     shouldBePlaying: Boolean,
     isBuffering: Boolean,
-    positionAndDuration: Pair<Long, Long>,
+    position: () -> Long,
+    duration: () -> Long,
     modifier: Modifier = Modifier
 ) = Controls(
     navController = navController,
@@ -101,7 +102,9 @@ fun Controls(
     timelineExpanded = timelineExpanded,
     controlsExpanded = controlsExpanded,
     isShowingLyrics = isShowingLyrics,
-    media = mediaItem.toUiMedia( positionAndDuration.second ),
+    media = remember(mediaItem.mediaId, duration()) {
+        mediaItem.toUiMedia(duration())
+    },
     mediaId = mediaItem.mediaId,
     title = cleanPrefix( mediaItem.mediaMetadata.title.toString() ),
     artist = cleanPrefix( mediaItem.mediaMetadata.artist.toString() ),
@@ -109,8 +112,8 @@ fun Controls(
     albumId = albumId,
     shouldBePlaying = shouldBePlaying,
     isBuffering = isBuffering,
-    position = positionAndDuration.first,
-    duration = positionAndDuration.second,
+    position = position,
+    duration = duration,
     isExplicit = mediaItem.isExplicit,
     modifier = modifier
 )
@@ -138,8 +141,8 @@ fun Controls(
     albumId: String?,
     shouldBePlaying: Boolean,
     isBuffering: Boolean,
-    position: Long,
-    duration: Long,
+    position: () -> Long,
+    duration: () -> Long,
     isExplicit: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -152,56 +155,14 @@ fun Controls(
                 .distinctUntilChanged()
     }.collectAsState( null, Dispatchers.IO )
 
-
-
-    /*
-    var scrubbingPosition by remember(mediaId) {
-        mutableStateOf<Long?>(null)
-    }
-
-     */
-
-    //val onGoToArtist = artistRoute::global
-    //val onGoToAlbum = albumRoute::global
-
-    /*
-    var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
-    var nextmediaItemtitle = ""
-
-
-    if (nextmediaItemIndex.toShort() > -1)
-        nextmediaItemtitle = binder.player.getMediaItemAt(nextmediaItemIndex).mediaMetadata.title.toString()
-    */
-
     var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
 
-    val animatedPosition = remember { Animatable(position.toFloat()) }
-    var isSeeking by remember { mutableStateOf(false) }
-
-
-    val compositionLaunched = isCompositionLaunched()
-    LaunchedEffect(mediaId) {
-        if (compositionLaunched) animatedPosition.animateTo(0f)
-    }
-    LaunchedEffect(position) {
-        if (!isSeeking && !animatedPosition.isRunning)
-            animatedPosition.animateTo(
-                position.toFloat(), tween(
-                    durationMillis = 1000,
-                    easing = LinearEasing
-                )
-            )
-    }
-    //val durationVisible by remember(isSeeking) { derivedStateOf { isSeeking } }
 
     var isDownloaded by rememberSaveable {
         mutableStateOf(false)
     }
 
     isDownloaded = isDownloadedSong(mediaId)
-
-    //val menuState = LocalMenuState.current
-
 
     var showSelectDialog by remember { mutableStateOf(false) }
 
@@ -210,35 +171,6 @@ fun Controls(
         PlayerTimelineSize.Biggest
     )
 
-
-    /*
-    var windows by remember {
-        mutableStateOf(binder.player.currentTimeline.windows)
-    }
-    var queuedSongs by remember {
-        mutableStateOf<List<Song>>(emptyList())
-    }
-    LaunchedEffect(mediaId, windows) {
-        Database.getSongsList(
-            windows.map {
-                it.mediaItem.mediaId
-            }
-        ).collect{ queuedSongs = it}
-    }
-
-    var totalPlayTimes = 0L
-    queuedSongs.forEach {
-        totalPlayTimes += it.durationText?.let { it1 ->
-            durationTextToMillis(it1)
-        }?.toLong() ?: 0
-    }
-     */
-
-    /*
-    var showLyrics by rememberSaveable {
-        mutableStateOf(false)
-    }
-     */
     val playerInfoType by rememberPreference(playerInfoTypeKey, PlayerInfoType.Modern)
     var playerSwapControlsWithTimeline by rememberPreference(
         playerSwapControlsWithTimelineKey,
@@ -562,74 +494,3 @@ fun Modifier.bounceClick() = composed {
             }
         }
 }
-
-
-/*
-@ExperimentalTextApi
-@ExperimentalAnimationApi
-@UnstableApi
-@Composable
-private fun PlayerMenu(
-    binder: PlayerService.Binder,
-    mediaItem: MediaItem,
-    onDismiss: () -> Unit
-) {
-    val context = LocalContext.current
-
-    val activityResultLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
-
-    BaseMediaItemMenu(
-        mediaItem = mediaItem,
-        onStartRadio = {
-            binder.stopRadio()
-            binder.player.seamlessPlay(mediaItem)
-            binder.setupRadio(NavigationEndpoint.Endpoint.Watch(videoId = mediaItem.mediaId))
-        },
-        onGoToEqualizer = {
-            try {
-                activityResultLauncher.launch(
-                    Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL).apply {
-                        putExtra(AudioEffect.EXTRA_AUDIO_SESSION, binder.player.audioSessionId)
-                        putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.packageName)
-                        putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
-                    }
-                )
-            } catch (e: ActivityNotFoundException) {
-                context.toast("Couldn't find an application to equalize audio")
-            }
-        },
-        onShowSleepTimer = {},
-        onDismiss = onDismiss
-    )
-}
-
-@Composable
-private fun Duration(
-    position: Float,
-    duration: Long,
-) {
-    val typography = LocalAppearance.current.typography
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        BasicText(
-            text = formatAsDuration(position.toLong()),
-            style = typography.xxs.semiBold,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-
-        if (duration != C.TIME_UNSET) {
-            BasicText(
-                text = formatAsDuration(duration),
-                style = typography.xxs.semiBold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-    }
-}
-*/

@@ -382,7 +382,7 @@ fun InfoAlbumAndArtistModern(
 @Composable
 fun ControlsModern(
     binder: PlayerServiceModern.Binder,
-    position: Long,
+    position: () -> Long,
     playbackSpeed: Float,
     shouldBePlaying: Boolean,
     isBuffering: Boolean,

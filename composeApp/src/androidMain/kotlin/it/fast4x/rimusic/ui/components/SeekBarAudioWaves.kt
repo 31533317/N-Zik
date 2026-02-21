@@ -27,13 +27,14 @@ import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlin.random.Random
 import androidx.annotation.FloatRange
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.unit.Dp
 
 private const val waveWidthPercentOfSpaceAvailable = 0.5f
 
 @Composable
 fun SeekBarAudioWaves(
-    progressPercentage: ProgressPercentage,
+    progressPercentage: () -> ProgressPercentage,
     playedColor: Color,
     notPlayedColor: Color,
     waveInteraction: WaveInteraction,
@@ -93,7 +94,7 @@ private const val maxWaveHeightFraction = 1.0f
 
 @Composable
 private fun FakeAudioWavePill(
-    progressPercentage: ProgressPercentage,
+    progressPercentage: () -> ProgressPercentage,
     numberOfWaves: Int,
     waveIndex: Int,
     playedColor: Color,
@@ -117,8 +118,8 @@ private fun FakeAudioWavePill(
             Random.nextDouble(minWaveHeightFraction.toDouble(), validMaxHeightFraction.toDouble()).toFloat()
         }
     }
-    val hasPlayedThisWave = remember(progressPercentage, numberOfWaves, waveIndex) {
-        progressPercentage.value * numberOfWaves > waveIndex
+    val hasPlayedThisWave by remember {
+        derivedStateOf { progressPercentage().value * numberOfWaves > waveIndex }
     }
     Surface(
         shape = CircleShape,

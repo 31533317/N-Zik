@@ -1,2 +1,6 @@
 1: Improved floating bar logic
 2: Fixed default presets
+3: Improved Performance of the player
+4: Fixed wavy timeline
+5: Fixed player position on non-floating nav bar
+6: Fixed weird transparency on the player when the nav bar was floating

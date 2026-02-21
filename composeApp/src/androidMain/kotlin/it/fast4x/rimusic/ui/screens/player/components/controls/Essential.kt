@@ -379,7 +379,7 @@ fun InfoAlbumAndArtistEssential(
 @Composable
 fun ControlsEssential(
     binder: PlayerServiceModern.Binder,
-    position: Long,
+    position: () -> Long,
     playbackSpeed: Float,
     shouldBePlaying: Boolean,
     likedAt: Long?,
