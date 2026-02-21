@@ -441,6 +441,7 @@
     <string name="style_list">Lijst</string>
     <string name="click_to_switch_to">Klik hier om naar te wisselen</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">Onderste zwevende</string>
     <string name="event_shake">Gebaar schudden</string>
     <string name="shake_to_change_song">Schud om het nummer te wijzigen</string>
     <string name="history">History</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA ingeschakeld</string>
     <string name="check_beta_update_disabled">BETA uitgeschakeld</string>
     <string name="cache_status">Cache status</string>
-    <string name="cache_working">Cache wordt uitgevoerd</string>
     <string name="cache_empty">Cache leeg</string>
     <string name="album_not_found">Album niet gevonden</string>
     <string name="content_type_all">Alles</string>

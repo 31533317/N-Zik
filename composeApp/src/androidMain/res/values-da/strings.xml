@@ -441,6 +441,7 @@
     <string name="style_list">Liste</string>
     <string name="click_to_switch_to">Tryk for at skifte til</string>
     <string name="direction_bottom">Ned</string>
+    <string name="direction_bottom_floating">Nederst Flydende</string>
     <string name="event_shake">Ryst</string>
     <string name="shake_to_change_song">Ryst for at skifte sang</string>
     <string name="history">Historik</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA aktiveret</string>
     <string name="check_beta_update_disabled">BETA deaktiveret</string>
     <string name="cache_status">Cache status</string>
-    <string name="cache_working">Cache arbejder</string>
     <string name="cache_empty">Cache tom</string>
     <string name="album_not_found">Albummet blev ikke fundet</string>
     <string name="content_type_all">Alle</string>

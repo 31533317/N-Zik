@@ -441,6 +441,7 @@
     <string name="style_list">Lista</string>
     <string name="click_to_switch_to">Click this to switch to</string>
     <string name="direction_bottom">In basso</string>
+    <string name="direction_bottom_floating">Bottom Floating</string>
     <string name="event_shake">Shake gesture</string>
     <string name="shake_to_change_song">Shake to change song</string>
     <string name="history">Chronologia</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA enabled</string>
     <string name="check_beta_update_disabled">BETA disabled</string>
     <string name="cache_status">Cache status</string>
-    <string name="cache_working">Cache working</string>
     <string name="cache_empty">Cache empty</string>
     <string name="album_not_found">Album not found</string>
     <string name="content_type_all">Toto</string>

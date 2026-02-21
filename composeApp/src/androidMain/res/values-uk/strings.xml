@@ -441,6 +441,7 @@
     <string name="style_list">Список</string>
     <string name="click_to_switch_to">Натисніть тут щоб перейти</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">Нижнє плавання</string>
     <string name="event_shake">Жести струсу</string>
     <string name="shake_to_change_song">Потрусити, щоб змінити пісню</string>
     <string name="history">Історія</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">БЕТА увімкнена</string>
     <string name="check_beta_update_disabled">БЕТА вимкнена</string>
     <string name="cache_status">Статус кешу</string>
-    <string name="cache_working">Кеш роботи</string>
     <string name="cache_empty">Кеш порожній</string>
     <string name="album_not_found">Альбом не знайдено</string>
     <string name="content_type_all">Усе</string>

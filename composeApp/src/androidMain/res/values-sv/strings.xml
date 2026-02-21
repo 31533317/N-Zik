@@ -441,6 +441,7 @@
     <string name="style_list">Lista</string>
     <string name="click_to_switch_to">Klicka här för att växla till</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">Nedre Flytande</string>
     <string name="event_shake">Skaka gest</string>
     <string name="shake_to_change_song">Skaka för att ändra låt</string>
     <string name="history">Historik</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA aktiverat</string>
     <string name="check_beta_update_disabled">BETA inaktiverad</string>
     <string name="cache_status">Cachens status</string>
-    <string name="cache_working">Cachen fungerar</string>
     <string name="cache_empty">Cachen är tom</string>
     <string name="album_not_found">Album hittades inte</string>
     <string name="content_type_all">Alla</string>

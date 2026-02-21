@@ -441,6 +441,7 @@
     <string name="style_list">List</string>
     <string name="click_to_switch_to">Click to switch to</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">أسفل العائم</string>
     <string name="event_shake">Shake</string>
     <string name="shake_to_change_song">Shake to change song</string>
     <string name="history">History</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">تم تمكين BETA</string>
     <string name="check_beta_update_disabled">BETA معطل</string>
     <string name="cache_status">حالة ذاكرة التخزين المؤقت</string>
-    <string name="cache_working">عمل المخبئ</string>
     <string name="cache_empty">ذاكرة التخزين المؤقت فارغة</string>
     <string name="album_not_found">الألبوم غير موجود</string>
     <string name="content_type_all">All</string>

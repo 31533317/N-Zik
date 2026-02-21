@@ -441,6 +441,7 @@
     <string name="style_list">Liste</string>
     <string name="click_to_switch_to">Klicke zum Wechseln zu</string>
     <string name="direction_bottom">Unten</string>
+    <string name="direction_bottom_floating">Untere Schwebende</string>
     <string name="event_shake">Schütteln</string>
     <string name="shake_to_change_song">Schütteln um Song zu wechseln</string>
     <string name="history">Verlauf</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA aktiviert</string>
     <string name="check_beta_update_disabled">BETA deaktiviert</string>
     <string name="cache_status">Cache-Status</string>
-    <string name="cache_working">Cache funktioniert</string>
     <string name="cache_empty">Cache leer</string>
     <string name="album_not_found">Album nicht gefunden</string>
     <string name="content_type_all">Gesamt</string>

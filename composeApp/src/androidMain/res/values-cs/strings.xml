@@ -441,6 +441,7 @@
     <string name="style_list">Seznam</string>
     <string name="click_to_switch_to">Kliknutím přepnete na</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">Plovoucí dole</string>
     <string name="event_shake">Zatřepat</string>
     <string name="shake_to_change_song">Zatřepat pro změnu skladby</string>
     <string name="history">Historie</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA povoleno</string>
     <string name="check_beta_update_disabled">BETA zakázán</string>
     <string name="cache_status">Stav keše</string>
-    <string name="cache_working">Práce mezipaměti</string>
     <string name="cache_empty">Mezipaměť je prázdná</string>
     <string name="album_not_found">Album nenalezeno</string>
     <string name="content_type_all">Vše</string>

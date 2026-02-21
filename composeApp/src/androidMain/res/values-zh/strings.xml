@@ -441,6 +441,7 @@
     <string name="style_list">List</string>
     <string name="click_to_switch_to">点击切换到</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">Bottom Floating</string>
     <string name="event_shake">晃动手势</string>
     <string name="shake_to_change_song">Shake to change song</string>
     <string name="history">History</string>
@@ -1060,10 +1061,9 @@
     <string name="check_beta_update_enabled">BETA 已启用</string>
     <string name="check_beta_update_disabled">BETA 已禁用</string>
     <string name="cache_status">缓存状态</string>
-    <string name="cache_working">缓存正常工作</string>
     <string name="cache_empty">缓存为空</string>
     <string name="album_not_found">找不到相册</string>
     <string name="content_type_all">所有</string>
-    <string name="content_type_official">Official</string>
-    <string name="content_type_user_generated">User Generated</string>
+    <string name="content_type_official">官方的</string>
+    <string name="content_type_user_generated">用户已生成</string>
 </resources>

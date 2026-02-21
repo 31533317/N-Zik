@@ -441,6 +441,7 @@
     <string name="style_list">List</string>
     <string name="click_to_switch_to">Click to switch to</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">Κάτω Πλωτή</string>
     <string name="event_shake">Shake</string>
     <string name="shake_to_change_song">Shake to change song</string>
     <string name="history">History</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">ΒΗΤΑ ενεργοποιημένη</string>
     <string name="check_beta_update_disabled">Η ΒΗΤΑ απενεργοποιήθηκε</string>
     <string name="cache_status">Κατάσταση λανθάνουσας μνήμης</string>
-    <string name="cache_working">Προσωρινή μνήμη λειτουργεί</string>
     <string name="cache_empty">Κρύπτη άδεια</string>
     <string name="album_not_found">Το άλμπουμ δεν βρέθηκε</string>
     <string name="content_type_all">Όλα</string>

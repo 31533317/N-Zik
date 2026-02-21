@@ -441,6 +441,7 @@
     <string name="style_list">Lista</string>
     <string name="click_to_switch_to">Pulsar para cambiar a</string>
     <string name="direction_bottom">Abajo</string>
+    <string name="direction_bottom_floating">Botín floreciente</string>
     <string name="event_shake">Agitar</string>
     <string name="shake_to_change_song">Agitar para cambiar de canción</string>
     <string name="history">Historial</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA habilitado</string>
     <string name="check_beta_update_disabled">BETA desactivado</string>
     <string name="cache_status">Estado de caché</string>
-    <string name="cache_working">Caché funcionando</string>
     <string name="cache_empty">Caché vacía</string>
     <string name="album_not_found">Álbum no encontrado</string>
     <string name="content_type_all">Todo</string>

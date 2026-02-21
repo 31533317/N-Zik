@@ -441,6 +441,7 @@
     <string name="style_list">Llista</string>
     <string name="click_to_switch_to">Feu clic per canviar a</string>
     <string name="direction_bottom">A baix</string>
+    <string name="direction_bottom_floating">Bottom Floating</string>
     <string name="event_shake">Sacseja</string>
     <string name="shake_to_change_song">Sacseja per canviar de cançó</string>
     <string name="history">Historial</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA enabled</string>
     <string name="check_beta_update_disabled">BETA disabled</string>
     <string name="cache_status">Cache status</string>
-    <string name="cache_working">Cache working</string>
     <string name="cache_empty">Cache empty</string>
     <string name="album_not_found">Album not found</string>
     <string name="content_type_all">Tot</string>

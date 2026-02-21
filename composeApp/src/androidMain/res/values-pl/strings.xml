@@ -441,6 +441,7 @@
     <string name="style_list">Lista</string>
     <string name="click_to_switch_to">Kliknij tutaj, aby przełączyć na</string>
     <string name="direction_bottom">Dolny</string>
+    <string name="direction_bottom_floating">Dolny pływający</string>
     <string name="event_shake">Gest potrząsania</string>
     <string name="shake_to_change_song">Potrząśnij, aby zmienić utwór</string>
     <string name="history">Historia</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA włączone</string>
     <string name="check_beta_update_disabled">BETA wyłączona</string>
     <string name="cache_status">Status pamięci podręcznej</string>
-    <string name="cache_working">Pamięć podręczna działa</string>
     <string name="cache_empty">Pamięć podręczna pusta</string>
     <string name="album_not_found">Nie znaleziono albumu</string>
     <string name="content_type_all">Wszystko</string>

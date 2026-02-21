@@ -441,6 +441,7 @@
     <string name="style_list">Liste</string>
     <string name="click_to_switch_to">Klikk her for å bytte</string>
     <string name="direction_bottom">Bunn</string>
+    <string name="direction_bottom_floating">Bunn flytende</string>
     <string name="event_shake">Rist bevegelse</string>
     <string name="shake_to_change_song">Rist for å endre sang</string>
     <string name="history">Historikk</string>
@@ -1060,7 +1061,6 @@
     <string name="check_beta_update_enabled">BETA aktivert</string>
     <string name="check_beta_update_disabled">BETA deaktivert</string>
     <string name="cache_status">Mellomlager status</string>
-    <string name="cache_working">Cache arbeid</string>
     <string name="cache_empty">Cachen er tom</string>
     <string name="album_not_found">Fant ikke albumet</string>
     <string name="content_type_all">All tid</string>
