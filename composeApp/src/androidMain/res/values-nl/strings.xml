@@ -441,6 +441,7 @@
     <string name="style_list">Lijst</string>
     <string name="click_to_switch_to">Klik hier om naar te wisselen</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">Onderste zwevende</string>
     <string name="event_shake">Gebaar schudden</string>
     <string name="shake_to_change_song">Schud om het nummer te wijzigen</string>
     <string name="history">History</string>
