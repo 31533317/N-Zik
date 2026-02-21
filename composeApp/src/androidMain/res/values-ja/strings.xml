@@ -441,6 +441,7 @@
     <string name="style_list">リスト</string>
     <string name="click_to_switch_to">これをクリックして切り替えます</string>
     <string name="direction_bottom">Direction bottom</string>
+    <string name="direction_bottom_floating">下部のフローティング</string>
     <string name="event_shake">シェイクジェスチャー</string>
     <string name="shake_to_change_song">端末を振って曲を変える</string>
     <string name="history">履歴</string>
