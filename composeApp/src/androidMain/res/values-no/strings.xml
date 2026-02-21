@@ -441,6 +441,7 @@
     <string name="style_list">Liste</string>
     <string name="click_to_switch_to">Klikk her for å bytte</string>
     <string name="direction_bottom">Bunn</string>
+    <string name="direction_bottom_floating">Bunn flytende</string>
     <string name="event_shake">Rist bevegelse</string>
     <string name="shake_to_change_song">Rist for å endre sang</string>
     <string name="history">Historikk</string>
