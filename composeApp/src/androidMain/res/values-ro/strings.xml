@@ -1060,7 +1060,6 @@
     <string name="check_beta_update_enabled">BETA activat</string>
     <string name="check_beta_update_disabled">BETA dezactivat</string>
     <string name="cache_status">Statusul geocutiei</string>
-    <string name="cache_working">Funcționare cache</string>
     <string name="cache_empty">Geocutie goală</string>
     <string name="album_not_found">Albumul nu a fost găsit</string>
     <string name="content_type_all">Total</string>
