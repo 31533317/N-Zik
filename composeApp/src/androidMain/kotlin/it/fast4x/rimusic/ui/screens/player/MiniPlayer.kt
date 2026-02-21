@@ -42,7 +42,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.draw.drawBehind
+
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -72,6 +74,7 @@ import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.BackgroundProgress
 import it.fast4x.rimusic.enums.MiniPlayerType
 import it.fast4x.rimusic.enums.NavRoutes
+import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.service.modern.PlayerServiceModern
 import it.fast4x.rimusic.thumbnailShape
 import it.fast4x.rimusic.typography
@@ -168,7 +171,7 @@ fun MiniPlayer(
 
     var miniPlayerType by rememberPreference(
         miniPlayerTypeKey,
-        MiniPlayerType.Modern
+        MiniPlayerType.Essential
     )
 
     fun toggleLike() {
@@ -213,10 +216,16 @@ fun MiniPlayer(
 
     val disableScrollingText by rememberPreference(disableScrollingTextKey, false)
 
+    val isFloating = NavigationBarPosition.BottomFloating.isCurrent()
+    val shape = if (isFloating) RoundedCornerShape(24.dp) else RoundedCornerShape(12.dp)
+
+
     SwipeToDismissBox(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(12.dp)),
+            .shadow(elevation = if (isFloating) 8.dp else 0.dp, shape = shape)
+            .clip(shape),
+
         state = dismissState,
         backgroundContent = {
             /*

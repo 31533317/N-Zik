@@ -125,7 +125,7 @@ fun InfoAlbumAndArtistEssential(
     var showSelectDialog by remember { mutableStateOf(false) }
     var textoutline by rememberPreference(textoutlineKey, false)
     val buttonState by rememberPreference(buttonStateKey, ButtonState.Idle)
-    val playerBackgroundColors by rememberPreference(playerBackgroundColorsKey,PlayerBackgroundColors.BlurredCoverColor)
+    val playerBackgroundColors by rememberPreference(playerBackgroundColorsKey,PlayerBackgroundColors.AnimatedGradient)
     var likeButtonWidth by remember{ mutableStateOf(0.dp) }
     val currentMediaItem = binder.player.currentMediaItem
 
@@ -405,7 +405,7 @@ fun ControlsEssential(
     )
 
     var queueLoopType by rememberPreference(queueLoopTypeKey, defaultValue = QueueLoopType.Default)
-    val playerBackgroundColors by rememberPreference(playerBackgroundColorsKey,PlayerBackgroundColors.BlurredCoverColor)
+    val playerBackgroundColors by rememberPreference(playerBackgroundColorsKey,PlayerBackgroundColors.AnimatedGradient)
     var jumpPrevious by rememberPreference(jumpPreviousKey,"3")
     val currentMediaItem = binder.player.currentMediaItem
 

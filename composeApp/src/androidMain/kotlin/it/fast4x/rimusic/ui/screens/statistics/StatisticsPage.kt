@@ -56,7 +56,6 @@ import it.fast4x.rimusic.cleanPrefix
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.MaxStatisticsItems
 import it.fast4x.rimusic.enums.NavRoutes
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.StatisticsCategory
 import it.fast4x.rimusic.enums.StatisticsType
 import it.fast4x.rimusic.enums.ThumbnailRoundness
@@ -88,7 +87,6 @@ import it.fast4x.rimusic.utils.isDownloadedSong
 import it.fast4x.rimusic.utils.isNowPlaying
 import it.fast4x.rimusic.utils.manageDownload
 import it.fast4x.rimusic.utils.maxStatisticsItemsKey
-import it.fast4x.rimusic.utils.navigationBarPositionKey
 import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.semiBold
 import it.fast4x.rimusic.utils.showStatsListeningTimeKey
@@ -134,7 +132,7 @@ fun StatisticsPage(
 
     val thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
     val showStatsListeningTime by rememberPreference(showStatsListeningTimeKey, true)
@@ -195,11 +193,7 @@ fun StatisticsPage(
             .map { it.take(maxStatisticsItems.toInt()) }
     }.collectAsState(emptyList(), Dispatchers.IO)
 
-    val navigationBarPosition by rememberPreference(
 
-        navigationBarPositionKey,
-        NavigationBarPosition.Bottom
-    )
 
     var statisticsCategory by rememberPreference(
         statisticsCategoryKey,
@@ -229,13 +223,7 @@ fun StatisticsPage(
             .background(colorPalette().background0)
             //.fillMaxSize()
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (navigationBarPosition == NavigationBarPosition.Left ||
-                    navigationBarPosition == NavigationBarPosition.Top ||
-                    navigationBarPosition == NavigationBarPosition.Bottom
-                ) 1f
-                else Dimensions.contentWidthRightBar
-            )
+            .fillMaxWidth()
     ) {
             val lazyGridState = rememberLazyGridState()
             LazyVerticalGrid(

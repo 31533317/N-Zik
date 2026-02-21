@@ -98,12 +98,12 @@ fun StatsForNerds(
         val playerType by rememberPreference(playerTypeKey, PlayerType.Essential)
         val transparentBackgroundActionBarPlayer by rememberPreference(
             transparentBackgroundPlayerActionBarKey,
-            false
+            true
         )
         var blackgradient by rememberPreference(blackgradientKey, false)
         val playerBackgroundColors by rememberPreference(
             playerBackgroundColorsKey,
-            PlayerBackgroundColors.BlurredCoverColor
+            PlayerBackgroundColors.AnimatedGradient
         )
         var statsfornerdsfull by remember {mutableStateOf(false)}
         val rotationAngle by animateFloatAsState(

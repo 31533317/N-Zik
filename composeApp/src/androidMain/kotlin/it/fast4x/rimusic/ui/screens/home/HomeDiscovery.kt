@@ -138,13 +138,9 @@ fun HomeDiscovery(
                 .background(colorPalette().background0)
                 //.fillMaxSize()
                 .fillMaxHeight()
-                .fillMaxWidth(
-                    if( NavigationBarPosition.Right.isCurrent() )
-                        Dimensions.contentWidthRightBar
-                    else
-                        1f
-                )
+                .fillMaxWidth()
                 .verticalScroll(scrollState)
+
                 .padding(
                     windowInsets
                         .only(WindowInsetsSides.Vertical)
@@ -324,7 +320,7 @@ fun MoodItemColored(
 ) {
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
     val moodColor by remember { derivedStateOf { Color(mood.stripeColor) } }
@@ -379,7 +375,7 @@ fun MoodGridItemColored(
 ) {
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
     val moodColor by remember { derivedStateOf { Color(mood.stripeColor) } }
@@ -440,7 +436,7 @@ fun MoodItem(
 ) {
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
 
@@ -486,7 +482,7 @@ fun MoodGridItem(
 ) {
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
 

@@ -500,9 +500,9 @@ fun SettingsGroupSpacer(
 ) {
     Spacer(
         modifier = modifier
-            .height(24.dp)
     )
 }
+
 
 @Composable
 fun TextDialogSettingEntry(

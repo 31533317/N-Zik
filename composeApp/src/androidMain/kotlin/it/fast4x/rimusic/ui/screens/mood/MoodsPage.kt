@@ -37,7 +37,6 @@ import it.fast4x.innertube.requests.discoverPage
 import it.fast4x.rimusic.LocalPlayerAwareWindowInsets
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavRoutes
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.models.toUiMood
 import it.fast4x.rimusic.typography
 import it.fast4x.rimusic.ui.components.ShimmerHost
@@ -79,12 +78,7 @@ fun MoodsPage(
             .background(colorPalette().background0)
             //.fillMaxSize()
             .fillMaxHeight()
-            .fillMaxWidth(
-                if( NavigationBarPosition.Right.isCurrent() )
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
     ) {
         discoverPage?.getOrNull()?.let { moodResult ->
             LazyVerticalGrid(

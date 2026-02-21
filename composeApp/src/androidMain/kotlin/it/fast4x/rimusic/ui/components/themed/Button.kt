@@ -24,12 +24,17 @@ open class Button(
 
     @Composable
     open fun Draw() {
+        val isMany = it.fast4x.rimusic.ui.components.navigation.nav.LocalIsManyButtons.current
+        val scale = if (isMany) 0.8f else 1f
+        val finalSize = size * scale
+        val finalWidth = if (forceWidth == Dp.Unspecified) finalSize else forceWidth * scale
+
         Image(
             painter = painterResource( iconId ),
             contentDescription = null,
             colorFilter = ColorFilter.tint( color ),
-            modifier = modifier.padding( all = padding )
-                               .size( height = size, width = if ( forceWidth == Dp.Unspecified ) size else forceWidth )
+            modifier = modifier.padding( all = padding * scale )
+                               .size( height = finalSize, width = finalWidth )
         )
     }
 }

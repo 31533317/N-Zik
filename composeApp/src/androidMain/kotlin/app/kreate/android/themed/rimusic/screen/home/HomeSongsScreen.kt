@@ -36,7 +36,6 @@ import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.BuiltInPlaylist
 import it.fast4x.rimusic.enums.CacheType
 import it.fast4x.rimusic.enums.NavRoutes
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.UiType
 import it.fast4x.rimusic.models.Song
 import it.fast4x.rimusic.ui.components.ButtonsRow
@@ -163,12 +162,7 @@ fun HomeSongsScreen(navController: NavController ) {
     Box(
         modifier = Modifier.background( colorPalette().background0 )
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (NavigationBarPosition.Right.isCurrent())
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
     ) {
         Column( Modifier.fillMaxSize() ) {
             // Sticky tab's title

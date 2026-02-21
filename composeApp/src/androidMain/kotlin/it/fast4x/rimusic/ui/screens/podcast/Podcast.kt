@@ -73,7 +73,6 @@ import it.fast4x.innertube.requests.podcastPage
 import it.fast4x.rimusic.Database
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.enums.NavRoutes
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.ThumbnailRoundness
 import it.fast4x.rimusic.enums.UiType
 import it.fast4x.rimusic.models.Playlist
@@ -177,7 +176,7 @@ fun Podcast(
 
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
     val disableScrollingText by rememberPreference(disableScrollingTextKey, false)
@@ -224,12 +223,7 @@ fun Podcast(
                 .background(colorPalette().background0)
                 //.fillMaxSize()
                 .fillMaxHeight()
-                .fillMaxWidth(
-                    if (NavigationBarPosition.Right.isCurrent())
-                        Dimensions.contentWidthRightBar
-                    else
-                        1f
-                ),
+                .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
             if (podcastPage == null) {

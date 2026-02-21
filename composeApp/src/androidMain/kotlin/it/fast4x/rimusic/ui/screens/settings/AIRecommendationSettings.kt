@@ -173,14 +173,10 @@ fun AIRecommendationSettings(
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if( NavigationBarPosition.Right.isCurrent() )
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
+
         HeaderWithIcon(
             title = if (!isYouTubeLoggedIn()) stringResource(R.string.ai_recommendations) else stringResource(R.string.home),
             iconId = if (!isYouTubeLoggedIn()) R.drawable.sparkles else R.drawable.ytmusic,
@@ -626,6 +622,9 @@ fun AIRecommendationSettings(
             )
         }
 
-        Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
+        SettingsGroupSpacer(
+            modifier = Modifier.height(Dimensions.bottomSpacer)
+        )
+
     }
 }

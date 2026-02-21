@@ -96,7 +96,7 @@ fun Innertube.AlbumItem.Companion.from(content: MusicShelfRenderer.Content): Inn
         .find { it.text?.matches(Regex("\\d{4}")) == true }
         ?.text
 
-    val fallbackAuthors = if (linkedAuthors.isEmpty()) {
+    val fallbackAuthors: List<Innertube.Info<NavigationEndpoint.Endpoint.Browse>> = if (linkedAuthors.isEmpty()) {
         val nonDigitNonYear = otherRuns.flatten().filter { run ->
             val text = run.text ?: ""
             text.isNotBlank() && text != year && !text.any { it.isDigit() }

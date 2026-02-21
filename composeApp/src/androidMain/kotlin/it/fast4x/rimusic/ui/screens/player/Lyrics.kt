@@ -214,7 +214,7 @@ fun Lyrics(
         val currentView = LocalView.current
         val binder = LocalPlayerServiceBinder.current
 
-        var showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, false)
+        var showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, true)
         var isShowingSynchronizedLyrics by rememberPreference(isShowingSynchronizedLyricsKey, false)
         var invalidLrc by remember(mediaId, isShowingSynchronizedLyrics) { mutableStateOf(false) }
         var isPicking by remember(mediaId, isShowingSynchronizedLyrics) { mutableStateOf(false) }
@@ -228,7 +228,7 @@ fun Lyrics(
         )
         val playerBackgroundColors by rememberPreference(
             playerBackgroundColorsKey,
-            PlayerBackgroundColors.BlurredCoverColor
+            PlayerBackgroundColors.AnimatedGradient
         )
         var lyricsFontSize by rememberPreference(lyricsFontSizeKey, LyricsFontSize.Medium)
 

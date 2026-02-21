@@ -87,7 +87,6 @@ import it.fast4x.rimusic.cleanPrefix
 import me.knighthat.coil.ImageCacheFactory
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavRoutes
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.ThumbnailRoundness
 import it.fast4x.rimusic.enums.UiType
 import it.fast4x.rimusic.models.Playlist
@@ -279,7 +278,7 @@ fun PlaylistSongList(
 
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
     var showYoutubeLikeConfirmDialog by remember {
@@ -355,12 +354,7 @@ fun PlaylistSongList(
                 .background(colorPalette().background0)
                 //.fillMaxSize()
                 .fillMaxHeight()
-                .fillMaxWidth(
-                    if (NavigationBarPosition.Right.isCurrent())
-                        Dimensions.contentWidthRightBar
-                    else
-                        1f
-                ),
+                .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
             if (playlistPage == null && playlistSongs.isEmpty()) {

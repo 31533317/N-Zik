@@ -504,7 +504,7 @@ class MainActivity :
             val navController = rememberNavController()
             var showPlayer by rememberSaveable { mutableStateOf(false) }
             var switchToAudioPlayer by rememberSaveable { mutableStateOf(false) }
-            var animatedGradient by rememberPreference(animatedGradientKey, AnimatedGradient.Linear)
+            var animatedGradient by rememberPreference(animatedGradientKey, AnimatedGradient.FluidCoverColorGradient)
             var customColor by rememberPreference(customColorKey, Color.Green.hashCode())
             val lightTheme = colorPaletteMode == ColorPaletteMode.Light || (colorPaletteMode == ColorPaletteMode.System && (!isSystemInDarkTheme()))
 
@@ -1015,7 +1015,7 @@ class MainActivity :
 
                             val thumbnailRoundness by rememberPreference(
                                 thumbnailRoundnessKey,
-                                ThumbnailRoundness.Heavy
+                                ThumbnailRoundness.Medium
                             )
 
                             val isVideo = binder?.player?.currentMediaItem?.isVideo ?: false

@@ -25,28 +25,38 @@ class TextIconButton(
     padding: Dp,
     size: Dp,
     forceWidth: Dp = Dp.Unspecified,
+    val textSpacing: Dp = 5.dp,
+    val isCompact: Boolean = false,
     modifier: Modifier = Modifier
 ): Button( iconId, color, padding, size, forceWidth, modifier ) {
 
     @Composable
     override fun Draw() {
+        val isMany = it.fast4x.rimusic.ui.components.navigation.nav.LocalIsManyButtons.current
+        val paddingScale = if (isMany) 0.75f else 1f
+
         Column (
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier.padding( all = 5.dp )
+            verticalArrangement = if (isCompact) Arrangement.Center else Arrangement.SpaceAround,
+            modifier = Modifier.padding( all = (if (isCompact) 6.dp else 5.dp) * paddingScale )
                                .fillMaxSize()
         ){
             super.Draw()
-            Spacer( modifier = Modifier.height( 5.dp ) )
+            Spacer( modifier = Modifier.height( textSpacing ) )
+
             BasicText(
                 text = text,
                 style =  TextStyle(
-                    fontSize = typography().xs.semiBold.fontSize,
+                    fontSize = when {
+                        isMany -> typography().xxxs.semiBold.fontSize
+                        isCompact -> typography().xxs.semiBold.fontSize
+                        else -> typography().xs.semiBold.fontSize
+                    },
                     fontWeight = typography().xs.semiBold.fontWeight,
                     fontFamily = typography().xs.semiBold.fontFamily,
                     color = color,
                 ),
-                maxLines = 2,
+                maxLines = if (isCompact) 1 else 2,
                 overflow = TextOverflow.Ellipsis
             )
         }

@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import it.fast4x.compose.persist.persist
 import it.fast4x.innertube.Innertube
 import it.fast4x.innertube.utils.plus
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.ContentType
 import it.fast4x.rimusic.ui.components.ShimmerHost
 import it.fast4x.rimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
@@ -143,12 +142,7 @@ inline fun <T : Innertube.Item> ItemsPage(
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if( NavigationBarPosition.Right.isCurrent() )
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
     ) {
         if (itemsPage == null) {
             Column(
@@ -323,12 +317,7 @@ inline fun <T : Innertube.Item> ItemsGridPage(
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (NavigationBarPosition.Right.isCurrent())
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
     ) {
         if (itemsPage == null) {
             Column(

@@ -18,7 +18,8 @@ enum class NavigationBarType(
     companion object {
 
         @Composable
-        fun current(): NavigationBarType = rememberPreference( navigationBarTypeKey, NavigationBarType.IconAndText ).value
+        fun current(): NavigationBarType = rememberPreference( navigationBarTypeKey, NavigationBarType.IconOnly ).value
+
     }
 
     @Composable

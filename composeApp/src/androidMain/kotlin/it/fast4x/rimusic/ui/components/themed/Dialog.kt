@@ -634,7 +634,7 @@ inline fun SelectorArtistsDialog(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
-    val thumbnailRoundness by rememberPreference(thumbnailRoundnessKey, ThumbnailRoundness.Heavy)
+    val thumbnailRoundness by rememberPreference(thumbnailRoundnessKey, ThumbnailRoundness.Medium)
 
     Dialog(onDismissRequest = onDismiss) {
         Box(
@@ -1392,7 +1392,7 @@ fun BlurParamsDialog(
     var isShowingLyrics by rememberSaveable {
         mutableStateOf(false)
     }
-    var showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, false)
+    var showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, true)
 
      */
 

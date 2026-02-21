@@ -115,7 +115,7 @@ fun AccountsSettings() {
     val context = LocalContext.current
     val thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
     var restartActivity by rememberPreference(restartActivityKey, false)
@@ -125,14 +125,10 @@ fun AccountsSettings() {
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (NavigationBarPosition.Right.isCurrent())
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
+
         HeaderWithIcon(
             title = stringResource(R.string.tab_accounts),
             iconId = R.drawable.person,
@@ -727,7 +723,10 @@ fun AccountsSettings() {
             }
         }
 
-        Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
+        SettingsGroupSpacer(
+            modifier = Modifier.height(Dimensions.bottomSpacer)
+        )
+
     }
 }
 

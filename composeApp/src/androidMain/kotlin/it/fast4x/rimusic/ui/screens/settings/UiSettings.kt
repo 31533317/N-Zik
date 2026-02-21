@@ -281,19 +281,19 @@ fun DefaultUiSettings() {
 
 
 
-    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Bottom)
-    navigationBarPosition = NavigationBarPosition.Bottom
-    var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconAndText)
-    navigationBarType = NavigationBarType.IconAndText
+    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.BottomFloating)
+    navigationBarPosition = NavigationBarPosition.BottomFloating
+    var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconOnly)
+    navigationBarType = NavigationBarType.IconOnly
     var pauseBetweenSongs  by rememberPreference(pauseBetweenSongsKey, PauseBetweenSongs.`0`)
     pauseBetweenSongs = PauseBetweenSongs.`0`
     var maxSongsInQueue  by rememberPreference(maxSongsInQueueKey, MaxSongs.`500`)
     maxSongsInQueue = MaxSongs.`500`
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
-    thumbnailRoundness = ThumbnailRoundness.Heavy
+    thumbnailRoundness = ThumbnailRoundness.Medium
     var showFavoritesPlaylist by rememberPreference(showFavoritesPlaylistKey, true)
     showFavoritesPlaylist = true
 
@@ -309,8 +309,8 @@ fun DefaultUiSettings() {
     showFloatingIcon = false
     var menuStyle by rememberPreference(menuStyleKey, MenuStyle.List)
     menuStyle = MenuStyle.List
-    var transitionEffect by rememberPreference(transitionEffectKey, TransitionEffect.Scale)
-    transitionEffect = TransitionEffect.Scale
+    var transitionEffect by rememberPreference(transitionEffectKey, TransitionEffect.Fade)
+    transitionEffect = TransitionEffect.Fade
 
     var showPipedPlaylists by rememberPreference(showPipedPlaylistsKey, true)
     showPipedPlaylists = true
@@ -383,12 +383,12 @@ fun DefaultUiSettings() {
     showTopActionsBar = true
     var playerControlsType by rememberPreference(playerControlsTypeKey, PlayerControlsType.Essential)
     playerControlsType = PlayerControlsType.Modern
-    var playerInfoType by rememberPreference(playerInfoTypeKey, PlayerInfoType.Essential)
+    var playerInfoType by rememberPreference(playerInfoTypeKey, PlayerInfoType.Modern)
     playerInfoType = PlayerInfoType.Modern
     var playerType by rememberPreference(playerTypeKey, PlayerType.Essential)
     playerType = PlayerType.Essential
-    var queueType by rememberPreference(queueTypeKey, QueueType.Essential)
-    queueType = QueueType.Essential
+    var queueType by rememberPreference(queueTypeKey, QueueType.Modern)
+    queueType = QueueType.Modern
     var fadingedge by rememberPreference(fadingedgeKey, false)
     fadingedge = false
     var carousel by rememberPreference(carouselKey, true)
@@ -397,8 +397,8 @@ fun DefaultUiSettings() {
     carouselSize = CarouselSize.Biggest
     var thumbnailType by rememberPreference(thumbnailTypeKey, ThumbnailType.Modern)
     thumbnailType = ThumbnailType.Modern
-    var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.FakeAudioBar)
-    playerTimelineType = PlayerTimelineType.Default
+    var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Wavy)
+    playerTimelineType = PlayerTimelineType.Wavy
     var playerThumbnailSize by rememberPreference(
         playerThumbnailSizeKey,
         PlayerThumbnailSize.Biggest
@@ -413,9 +413,9 @@ fun DefaultUiSettings() {
     playerInfoShowIcons = true
     var miniPlayerType by rememberPreference(
         miniPlayerTypeKey,
-        MiniPlayerType.Modern
+        MiniPlayerType.Essential
     )
-    miniPlayerType = MiniPlayerType.Modern
+    miniPlayerType = MiniPlayerType.Essential
     var playerSwapControlsWithTimeline by rememberPreference(
         playerSwapControlsWithTimelineKey,
         false
@@ -423,18 +423,18 @@ fun DefaultUiSettings() {
     playerSwapControlsWithTimeline = false
     var playerPlayButtonType by rememberPreference(
         playerPlayButtonTypeKey,
-        PlayerPlayButtonType.Disabled
+        PlayerPlayButtonType.CircularRibbed
     )
-    playerPlayButtonType = PlayerPlayButtonType.Disabled
-    var buttonzoomout by rememberPreference(buttonzoomoutKey, false)
-    buttonzoomout = false
+    playerPlayButtonType = PlayerPlayButtonType.CircularRibbed
+    var buttonzoomout by rememberPreference(buttonzoomoutKey, true)
+    buttonzoomout = true
     var iconLikeType by rememberPreference(iconLikeTypeKey, IconLikeType.Essential)
     iconLikeType = IconLikeType.Essential
     var playerBackgroundColors by rememberPreference(
         playerBackgroundColorsKey,
-        PlayerBackgroundColors.BlurredCoverColor
+        PlayerBackgroundColors.AnimatedGradient
     )
-    playerBackgroundColors = PlayerBackgroundColors.BlurredCoverColor
+    playerBackgroundColors = PlayerBackgroundColors.AnimatedGradient
     var blackgradient by rememberPreference(blackgradientKey, false)
     blackgradient = false
     var showTotalTimeQueue by rememberPreference(showTotalTimeQueueKey, true)
@@ -445,8 +445,8 @@ fun DefaultUiSettings() {
     showRemainingSongTime = true
     var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
     disableScrollingText = false
-    var effectRotationEnabled by rememberPreference(effectRotationKey, true)
-    effectRotationEnabled = true
+    var effectRotationEnabled by rememberPreference(effectRotationKey, false)
+    effectRotationEnabled = false
     var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, true)
     thumbnailTapEnabled = true
     var clickLyricsText by rememberPreference(clickOnLyricsTextKey, true)
@@ -458,11 +458,11 @@ fun DefaultUiSettings() {
     backgroundProgress = BackgroundProgress.MiniPlayer
     var transparentBackgroundActionBarPlayer by rememberPreference(
         transparentBackgroundPlayerActionBarKey,
-        false
+        true
     )
-    transparentBackgroundActionBarPlayer = false
-    var actionspacedevenly by rememberPreference(actionspacedevenlyKey, false)
-    actionspacedevenly = false
+    transparentBackgroundActionBarPlayer = true
+    var actionspacedevenly by rememberPreference(actionspacedevenlyKey, true)
+    actionspacedevenly = true
     var tapqueue by rememberPreference(tapqueueKey, true)
     tapqueue = true
     var swipeUpQueue by rememberPreference(swipeUpQueueKey, true)
@@ -559,8 +559,8 @@ fun UiSettings(
 
 
 
-    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Bottom)
-    var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconAndText)
+    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.BottomFloating)
+    var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconOnly)
     val search = Search()
 
     var showFavoritesPlaylist by rememberPreference(showFavoritesPlaylistKey, true)
@@ -570,7 +570,7 @@ fun UiSettings(
     var showOnDevicePlaylist by rememberPreference(showOnDevicePlaylistKey, true)
     var showFloatingIcon by rememberPreference(showFloatingIconKey, false)
     var menuStyle by rememberPreference(menuStyleKey, MenuStyle.List)
-    var transitionEffect by rememberPreference(transitionEffectKey, TransitionEffect.Scale)
+    var transitionEffect by rememberPreference(transitionEffectKey, TransitionEffect.Fade)
 
     var showPipedPlaylists by rememberPreference(showPipedPlaylistsKey, true)
     var showPinnedPlaylists by rememberPreference(showPinnedPlaylistsKey, true)
@@ -608,17 +608,17 @@ fun UiSettings(
     /*  ViMusic Mode Settings  */
     var showTopActionsBar by rememberPreference(showTopActionsBarKey, true)
     var playerControlsType by rememberPreference(playerControlsTypeKey, PlayerControlsType.Essential)
-    var playerInfoType by rememberPreference(playerInfoTypeKey, PlayerInfoType.Essential)
+    var playerInfoType by rememberPreference(playerInfoTypeKey, PlayerInfoType.Modern)
     var playerType by rememberPreference(playerTypeKey, PlayerType.Essential)
-    var queueType by rememberPreference(queueTypeKey, QueueType.Essential)
+    var queueType by rememberPreference(queueTypeKey, QueueType.Modern)
     var fadingedge by rememberPreference(fadingedgeKey, false)
     var carousel by rememberPreference(carouselKey, true)
     var carouselSize by rememberPreference(carouselSizeKey, CarouselSize.Biggest)
     var thumbnailType by rememberPreference(thumbnailTypeKey, ThumbnailType.Modern)
-    var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.FakeAudioBar)
+    var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Wavy)
     var playerThumbnailSize by rememberPreference(
         playerThumbnailSizeKey,
-        PlayerThumbnailSize.Biggest
+        PlayerThumbnailSize.Medium
     )
     var playerTimelineSize by rememberPreference(
         playerTimelineSizeKey,
@@ -627,7 +627,7 @@ fun UiSettings(
     var playerInfoShowIcons by rememberPreference(playerInfoShowIconsKey, true)
     var miniPlayerType by rememberPreference(
         miniPlayerTypeKey,
-        MiniPlayerType.Modern
+        MiniPlayerType.Essential
     )
     var playerSwapControlsWithTimeline by rememberPreference(
         playerSwapControlsWithTimelineKey,
@@ -635,20 +635,20 @@ fun UiSettings(
     )
     var playerPlayButtonType by rememberPreference(
         playerPlayButtonTypeKey,
-        PlayerPlayButtonType.Disabled
+        PlayerPlayButtonType.CircularRibbed
     )
-    var buttonzoomout by rememberPreference(buttonzoomoutKey, false)
+    var buttonzoomout by rememberPreference(buttonzoomoutKey, true)
     var iconLikeType by rememberPreference(iconLikeTypeKey, IconLikeType.Essential)
     var playerBackgroundColors by rememberPreference(
         playerBackgroundColorsKey,
-        PlayerBackgroundColors.BlurredCoverColor
+        PlayerBackgroundColors.AnimatedGradient
     )
     var blackgradient by rememberPreference(blackgradientKey, false)
     var showTotalTimeQueue by rememberPreference(showTotalTimeQueueKey, true)
     var showNextSongsInPlayer by rememberPreference(showNextSongsInPlayerKey, false)
     var showRemainingSongTime by rememberPreference(showRemainingSongTimeKey, true)
     var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
-    var effectRotationEnabled by rememberPreference(effectRotationKey, true)
+    var effectRotationEnabled by rememberPreference(effectRotationKey, false)
     var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, true)
     var clickLyricsText by rememberPreference(clickOnLyricsTextKey, true)
     var backgroundProgress by rememberPreference(
@@ -657,9 +657,9 @@ fun UiSettings(
     )
     var transparentBackgroundActionBarPlayer by rememberPreference(
         transparentBackgroundPlayerActionBarKey,
-        false
+        true
     )
-    var actionspacedevenly by rememberPreference(actionspacedevenlyKey, false)
+    var actionspacedevenly by rememberPreference(actionspacedevenlyKey, true)
     var tapqueue by rememberPreference(tapqueueKey, true)
     var swipeUpQueue by rememberPreference(swipeUpQueueKey, true)
     var showButtonPlayerAddToPlaylist by rememberPreference(showButtonPlayerAddToPlaylistKey, true)
@@ -714,13 +714,7 @@ fun UiSettings(
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (navigationBarPosition == NavigationBarPosition.Left ||
-                    navigationBarPosition == NavigationBarPosition.Top ||
-                    navigationBarPosition == NavigationBarPosition.Bottom
-                ) 1f
-                else Dimensions.contentWidthRightBar
-            )
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
         HeaderWithIcon(
@@ -1610,6 +1604,8 @@ fun UiSettings(
             )
         }
 
-        Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
+        SettingsGroupSpacer(
+            modifier = Modifier.height(Dimensions.bottomSpacer)
+        )
     }
 }

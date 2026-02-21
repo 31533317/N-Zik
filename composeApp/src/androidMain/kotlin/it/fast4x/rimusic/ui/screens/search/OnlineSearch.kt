@@ -63,7 +63,6 @@ import it.fast4x.rimusic.LocalPlayerAwareWindowInsets
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavRoutes
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.SearchDisplayOrder
 import it.fast4x.rimusic.enums.ThumbnailRoundness
 import it.fast4x.rimusic.models.SearchQuery
@@ -167,12 +166,12 @@ fun OnlineSearch(
 
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
     val lazyListState = rememberLazyListState()
 
-    //val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Bottom)
+    //val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.BottomFloating)
     //val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
@@ -190,12 +189,7 @@ fun OnlineSearch(
             .background(colorPalette().background0)
             //.fillMaxSize()
             .fillMaxHeight()
-            .fillMaxWidth(
-                if( NavigationBarPosition.Right.isCurrent() )
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
     ) {
         LazyColumn(
             state = lazyListState,

@@ -241,13 +241,9 @@ fun HomeAlbums(
             modifier = Modifier
                 .background(colorPalette().background0)
                 .fillMaxHeight()
-                .fillMaxWidth(
-                    if( NavigationBarPosition.Right.isCurrent() )
-                        Dimensions.contentWidthRightBar
-                    else
-                        1f
-                )
+                .fillMaxWidth()
         ) {
+
             Column( Modifier.fillMaxSize() ) {
                 // Sticky tab's title
                 TabHeader(R.string.albums) {

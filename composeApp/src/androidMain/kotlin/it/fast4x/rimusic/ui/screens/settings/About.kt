@@ -112,14 +112,10 @@ fun About() {
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (NavigationBarPosition.Right.isCurrent())
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
+
 
         if (UiType.ViMusic.isCurrent())
             if (NavigationBarPosition.Right.isCurrent() || NavigationBarPosition.Left.isCurrent())
@@ -763,7 +759,10 @@ fun About() {
         }
 
 
-        Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
+        SettingsGroupSpacer(
+            modifier = Modifier.height(Dimensions.bottomSpacer)
+        )
+
     }
 
     // Changelog dialog

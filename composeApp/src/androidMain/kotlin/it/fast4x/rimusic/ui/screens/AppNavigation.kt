@@ -89,14 +89,14 @@ fun AppNavigation(
     miniPlayer: @Composable () -> Unit = {},
     openTabFromShortcut: Int
 ) {
-    val transitionEffect by rememberPreference(transitionEffectKey, TransitionEffect.Scale)
+    val transitionEffect by rememberPreference(transitionEffectKey, TransitionEffect.Fade)
 
     @Composable
     fun modalBottomSheetPage(content: @Composable () -> Unit) {
         var showSheet by rememberSaveable { mutableStateOf(true) }
         val thumbnailRoundness by rememberPreference(
             thumbnailRoundnessKey,
-            ThumbnailRoundness.Heavy
+            ThumbnailRoundness.Medium
         )
 
         CustomModalBottomSheet(
@@ -383,7 +383,8 @@ fun AppNavigation(
             route = NavRoutes.moodsPage.name
         ) { navBackStackEntry ->
             MoodsPageScreen(
-                navController = navController
+                navController = navController,
+                miniPlayer = miniPlayer
             )
         }
 

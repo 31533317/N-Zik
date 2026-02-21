@@ -111,7 +111,7 @@ class ChangelogsDialog(
     fun Render() {
         if (!isActive) return
         
-        var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Bottom)
+        var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.BottomFloating)
         var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
         
         androidx.compose.ui.window.Dialog(

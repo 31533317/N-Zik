@@ -196,13 +196,9 @@ fun HomeLibrary(
                 .background(colorPalette().background0)
                 //.fillMaxSize()
                 .fillMaxHeight()
-                .fillMaxWidth(
-                    if (NavigationBarPosition.Right.isCurrent())
-                        Dimensions.contentWidthRightBar
-                    else
-                        1f
-                )
+                .fillMaxWidth()
         ) {
+
             Column( Modifier.fillMaxSize() ) {
                 // Sticky tab's title
                 TabHeader( R.string.playlists ) {

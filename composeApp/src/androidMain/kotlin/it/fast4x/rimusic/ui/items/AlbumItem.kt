@@ -225,7 +225,7 @@ fun AlbumPlaceholder(
 ) {
     val thumbnailSizeDp = Dimensions.thumbnails.album
 
-    val thumbnailRoundness by rememberPreference( thumbnailRoundnessKey, ThumbnailRoundness.None )
+    val thumbnailRoundness by rememberPreference( thumbnailRoundnessKey, ThumbnailRoundness.Medium )
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

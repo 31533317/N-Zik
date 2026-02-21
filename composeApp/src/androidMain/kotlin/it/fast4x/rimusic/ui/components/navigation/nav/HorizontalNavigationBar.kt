@@ -1,5 +1,7 @@
 package it.fast4x.rimusic.ui.components.navigation.nav
 
+import androidx.compose.runtime.CompositionLocalProvider
+
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.updateTransition
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -78,7 +82,11 @@ class HorizontalNavigationBar(
 
     @Composable
     private fun bottomPadding(): Dp {
-        return if ( NavigationBarPosition.Bottom.isCurrent() )
+        return if ( NavigationBarPosition.BottomFloating.isCurrent() )
+            with( LocalDensity.current ) {
+                (WindowInsets.systemBars.getBottom( this ).toDp() - 10.dp).coerceAtLeast(2.dp)
+            }
+        else if ( NavigationBarPosition.Bottom.isCurrent() )
             with( LocalDensity.current ) {
                 WindowInsets.systemBars.getBottom( this ).toDp()
             }
@@ -91,6 +99,7 @@ class HorizontalNavigationBar(
     @Composable
     override fun add(buttons: @Composable (@Composable (Int, String, Int) -> Unit) -> Unit) {
         val transition = updateTransition(targetState = tabIndex, label = null)
+        val isFloating = NavigationBarPosition.BottomFloating.isCurrent()
 
         buttons { index, text, iconId ->
 
@@ -100,12 +109,12 @@ class HorizontalNavigationBar(
 
             val button: Button =
                 if ( NavigationBarType.IconOnly.isCurrent() )
-                    Button( iconId, color, 12.dp, 20.dp )
+                    Button( iconId, color, if (isFloating) 12.dp else 12.dp, if (isFloating) 24.dp else 20.dp )
                 else
-                    TextIconButton( text, iconId, color, 0.dp, Dimensions.navigationRailIconOffset * 3 )
+                    TextIconButton( text, iconId, color, 0.dp, 20.dp, textSpacing = if (isFloating) 12.dp else 5.dp, isCompact = isFloating )
 
             val contentModifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(if (isFloating) 14.dp else 12.dp))
                 .clickable(onClick = { onTabChanged(index) })
 
             addButton( button, contentModifier )
@@ -144,6 +153,16 @@ class HorizontalNavigationBar(
     override fun Draw() {
         if( buttonList.size < 2 ) return
 
+        val isFloating = NavigationBarPosition.BottomFloating.isCurrent()
+        val isIconOnly = NavigationBarType.IconOnly.isCurrent()
+        
+        val floatingHeight = if (isIconOnly) 64.dp else 80.dp
+        val widthFraction = if (isIconOnly) {
+            if (buttonList.size > 5) 0.95f else 0.85f
+        } else {
+            0.95f
+        }
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom,
@@ -153,16 +172,16 @@ class HorizontalNavigationBar(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(Dimensions.navigationBarHeight - 10.dp)
+                    .then(if (isFloating) Modifier.fillMaxWidth(widthFraction) else Modifier.fillMaxWidth())
+                    .height(if (isFloating) floatingHeight else Dimensions.navigationBarHeight - 10.dp)
             ) {
 
                 val scrollState = rememberScrollState()
-                val roundedCornerShape =
-                    if ( NavigationBarPosition.Bottom.isCurrent() )
-                        RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
-                    else
-                        RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+                val roundedCornerShape = when {
+                    isFloating -> RoundedCornerShape(24.dp)
+                    NavigationBarPosition.Bottom.isCurrent() -> RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+                    else -> RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+                }
 
                 // Settings button only visible when
                 // UI is not RiMusic and current location isn't home screen
@@ -172,17 +191,28 @@ class HorizontalNavigationBar(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = if (isFloating) 2.dp else 0.dp)
+                        .shadow(elevation = if (isFloating) 8.dp else 0.dp, shape = roundedCornerShape)
                         .clip(roundedCornerShape)
-                        .background(colorPalette().background1)
+                        .background(if (isFloating) colorPalette().background1.copy(alpha = 0.95f) else colorPalette().background1)
                 ) {
+
+
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxSize()
+                            .padding(horizontal = if (isFloating && buttonList.size > 5) 8.dp else 16.dp)
+                            .padding(vertical = if (isFloating) 6.dp else 0.dp)
                             .horizontalScroll(scrollState),
-                        content = { buttonList().forEach { it() } }
+                        content = { 
+                            val isManyButtons = buttonList.size > 5
+                            CompositionLocalProvider(LocalIsManyButtons provides isManyButtons) {
+                                buttonList().forEach { it() } 
+                            }
+                        }
                     )
                 }
 

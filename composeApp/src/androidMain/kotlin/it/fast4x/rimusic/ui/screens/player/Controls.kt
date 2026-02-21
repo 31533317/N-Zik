@@ -239,18 +239,18 @@ fun Controls(
         mutableStateOf(false)
     }
      */
-    val playerInfoType by rememberPreference(playerInfoTypeKey, PlayerInfoType.Essential)
+    val playerInfoType by rememberPreference(playerInfoTypeKey, PlayerInfoType.Modern)
     var playerSwapControlsWithTimeline by rememberPreference(
         playerSwapControlsWithTimelineKey,
         false
     )
-    var showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, false)
+    var showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, true)
     var transparentBackgroundActionBarPlayer by rememberPreference(
         transparentBackgroundPlayerActionBarKey,
-        false
+        true
     )
     var playerControlsType by rememberPreference(playerControlsTypeKey, PlayerControlsType.Essential)
-    var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Disabled)
+    var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.CircularRibbed)
     var showthumbnail by rememberPreference(showthumbnailKey, true)
     var playerType by rememberPreference(playerTypeKey, PlayerType.Essential)
     val expandedlandscape = (isLandscape && playerType == PlayerType.Modern) || (expandedplayer && !showthumbnail)
@@ -542,7 +542,7 @@ fun Controls(
 
 fun Modifier.bounceClick() = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
-    var buttonzoomout by rememberPreference(buttonzoomoutKey,false)
+    var buttonzoomout by rememberPreference(buttonzoomoutKey,true)
     val scale by animateFloatAsState(if ((buttonState == ButtonState.Pressed) && (buttonzoomout)) 0.8f else 1f)
 
     this

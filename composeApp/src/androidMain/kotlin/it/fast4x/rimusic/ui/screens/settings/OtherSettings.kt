@@ -109,14 +109,10 @@ fun OtherSettings() {
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (NavigationBarPosition.Right.isCurrent())
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
+
         HeaderWithIcon(
             title = stringResource(R.string.tab_miscellaneous),
             iconId = R.drawable.equalizer,
@@ -494,6 +490,9 @@ fun OtherSettings() {
             )
         }
 
-        Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
+        SettingsGroupSpacer(
+            modifier = Modifier.height(Dimensions.bottomSpacer)
+        )
+
     }
 }

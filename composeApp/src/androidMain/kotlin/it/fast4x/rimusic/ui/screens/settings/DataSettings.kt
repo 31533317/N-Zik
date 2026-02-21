@@ -181,14 +181,10 @@ fun DataSettings() {
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (NavigationBarPosition.Right.isCurrent())
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
+
         HeaderWithIcon(
             title = stringResource(R.string.tab_data),
                        iconId = R.drawable.server,
@@ -569,6 +565,9 @@ fun DataSettings() {
                     )
                 }
 
-        Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
+        SettingsGroupSpacer(
+            modifier = Modifier.height(Dimensions.bottomSpacer)
+        )
+
     }
 }

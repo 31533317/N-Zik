@@ -59,10 +59,11 @@ fun BoxScope.MultiFloatingActionsContainer(
     onClickSearch: (() -> Unit)? = null
 ) {
     val additionalBottomPadding =
-        if ( NavigationBarPosition.Bottom.isCurrent() )
+        if ( NavigationBarPosition.Bottom.isCurrent() || NavigationBarPosition.BottomFloating.isCurrent() )
             Dimensions.additionalVerticalSpaceForFloatingAction
         else
             0.dp
+
     //val bottomPaddingValues = windowInsets.only(WindowInsetsSides.Bottom).asPaddingValues()
     val density = LocalDensity.current
     val windowsInsets = WindowInsets.systemBars
@@ -195,8 +196,9 @@ fun BoxScope.FloatingActions(
     onClick: (() -> Unit)? = null
 ) {
     val transition = rememberTransition(transitionState, "")
-    val additionalBottomPadding = if ( NavigationBarPosition.Bottom.isCurrent() )
+    val additionalBottomPadding = if ( NavigationBarPosition.Bottom.isCurrent() || NavigationBarPosition.BottomFloating.isCurrent() )
         Dimensions.additionalVerticalSpaceForFloatingAction else 0.dp
+
     //val bottomPaddingValues = windowInsets.only(WindowInsetsSides.Bottom).asPaddingValues()
     val density = LocalDensity.current
     val windowsInsets = WindowInsets.systemBars

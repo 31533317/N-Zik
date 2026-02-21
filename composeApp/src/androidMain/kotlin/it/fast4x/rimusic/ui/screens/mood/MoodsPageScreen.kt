@@ -20,7 +20,8 @@ import it.fast4x.rimusic.ui.components.Skeleton
 @UnstableApi
 @Composable
 fun MoodsPageScreen(
-    navController: NavController
+    navController: NavController,
+    miniPlayer: @Composable () -> Unit = {},
 ) {
     val saveableStateHolder = rememberSaveableStateHolder()
 
@@ -28,6 +29,7 @@ fun MoodsPageScreen(
 
             Skeleton(
                 navController,
+                miniPlayer = miniPlayer,
                 navBarContent = { item ->
                     item(0, stringResource(R.string.moods_and_genres), R.drawable.album)
                 }

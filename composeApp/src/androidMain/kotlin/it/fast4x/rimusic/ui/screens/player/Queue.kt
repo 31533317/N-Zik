@@ -215,7 +215,7 @@ fun Queue(
         (deleteDialog as Dialog).Render()
 
         Column {
-            val queueType by rememberPreference( queueTypeKey, QueueType.Essential )
+            val queueType by rememberPreference( queueTypeKey, QueueType.Modern )
             val backgroundAlpha = if( queueType == QueueType.Modern ) .5f else 1f
             val itemBackground = if ( queueType == QueueType.Modern ) androidx.compose.ui.graphics.Color.Transparent else colorPalette().background0
 

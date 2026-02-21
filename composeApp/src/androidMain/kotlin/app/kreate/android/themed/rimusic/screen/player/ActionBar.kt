@@ -174,13 +174,13 @@ fun BoxScope.ActionBar(
 
     val mediaItem = binder.player.currentMediaItem ?: return
 
-    val playerBackgroundColors by rememberPreference( playerBackgroundColorsKey, PlayerBackgroundColors.BlurredCoverColor )
+    val playerBackgroundColors by rememberPreference( playerBackgroundColorsKey, PlayerBackgroundColors.AnimatedGradient )
     val blackGradient by rememberPreference( blackgradientKey, false )
-    val showLyricsThumbnail by rememberPreference(showlyricsthumbnailKey, false)
+    val showLyricsThumbnail by rememberPreference(showlyricsthumbnailKey, true)
     val showNextSongsInPlayer by rememberPreference( showNextSongsInPlayerKey, false )
     val miniQueueExpanded by rememberPreference( miniQueueExpandedKey, true )
     val tapQueue by rememberPreference( tapqueueKey, true )
-    val transparentBackgroundActionBarPlayer by rememberPreference( transparentBackgroundPlayerActionBarKey, false )
+    val transparentBackgroundActionBarPlayer by rememberPreference( transparentBackgroundPlayerActionBarKey, true )
     val swipeUpQueue by rememberPreference( swipeUpQueueKey, true )
     val disableScrollingText by rememberPreference( disableScrollingTextKey, false )
 
@@ -454,7 +454,7 @@ fun BoxScope.ActionBar(
                 }
             }
 
-            val actionsSpaceEvenly by rememberPreference( actionspacedevenlyKey, false )
+            val actionsSpaceEvenly by rememberPreference( actionspacedevenlyKey, true )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = if (actionsSpaceEvenly) Arrangement.SpaceEvenly else Arrangement.SpaceBetween,

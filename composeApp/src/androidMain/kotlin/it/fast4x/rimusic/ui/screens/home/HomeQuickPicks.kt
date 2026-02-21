@@ -417,15 +417,9 @@ fun HomeQuickPicks(
         onRefresh = ::refresh
     ) {
         BoxWithConstraints(
-            modifier = Modifier
-                .fillMaxWidth(
-                    if (NavigationBarPosition.Right.isCurrent())
-                        Dimensions.contentWidthRightBar
-                    else
-                        1f
-                )
-
+            modifier = Modifier.fillMaxWidth()
         ) {
+
             val quickPicksLazyGridItemWidthFactor =
                 if (isLandscape && maxWidth * 0.475f >= 320.dp) {
                     0.375f

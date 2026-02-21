@@ -51,7 +51,7 @@ fun NextVisualizer(
 ) {
     val context = LocalContext.current
     val visualizerEnabled by rememberPreference(visualizerEnabledKey, false)
-    var showvisthumbnail by rememberPreference(showvisthumbnailKey, false)
+    var showvisthumbnail by rememberPreference(showvisthumbnailKey, true)
 
     if (visualizerEnabled) {
         val permission = Manifest.permission.RECORD_AUDIO

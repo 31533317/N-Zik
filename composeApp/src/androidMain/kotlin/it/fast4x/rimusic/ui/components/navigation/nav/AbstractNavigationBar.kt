@@ -1,5 +1,7 @@
 package it.fast4x.rimusic.ui.components.navigation.nav
 
+import androidx.compose.runtime.staticCompositionLocalOf
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
@@ -16,6 +18,8 @@ import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavRoutes
 import it.fast4x.rimusic.ui.components.themed.Button
 import it.fast4x.rimusic.ui.styling.favoritesIcon
+
+val LocalIsManyButtons = staticCompositionLocalOf { false }
 
 @SuppressLint("ComposableNaming")
 abstract class AbstractNavigationBar(

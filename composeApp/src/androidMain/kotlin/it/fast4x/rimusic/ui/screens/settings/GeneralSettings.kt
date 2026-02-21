@@ -38,7 +38,11 @@ import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import app.kreate.android.BuildConfig
 import app.kreate.android.R
+import it.fast4x.rimusic.LocalPlayerAwareWindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.windowInsetsPadding
 import it.fast4x.rimusic.LocalPlayerServiceBinder
+
 import it.fast4x.rimusic.colorPalette
 
 import it.fast4x.rimusic.enums.DurationInMilliseconds
@@ -166,8 +170,8 @@ fun GeneralSettings(
 
     var disableClosingPlayerSwipingDown by rememberPreference(disableClosingPlayerSwipingDownKey, false)
 
-    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Bottom)
-    var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconAndText)
+    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.BottomFloating)
+    var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconOnly)
     var pauseBetweenSongs  by rememberPreference(pauseBetweenSongsKey, PauseBetweenSongs.`0`)
     var maxSongsInQueue  by rememberPreference(maxSongsInQueueKey, MaxSongs.`500`)
 
@@ -232,15 +236,10 @@ fun GeneralSettings(
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (navigationBarPosition == NavigationBarPosition.Left ||
-                    navigationBarPosition == NavigationBarPosition.Top ||
-                    navigationBarPosition == NavigationBarPosition.Bottom
-                ) 1f
-                else Dimensions.contentWidthRightBar
-            )
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
+
         HeaderWithIcon(
             title = stringResource(R.string.tab_general),
             iconId = R.drawable.ic_launcher_monochrome,
@@ -1110,5 +1109,6 @@ fun GeneralSettings(
         SettingsGroupSpacer(
             modifier = Modifier.height(Dimensions.bottomSpacer)
         )
+
     }
 }   

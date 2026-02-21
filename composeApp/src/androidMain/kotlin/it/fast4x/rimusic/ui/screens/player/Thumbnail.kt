@@ -106,7 +106,7 @@ fun Thumbnail(
         it to (it - 64.dp).px
     }
 
-    var showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, false)
+    var showlyricsthumbnail by rememberPreference(showlyricsthumbnailKey, true)
     var nullableWindow by remember {
         mutableStateOf(player.currentWindow)
     }
@@ -139,7 +139,7 @@ fun Thumbnail(
     }
 
     val clickLyricsText by rememberPreference(clickOnLyricsTextKey, true)
-    var showvisthumbnail by rememberPreference(showvisthumbnailKey, false)
+    var showvisthumbnail by rememberPreference(showvisthumbnailKey, true)
     //var expandedlyrics by rememberPreference(expandedlyricsKey,false)
 
     player.DisposableListener {
@@ -381,7 +381,7 @@ fun Thumbnail(
 fun Modifier.thumbnailpause(
     shouldBePlaying: Boolean
 ) = composed {
-    var thumbnailpause by rememberPreference(thumbnailpauseKey, false)
+    var thumbnailpause by rememberPreference(thumbnailpauseKey, true)
     val scale by animateFloatAsState(if ((thumbnailpause) && (!shouldBePlaying)) 0.9f else 1f)
 
     this

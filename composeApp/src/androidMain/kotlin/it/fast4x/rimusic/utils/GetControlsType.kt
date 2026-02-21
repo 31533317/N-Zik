@@ -38,7 +38,7 @@ fun GetControls(
     val playerControlsType by rememberPreference(playerControlsTypeKey, PlayerControlsType.Essential)
     val playerPlayButtonType by rememberPreference(
         playerPlayButtonTypeKey,
-        PlayerPlayButtonType.Disabled
+        PlayerPlayButtonType.CircularRibbed
     )
     var isRotated by rememberSaveable { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(
@@ -47,7 +47,7 @@ fun GetControls(
     )
     val playerBackgroundColors by rememberPreference(
         playerBackgroundColorsKey,
-        PlayerBackgroundColors.BlurredCoverColor
+        PlayerBackgroundColors.AnimatedGradient
     )
 
     val isGradientBackgroundEnabled = playerBackgroundColors == PlayerBackgroundColors.ThemeColorGradient ||

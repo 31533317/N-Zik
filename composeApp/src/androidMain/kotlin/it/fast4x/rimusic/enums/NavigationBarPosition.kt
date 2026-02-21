@@ -14,14 +14,26 @@ enum class NavigationBarPosition(
     Left( R.string.direction_left ),
     Right( R.string.direction_right ),
     Top( R.string.direction_top ),
-    Bottom( R.string.direction_bottom );
+    Bottom( R.string.direction_bottom ),
+    BottomFloating( R.string.direction_bottom_floating );
+
 
     companion object {
 
         @Composable
-        fun current() = rememberPreference( navigationBarPositionKey, Bottom ).value
+        fun current() = rememberPreference( navigationBarPositionKey, NavigationBarPosition.BottomFloating ).value
+
     }
 
     @Composable
     fun isCurrent(): Boolean = current() == this
+
+    val isHorizontal: Boolean
+        get() = this == Top || this == Bottom || this == BottomFloating
+
+    val isBottomType: Boolean
+        get() = this == Bottom || this == BottomFloating
+
+    val isFloating: Boolean
+        get() = this == BottomFloating
 }

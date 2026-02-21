@@ -70,7 +70,6 @@ import it.fast4x.rimusic.PIPED_PREFIX
 import it.fast4x.rimusic.appContext
 import it.fast4x.rimusic.cleanPrefix
 import it.fast4x.rimusic.colorPalette
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.PlaylistSongSortBy
 import it.fast4x.rimusic.enums.RecommendationsNumber
 import it.fast4x.rimusic.enums.ThumbnailRoundness
@@ -523,7 +522,7 @@ fun LocalPlaylistSongs(
 
     val thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
+        ThumbnailRoundness.Medium
     )
 
 
@@ -573,12 +572,7 @@ fun LocalPlaylistSongs(
             .background(colorPalette().background0)
             //.fillMaxSize()
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (NavigationBarPosition.Right.isCurrent())
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+                .fillMaxWidth()
     ) {
         //LookaheadScope {
         LazyColumn(

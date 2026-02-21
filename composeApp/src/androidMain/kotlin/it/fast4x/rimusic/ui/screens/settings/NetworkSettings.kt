@@ -64,7 +64,7 @@ fun NetworkSettings(
     var showAudioQualityDialog by rememberSaveable { mutableStateOf(false) }
     var showImageQualityDialog by rememberSaveable { mutableStateOf(false) }
     
-    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Bottom)
+    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.BottomFloating)
 
     val networkQuality by produceState(initialValue = ImageCacheFactory.getCurrentNetworkQuality()) {
         while (true) {
@@ -77,13 +77,7 @@ fun NetworkSettings(
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (navigationBarPosition == NavigationBarPosition.Left ||
-                    navigationBarPosition == NavigationBarPosition.Top ||
-                    navigationBarPosition == NavigationBarPosition.Bottom
-                ) 1f
-                else Dimensions.contentWidthRightBar
-            )
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
         HeaderWithIcon(
@@ -309,5 +303,6 @@ fun NetworkSettings(
         SettingsGroupSpacer(
             modifier = Modifier.height(Dimensions.bottomSpacer)
         )
+        
     }
 }

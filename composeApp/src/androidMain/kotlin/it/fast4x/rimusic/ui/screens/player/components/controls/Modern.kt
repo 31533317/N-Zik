@@ -116,7 +116,7 @@ fun InfoAlbumAndArtistModern(
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
     var isRotated by rememberSaveable { mutableStateOf(false) }
     var showSelectDialog by remember { mutableStateOf(false) }
-    val playerBackgroundColors by rememberPreference(playerBackgroundColorsKey,PlayerBackgroundColors.BlurredCoverColor)
+    val playerBackgroundColors by rememberPreference(playerBackgroundColorsKey,PlayerBackgroundColors.AnimatedGradient)
     val playerInfoShowIcon by rememberPreference(playerInfoShowIconsKey, true)
     val currentMediaItem = binder.player.currentMediaItem
 

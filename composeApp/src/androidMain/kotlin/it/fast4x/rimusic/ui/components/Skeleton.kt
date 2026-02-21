@@ -34,17 +34,26 @@ import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.CheckUpdateState
 import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.PlayerPosition
-import it.fast4x.rimusic.enums.UiType
+import it.fast4x.rimusic.LocalPlayerAwareWindowInsets
+import it.fast4x.rimusic.LocalPlayerServiceBinder
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
+import it.fast4x.rimusic.enums.NavigationBarType
+import it.fast4x.rimusic.utils.navigationBarTypeKey
 import it.fast4x.rimusic.ui.components.navigation.header.AppHeader
 import it.fast4x.rimusic.ui.components.navigation.nav.AbstractNavigationBar
 import it.fast4x.rimusic.ui.components.navigation.nav.HorizontalNavigationBar
 import it.fast4x.rimusic.ui.components.navigation.nav.VerticalNavigationBar
+import it.fast4x.rimusic.ui.styling.Dimensions
 import it.fast4x.rimusic.utils.checkUpdateStateKey
 import it.fast4x.rimusic.utils.checkBetaUpdatesKey
 import it.fast4x.rimusic.utils.playerPositionKey
 import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.seenChangelogsVersionKey
 import it.fast4x.rimusic.utils.transition
+import it.fast4x.rimusic.enums.UiType
 import me.knighthat.updater.ChangelogsDialog
 import me.knighthat.updater.CheckForUpdateDialog
 import me.knighthat.updater.NewUpdateAvailableDialog
@@ -61,128 +70,167 @@ fun Skeleton(
     navBarContent: @Composable (@Composable (Int, String, Int) -> Unit) -> Unit,
     content: @Composable AnimatedVisibilityScope.(Int) -> Unit
 ) {
+    val navigationBarPosition = NavigationBarPosition.current()
+    val isFloating = navigationBarPosition.isFloating
+    val isIconOnly = NavigationBarType.IconOnly.isCurrent()
+    val binder = LocalPlayerServiceBinder.current
+    val isMiniPlayerActive = binder?.player?.currentMediaItem != null
+    val currentInsets = LocalPlayerAwareWindowInsets.current
+
     val navigationBar: AbstractNavigationBar =
-        when( NavigationBarPosition.current() ) {
-            NavigationBarPosition.Left, NavigationBarPosition.Right ->
-                VerticalNavigationBar( tabIndex, onTabChanged, navController )
-            NavigationBarPosition.Top, NavigationBarPosition.Bottom ->
-                HorizontalNavigationBar( tabIndex, onTabChanged, navController )
-        }
+        if ( navigationBarPosition.isHorizontal )
+            HorizontalNavigationBar( tabIndex, onTabChanged, navController )
+        else
+            VerticalNavigationBar( tabIndex, onTabChanged, navController )
+
     navigationBar.add( navBarContent )
+    
+    val hasNavBar = navigationBar.buttonList.size >= 2
 
-    val appHeader: @Composable () -> Unit = {
-        Column(
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            if( UiType.RiMusic.isCurrent() )
-                AppHeader( navController ).Draw()
+    val modifiedInsets by remember(currentInsets, isFloating, isIconOnly, isMiniPlayerActive, hasNavBar) {
+        derivedStateOf {
+            if (isFloating && hasNavBar) {
+                val desiredBottom = if (isMiniPlayerActive) {
+                    if (isIconOnly) 158.dp else 172.dp
+                } else {
+                    if (isIconOnly) 60.dp else 72.dp
+                }
+                currentInsets.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+                    .add(WindowInsets(bottom = desiredBottom))
+            } else currentInsets
 
-            if ( NavigationBarPosition.Top.isCurrent() )
-                navigationBar.Draw()
         }
     }
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val modifier: Modifier =
-        if( UiType.ViMusic.isCurrent() && navigationBar is HorizontalNavigationBar)
-            Modifier
-        else
-            Modifier.nestedScroll( scrollBehavior.nestedScrollConnection )
+    CompositionLocalProvider(LocalPlayerAwareWindowInsets provides modifiedInsets) {
 
-    Scaffold(
-        modifier = modifier,
-        containerColor = colorPalette().background0,
-        topBar = appHeader,
-        bottomBar = {
-            if ( NavigationBarPosition.Bottom.isCurrent() )
-                navigationBar.Draw()
-        }
-    ) {
-        val paddingSides = WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal
-        val innerPadding =
-            if( NavigationBarPosition.Top.isCurrent() )
-                windowInsets.only( paddingSides ).asPaddingValues()
-            else
-                PaddingValues( Dp.Hairline )
-
-        Box(
-            Modifier
-                .padding(it)
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
-            Row(
-                Modifier
-                    .background(colorPalette().background0)
-                    .fillMaxSize()
+        val appHeader: @Composable () -> Unit = {
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                if( NavigationBarPosition.Left.isCurrent() )
-                    navigationBar.Draw()
+                if( UiType.RiMusic.isCurrent() )
+                    AppHeader( navController ).Draw()
 
-                val topPadding = if ( UiType.ViMusic.isCurrent() ) 30.dp else 0.dp
-                AnimatedContent(
-                    targetState = tabIndex,
-                    transitionSpec = transition(),
-                    content = content,
-                    label = "",
-                    modifier = Modifier.fillMaxHeight().padding( top = topPadding )
-                )
-
-                if( NavigationBarPosition.Right.isCurrent() )
+                if ( NavigationBarPosition.Top.isCurrent() )
                     navigationBar.Draw()
             }
+        }
 
-            val playerPosition by rememberPreference(playerPositionKey, PlayerPosition.Bottom)
-            val playerAlignment =
-                if (playerPosition == PlayerPosition.Top)
-                    Alignment.TopCenter
+        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+        val modifier: Modifier =
+            if( UiType.ViMusic.isCurrent() && navigationBar is HorizontalNavigationBar)
+                Modifier
+            else
+                Modifier.nestedScroll( scrollBehavior.nestedScrollConnection )
+
+        Scaffold(
+            modifier = modifier,
+            containerColor = colorPalette().background0,
+            topBar = appHeader,
+            bottomBar = {
+                if ( NavigationBarPosition.Bottom.isCurrent() )
+                    navigationBar.Draw()
+            }
+        ) {
+            val paddingSides = WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal
+            val innerPadding =
+                if( NavigationBarPosition.Top.isCurrent() )
+                    windowInsets.only( paddingSides ).asPaddingValues()
                 else
-                    Alignment.BottomCenter
+                    PaddingValues( Dp.Hairline )
 
             Box(
                 Modifier
-                    .padding( vertical = 5.dp )
-                    .align( playerAlignment ),
-                content = { miniPlayer?.invoke() }
-            )
-        }
-    }
+                    .padding(it)
+                    .padding(innerPadding)
+                    .fillMaxSize()
+            ) {
+                Row(
+                    Modifier
+                        .background(colorPalette().background0)
+                        .fillMaxSize()
+                ) {
+                    if( NavigationBarPosition.Left.isCurrent() )
+                        navigationBar.Draw()
 
-    NewUpdateAvailableDialog.Render()
-    CheckForUpdateDialog.Render()
+                    val topPadding = if ( UiType.ViMusic.isCurrent() ) 30.dp else 0.dp
+                    AnimatedContent(
+                        targetState = tabIndex,
+                        transitionSpec = transition(),
+                        content = content,
+                        label = "",
+                        modifier = Modifier.weight(1f).fillMaxHeight().padding( top = topPadding )
+                    )
 
-    // Function to extract the version suffix
-    fun extractVersionSuffix(versionStr: String): String {
-        val parts = versionStr.removePrefix("v").split("-")
-        return if (parts.size > 1) parts[1] else ""
-    }
+                    if( NavigationBarPosition.Right.isCurrent() )
+                        navigationBar.Draw()
+                }
 
-    val check4UpdateState by rememberPreference( checkUpdateStateKey, CheckUpdateState.Enabled )
-    val checkBetaUpdates by rememberPreference( checkBetaUpdatesKey, extractVersionSuffix(BuildConfig.VERSION_NAME) == "b" )
-    
-    // Reset update state when beta preferences change
-    LaunchedEffect( checkBetaUpdates ) {
-        if (NewUpdateAvailableDialog.isActive) {
-            // If beta preferences changed and there's an active update dialog, recheck
-            NewUpdateAvailableDialog.isCancelled = false
-            Updater.checkForUpdate(checkBetaUpdates = checkBetaUpdates)
-        }
-    }
-    
-    LaunchedEffect( check4UpdateState ) {
-        when( check4UpdateState ) {
-            CheckUpdateState.Enabled  -> if( !NewUpdateAvailableDialog.isCancelled ) Updater.checkForUpdate(checkBetaUpdates = checkBetaUpdates)
-            CheckUpdateState.Ask      -> CheckForUpdateDialog.isActive = true
-            CheckUpdateState.Disabled -> { /* Does nothing */ }
-        }
-    }
+                if ( isFloating ) {
+                    Box(
+                        modifier = Modifier.align(Alignment.BottomCenter)
+                    ) {
+                        navigationBar.Draw()
+                    }
+                }
 
-    val seenChangelogs = rememberPreference( seenChangelogsVersionKey, "" )
-    if( seenChangelogs.value != BuildConfig.VERSION_NAME ) {
-        val changelogs = remember {
-            ChangelogsDialog( seenChangelogs )
+                val playerPosition by rememberPreference(playerPositionKey, PlayerPosition.Bottom)
+                val playerAlignment =
+                    if (playerPosition == PlayerPosition.Top)
+                        Alignment.TopCenter
+                    else
+                        Alignment.BottomCenter
+
+                val playerPaddingBottom = if (isFloating && playerPosition == PlayerPosition.Bottom && hasNavBar) {
+                    if (isIconOnly) 84.dp else 98.dp
+                } else 5.dp
+
+
+                Box(
+                    Modifier
+                        .padding( top = 5.dp, bottom = playerPaddingBottom )
+                        .align( playerAlignment ),
+                    content = { miniPlayer?.invoke() }
+                )
+            }
         }
-        changelogs.Render()
+
+        NewUpdateAvailableDialog.Render()
+        CheckForUpdateDialog.Render()
+
+        // Function to extract the version suffix
+        fun extractVersionSuffix(versionStr: String): String {
+            val parts = versionStr.removePrefix("v").split("-")
+            return if (parts.size > 1) parts[1] else ""
+        }
+
+        val check4UpdateState by rememberPreference( checkUpdateStateKey, CheckUpdateState.Enabled )
+        val checkBetaUpdates by rememberPreference( checkBetaUpdatesKey, extractVersionSuffix(BuildConfig.VERSION_NAME) == "b" )
+        
+        // Reset update state when beta preferences change
+        LaunchedEffect( checkBetaUpdates ) {
+            if (NewUpdateAvailableDialog.isActive) {
+                // If beta preferences changed and there's an active update dialog, recheck
+                NewUpdateAvailableDialog.isCancelled = false
+                Updater.checkForUpdate(checkBetaUpdates = checkBetaUpdates)
+            }
+        }
+        
+        LaunchedEffect( check4UpdateState ) {
+            when( check4UpdateState ) {
+                CheckUpdateState.Enabled  -> if( !NewUpdateAvailableDialog.isCancelled ) Updater.checkForUpdate(checkBetaUpdates = checkBetaUpdates)
+                CheckUpdateState.Ask      -> CheckForUpdateDialog.isActive = true
+                CheckUpdateState.Disabled -> { /* Does nothing */ }
+            }
+        }
+
+        val seenChangelogs = rememberPreference( seenChangelogsVersionKey, "" )
+        if( seenChangelogs.value != BuildConfig.VERSION_NAME ) {
+            val changelogs = remember {
+                ChangelogsDialog( seenChangelogs )
+            }
+            changelogs.Render()
+        }
     }
 }

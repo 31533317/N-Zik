@@ -31,13 +31,11 @@ import it.fast4x.innertube.Innertube
 import it.fast4x.innertube.requests.discoverPage
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavRoutes
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.ui.components.themed.HeaderWithIcon
 import it.fast4x.rimusic.ui.items.AlbumItem
 import it.fast4x.rimusic.ui.styling.Dimensions
 import it.fast4x.rimusic.ui.styling.px
 import it.fast4x.rimusic.utils.disableScrollingTextKey
-import it.fast4x.rimusic.utils.navigationBarPositionKey
 import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.showSearchTabKey
 
@@ -58,10 +56,7 @@ fun NewAlbums(
     val thumbnailSizeDp = Dimensions.thumbnails.album + 24.dp
     val thumbnailSizePx = thumbnailSizeDp.px
 
-    val navigationBarPosition by rememberPreference(
-        navigationBarPositionKey,
-        NavigationBarPosition.Bottom
-    )
+
 
     val showSearchTab by rememberPreference(showSearchTabKey, false)
 
@@ -75,13 +70,7 @@ fun NewAlbums(
             .background(colorPalette().background0)
             //.fillMaxSize()
             .fillMaxHeight()
-            .fillMaxWidth(
-                if (navigationBarPosition == NavigationBarPosition.Left ||
-                    navigationBarPosition == NavigationBarPosition.Top ||
-                    navigationBarPosition == NavigationBarPosition.Bottom
-                ) 1f
-                else Dimensions.contentWidthRightBar
-            )
+            .fillMaxWidth()
     ) {
 
         /***************/

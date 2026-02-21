@@ -47,7 +47,6 @@ import it.fast4x.rimusic.LocalPlayerAwareWindowInsets
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.HistoryType
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.models.Event
 import it.fast4x.rimusic.thumbnailShape
 import it.fast4x.rimusic.ui.components.ButtonsRow
@@ -152,12 +151,7 @@ fun HistoryList(
         modifier = Modifier
             .background(colorPalette().background0)
             .fillMaxHeight()
-            .fillMaxWidth(
-                if( NavigationBarPosition.Right.isCurrent() )
-                    Dimensions.contentWidthRightBar
-                else
-                    1f
-            )
+            .fillMaxWidth()
     ) {
         HeaderWithIcon(
             title = stringResource(R.string.history),

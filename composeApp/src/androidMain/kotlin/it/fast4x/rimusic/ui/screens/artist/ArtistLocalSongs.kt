@@ -36,7 +36,6 @@ import it.fast4x.compose.persist.persist
 import it.fast4x.rimusic.Database
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import app.kreate.android.R
-import it.fast4x.rimusic.enums.NavigationBarPosition
 import it.fast4x.rimusic.enums.UiType
 import it.fast4x.rimusic.models.Song
 import it.fast4x.rimusic.ui.components.LocalMenuState
@@ -361,12 +360,7 @@ fun ArtistLocalSongs(
                 .background(colorPalette().background0)
                 //.fillMaxSize()
                 .fillMaxHeight()
-                .fillMaxWidth(
-                    if( NavigationBarPosition.Right.isCurrent() )
-                        Dimensions.contentWidthRightBar
-                    else
-                        1f
-                )
+                .fillMaxWidth()
         ) {
             LazyColumn(
                 state = lazyListState,
