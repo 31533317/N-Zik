@@ -1060,7 +1060,6 @@
     <string name="check_beta_update_enabled">BETA aktiveret</string>
     <string name="check_beta_update_disabled">BETA deaktiveret</string>
     <string name="cache_status">Cache status</string>
-    <string name="cache_working">Cache arbejder</string>
     <string name="cache_empty">Cache tom</string>
     <string name="album_not_found">Albummet blev ikke fundet</string>
     <string name="content_type_all">Alle</string>
