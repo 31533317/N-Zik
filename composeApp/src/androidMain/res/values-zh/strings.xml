@@ -520,8 +520,8 @@
   <string name="vimusic_show_search_button_in_navigation_bar">在导航栏中显示搜索按钮</string>
   <string name="vismusic_only_in_left_right_navigation_bar">仅适用于 ViMusic UI 中的左或右导航栏</string>
   <string name="enable_monthly_playlists_creation">Enable monthly playlists creation</string>
-  <string name="show_monthly_playlists_in_quick_picks">Show Monthly Playlists in Quick Picks</string>
-  <string name="show_monthly_playlists_in_library">Show Monthly Playlists in Library</string>
+  <string name="show_monthly_playlists_in_quick_picks">在快速选择中显示每月播放列表</string>
+  <string name="show_monthly_playlists_in_library">在书库中显示每月播放列表</string>
   <string name="info_no_singles_yet">没有单人可用</string>
   <string name="info_no_albums_yet">无可用专辑</string>
   <string name="info_no_songs_yet">无可用歌曲</string>
@@ -1068,5 +1068,5 @@
   <string name="content_type_all">所有</string>
   <string name="content_type_official">官方的</string>
   <string name="content_type_user_generated">用户已生成</string>
-  <string name="in_txt">in</string>
+  <string name="in_txt">在</string>
 </resources>
