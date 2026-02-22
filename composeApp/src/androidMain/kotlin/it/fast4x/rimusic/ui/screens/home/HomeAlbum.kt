@@ -406,58 +406,8 @@ fun HomeAlbums(
                                         menuState.display {
                                             AlbumsItemMenu(
                                                 navController = navController,
-                                                onDismiss = menuState::hide,
                                                 album = album,
-                                                onChangeAlbumTitle = {
-                                                    showDialogChangeAlbumTitle = true
-                                                },
-                                                onChangeAlbumAuthors = {
-                                                    showDialogChangeAlbumAuthors = true
-                                                },
-                                                onChangeAlbumCover = {
-                                                    showDialogChangeAlbumCover = true
-                                                },
-                                                onPlayNext = {
-                                                    println("mediaItem ${songs}")
-                                                    binder?.player?.addNext(
-                                                        songs.map(Song::asMediaItem), context
-                                                    )
-
-                                                },
-                                                onEnqueue = {
-                                                    println("mediaItem ${songs}")
-                                                    binder?.player?.enqueue(
-                                                        songs.map(Song::asMediaItem), context
-                                                    )
-
-                                                },
-                                                onAddToPlaylist = { playlistPreview ->
-                                                    position =
-                                                        playlistPreview.songCount.minus(1) ?: 0
-                                                    //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
-                                                    if (position > 0) position++ else position =
-                                                        0
-
-                                                    if (!isYouTubeSyncEnabled() || !playlistPreview.playlist.isYoutubePlaylist) {
-                                                        songs.forEachIndexed { index, song ->
-                                                            Database.asyncTransaction {
-                                                                mapIgnore( playlistPreview.playlist, song )
-                                                            }
-                                                        }
-                                                    } else {
-                                                        CoroutineScope(Dispatchers.IO).launch {
-                                                            addToYtPlaylist(playlistPreview.playlist.id,
-                                                                position,
-                                                                playlistPreview.playlist.browseId ?: "",
-                                                                songs.map{it.asMediaItem})
-                                                        }
-                                                    }
-
-
-                                                },
-                                                onGoToPlaylist = {
-                                                    navController.navigate("${NavRoutes.localPlaylist.name}/$it")
-                                                },
+                                                songs = songs,
                                                 disableScrollingText = disableScrollingText
                                             )
                                         }
