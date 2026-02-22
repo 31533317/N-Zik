@@ -66,6 +66,8 @@ import it.fast4x.rimusic.utils.semiBold
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import me.knighthat.coil.ImageCacheFactory
 import me.knighthat.component.menu.GridMenu
@@ -79,6 +81,8 @@ import it.fast4x.rimusic.ui.components.themed.IconButton
 import it.fast4x.rimusic.ui.styling.Dimensions
 import it.fast4x.rimusic.ui.styling.favoritesIcon
 import it.fast4x.rimusic.utils.disableScrollingTextKey
+import me.knighthat.component.tab.DownloadAllSongsDialog
+import me.knighthat.component.tab.DeleteAllDownloadedSongsDialog
 
 @UnstableApi
 @OptIn(ExperimentalFoundationApi::class)
@@ -310,14 +314,22 @@ class AlbumItemMenu private constructor(
         }
 
         // Collect artists from the first song if available
+        // We observe the songs list to react to its population
         val artistsData by remember(album.id) {
-            val firstSongId = songs.firstOrNull()?.id
-            if (firstSongId != null) {
-                Database.artistTable.findBySongId(firstSongId)
-            } else {
-                kotlinx.coroutines.flow.flowOf(emptyList())
+            val songsFlow = Database.songAlbumMapTable.allSongsOf(album.id).distinctUntilChanged()
+            songsFlow.flatMapLatest { songList ->
+                val firstSongId = songList.firstOrNull()?.id
+                if (firstSongId != null) {
+                    Database.artistTable.findBySongId(firstSongId)
+                } else {
+                    flowOf(emptyList())
+                }
             }
         }.collectAsState(emptyList(), Dispatchers.IO)
+
+        // Group actions (Download/Delete all)
+        val downloadAll = DownloadAllSongsDialog { songs }
+        val deleteAll = DeleteAllDownloadedSongsDialog { songs }
 
         // Initialize buttons
         val playNext = PlayNext {
@@ -361,6 +373,8 @@ class AlbumItemMenu private constructor(
             add(playNext)
             add(enqueue)
             add(addToPlaylist)
+            add(downloadAll)
+            add(deleteAll)
             
             artistsData.forEach { artist ->
                 add(object : MenuIcon, Descriptive, Clickable {
@@ -385,6 +399,8 @@ class AlbumItemMenu private constructor(
                 .fillMaxWidth()
                 .background(colorPalette().background0)
         ) {
+            downloadAll.Render()
+            deleteAll.Render()
             AlbumItemDisplay(album = album)
 
             if (menuStyle == MenuStyle.List)

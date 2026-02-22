@@ -10,8 +10,6 @@
 10: STABLE and BETA string in changelog doesnt work properly
 11: Add randomize dice in Artist page
 12: Add a warning message once you go from stable build to beta build that inform the user that the build is unstable
-13: Revamp AlbumItems UI
-14: Add AlbumItems UI everywhere
 15: Update innertube api to Riplay cutom one 
 16: Remove old fast4x innertube api and Kreate innertube api
 17: Update YTB sync to use new innertube api also update eevery sync like album artists songs ect...

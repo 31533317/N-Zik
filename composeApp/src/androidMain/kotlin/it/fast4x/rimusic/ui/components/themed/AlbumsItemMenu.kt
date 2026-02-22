@@ -3,6 +3,9 @@ package it.fast4x.rimusic.ui.components.themed
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.media3.common.util.UnstableApi
@@ -24,6 +27,7 @@ import it.fast4x.rimusic.utils.playlistSortOrderKey
 import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.semiBold
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.distinctUntilChanged
 import me.knighthat.component.tab.Search
 import me.knighthat.utils.Toaster
 
@@ -54,6 +58,12 @@ fun AlbumsItemMenu(
 ) {
     val binder = it.fast4x.rimusic.LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
+
+    val songs by remember(album.id) {
+        Database.songAlbumMapTable
+            .allSongsOf(album.id)
+            .distinctUntilChanged()
+    }.collectAsState(emptyList(), Dispatchers.IO)
 
     AlbumItemMenu(
         navController = navController,

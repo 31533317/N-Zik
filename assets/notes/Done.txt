@@ -8,3 +8,5 @@
 8: Fixed Monthly playlist tab visibility and reorganized related settings
 9: Filtered hidden playlists (Monthly, Pinned, Piped) from the Library's general "Playlists" tab
 10: Improved settings UI with clearer labels ("Show Monthly Playlists in Library") and better icons
+11: Revamp AlbumItems UI
+12: Add AlbumItems UI everywhere
