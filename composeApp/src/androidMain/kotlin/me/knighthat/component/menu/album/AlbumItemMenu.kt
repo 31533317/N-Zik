@@ -187,7 +187,6 @@ class AlbumItemMenu private constructor(
 
                 // Album's information
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.weight(1f)
                 ) {
@@ -195,7 +194,6 @@ class AlbumItemMenu private constructor(
                         text = cleanPrefix(album.title ?: ""),
                         style = typography().xs.semiBold.copy(
                             color = colorPalette().text,
-                            textAlign = TextAlign.Center
                         ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -208,7 +206,6 @@ class AlbumItemMenu private constructor(
                             text = cleanPrefix(it),
                             style = typography().xs.semiBold.secondary.copy(
                                 color = colorPalette().textSecondary,
-                                textAlign = TextAlign.Center
                             ),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
@@ -222,7 +219,6 @@ class AlbumItemMenu private constructor(
                             text = it,
                             style = typography().xxs.semiBold.secondary.copy(
                                 color = colorPalette().textSecondary,
-                                textAlign = TextAlign.Center
                             ),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
