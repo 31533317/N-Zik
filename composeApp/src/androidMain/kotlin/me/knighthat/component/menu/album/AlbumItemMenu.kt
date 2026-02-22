@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
@@ -186,13 +187,16 @@ class AlbumItemMenu private constructor(
 
                 // Album's information
                 Column(
-                    horizontalAlignment = Alignment.Start,
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.weight(1f)
                 ) {
                     BasicText(
                         text = cleanPrefix(album.title ?: ""),
-                        style = typography().xs.semiBold.copy(color = colorPalette().text),
+                        style = typography().xs.semiBold.copy(
+                            color = colorPalette().text,
+                            textAlign = TextAlign.Center
+                        ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
@@ -202,7 +206,10 @@ class AlbumItemMenu private constructor(
                     album.authorsText?.let {
                         BasicText(
                             text = cleanPrefix(it),
-                            style = typography().xs.semiBold.secondary.copy(color = colorPalette().textSecondary),
+                            style = typography().xs.semiBold.secondary.copy(
+                                color = colorPalette().textSecondary,
+                                textAlign = TextAlign.Center
+                            ),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
@@ -213,7 +220,10 @@ class AlbumItemMenu private constructor(
                     album.year?.let {
                         BasicText(
                             text = it,
-                            style = typography().xxs.semiBold.secondary.copy(color = colorPalette().textSecondary),
+                            style = typography().xxs.semiBold.secondary.copy(
+                                color = colorPalette().textSecondary,
+                                textAlign = TextAlign.Center
+                            ),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

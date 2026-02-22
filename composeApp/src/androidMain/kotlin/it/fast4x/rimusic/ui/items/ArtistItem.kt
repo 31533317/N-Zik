@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -115,14 +116,14 @@ fun ArtistItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Box {
-            ImageCacheFactory.AsyncImage(
-                thumbnailUrl = thumbnailUrl?.thumbnail(thumbnailSizePx),
-                contentDescription = null,
-                modifier = Modifier
-                    //.clip(CircleShape)
-                    .clip(thumbnailShape())
-                    .requiredSize(thumbnailSizeDp)
+        Box(
+            modifier = Modifier
+                .conditional(alternative) { fillMaxWidth().aspectRatio(1f) }
+                .clip(thumbnailShape())
+        ) {
+            ImageCacheFactory.Thumbnail(
+                thumbnailUrl = thumbnailUrl,
+                contentScale = if (alternative) ContentScale.FillWidth else ContentScale.Crop
             )
             if (isYoutubeArtist) {
                 Image(

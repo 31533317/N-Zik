@@ -10,3 +10,6 @@
 10: Improved settings UI with clearer labels ("Show Monthly Playlists in Library") and better icons
 11: Revamp AlbumItems UI
 12: Add AlbumItems UI everywhere
+13: Fixed Grid in homeArtist and HomeAlbum
+14: Changed values for small, medium and big size for Home and Artist
+15: Harmonized HomeAlbum, homeArtist and HomeLibrary thumbnail size and grid
