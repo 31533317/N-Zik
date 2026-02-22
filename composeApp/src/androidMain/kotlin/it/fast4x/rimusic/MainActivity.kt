@@ -219,7 +219,7 @@ import it.fast4x.rimusic.utils.proxyHostnameKey
 import it.fast4x.rimusic.utils.proxyModeKey
 import it.fast4x.rimusic.utils.proxyPortKey
 import it.fast4x.rimusic.utils.rememberPreference
-import it.fast4x.rimusic.utils.resize
+import me.knighthat.coil.resize
 import it.fast4x.rimusic.utils.restartActivityKey
 import it.fast4x.rimusic.utils.setDefaultPalette
 import it.fast4x.rimusic.utils.shakeEventEnabledKey
@@ -227,7 +227,7 @@ import it.fast4x.rimusic.utils.showButtonPlayerVideoKey
 import it.fast4x.rimusic.utils.showSearchTabKey
 import it.fast4x.rimusic.utils.showTotalTimeQueueKey
 import it.fast4x.rimusic.utils.textCopyToClipboard
-import it.fast4x.rimusic.utils.thumbnail
+import me.knighthat.coil.thumbnail
 import it.fast4x.rimusic.utils.thumbnailRoundnessKey
 import it.fast4x.rimusic.utils.transitionEffectKey
 import it.fast4x.rimusic.utils.useSystemFontKey

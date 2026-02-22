@@ -439,7 +439,7 @@ fun AlbumDetails(
 
                         // List all alternatives
                         ItemsList(
-                            tag = "album/$browseId/alternatives",
+                            tag = "album/$browseId/alternatives_list",
                             headerContent = {},
                             initialPlaceholderCount = 1,
                             continuationPlaceholderCount = 1,

@@ -42,7 +42,7 @@ import it.fast4x.rimusic.typography
 import it.fast4x.rimusic.utils.conditional
 import it.fast4x.rimusic.utils.secondary
 import it.fast4x.rimusic.utils.semiBold
-import it.fast4x.rimusic.utils.thumbnail
+import me.knighthat.coil.thumbnail
 import it.fast4x.rimusic.utils.shimmerEffect
 import me.knighthat.coil.ImageCacheFactory
 

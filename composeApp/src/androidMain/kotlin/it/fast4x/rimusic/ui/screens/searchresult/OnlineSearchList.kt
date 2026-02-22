@@ -180,6 +180,18 @@ fun OnlineSearchList(
                                 .size(thumbnailSizeDp - 8.dp)
                                 .clip(thumbnailShape())
                         )
+                        if (tabIndex == 6) {
+                            try {
+                                val url = when (item) {
+                                    is Innertube.AlbumItem -> item.thumbnail?.url
+                                    is Innertube.PlaylistItem -> item.thumbnail?.url
+                                    is Innertube.ArtistItem -> item.thumbnail?.url
+                                    else -> null
+                                }
+                                val decision = ImageCacheFactory.getDownloadDecision(url)
+                                timber.log.Timber.tag("ImageCacheFactory").d("Podcast List Item: ${when(item){is Innertube.Item -> item.title; else -> ""}} -> URL: $url -> Decision UseNetwork: ${decision.useNetwork}, Quality: ${decision.quality}")
+                            } catch (e: Exception) {}
+                        }
                     }
                     Column(
                         verticalArrangement = Arrangement.spacedBy(8.dp),

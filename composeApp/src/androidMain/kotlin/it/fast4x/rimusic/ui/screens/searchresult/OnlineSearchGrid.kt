@@ -179,6 +179,12 @@ fun OnlineSearchGrid(
                             ),
                         disableScrollingText = disableScrollingText
                     )
+                    if (tabIndex == 6) {
+                        try {
+                            val decision = ImageCacheFactory.getDownloadDecision(item.thumbnail?.url)
+                            timber.log.Timber.tag("ImageCacheFactory").d("Podcast Grid Item: ${item.title} -> URL: ${item.thumbnail?.url} -> Decision UseNetwork: ${decision.useNetwork}, Quality: ${decision.quality}")
+                        } catch (e: Exception) {}
+                    }
                 }
                 is Innertube.PlaylistItem -> {
                     PlaylistItem(
@@ -197,6 +203,12 @@ fun OnlineSearchGrid(
                         },
                         disableScrollingText = disableScrollingText
                     )
+                    if (tabIndex == 6) {
+                        try {
+                            val decision = ImageCacheFactory.getDownloadDecision(item.thumbnail?.url)
+                            timber.log.Timber.tag("ImageCacheFactory").d("Podcast Grid Item: ${item.title} -> URL: ${item.thumbnail?.url} -> Decision UseNetwork: ${decision.useNetwork}, Quality: ${decision.quality}")
+                        } catch (e: Exception) {}
+                    }
                 }
                 is Innertube.ArtistItem -> {
                     ArtistItem(

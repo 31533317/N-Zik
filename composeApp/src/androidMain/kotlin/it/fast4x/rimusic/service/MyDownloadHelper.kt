@@ -42,7 +42,7 @@ import it.fast4x.rimusic.utils.getEnum
 import it.fast4x.rimusic.utils.isNetworkConnected
 import it.fast4x.rimusic.utils.preferences
 import it.fast4x.rimusic.utils.removeDownload
-import it.fast4x.rimusic.utils.thumbnail
+import me.knighthat.coil.thumbnail
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope

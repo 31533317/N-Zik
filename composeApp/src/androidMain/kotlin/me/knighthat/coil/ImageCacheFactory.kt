@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit
 import it.fast4x.rimusic.appContext
 import it.fast4x.rimusic.enums.CoilDiskCacheMaxSize
 import it.fast4x.rimusic.enums.ExoPlayerCacheLocation
-import it.fast4x.rimusic.thumbnail
 import it.fast4x.rimusic.thumbnailShape
 import it.fast4x.rimusic.utils.coilCustomDiskCacheKey
 import it.fast4x.rimusic.utils.coilDiskCacheMaxSizeKey
@@ -44,10 +43,14 @@ import kotlinx.coroutines.sync.Mutex
 import okio.Path.Companion.toOkioPath
 import timber.log.Timber
 import android.content.Context
+import android.net.Uri
+import androidx.core.net.toUri
+import it.fast4x.innertube.models.Thumbnail
 import java.security.MessageDigest
 
 @OptIn(ExperimentalCoilApi::class)
 object ImageCacheFactory {
+
 
     private const val TAG = "ImageCacheFactory"
 
@@ -85,8 +88,8 @@ object ImageCacheFactory {
     const val THUMBNAIL_SIZE = 1200;
 
     enum class NetworkQuality(val size: Int, val ttl: Long) {
-        LOW(300, TimeUnit.HOURS.toMillis(1)),       // 1 hour
-        MEDIUM(720, TimeUnit.HOURS.toMillis(24)),   // 24 hours
+        LOW(100, TimeUnit.HOURS.toMillis(1)),       // 1 hour
+        MEDIUM(300, TimeUnit.HOURS.toMillis(24)),   // 24 hours
         HIGH(1200, TimeUnit.DAYS.toMillis(14))       // 14 days
     }
 
@@ -109,19 +112,34 @@ object ImageCacheFactory {
         
         private fun getPrefs() = appContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
+        private fun normalizeUrl(url: String): String {
+            // Strip everything after ? for i.ytimg.com (sqp, rs, etc.)
+            var normalized = if (url.contains("?")) url.substringBefore("?") else url
+            
+            // Most Google/YouTube imagery URLs use = to separate ID from params
+            if (normalized.contains("=")) normalized = normalized.substringBefore("=")
+            
+            // Fallback for cases where -w100 etc might be used without = (like yt3.ggpht.com)
+            // Same regex logic as Thumbnail.kt to avoid cutting into IDs
+            val regex = "([=-][whsl])\\d+(?![a-zA-Z])".toRegex()
+            return normalized.replace(regex, "")
+        }
+
         fun save(url: String, quality: NetworkQuality) {
             try {
-                val key = url.hashCode().toString()
+                val normalized = normalizeUrl(url)
+                val key = normalized.hashCode().toString()
                 val value = "${quality.name}:${System.currentTimeMillis()}"
                 getPrefs().edit().putString(key, value).apply()
             } catch (e: Exception) {
-                Timber.tag(TAG).e(e, "Error saving metadata")
+                Timber.tag(TAG).e(e, "Error saving metadata for $url")
             }
         }
 
         fun get(url: String): CacheMetadata? {
             try {
-                val key = url.hashCode().toString()
+                val normalized = normalizeUrl(url)
+                val key = normalized.hashCode().toString()
                 val value = getPrefs().getString(key, null) ?: return null
                 val parts = value.split(":")
                 if (parts.size != 2) return null
@@ -130,17 +148,17 @@ object ImageCacheFactory {
                 val timestamp = parts[1].toLong()
                 return CacheMetadata(quality, timestamp)
             } catch (e: Exception) {
-                Timber.tag(TAG).e(e, "Error getting metadata")
                 return null
             }
         }
 
         fun remove(url: String) {
             try {
-                val key = url.hashCode().toString()
+                val normalized = normalizeUrl(url)
+                val key = normalized.hashCode().toString()
                 getPrefs().edit().remove(key).apply()
             } catch (e: Exception) {
-                Timber.tag(TAG).e(e, "Error removing metadata")
+                Timber.tag(TAG).e(e, "Error removing metadata for $url")
             }
         }
     }
@@ -175,7 +193,6 @@ object ImageCacheFactory {
             // Don't clear cooldownMap — cooldown prevents error retry loops
             CacheMetadataStore.remove(url)
             cacheKeyMap.remove(url) // Clear mapped key too
-            Timber.tag(TAG).d("Invalidated cache for: $url")
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Error invalidating cache")
         }
@@ -426,13 +443,13 @@ object ImageCacheFactory {
                   .diskCachePolicy( CachePolicy.ENABLED )
                   .networkCachePolicy( CachePolicy.ENABLED )
                   .memoryCachePolicy( CachePolicy.ENABLED )
-                  .listener(
-                      onSuccess = { _, _ ->
-                          if (validUrl != null && decision.useNetwork) {
-                              CacheMetadataStore.save(validUrl, decision.quality)
-                          }
-                      }
-                  )
+                .listener(
+                    onSuccess = { _, _ ->
+                        if (validUrl != null && decision.useNetwork) {
+                            CacheMetadataStore.save(validUrl, decision.quality)
+                        }
+                    }
+                )
                   .build()
 
         return rememberAsyncImagePainter(
@@ -497,13 +514,13 @@ object ImageCacheFactory {
                   .diskCachePolicy( CachePolicy.ENABLED )
                   .networkCachePolicy( CachePolicy.ENABLED )
                   .memoryCachePolicy( CachePolicy.ENABLED )
-                  .listener(
-                      onSuccess = { _, _ ->
-                          if (validUrl != null && decision.useNetwork) {
-                              CacheMetadataStore.save(validUrl, decision.quality)
-                          }
-                      }
-                  )
+                .listener(
+                    onSuccess = { _, _ ->
+                        if (validUrl != null && decision.useNetwork) {
+                            CacheMetadataStore.save(validUrl, decision.quality)
+                        }
+                    }
+                )
                   .build()
 
         AsyncImage(
@@ -590,3 +607,82 @@ object ImageCacheFactory {
         }
     }
 }
+
+fun String.resize(
+    width: Int? = null,
+    height: Int? = null,
+): String {
+    if (width == null && height == null) return this
+    // Support all googleusercontent subdomains (lh3, yt3, etc.)
+    if (contains("googleusercontent.com")) {
+        val regex = "googleusercontent\\.com/.*=w(\\d+)-h(\\d+).*".toRegex()
+        regex.find(this)?.groupValues?.let { group ->
+            val (W, H) = group.drop(1).map { it.toInt() }
+            var w = width
+            var h = height
+            if (w != null && h == null) h = (w / W) * H
+            if (w == null && h != null) w = (h / H) * W
+            return "${split("=w")[0]}=w$w-h$h-p-l90-rj"
+        }
+        
+        // Simple replace if regex match fails
+        val w = width ?: height ?: 0
+        val h = height ?: width ?: 0
+        return if (contains("=w") || contains("-w")) {
+            replace(Regex("([=-])w\\d+(?![a-zA-Z])"), "$1w$w")
+                .replace(Regex("([=-])h\\d+(?![a-zA-Z])"), "$1h$h")
+        } else {
+            "$this-w$w-h$h-p-l90-rj"
+        }
+    }
+    
+    if (this.startsWith("https://yt3.ggpht.com")) {
+        val s = width ?: height ?: 0
+        return if (contains("=s") || contains("-s")) {
+            replace(Regex("([=-])s\\d+(?![a-zA-Z])"), "$1s$s")
+        } else {
+            "$this-s$s"
+        }
+    }
+    return this
+}
+
+fun String?.thumbnail(size: Int): String? {
+    if (this == null) return null
+    return when {
+        contains("googleusercontent.com") -> {
+            if (contains("=w") || contains("-w")) {
+                replace(Regex("([=-])w\\d+(?![a-zA-Z])"), "$1w$size")
+                    .replace(Regex("([=-])h\\d+(?![a-zA-Z])"), "$1h$size")
+            } else {
+                "$this-w$size-h$size"
+            }
+        }
+        startsWith("https://yt3.ggpht.com") -> {
+            if (contains("=s") || contains("-s")) {
+                replace(Regex("([=-])s\\d+(?![a-zA-Z])"), "$1s$size")
+            } else {
+                "$this-s$size"
+            }
+        }
+        else -> this
+    }
+}
+
+fun String?.thumbnail(): String? {
+    return this
+}
+
+fun Uri?.thumbnail(size: Int): Uri? {
+    val url = toString()
+    if (url.isBlank() || url == "null") return null
+    return url.thumbnail(size)?.toUri()
+}
+
+val Thumbnail.isResizable: Boolean
+    get() = !url.startsWith("https://i.ytimg.com")
+
+fun Thumbnail.size(size: Int): String {
+    return url.thumbnail(size) ?: url
+}
+

@@ -80,7 +80,6 @@ fun AlbumScreen(
     miniPlayer: @Composable () -> Unit = {}
 ) {
     PersistMapCleanup( tagPrefix = "album/$browseId/" )
-    PersistMapCleanup( tagPrefix = "album/$browseId/alternatives" )
 
     // Essentials
     val saveableStateHolder = rememberSaveableStateHolder()
