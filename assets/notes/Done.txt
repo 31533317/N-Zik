@@ -16,3 +16,10 @@
 16: Fixed AlbumItem thumbnail size
 17: Loader is now centered with floating bottom bar
 18: Added loader to new album category
+19: Fixed Home screen state persistence (Top Charts, Discovery, etc. no longer reset on navigation)
+20: Fixed critical ClassCastException crash on Home Artist tab (tag collision with Home Album)
+21: Fixed empty persist tag in HomeArtist.kt (was causing silent data corruption)
+22: Fixed type collision between NewAlbums and NewAlbumsFromArtists (shared tag with different types)
+23: Standardized all persist tags project-wide to a structured [screen/context]/[variable] naming convention
+24: Fixed empty persist tag in PlaylistSongList.kt
+25: Standardized persist tags in MoodsPage and MoodList (removed incorrect home/ and playlist/ prefixes)

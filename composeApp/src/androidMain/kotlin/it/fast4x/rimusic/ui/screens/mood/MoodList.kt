@@ -70,7 +70,7 @@ fun MoodList(
     val windowInsets = LocalPlayerAwareWindowInsets.current
 
     val browseId = mood.browseId ?: defaultBrowseId
-    var moodPage by persist<Result<BrowseResult>>("playlist/$browseId${mood.params?.let { "/$it" } ?: ""}")
+    var moodPage by persist<Result<BrowseResult>>("moods/$browseId${mood.params?.let { "/$it" } ?: ""}")
 
     LaunchedEffect(Unit) {
         moodPage = Innertube.browse(BrowseBodyWithLocale(browseId = browseId, params = mood.params))

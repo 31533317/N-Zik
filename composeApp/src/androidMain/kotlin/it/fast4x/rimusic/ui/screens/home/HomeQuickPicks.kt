@@ -169,29 +169,29 @@ fun HomeQuickPicks(
     val windowInsets = LocalPlayerAwareWindowInsets.current
     var playEventType by rememberPreference(playEventsTypeKey, PlayEventsType.MostPlayed)
 
-    var trendingList by persistList<Song>("home/trending_list")
-    var trending by persist<Song?>("home/trending")
-    val trendingInit by persist<Song?>(tag = "home/trending")
+    var trendingList by persistList<Song>("home/quickpicks/trending_list")
+    var trending by persist<Song?>("home/quickpicks/trending")
+    val trendingInit by persist<Song?>(tag = "home/quickpicks/trending_init")
     var trendingPreference by rememberPreference(quickPicsTrendingSongKey, trendingInit)
 
     // Variable to store the real most popular song (before shuffle)
     // var mostPopularSong by remember { mutableStateOf<Song?>(null) }
 
-    var relatedPageResult by persist<Result<Innertube.RelatedPage?>?>(tag = "home/relatedPageResult")
+    var relatedPageResult by persist<Result<Innertube.RelatedPage?>?>(tag = "home/quickpicks/relatedPageResult")
     // var relatedInit by persist<Innertube.RelatedPage?>(tag = "home/relatedPage")
     val relatedInit = relatedPageResult?.getOrNull()
     var relatedPreference by rememberPreference(quickPicsRelatedPageKey, relatedInit)
 
-    var discoverPageResult by persist<Result<Innertube.DiscoverPage?>>("home/discoveryAlbums")
-    var discoverPageInit by persist<Innertube.DiscoverPage>("home/discoveryAlbums")
+    var discoverPageResult by persist<Result<Innertube.DiscoverPage?>>("home/quickpicks/discoveryAlbumsResult")
+    var discoverPageInit by persist<Innertube.DiscoverPage>("home/quickpicks/discoveryAlbumsInit")
     var discoverPagePreference by rememberPreference(quickPicsDiscoverPageKey, discoverPageInit)
 
-    var homePageResult by persist<Result<HomePage?>>("home/homePage")
-    var homePageInit by persist<HomePage?>("home/homePage")
+    var homePageResult by persist<Result<HomePage?>>("home/quickpicks/homePageResult")
+    var homePageInit by persist<HomePage?>("home/quickpicks/homePageInit")
     var homePagePreference by rememberPreference(quickPicsHomePageKey, homePageInit)
 
-    var chartsPageResult by persist<Result<Innertube.ChartsPage?>>("home/chartsPage")
-    var chartsPageInit by persist<Innertube.ChartsPage>("home/chartsPage")
+    var chartsPageResult by persist<Result<Innertube.ChartsPage?>>("home/quickpicks/chartsPageResult")
+    var chartsPageInit by persist<Innertube.ChartsPage>("home/quickpicks/chartsPageInit")
 //    var chartsPagePreference by rememberPreference(quickPicsChartsPageKey, chartsPageInit)
 
     var downloadState by remember {
@@ -576,7 +576,7 @@ fun HomeQuickPicks(
 
                     if (relatedPageResult != null) {
                         // Prepare the final list : 6 locals (or less depending on the local recommandations number) + 14 YT recommendations (or less), then shuffle to show max 21 songs
-                        var recommendations by persistList<Song>("home/recommendations_list")
+                        var recommendations by persistList<Song>("home/quickpicks/recommendations_list")
                         
                         LaunchedEffect(trendingList, relatedInit, localCount, playEventType) {
                              val mainIds = trendingList.map { it.id }.toSet()
@@ -683,7 +683,7 @@ fun HomeQuickPicks(
                                 .distinctUntilChanged()
                     }.collectAsState( emptyList(), Dispatchers.IO )
 
-                    var newReleaseAlbumsFiltered by persistList<Innertube.AlbumItem>("discovery/newalbumsartist")
+                    var newReleaseAlbumsFiltered by persistList<Innertube.AlbumItem>("home/shared/newalbumsartist")
                     page.newReleaseAlbums.forEach { album ->
                         artists.forEach { artist ->
                             if (artist.name == album.authors?.first()?.name) {

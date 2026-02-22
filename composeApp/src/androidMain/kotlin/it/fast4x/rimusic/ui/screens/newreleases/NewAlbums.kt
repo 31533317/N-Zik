@@ -52,7 +52,7 @@ import it.fast4x.rimusic.utils.showSearchTabKey
 fun NewAlbums(
     navController: NavController
 ) {
-    var discoverPage by persist<Result<Innertube.DiscoverPage>>("home/discoveryAlbums")
+    var discoverPage by persist<Result<Innertube.DiscoverPage>>("newreleases/albums/pageResult")
     LaunchedEffect(Unit) {
         discoverPage = Innertube.discoverPage()
     }
