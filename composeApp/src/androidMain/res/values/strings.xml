@@ -520,6 +520,7 @@
 <string name="vimusic_show_search_button_in_navigation_bar">Show the search button in the navigation bar</string>
 <string name="vismusic_only_in_left_right_navigation_bar">Only for left or right navigation bar in ViMusic UI</string>
 <string name="enable_monthly_playlists_creation">Enable monthly playlists creation</string>
+<string name="show_monthly_playlists_in_quick_picks">Show Monthly Playlists in Quick Picks</string>
 <string name="info_no_singles_yet">No singles available</string>
 <string name="info_no_albums_yet">No albums available</string>
 <string name="info_no_songs_yet">No songs available</string>
@@ -1046,7 +1047,7 @@
 <string name="easter_egg_number_one">You are a number one, click and enjoy the surprise</string>
 <string name="easter_egg_last">You are a number one, long click and enjoy the surprise</string>
 <string name="general_settings_description">The general section contains settings for the general functionality of the app</string>
-    <string name="ui_settings_description">The user interface section contains settings to modify the global interface and navigation</string>
+<string name="ui_settings_description">The user interface section contains settings to modify the global interface and navigation</string>
 <string name="pause_between_songs_description">Add a pause between songs</string>
 <string name="notifications">Notifications</string>
 <string name="playback">Playback</string>
@@ -1062,8 +1063,8 @@
 <string name="check_beta_update_disabled">BETA disabled</string>
 <string name="cache_status">Cache status</string>
 <string name="cache_empty">Cache empty</string>
-    <string name="album_not_found">Album not found</string>
-    <string name="content_type_all">All</string>
-    <string name="content_type_official">Official</string>
-    <string name="content_type_user_generated">User Generated</string>
+<string name="album_not_found">Album not found</string>
+<string name="content_type_all">All</string>
+<string name="content_type_official">Official</string>
+<string name="content_type_user_generated">User Generated</string>
 </resources>

@@ -5,3 +5,6 @@
 5: Fixed player position on non-floating nav bar
 6: Fixed weird transparency on the player when the nav bar was floating
 7: Revamp Listen On and Sleep Timer UI
+8: Fixed Monthly playlist tab visibility and reorganized related settings
+9: Filtered hidden playlist categories (Monthly, Pinned, Piped) from the general Library view
+10: Improved settings UI with better icons and dedicated string resources
