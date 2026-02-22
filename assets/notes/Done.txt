@@ -14,3 +14,5 @@
 14: Changed values for small, medium and big size for Home and Artist
 15: Harmonized HomeAlbum, homeArtist and HomeLibrary thumbnail size and grid
 16: Fixed AlbumItem thumbnail size
+17: Loader is now centered with floating bottom bar
+18: Added loader to new album category

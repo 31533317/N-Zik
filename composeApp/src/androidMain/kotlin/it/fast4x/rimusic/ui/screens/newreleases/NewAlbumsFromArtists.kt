@@ -5,9 +5,11 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,6 +42,7 @@ import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.NavRoutes
 import it.fast4x.rimusic.typography
 import it.fast4x.rimusic.ui.components.themed.HeaderWithIcon
+import it.fast4x.rimusic.ui.components.themed.Loader
 import it.fast4x.rimusic.ui.items.AlbumItem
 import it.fast4x.rimusic.ui.styling.Dimensions
 import it.fast4x.rimusic.ui.styling.px
@@ -68,8 +71,6 @@ fun NewAlbumsFromArtists(
     val thumbnailSizeDp = Dimensions.thumbnails.album + 24.dp
     val thumbnailSizePx = thumbnailSizeDp.px
 
-
-
     val showSearchTab by rememberPreference(showSearchTabKey, false)
 
     val lazyGridState = rememberLazyGridState()
@@ -80,13 +81,19 @@ fun NewAlbumsFromArtists(
     Column(
         modifier = Modifier
             .background(colorPalette().background0)
-            //.fillMaxSize()
             .fillMaxHeight()
             .fillMaxWidth()
     ) {
 
-        /***************/
-        discoverPage?.getOrNull()?.let { page ->
+        val page = discoverPage?.getOrNull()
+        if (page == null) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Loader()
+            }
+        } else {
             val artists by remember {
                 Database.artistTable
                         .sortFollowingByName()
@@ -105,10 +112,8 @@ fun NewAlbumsFromArtists(
             LazyVerticalGrid(
                 state = lazyGridState,
                 columns = GridCells.Adaptive(Dimensions.thumbnails.album + 24.dp),
-                //contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
                 modifier = Modifier
                     .background(colorPalette().background0)
-                //.fillMaxSize()
             ) {
                 item(
                     key = "header",
@@ -150,7 +155,6 @@ fun NewAlbumsFromArtists(
                             text = "There are no new releases for your favorite artists",
                             style = typography().s.secondary.center,
                             modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
                                 .padding(all = 16.dp)
                         )
                     }
@@ -162,11 +166,6 @@ fun NewAlbumsFromArtists(
                     Spacer(modifier = Modifier.height(Dimensions.bottomSpacer))
                 }
             }
-
         }
-        /***************/
-
-
     }
-
 }
