@@ -263,7 +263,7 @@ fun BoxScope.ActionBar(
                         }
                     }
 
-                    LaunchedEffect( binder.player.mediaItems ) {
+                    LaunchedEffect( binder.player.mediaItems, nextIndex ) {
                         mediaItems.clear()
                         mediaItems.addAll( binder.player.mediaItems )
 
