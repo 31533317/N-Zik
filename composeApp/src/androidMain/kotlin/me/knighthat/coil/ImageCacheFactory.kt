@@ -12,6 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import app.kreate.android.R
 import coil3.ImageLoader
@@ -27,6 +31,7 @@ import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.request.crossfade
+import coil3.request.SuccessResult
 import coil3.toBitmap
 import it.fast4x.innertube.models.Thumbnail
 import it.fast4x.rimusic.appContext
@@ -148,7 +153,7 @@ object ImageCacheFactory {
                 ImageQualityFormat.Medium -> NetworkQuality.MEDIUM
                 else -> NetworkQuality.LOW
             }
-            Timber.tag(TAG).d("[NETWORK] Forced quality: $quality")
+            Timber.tag(TAG).d("📡 [NET] Forced quality: $quality")
             return quality
         }
 
@@ -162,10 +167,10 @@ object ImageCacheFactory {
                 bandwidth > 5000 -> NetworkQuality.MEDIUM
                 else -> NetworkQuality.LOW
             }
-            Timber.tag(TAG).v("[NETWORK] Auto quality: $quality (bandwidth=${bandwidth}kbps)")
+            Timber.tag(TAG).v("📡 [NET] Auto quality: $quality (bandwidth=${bandwidth}kbps)")
             quality
         } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "[NETWORK] Error detecting quality, fallback to LOW")
+            Timber.tag(TAG).e(e, "📡 [NET] Error detecting quality, fallback to LOW")
             NetworkQuality.LOW
         }
     }
@@ -174,7 +179,7 @@ object ImageCacheFactory {
 
     fun getDownloadDecision(thumbnailUrl: String?): DownloadDecision {
         if (thumbnailUrl.isNullOrBlank() || thumbnailUrl == "null") {
-            Timber.tag(TAG).d("[DECISION] Invalid URL, no download")
+            Timber.tag(TAG).d("📂 [DECISION] Invalid URL, no download")
             return DownloadDecision(false, NetworkQuality.LOW)
         }
         
@@ -182,7 +187,7 @@ object ImageCacheFactory {
         val now = System.currentTimeMillis()
         if (lastAttempt != null && (now - lastAttempt) < COOLDOWN_MS) {
             val cachedQuality = CacheMetadataStore.get(thumbnailUrl) ?: NetworkQuality.LOW
-            Timber.tag(TAG).d("[DECISION] Cooldown active, use cache: $cachedQuality")
+            Timber.tag(TAG).d("🧠 [CACHE] Cooldown active, use cache: $cachedQuality")
             return DownloadDecision(false, cachedQuality)
         }
 
@@ -191,17 +196,17 @@ object ImageCacheFactory {
 
         if (cachedQuality == null) {
             cooldownMap[thumbnailUrl] = now
-            Timber.tag(TAG).d("[DECISION] No cache metadata, download: $currentQuality")
+            Timber.tag(TAG).d("🧠 [CACHE] No cache metadata, download: $currentQuality")
             return DownloadDecision(true, currentQuality)
         }
 
         if (currentQuality.ordinal > cachedQuality.ordinal) {
             cooldownMap[thumbnailUrl] = now
-            Timber.tag(TAG).d("[DECISION] Upgrade: $cachedQuality -> $currentQuality")
+            Timber.tag(TAG).d("🚀 [UPGRADE] $cachedQuality -> $currentQuality")
             return DownloadDecision(true, currentQuality)
         }
 
-        Timber.tag(TAG).v("[DECISION] Use cached: $cachedQuality")
+        Timber.tag(TAG).v("🧠 [CACHE] Use cached: $cachedQuality")
         return DownloadDecision(false, cachedQuality)
     }
 
@@ -214,23 +219,32 @@ object ImageCacheFactory {
     ) {
         val validUrl = if (thumbnailUrl.isNullOrBlank() || thumbnailUrl == "null") null else thumbnailUrl
         val decision = getDownloadDecision(validUrl)
+        var currentUrl by remember(validUrl) { mutableStateOf(validUrl?.thumbnail(decision.quality.size)) }
         
-        val finalUrl = validUrl?.thumbnail(decision.quality.size)
-        Timber.tag(TAG).v("[START] Thumbnail: $validUrl -> size=${decision.quality.size}")
+        Timber.tag(TAG).v("🖼️ [START] Thumbnail: $validUrl -> $currentUrl")
         
         val request = ImageRequest.Builder(appContext())
-            .data(finalUrl)
+            .data(currentUrl)
             .diskCacheKey(generateCacheKeySync(validUrl, decision.quality))
             .memoryCacheKey(generateCacheKeySync(validUrl, decision.quality))
             .listener(
                 onSuccess = { _, result ->
-                    Timber.tag(TAG).i("[SUCCESS] Thumbnail from ${result.dataSource}")
+                    Timber.tag(TAG).i("✅ [SUCCESS] Thumbnail from ${result.dataSource} | $currentUrl")
                     if (validUrl != null && decision.useNetwork) {
                         CacheMetadataStore.save(validUrl, decision.quality)
                     }
                 },
                 onError = { _, result ->
-                    Timber.tag(TAG).e("[ERROR] Thumbnail: ${result.throwable.message}")
+                    val errorMsg = result.throwable.message ?: ""
+                    if (errorMsg.contains("404") && currentUrl?.contains("i.ytimg.com/vi/") == true) {
+                        val fallback = currentUrl.getNextYouTubeFallback()
+                        if (fallback != null) {
+                            Timber.tag(TAG).w("♻️ [FALLBACK] 404 on $currentUrl, trying $fallback")
+                            currentUrl = fallback
+                            return@listener
+                        }
+                    }
+                    Timber.tag(TAG).e("❌ [ERROR] Thumbnail: $errorMsg | original=$validUrl | final=$currentUrl")
                 }
             )
             .build()
@@ -260,23 +274,32 @@ object ImageCacheFactory {
     ): AsyncImagePainter {
         val validUrl = if (thumbnailUrl.isNullOrBlank() || thumbnailUrl == "null") null else thumbnailUrl
         val decision = getDownloadDecision(validUrl)
+        var currentUrl by remember(validUrl) { mutableStateOf(validUrl?.thumbnail(decision.quality.size)) }
         
-        val finalUrl = validUrl?.thumbnail(decision.quality.size)
-        Timber.tag(TAG).v("[START] Painter: $validUrl -> size=${decision.quality.size}")
+        Timber.tag(TAG).v("🎨 [START] Painter: $validUrl -> $currentUrl")
         
         val request = ImageRequest.Builder(appContext())
-            .data(finalUrl)
+            .data(currentUrl)
             .diskCacheKey(generateCacheKeySync(validUrl, decision.quality))
             .memoryCacheKey(generateCacheKeySync(validUrl, decision.quality))
             .listener(
                 onSuccess = { _, result ->
-                    Timber.tag(TAG).i("[SUCCESS] Painter from ${result.dataSource}")
+                    Timber.tag(TAG).i("✅ [SUCCESS] Painter from ${result.dataSource} | $currentUrl")
                     if (validUrl != null && decision.useNetwork) {
                         CacheMetadataStore.save(validUrl, decision.quality)
                     }
                 },
                 onError = { _, result ->
-                    Timber.tag(TAG).e("[ERROR] Painter: ${result.throwable.message}")
+                    val errorMsg = result.throwable.message ?: ""
+                    if (errorMsg.contains("404") && currentUrl?.contains("i.ytimg.com/vi/") == true) {
+                        val fallback = currentUrl.getNextYouTubeFallback()
+                        if (fallback != null) {
+                            Timber.tag(TAG).w("[FALLBACK] 404 on $currentUrl, trying $fallback")
+                            currentUrl = fallback
+                            return@listener
+                        }
+                    }
+                    Timber.tag(TAG).e("[ERROR] Painter: $errorMsg | url=$currentUrl")
                 }
             )
             .build()
@@ -291,7 +314,7 @@ object ImageCacheFactory {
             onLoading = onLoading,
             onSuccess = onSuccess,
             onError = { state ->
-                Timber.tag(TAG).e("[UI_ERROR] Painter: ${state.result.throwable.message}")
+                Timber.tag(TAG).e("❌ [UI_ERROR] Painter: ${state.result.throwable.message}")
                 onError?.invoke(state)
             }
         )
@@ -309,23 +332,31 @@ object ImageCacheFactory {
     ) {
         val validUrl = if (thumbnailUrl.isNullOrBlank() || thumbnailUrl == "null") null else thumbnailUrl
         val decision = getDownloadDecision(validUrl)
-        
-        val finalUrl = validUrl?.thumbnail(decision.quality.size)
-        Timber.tag(TAG).v("[START] AsyncImage: $validUrl -> size=${decision.quality.size}")
+        var currentUrl by remember(validUrl) { mutableStateOf(validUrl?.thumbnail(decision.quality.size)) }
+        Timber.tag(TAG).v("🖼️ [START] AsyncImage: $validUrl -> $currentUrl")
         
         val request = ImageRequest.Builder(appContext())
-            .data(finalUrl)
+            .data(currentUrl)
             .diskCacheKey(generateCacheKeySync(validUrl, decision.quality))
             .memoryCacheKey(generateCacheKeySync(validUrl, decision.quality))
             .listener(
                 onSuccess = { _, result ->
-                    Timber.tag(TAG).i("[SUCCESS] AsyncImage from ${result.dataSource}")
+                    Timber.tag(TAG).i("✅ [SUCCESS] AsyncImage from ${result.dataSource} | $currentUrl")
                     if (validUrl != null && decision.useNetwork) {
                         CacheMetadataStore.save(validUrl, decision.quality)
                     }
                 },
                 onError = { _, result ->
-                    Timber.tag(TAG).e("[ERROR] AsyncImage: ${result.throwable.message}")
+                    val errorMsg = result.throwable.message ?: ""
+                    if (errorMsg.contains("404") && currentUrl?.contains("i.ytimg.com/vi/") == true) {
+                        val fallback = currentUrl.getNextYouTubeFallback()
+                        if (fallback != null) {
+                            Timber.tag(TAG).w("♻️ [FALLBACK] 404 on $currentUrl, trying $fallback")
+                            currentUrl = fallback
+                            return@listener
+                        }
+                    }
+                    Timber.tag(TAG).e("❌ [ERROR] AsyncImage: $errorMsg | url=$currentUrl")
                 }
             )
             .build()
@@ -342,7 +373,15 @@ object ImageCacheFactory {
             onLoading = onLoading,
             onSuccess = onSuccess,
             onError = { state ->
-                Timber.tag(TAG).e("[UI_ERROR] AsyncImage: ${state.result.throwable.message}")
+                val errorMsg = state.result.throwable.message ?: ""
+                if (errorMsg.contains("404") && currentUrl?.contains("i.ytimg.com/vi/") == true) {
+                    val fallback = currentUrl.getNextYouTubeFallback()
+                    if (fallback != null) {
+                        // Re-trigger via currentUrl in listener above
+                        return@AsyncImage
+                    }
+                }
+                Timber.tag(TAG).e("❌ [UI_ERROR] AsyncImage: $errorMsg | url=$currentUrl")
                 onError?.invoke(state)
             }
         )
@@ -350,64 +389,90 @@ object ImageCacheFactory {
 
     suspend fun loadBitmap(url: String?, allowHardware: Boolean = false): Bitmap? {
         if (url.isNullOrBlank() || url == "null") {
-            Timber.tag(TAG).d("[LOAD] Invalid URL, returning null")
+            Timber.tag(TAG).d("📂 [LOAD] Invalid URL, returning null")
             return null
         }
         
         val decision = getDownloadDecision(url)
-        val finalUrl = url.thumbnail(decision.quality.size)
-        Timber.tag(TAG).v("[START] loadBitmap: $url -> size=${decision.quality.size}")
+        var currentUrl = url.thumbnail(decision.quality.size)
+        var lastError: String? = null
         
-        val request = ImageRequest.Builder(appContext())
-            .data(finalUrl)
-            .diskCacheKey(generateCacheKeySync(url, decision.quality))
-            .memoryCacheKey(generateCacheKeySync(url, decision.quality))
-            .allowHardware(allowHardware)
-            .listener(
-                onSuccess = { _, result ->
-                    Timber.tag(TAG).i("[SUCCESS] loadBitmap from ${result.dataSource}")
-                    if (decision.useNetwork) {
-                        CacheMetadataStore.save(url, decision.quality)
-                    }
-                },
-                onError = { _, result ->
-                    Timber.tag(TAG).e("[ERROR] loadBitmap: ${result.throwable.message}")
-                }
-            )
-            .build()
+        while (currentUrl != null) {
+            Timber.tag(TAG).v("📂 [START] loadBitmap: $url -> $currentUrl")
             
-        val result = LOADER.execute(request)
-        return result.image?.toBitmap()
+            val request = ImageRequest.Builder(appContext())
+                .data(currentUrl)
+                .diskCacheKey(generateCacheKeySync(url, decision.quality))
+                .memoryCacheKey(generateCacheKeySync(url, decision.quality))
+                .allowHardware(allowHardware)
+                .build()
+                
+            val result = LOADER.execute(request)
+            if (result.image != null) {
+                val dataSource = (result as? SuccessResult)?.dataSource
+                Timber.tag(TAG).i("✅ [SUCCESS] loadBitmap from $dataSource | $currentUrl")
+                if (decision.useNetwork) {
+                    CacheMetadataStore.save(url, decision.quality)
+                }
+                return result.image!!.toBitmap()
+            }
+            
+            lastError = (result as? coil3.request.ErrorResult)?.throwable?.message ?: "Unknown error"
+            if (lastError.contains("404") && currentUrl.contains("i.ytimg.com/vi/")) {
+                val fallback = currentUrl.getNextYouTubeFallback()
+                if (fallback != null) {
+                    Timber.tag(TAG).w("♻️ [FALLBACK] 404 on $currentUrl, trying $fallback")
+                    currentUrl = fallback
+                    continue
+                }
+            }
+            break
+        }
+        
+        Timber.tag(TAG).e("❌ [ERROR] loadBitmap: $lastError | url=$currentUrl")
+        return null
     }
 
     fun preloadImage(thumbnailUrl: String?) {
         if (thumbnailUrl.isNullOrBlank() || thumbnailUrl == "null") {
-            Timber.tag(TAG).d("[PRELOAD] Invalid URL, skipping")
+            Timber.tag(TAG).d("📂 [PRELOAD] Invalid URL, skipping")
             return
         }
         
         val decision = getDownloadDecision(thumbnailUrl)
         val finalUrl = thumbnailUrl.thumbnail(decision.quality.size)
-        Timber.tag(TAG).v("[START] preloadImage: $thumbnailUrl -> size=${decision.quality.size}")
         
-        val request = ImageRequest.Builder(appContext())
-            .data(finalUrl)
-            .diskCacheKey(generateCacheKeySync(thumbnailUrl, decision.quality))
-            .memoryCacheKey(generateCacheKeySync(thumbnailUrl, decision.quality))
-            .listener(
-                onSuccess = { _, result ->
-                    Timber.tag(TAG).i("[SUCCESS] preloadImage from ${result.dataSource}")
-                    if (decision.useNetwork) {
-                        CacheMetadataStore.save(thumbnailUrl, decision.quality)
+        fun enqueueWithFallback(url: String) {
+            Timber.tag(TAG).v("⚡ [START] preloadImage: $thumbnailUrl -> $url")
+            val request = ImageRequest.Builder(appContext())
+                .data(url)
+                .diskCacheKey(generateCacheKeySync(thumbnailUrl, decision.quality))
+                .memoryCacheKey(generateCacheKeySync(thumbnailUrl, decision.quality))
+                .listener(
+                    onSuccess = { _, result ->
+                        Timber.tag(TAG).i("✅ [SUCCESS] preloadImage from ${result.dataSource} | $url")
+                        if (decision.useNetwork) {
+                            CacheMetadataStore.save(thumbnailUrl, decision.quality)
+                        }
+                    },
+                    onError = { _, result ->
+                        val errorMsg = result.throwable.message ?: ""
+                        if (errorMsg.contains("404") && url.contains("i.ytimg.com/vi/")) {
+                            val fallback = url.getNextYouTubeFallback()
+                            if (fallback != null) {
+                                Timber.tag(TAG).w("♻️ [FALLBACK] 404 on $url, trying $fallback")
+                                enqueueWithFallback(fallback)
+                                return@listener
+                            }
+                        }
+                        Timber.tag(TAG).e("❌ [ERROR] preloadImage: $errorMsg | url=$url")
                     }
-                },
-                onError = { _, result ->
-                    Timber.tag(TAG).e("[ERROR] preloadImage: ${result.throwable.message}")
-                }
-            )
-            .build()
+                )
+                .build()
+            LOADER.enqueue(request)
+        }
         
-        LOADER.enqueue(request)
+        if (finalUrl != null) enqueueWithFallback(finalUrl)
     }
 
     fun isImageCached(thumbnailUrl: String?): Boolean = CacheMetadataStore.get(thumbnailUrl ?: "") != null
@@ -446,23 +511,55 @@ fun String.resize(width: Int? = null, height: Int? = null): String {
         }
         val w = width ?: height ?: 0
         val h = height ?: width ?: 0
-        return replace(Regex("([=-])w\\d+(?![a-zA-Z])"), "$1w$w").replace(Regex("([=-])h\\d+(?![a-zA-Z])"), "$1h$h")
+        return replace(Regex("([=-])w\\d+(?![0-9a-zA-Z])"), "$1w$w")
+            .replace(Regex("([=-])h\\d+(?![0-9a-zA-Z])"), "$1h$h")
     }
     
     if (startsWith("https://yt3.ggpht.com")) {
         val s = width ?: height ?: 0
-        return replace(Regex("([=-])s\\d+(?![a-zA-Z])"), "$1s$s")
+        return replace(Regex("([=-])s\\d+(?![0-9a-zA-Z])"), "$1s$s")
     }
     
     return this
 }
 
 fun String?.thumbnail(size: Int): String? {
-    if (this == null) return null
+    if (this == null) return this
+    
+    // i.ytimg: modify based on size for better resolution
+    when {
+        contains("i.ytimg.com/vi/") -> {
+            val suffix = when {
+                size > 1000 -> "maxresdefault.jpg"
+                size > 600 -> "sddefault.jpg"
+                size > 300 -> "hqdefault.jpg"
+                else -> "mqdefault.jpg"
+            }
+            // "Un-signing": Strip parameters and force suffix for best quality
+            // Mes tests confirment que les vidéos fonctionnent sans signature contrairement aux playlists
+            return replace(Regex("/[^/?]+\\.jpg(\\?.*)?$"), "/$suffix")
+        }
+        // Playlists and Podcasts (/pl_c/, /podcasts_artwork/) are usually signed
+        // and highly sensitive to path changes. We leave them as is.
+    }
+    
+    // googleusercontent & yt3.ggpht: modify resolution parameters safely
+    if (contains("googleusercontent.com") || contains("yt3.ggpht.com")) {
+        return replace(Regex("([=/-])w\\d+(?![0-9a-zA-Z])"), "$1w$size")
+            .replace(Regex("([=/-])h\\d+(?![0-9a-zA-Z])"), "$1h$size")
+            .replace(Regex("([=/-])s\\d+(?![0-9a-zA-Z])"), "$1s$size")
+    }
+    
+    return this
+}
+
+private fun String?.getNextYouTubeFallback(): String? {
+    if (this == null || !contains("i.ytimg.com/vi/")) return null
     return when {
-        startsWith("https://lh3.googleusercontent.com") -> "$this-w$size-h$size"
-        startsWith("https://yt3.ggpht.com") -> "$this-w$size-h$size-s$size"
-        else -> this
+        contains("maxresdefault.jpg") -> replace("maxresdefault.jpg", "sddefault.jpg")
+        contains("sddefault.jpg") -> replace("sddefault.jpg", "hqdefault.jpg")
+        contains("hqdefault.jpg") -> replace("hqdefault.jpg", "mqdefault.jpg")
+        else -> null
     }
 }
 
