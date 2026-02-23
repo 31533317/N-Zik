@@ -56,7 +56,7 @@ import java.util.concurrent.TimeUnit
 @OptIn(ExperimentalCoilApi::class)
 object ImageCacheFactory {
 
-    private const val TAG = "ImageCacheFactory"
+    internal const val TAG = "ImageCacheFactory"
 
     val DISK_CACHE: DiskCache by lazy {
         val preferences = appContext().preferences
@@ -91,6 +91,53 @@ object ImageCacheFactory {
     private val cooldownMap = ConcurrentHashMap<String, Long>()
     private val cacheKeyMap = ConcurrentHashMap<String, String>()
 
+    internal object PlaylistThumbnailStore {
+        private const val PREFS_NAME = "playlist_thumbnail_store"
+        private fun getPrefs() = appContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+        // Store format: "lowResUrl|highResUrl"
+        fun save(id: String, url: String, isHigh: Boolean) {
+            try {
+                val current = getPrefs().getString(id, null)
+                val parts = current?.split("|")
+                var low = parts?.getOrNull(0).orEmpty()
+                var high = parts?.getOrNull(1).orEmpty()
+
+                if (isHigh) high = url else low = url
+
+                if (low.isNotEmpty() || high.isNotEmpty()) {
+                    getPrefs().edit().putString(id, "$low|$high").apply()
+                }
+            } catch (e: Exception) {
+                Timber.tag(TAG).e(e, "Failed to save playlist thumbnail for $id")
+            }
+        }
+
+        fun getHighUrl(id: String): String? {
+            return try {
+                val current = getPrefs().getString(id, null) ?: return null
+                current.split("|").getOrNull(1)?.takeIf { it.isNotEmpty() }
+            } catch (e: Exception) { null }
+        }
+
+        fun getLowUrl(id: String): String? {
+            return try {
+                val current = getPrefs().getString(id, null) ?: return null
+                current.split("|").getOrNull(0)?.takeIf { it.isNotEmpty() }
+            } catch (e: Exception) { null }
+        }
+
+        fun clear(id: String) {
+            try {
+                getPrefs().edit().remove(id).apply()
+            } catch (e: Exception) {}
+        }
+
+        fun clearAll() {
+            try { getPrefs().edit().clear().apply() } catch (e: Exception) {}
+        }
+    }
+
     private object CacheMetadataStore {
         private const val PREFS_NAME = "image_cache_metadata"
         private fun getPrefs() = appContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -113,6 +160,10 @@ object ImageCacheFactory {
         fun remove(url: String) {
             try { getPrefs().edit().remove(url.hashCode().toString()).apply() } catch (e: Exception) {}
         }
+
+        fun clearAll() {
+            try { getPrefs().edit().clear().apply() } catch (e: Exception) {}
+        }
     }
 
     val LOADER: ImageLoader by lazy {
@@ -134,6 +185,13 @@ object ImageCacheFactory {
 
     fun generateCacheKeySync(url: String?, quality: NetworkQuality): String {
         if (url.isNullOrBlank()) return "empty"
+        
+        val id = url.getYouTubeId()
+        if (id != null && (url.contains("pl_c") || url.contains("podcasts"))) {
+            val resSuffix = if (url.isYouTubeHighRes()) "HIGH" else "LOW"
+            return "playlist_${id}_$resSuffix"
+        }
+
         val cacheKey = "${url}_${quality.size}"
         return cacheKeyMap.getOrPut(cacheKey) {
             try {
@@ -142,6 +200,15 @@ object ImageCacheFactory {
                 digest.fold("") { str, it -> str + "%02x".format(it) }
             } catch (e: Exception) { "${url.hashCode()}_${quality.size}" }
         }
+    }
+
+    fun clearCacheForKey(url: String?, quality: NetworkQuality) {
+        if (url == null) return
+        val key = generateCacheKeySync(url, quality)
+        try {
+            LOADER.memoryCache?.remove(MemoryCache.Key(key))
+            DISK_CACHE.remove(key)
+        } catch (e: Exception) {}
     }
 
     fun getNetworkQuality(): NetworkQuality {
@@ -214,7 +281,7 @@ object ImageCacheFactory {
     fun Thumbnail(
         thumbnailUrl: String?,
         contentDescription: String? = null,
-        contentScale: ContentScale = ContentScale.FillBounds,
+        contentScale: ContentScale = ContentScale.Crop,
         modifier: Modifier = Modifier.clip(thumbnailShape()).fillMaxSize()
     ) {
         val validUrl = if (thumbnailUrl.isNullOrBlank() || thumbnailUrl == "null") null else thumbnailUrl
@@ -225,17 +292,38 @@ object ImageCacheFactory {
         
         val request = ImageRequest.Builder(appContext())
             .data(currentUrl)
-            .diskCacheKey(generateCacheKeySync(validUrl, decision.quality))
-            .memoryCacheKey(generateCacheKeySync(validUrl, decision.quality))
+            .diskCacheKey(generateCacheKeySync(currentUrl, decision.quality))
+            .memoryCacheKey(generateCacheKeySync(currentUrl, decision.quality))
             .listener(
                 onSuccess = { _, result ->
-                    Timber.tag(TAG).i("✅ [SUCCESS] Thumbnail from ${result.dataSource} | $currentUrl")
+                    val dataSource = result.dataSource
+                    Timber.tag(TAG).i("✅ [SUCCESS] Thumbnail from $dataSource | $currentUrl")
+                    if (dataSource != coil3.decode.DataSource.MEMORY_CACHE) {
+                        val id = currentUrl?.getYouTubeId()
+                        if (id != null) {
+                            PlaylistThumbnailStore.save(id, currentUrl!!, currentUrl!!.isYouTubeHighRes())
+                        }
+                    }
                     if (validUrl != null && decision.useNetwork) {
                         CacheMetadataStore.save(validUrl, decision.quality)
                     }
                 },
                 onError = { _, result ->
                     val errorMsg = result.throwable.message ?: ""
+                    val id = currentUrl?.getYouTubeId()
+                    
+                    // Un-swap fallback for Playlists/Podcasts (handling expired signatures)
+                    // We are more aggressive: any error on a swapped URL triggers un-swap.
+                    if (currentUrl != validUrl && id != null &&
+                        (currentUrl?.contains("i.ytimg.com/pl_c/") == true || currentUrl?.contains("podcasts") == true)) {
+                        
+                        Timber.tag(TAG).w("♻️ [UN-SWAP] Thumbnail failed ($errorMsg), clearing cache & store. ID: $id")
+                        clearCacheForKey(currentUrl, decision.quality)
+                        PlaylistThumbnailStore.clear(id)
+                        currentUrl = validUrl
+                        return@listener
+                    }
+                    
                     if (errorMsg.contains("404") && currentUrl?.contains("i.ytimg.com/vi/") == true) {
                         val fallback = currentUrl.getNextYouTubeFallback()
                         if (fallback != null) {
@@ -264,7 +352,7 @@ object ImageCacheFactory {
     @Composable
     fun Painter(
         thumbnailUrl: String?,
-        contentScale: ContentScale = ContentScale.FillBounds,
+        contentScale: ContentScale = ContentScale.Crop,
         @DrawableRes placeholder: Int? = null,
         @DrawableRes error: Int = R.drawable.ic_launcher_box,
         @DrawableRes fallback: Int = R.drawable.ic_launcher_box,
@@ -280,17 +368,36 @@ object ImageCacheFactory {
         
         val request = ImageRequest.Builder(appContext())
             .data(currentUrl)
-            .diskCacheKey(generateCacheKeySync(validUrl, decision.quality))
-            .memoryCacheKey(generateCacheKeySync(validUrl, decision.quality))
+            .diskCacheKey(generateCacheKeySync(currentUrl, decision.quality))
+            .memoryCacheKey(generateCacheKeySync(currentUrl, decision.quality))
             .listener(
                 onSuccess = { _, result ->
-                    Timber.tag(TAG).i("✅ [SUCCESS] Painter from ${result.dataSource} | $currentUrl")
+                    val dataSource = result.dataSource
+                    Timber.tag(TAG).i("✅ [SUCCESS] Painter from $dataSource | $currentUrl")
+                    if (dataSource != coil3.decode.DataSource.MEMORY_CACHE) {
+                        val id = currentUrl?.getYouTubeId()
+                        if (id != null) {
+                            PlaylistThumbnailStore.save(id, currentUrl!!, currentUrl!!.isYouTubeHighRes())
+                        }
+                    }
                     if (validUrl != null && decision.useNetwork) {
                         CacheMetadataStore.save(validUrl, decision.quality)
                     }
                 },
                 onError = { _, result ->
                     val errorMsg = result.throwable.message ?: ""
+                    val id = currentUrl?.getYouTubeId()
+
+                    if (currentUrl != validUrl && id != null &&
+                        (currentUrl?.contains("i.ytimg.com/pl_c/") == true || currentUrl?.contains("podcasts") == true)) {
+                        
+                        Timber.tag(TAG).w("♻️ [UN-SWAP] Painter failed ($errorMsg), clearing cache & store. ID: $id")
+                        clearCacheForKey(currentUrl, decision.quality)
+                        PlaylistThumbnailStore.clear(id)
+                        currentUrl = validUrl
+                        return@listener
+                    }
+
                     if (errorMsg.contains("404") && currentUrl?.contains("i.ytimg.com/vi/") == true) {
                         val fallback = currentUrl.getNextYouTubeFallback()
                         if (fallback != null) {
@@ -299,7 +406,6 @@ object ImageCacheFactory {
                             return@listener
                         }
                     }
-                    Timber.tag(TAG).e("[ERROR] Painter: $errorMsg | url=$currentUrl")
                 }
             )
             .build()
@@ -324,7 +430,7 @@ object ImageCacheFactory {
     fun AsyncImage(
         thumbnailUrl: String?,
         contentDescription: String? = null,
-        contentScale: ContentScale = ContentScale.FillBounds,
+        contentScale: ContentScale = ContentScale.Crop,
         modifier: Modifier = Modifier,
         onLoading: ((State.Loading) -> Unit)? = null,
         onSuccess: ((State.Success) -> Unit)? = null,
@@ -337,17 +443,36 @@ object ImageCacheFactory {
         
         val request = ImageRequest.Builder(appContext())
             .data(currentUrl)
-            .diskCacheKey(generateCacheKeySync(validUrl, decision.quality))
-            .memoryCacheKey(generateCacheKeySync(validUrl, decision.quality))
+            .diskCacheKey(generateCacheKeySync(currentUrl, decision.quality))
+            .memoryCacheKey(generateCacheKeySync(currentUrl, decision.quality))
             .listener(
                 onSuccess = { _, result ->
-                    Timber.tag(TAG).i("✅ [SUCCESS] AsyncImage from ${result.dataSource} | $currentUrl")
+                    val dataSource = result.dataSource
+                    Timber.tag(TAG).i("✅ [SUCCESS] AsyncImage from $dataSource | $currentUrl")
+                    if (dataSource != coil3.decode.DataSource.MEMORY_CACHE) {
+                        val id = currentUrl?.getYouTubeId()
+                        if (id != null) {
+                            PlaylistThumbnailStore.save(id, currentUrl!!, currentUrl!!.isYouTubeHighRes())
+                        }
+                    }
                     if (validUrl != null && decision.useNetwork) {
                         CacheMetadataStore.save(validUrl, decision.quality)
                     }
                 },
                 onError = { _, result ->
                     val errorMsg = result.throwable.message ?: ""
+                    val id = currentUrl?.getYouTubeId()
+
+                    if (currentUrl != validUrl && id != null &&
+                        (currentUrl?.contains("i.ytimg.com/pl_c/") == true || currentUrl?.contains("podcasts") == true)) {
+                        
+                        Timber.tag(TAG).w("♻️ [UN-SWAP] AsyncImage failed ($errorMsg), clearing cache & store. ID: $id")
+                        clearCacheForKey(currentUrl, decision.quality)
+                        PlaylistThumbnailStore.clear(id)
+                        currentUrl = validUrl
+                        return@listener
+                    }
+
                     if (errorMsg.contains("404") && currentUrl?.contains("i.ytimg.com/vi/") == true) {
                         val fallback = currentUrl.getNextYouTubeFallback()
                         if (fallback != null) {
@@ -402,8 +527,8 @@ object ImageCacheFactory {
             
             val request = ImageRequest.Builder(appContext())
                 .data(currentUrl)
-                .diskCacheKey(generateCacheKeySync(url, decision.quality))
-                .memoryCacheKey(generateCacheKeySync(url, decision.quality))
+                .diskCacheKey(generateCacheKeySync(currentUrl, decision.quality))
+                .memoryCacheKey(generateCacheKeySync(currentUrl, decision.quality))
                 .allowHardware(allowHardware)
                 .build()
                 
@@ -411,6 +536,13 @@ object ImageCacheFactory {
             if (result.image != null) {
                 val dataSource = (result as? SuccessResult)?.dataSource
                 Timber.tag(TAG).i("✅ [SUCCESS] loadBitmap from $dataSource | $currentUrl")
+                
+                if (dataSource != null && dataSource != coil3.decode.DataSource.MEMORY_CACHE) {
+                    val id = currentUrl.getYouTubeId()
+                    if (id != null) {
+                        PlaylistThumbnailStore.save(id, currentUrl, currentUrl.isYouTubeHighRes())
+                    }
+                }
                 if (decision.useNetwork) {
                     CacheMetadataStore.save(url, decision.quality)
                 }
@@ -418,6 +550,18 @@ object ImageCacheFactory {
             }
             
             lastError = (result as? coil3.request.ErrorResult)?.throwable?.message ?: "Unknown error"
+            
+            // Un-swap fallback for loadBitmap
+            val id = currentUrl.getYouTubeId()
+            if (currentUrl != url && id != null && (currentUrl.contains("pl_c") || currentUrl.contains("podcasts"))) {
+                
+                Timber.tag(TAG).w("♻️ [UN-SWAP] loadBitmap failed ($lastError), clearing cache & store. ID: $id")
+                clearCacheForKey(currentUrl, decision.quality)
+                PlaylistThumbnailStore.clear(id)
+                currentUrl = url
+                continue
+            }
+
             if (lastError.contains("404") && currentUrl.contains("i.ytimg.com/vi/")) {
                 val fallback = currentUrl.getNextYouTubeFallback()
                 if (fallback != null) {
@@ -481,11 +625,26 @@ object ImageCacheFactory {
 
     fun clearImageCache() {
         try {
-            DISK_CACHE.clear()
+            // 1. On vide d'abord la mémoire vive (RAM)
             LOADER.memoryCache?.clear()
+            
+            // 2. On vide le cache disque (Storage)
+            DISK_CACHE.clear()
+            
+            // 3. On vide les registres de signatures apprises (Playlists)
+            PlaylistThumbnailStore.clearAll()
+            
+            // 4. On vide les métadonnées de qualité
+            CacheMetadataStore.clearAll()
+            
+            // 5. On réinitialise les registres temporaires
             cacheKeyMap.clear()
             cooldownMap.clear()
-        } catch (e: Exception) {}
+            
+            Timber.tag(TAG).i("🧹 [CLEAN] Cache TOTAL vidé (RAM + DISK + STORES)")
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "❌ [CLEAN] Erreur lors du nettoyage du cache")
+        }
     }
 
     fun getCacheSize(): Long = try { DISK_CACHE.size } catch (e: Exception) { 0L }
@@ -495,38 +654,70 @@ fun String.resize(width: Int? = null, height: Int? = null): String {
     if (width == null && height == null) return this
     
     if (contains("googleusercontent.com")) {
-        val regex = "googleusercontent\\.com/.*=w(\\d+)-h(\\d+).*".toRegex()
-        regex.find(this)?.groupValues?.let { group ->
-            if (group.size >= 3) {
-                val W = group[1].toIntOrNull() ?: 0
-                val H = group[2].toIntOrNull() ?: 0
-                if (W > 0 && H > 0) {
-                    var w = width
-                    var h = height
-                    if (w != null && h == null) h = (w / W) * H
-                    if (w == null && h != null) w = (h / H) * W
-                    return "${split("=w")[0]}=w$w-h$h-p-l90-rj"
-                }
-            }
-        }
+        // Redimensionnement intelligent pour Google (wX-hY ou sX)
         val w = width ?: height ?: 0
         val h = height ?: width ?: 0
-        return replace(Regex("([=-])w\\d+(?![0-9a-zA-Z])"), "$1w$w")
-            .replace(Regex("([=-])h\\d+(?![0-9a-zA-Z])"), "$1h$h")
+        
+        return if (contains("=w") && contains("-h")) {
+            replace(Regex("=w\\d+"), "=w$w").replace(Regex("-h\\d+"), "-h$h")
+        } else if (contains("=s") || contains("-s")) {
+            replace(Regex("([=-])s\\d+"), "$1s$w")
+        } else {
+            // Tentative de remplacement global si les marqueurs sont présents mais non groupés
+            replace(Regex("([=-])w\\d+"), "$1w$w")
+                .replace(Regex("([=-])h\\d+"), "$1h$h")
+                .replace(Regex("([=-])s\\d+"), "$1s$w")
+        }
     }
     
     if (startsWith("https://yt3.ggpht.com")) {
         val s = width ?: height ?: 0
-        return replace(Regex("([=-])s\\d+(?![0-9a-zA-Z])"), "$1s$s")
+        return replace(Regex("([=-])s\\d+"), "$1s$s")
     }
     
     return this
 }
 
+private fun String.getYouTubeId(): String? {
+    return try {
+        when {
+            contains("i.ytimg.com/vi/") -> substringAfter("/vi/").substringBefore("/")
+            contains("i.ytimg.com/pl_c/") -> substringAfter("/pl_c/").substringBefore("/")
+            contains("i.ytimg.com/podcasts_artwork/") -> substringAfter("/podcasts_artwork/").substringBefore("/")
+            else -> null
+        }?.takeIf { it.isNotEmpty() && it != this }
+    } catch (e: Exception) { null }
+}
+
 fun String?.thumbnail(size: Int): String? {
     if (this == null) return this
     
-    // i.ytimg: modify based on size for better resolution
+    val quality = if (size > 600) ImageCacheFactory.NetworkQuality.HIGH else ImageCacheFactory.NetworkQuality.LOW
+    
+    if (contains("i.ytimg.com/pl_c/") || contains("i.ytimg.com/podcasts_artwork/")) {
+        val id = getYouTubeId()
+        if (id != null) {
+            // Priorité absolue à la version apprise (HQ) si elle existe
+            val learnedHigh = ImageCacheFactory.PlaylistThumbnailStore.getHighUrl(id)
+            if (learnedHigh != null) {
+                return learnedHigh
+            }
+
+            // Si on demande de la HQ mais qu'on ne l'a pas apprise, on garde l'original.
+            // ON NE FAIT PLUS DE SWAP mwEIC -> mwEKC car ça 404 sans la nouvelle signature 'rs'.
+            if (quality == ImageCacheFactory.NetworkQuality.HIGH) {
+                return this
+            } else {
+                val smallerUrl = ImageCacheFactory.PlaylistThumbnailStore.getLowUrl(id)
+                if (smallerUrl != null && smallerUrl != this) {
+                    return smallerUrl
+                }
+            }
+        }
+        return this 
+    }
+
+    // i.ytimg: modify video thumbnails based on size (Un-signing)
     when {
         contains("i.ytimg.com/vi/") -> {
             val suffix = when {
@@ -568,3 +759,6 @@ fun String?.thumbnail(): String? = this
 fun Uri?.thumbnail(size: Int): Uri? = this?.toString()?.thumbnail(size)?.toUri()
 
 fun Thumbnail.size(size: Int): String = url.thumbnail(size) ?: url
+
+private fun String.isYouTubeHighRes(): Boolean = 
+    contains("mwEK") || contains("maxres")
