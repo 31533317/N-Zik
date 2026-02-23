@@ -145,6 +145,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import androidx.compose.foundation.Image
 import androidx.compose.ui.graphics.ColorFilter
+import app.it.fast4x.rimusic.ui.components.themed.LazyMenu
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -926,17 +927,15 @@ fun HomeQuickPicks(
                             title = "${stringResource(R.string.charts)} (${selectedCountryCode.countryName})",
                             onClick = {
                                 menuState.display {
-                                    Menu {
-                                        Countries.entries.forEach { country ->
-                                            MenuEntry(
-                                                icon = R.drawable.arrow_right,
-                                                text = country.countryName,
-                                                onClick = {
-                                                    selectedCountryCode = country
-                                                    menuState.hide()
-                                                }
-                                            )
-                                        }
+                                    LazyMenu(items = Countries.entries) { country ->
+                                        MenuEntry(
+                                            icon = R.drawable.arrow_right,
+                                            text = country.countryName,
+                                            onClick = {
+                                                selectedCountryCode = country
+                                                menuState.hide()
+                                            }
+                                        )
                                     }
                                 }
                             },

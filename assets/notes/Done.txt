@@ -12,3 +12,6 @@
 12: Fixed player spam in error and added the abbility to pause when a song is buffering
 13: Fixed mini queue not updating
 14: added a smooth tansition for the mini queue
+15: Fixed top charts doesnt display
+16: Fixed top charts country selection
+17: Fixed top charts not updating

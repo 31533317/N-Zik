@@ -20,4 +20,3 @@
 22: Add back dislike button in player
 23: Update HomeAlbum page
 24: loader is not centered in the middle of the screen due to the bottom floating bar
-25: top charts doesnt display
