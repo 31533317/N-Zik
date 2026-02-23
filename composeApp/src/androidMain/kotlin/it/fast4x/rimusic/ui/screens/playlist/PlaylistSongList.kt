@@ -381,8 +381,8 @@ fun PlaylistSongList(
                                 Box {
                                     ImageCacheFactory.AsyncImage(
                                         thumbnailUrl = playlistPage!!.playlist.thumbnail?.url?.resize(
-                                            1200,
-                                            1200
+                                            1000,
+                                            1000
                                         ),
                                         contentDescription = "loading...",
                                         modifier = Modifier

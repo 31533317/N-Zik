@@ -154,7 +154,7 @@ fun NextVisualizer() {
                     try {
                         val bitmap = getBitmapFromUrl(
                             context,
-                            currentArtworkUri.toString().resize(1200, 1200)
+                            currentArtworkUri.toString().resize(1000, 1000)
                         )
                         withContext(Dispatchers.Main) {
                             bitmapCover = bitmap
@@ -178,7 +178,7 @@ fun NextVisualizer() {
                                 val bitmap = getBitmapFromUrl(
                                     context,
                                     mediaItem?.mediaMetadata?.artworkUri.toString()
-                                        .resize(1200, 1200)
+                                        .resize(1000, 1000)
                                 )
                                 withContext(Dispatchers.Main) {
                                     bitmapCover = bitmap
