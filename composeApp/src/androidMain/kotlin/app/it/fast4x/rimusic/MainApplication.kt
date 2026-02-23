@@ -54,6 +54,14 @@ class MainApplication : Application(), SingletonImageLoader.Factory {
                 proxy = proxy,
                 cacheDir = externalCacheDir ?: cacheDir
             )
+            it.fast4x.innertube.Innertube.proxy = proxy
+            runCatching {
+                org.schabi.newpipe.extractor.NewPipe.init(
+                    it.fast4x.innertube.utils.NewPipeDownloaderImpl {
+                        NetworkClientFactory.getClient()
+                    }
+                )
+            }
         } finally {
             StrictMode.setThreadPolicy(oldPolicy)
         }

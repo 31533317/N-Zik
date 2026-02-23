@@ -15,3 +15,4 @@
 15: Fixed top charts doesnt display
 16: Fixed top charts country selection
 17: Fixed top charts not updating
+18: Fixed source error on adnroid auto

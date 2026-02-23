@@ -88,7 +88,11 @@ class MediaLibrarySessionCallback(
                 .add(MediaSessionConstants.CommandStartRadio)
                 .add(MediaSessionConstants.CommandSearch)
                 .build(),
-            connectionResult.availablePlayerCommands
+            connectionResult.availablePlayerCommands.buildUpon()
+                .add(androidx.media3.common.Player.COMMAND_PLAY_PAUSE)
+                .add(androidx.media3.common.Player.COMMAND_PREPARE)
+                .add(androidx.media3.common.Player.COMMAND_STOP)
+                .build()
         )
     }
 
@@ -467,6 +471,7 @@ class MediaLibrarySessionCallback(
             startIdx = queryList.indexOfFirst { it.id == songId }.coerceAtLeast( 0 )
         }
 
+        // Return immediately to keep Android Auto alive.
         return@future MediaSession.MediaItemsWithStartPosition( queryList.map{ it.toMediaItem() }, startIdx, startPositionMs )
     }
 

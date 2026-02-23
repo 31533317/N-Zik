@@ -460,7 +460,6 @@ class MainActivity :
                 cacheDir = this@MainActivity.externalCacheDir ?: this@MainActivity.cacheDir
             )
             Innertube.proxy = proxy
-            NewPipe.init(NewPipeDownloaderImpl(app.n_zik.android.core.network.NetworkClientFactory.getClient()))
         }
 
         setContent {
@@ -742,7 +741,6 @@ class MainActivity :
                                     cacheDir = this@MainActivity.externalCacheDir ?: this@MainActivity.cacheDir
                                 )
                                 Innertube.proxy = proxy
-                                NewPipe.init(NewPipeDownloaderImpl(app.n_zik.android.core.network.NetworkClientFactory.getClient()))
                             }
 
                             colorPaletteNameKey, colorPaletteModeKey,
