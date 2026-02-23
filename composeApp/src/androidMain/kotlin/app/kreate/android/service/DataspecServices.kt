@@ -26,6 +26,7 @@ import it.fast4x.rimusic.appContext
 import it.fast4x.rimusic.enums.AudioQualityFormat
 import it.fast4x.rimusic.isConnectionMeteredEnabled
 import it.fast4x.rimusic.models.Format
+import it.fast4x.rimusic.models.Song
 import it.fast4x.rimusic.service.LoginRequiredException
 import it.fast4x.rimusic.service.MyDownloadHelper
 import it.fast4x.rimusic.service.UnknownException
@@ -108,6 +109,9 @@ private fun upsertSongFormat( videoId: String, format: PlayerResponse.StreamingD
 
     runCatching {
         Database.asyncTransaction {
+            // Ensure Song exists first to satisfy Foreign Key constraint
+            songTable.insertIgnore(Song.makePlaceholder(videoId))
+
             formatTable.insertIgnore(Format(
                 videoId,
                 format.itag,
