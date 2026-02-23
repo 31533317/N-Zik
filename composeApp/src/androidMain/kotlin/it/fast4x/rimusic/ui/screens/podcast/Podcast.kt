@@ -64,7 +64,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import androidx.navigation.NavController
 import app.kreate.android.R
-import me.knighthat.coil.ImageCacheFactory
+import me.knighthat.coil.*
+
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.innertube.Innertube
 import it.fast4x.compose.persist.persist
@@ -125,7 +126,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import it.fast4x.rimusic.utils.ExternalUris
-import me.knighthat.coil.resize
 import me.knighthat.utils.Toaster
 
 

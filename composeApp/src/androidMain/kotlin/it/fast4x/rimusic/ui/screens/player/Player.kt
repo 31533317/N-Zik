@@ -17,9 +17,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import me.knighthat.coil.ImageCacheFactory
-import coil3.compose.AsyncImage
-//import coil3.compose.rememberAsyncImagePainter
+import me.knighthat.coil.thumbnail
 import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource

@@ -72,7 +72,8 @@ import it.fast4x.rimusic.utils.showlyricsthumbnailKey
 import it.fast4x.rimusic.utils.showvisthumbnailKey
 import it.fast4x.rimusic.utils.thumbnailTypeKey
 import it.fast4x.rimusic.utils.thumbnailpauseKey
-import me.knighthat.coil.ImageCacheFactory
+import me.knighthat.coil.*
+
 import me.knighthat.utils.Toaster
 import timber.log.Timber
 import java.net.UnknownHostException

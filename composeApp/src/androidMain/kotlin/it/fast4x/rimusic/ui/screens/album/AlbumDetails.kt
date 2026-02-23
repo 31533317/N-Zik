@@ -48,7 +48,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import app.kreate.android.R
-import coil3.compose.AsyncImagePainter
+import androidx.compose.ui.graphics.painter.Painter
+
 import it.fast4x.compose.persist.PersistMapCleanup
 import it.fast4x.innertube.Innertube
 import it.fast4x.rimusic.Database
@@ -129,8 +130,9 @@ fun AlbumDetails(
     navController: NavController,
     browseId: String,
     album: Album?,
-    thumbnailPainter: AsyncImagePainter,
+    thumbnailPainter: Painter,
     alternatives: List<Innertube.AlbumItem>,
+
     description: String,
     onSearchClick: () -> Unit,
     onSettingsClick: () -> Unit

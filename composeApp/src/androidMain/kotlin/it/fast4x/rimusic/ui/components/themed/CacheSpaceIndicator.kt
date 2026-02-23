@@ -14,8 +14,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
-import coil3.annotation.ExperimentalCoilApi
 import me.knighthat.coil.ImageCacheFactory
+
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.enums.CacheType
 import it.fast4x.rimusic.enums.CoilDiskCacheMaxSize
@@ -28,9 +28,9 @@ import it.fast4x.rimusic.utils.rememberPreference
 
 
 @androidx.annotation.OptIn(UnstableApi::class)
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun CacheSpaceIndicator(
+
     cacheType: CacheType = CacheType.Images,
     circularIndicator: Boolean = false,
     horizontalPadding: Dp = 12.dp,

@@ -54,7 +54,8 @@ import androidx.compose.ui.util.fastMap
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import app.kreate.android.R
-import coil3.compose.AsyncImagePainter
+import androidx.compose.ui.graphics.painter.Painter
+
 import it.fast4x.innertube.Innertube
 import it.fast4x.innertube.requests.ArtistPage
 import it.fast4x.innertube.requests.ArtistSection
@@ -123,7 +124,7 @@ fun ArtistDetails(
     navController: NavController,
     localArtist: Artist?,
     artistPage: ArtistPage?,
-    thumbnailPainter: AsyncImagePainter,
+    thumbnailPainter: Painter,
 ) {
     artistPage ?: return
 

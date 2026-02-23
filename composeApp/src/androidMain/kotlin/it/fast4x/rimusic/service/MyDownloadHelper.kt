@@ -19,9 +19,8 @@ import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.Requirements
 import app.kreate.android.service.createDataSourceFactory
-import coil3.request.CachePolicy
-import coil3.request.ImageRequest
 import it.fast4x.rimusic.Database
+
 import it.fast4x.rimusic.enums.AudioQualityFormat
 import it.fast4x.rimusic.enums.ExoPlayerCacheLocation
 import it.fast4x.rimusic.enums.ExoPlayerDiskCacheMaxSize
@@ -60,6 +59,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.fast4x.rimusic.utils.ExternalUris
 import me.knighthat.coil.ImageCacheFactory
+import me.knighthat.coil.thumbnail
+
 import me.knighthat.utils.Toaster
 import timber.log.Timber
 import java.util.concurrent.Executors
@@ -318,15 +319,9 @@ object MyDownloadHelper {
                 println("MyDownloadHelper scheduleDownload exception ${it.stackTraceToString()}")
             }
             downloadSyncedLyrics( mediaItem.asSong )
-            ImageCacheFactory.LOADER.execute(
-                ImageRequest.Builder(context)
-                    .networkCachePolicy(CachePolicy.ENABLED)
-                    .data(imageUrl)
-                    .size(1200)
-                    .diskCacheKey(imageUrl.toString())
-                    .build()
-            )
+            ImageCacheFactory.preloadImage(mediaItem.mediaMetadata.artworkUri.toString())
         }
+
 
     }
 

@@ -1,9 +1,7 @@
 package it.fast4x.rimusic
 
-import coil3.Uri
-import coil3.toUri
-
 const val PINNED_PREFIX = "pinned:"
+
 const val MODIFIED_PREFIX = "modified:"
 const val MONTHLY_PREFIX = "monthly:"
 const val PIPED_PREFIX = "piped:"

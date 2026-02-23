@@ -81,12 +81,12 @@ import it.fast4x.rimusic.utils.rememberPreference
 import it.fast4x.rimusic.utils.secondary
 import it.fast4x.rimusic.utils.semiBold
 import it.fast4x.rimusic.utils.shimmerEffect
-import me.knighthat.coil.thumbnail
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.distinctUntilChanged
 import me.knighthat.coil.ImageCacheFactory
+import me.knighthat.coil.thumbnail
 import me.knighthat.coil.size
 import me.knighthat.utils.Toaster
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 
 @UnstableApi

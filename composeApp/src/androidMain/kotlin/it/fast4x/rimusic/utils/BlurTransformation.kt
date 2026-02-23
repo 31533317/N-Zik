@@ -2,8 +2,9 @@ package it.fast4x.rimusic.utils
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import coil.size.Size
-import coil.transform.Transformation
+import coil3.size.Size
+import coil3.transform.Transformation
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
@@ -12,7 +13,8 @@ import kotlin.math.roundToInt
 class BlurTransformation(
     val radius: Int = 25,
     val scale: Float = 0.5f
-) : Transformation {
+) : Transformation() {
+
 
     override val cacheKey: String = "${javaClass.name}-$radius"
 

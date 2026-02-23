@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
-import coil.annotation.ExperimentalCoilApi
 import it.fast4x.rimusic.Database
+
 import it.fast4x.rimusic.LocalPlayerServiceBinder
 import it.fast4x.rimusic.colorPalette
 import it.fast4x.rimusic.enums.CacheType
@@ -59,14 +59,15 @@ import me.knighthat.component.import.ImportDatabase
 import me.knighthat.component.import.ImportMigration
 import me.knighthat.component.import.ImportSettings
 import me.knighthat.utils.Toaster
-import me.knighthat.coil.ImageCacheFactory
+import me.knighthat.coil.*
+
 
 @SuppressLint("SuspiciousIndentation")
-@OptIn(ExperimentalCoilApi::class)
 @ExperimentalAnimationApi
 @UnstableApi
 @Composable
 fun DataSettings() {
+
     val context = LocalContext.current
     val binder = LocalPlayerServiceBinder.current
 
