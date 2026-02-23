@@ -4,3 +4,7 @@
 4: Optimized ImageCacheFactory again lol
 5: lowered the quality of low preset
 6: ImageCacheFactory is finished
+7: Fixed stats for nerds not updating
+8: Fixed audio quality not updating
+9: Fixed nerds stats not updating
+10: Updated NetworkQualityHelper and fixed network quality not updating

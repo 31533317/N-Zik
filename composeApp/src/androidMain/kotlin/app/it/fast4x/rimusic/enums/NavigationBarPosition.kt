@@ -1,0 +1,43 @@
+package app.it.fast4x.rimusic.enums
+
+import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import app.kreate.android.R
+import app.it.fast4x.rimusic.utils.navigationBarPositionKey
+import app.it.fast4x.rimusic.utils.rememberPreference
+import app.kreate.android.me.knighthat.enums.TextView
+
+enum class NavigationBarPosition(
+    @field:StringRes override val textId: Int
+): TextView {
+
+    Left( R.string.direction_left ),
+    Right( R.string.direction_right ),
+    Top( R.string.direction_top ),
+    Bottom( R.string.direction_bottom ),
+    BottomFloating( R.string.direction_bottom_floating );
+
+
+    companion object {
+
+        @Composable
+        fun current() = rememberPreference( navigationBarPositionKey, NavigationBarPosition.BottomFloating ).value
+
+    }
+
+    @Composable
+    fun isCurrent(): Boolean = current() == this
+
+    val isHorizontal: Boolean
+        get() = this == Top || this == Bottom || this == BottomFloating
+
+    val isBottomType: Boolean
+        get() = this == Bottom || this == BottomFloating
+
+    val isFloating: Boolean
+        get() = this == BottomFloating
+}
+
+
+
+
