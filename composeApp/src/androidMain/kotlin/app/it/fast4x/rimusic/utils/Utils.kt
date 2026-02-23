@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Build
 import app.n_zik.android.core.network.NetworkQualityHelper
 import app.n_zik.android.core.network.isNetworkAvailable
+import app.n_zik.android.core.network.isNetworkConnected
+import app.n_zik.android.core.network.isNetworkAvailableComposable
 import android.provider.MediaStore
 import android.text.format.DateUtils
 import androidx.annotation.OptIn
@@ -366,13 +368,14 @@ fun CheckAvailableNewVersion(
     }
 }
 
-fun isNetworkConnected(context: Context): Boolean = NetworkQualityHelper.isNetworkConnected(context)
+fun isNetworkConnected(context: Context): Boolean = context.isNetworkConnected
 
 @Composable
 fun isNetworkAvailableComposable(): Boolean {
     val context = LocalContext.current
-    return NetworkQualityHelper.isNetworkAvailableComposable(context).value
+    return context.isNetworkAvailableComposable.value
 }
+
 
 fun getHttpClient() = HttpClient() {
     install(UserAgent) {

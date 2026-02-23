@@ -122,7 +122,7 @@ fun manageDownload(
 fun getDownloadState(mediaId: String): Int {
     val context = LocalContext.current
     val downloader = LocalDownloadHelper.current
-    if (!app.it.fast4x.rimusic.utils.isNetworkAvailableComposable()) return 3
+    if (!isNetworkAvailableComposable()) return 3
 
     val downloadFlow = remember(mediaId) { downloader.getDownload(mediaId) }
     return downloadFlow.collectAsState(initial = null as Download?).value?.state
