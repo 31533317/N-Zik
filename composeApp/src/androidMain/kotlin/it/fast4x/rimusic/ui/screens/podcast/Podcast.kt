@@ -251,7 +251,7 @@ fun Podcast(
                         if (podcastPage != null) {
                             if(!isLandscape)
                                 ImageCacheFactory.AsyncImage(
-                                    thumbnailUrl = podcastPage!!.thumbnail.firstOrNull()?.url?.resize(1200, 1200),
+                                    thumbnailUrl = podcastPage!!.thumbnail.firstOrNull()?.url?.resize(1000, 1000),
                                     contentDescription = "loading...",
                                     modifier = Modifier
                                         .fillMaxWidth()

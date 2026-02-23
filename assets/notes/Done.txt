@@ -3,3 +3,4 @@
 3: Fixed ImageCacheFactory wasn't saving metadata
 4: Optimized ImageCacheFactory again lol
 5: lowered the quality of low preset
+6: ImageCacheFactory is finished

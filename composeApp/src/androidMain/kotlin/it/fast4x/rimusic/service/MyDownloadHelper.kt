@@ -305,7 +305,7 @@ object MyDownloadHelper {
             insertIgnore( mediaItem )
         }
 
-        val imageUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(1200)
+        val imageUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(1000)
 
 //            sendAddDownload(
 //                context,MyDownloadService::class.java,downloadRequest,false
