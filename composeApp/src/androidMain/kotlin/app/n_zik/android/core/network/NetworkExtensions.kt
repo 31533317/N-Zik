@@ -3,6 +3,7 @@ package app.n_zik.android.core.network
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import app.n_zik.android.core.network.enum.NetworkQuality
 
 /**
  * Checks if the network is currently connected (Internet and validated).
@@ -44,5 +45,5 @@ val Context.isNetworkAvailableComposable: State<Boolean>
 /**
  * Internal helper to expose quality detection via extension.
  */
-fun NetworkQualityHelper.networkQuality(context: Context): NetworkQuality = 
+fun NetworkQualityHelper.networkQuality(context: Context): NetworkQuality =
     this.getCurrentNetworkQuality(context)

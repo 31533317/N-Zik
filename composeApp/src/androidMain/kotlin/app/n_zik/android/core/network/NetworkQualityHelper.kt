@@ -11,6 +11,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
 import app.it.fast4x.rimusic.utils.isConnectionMeteredEnabledKey
 import app.it.fast4x.rimusic.utils.preferences
+import app.n_zik.android.core.network.enum.NetworkQuality
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
