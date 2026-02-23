@@ -49,7 +49,7 @@ import app.it.fast4x.rimusic.utils.secondary
 import app.it.fast4x.rimusic.utils.semiBold
 import app.it.fast4x.rimusic.utils.shimmerEffect
 import app.it.fast4x.rimusic.utils.thumbnailRoundnessKey
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 @Composable
 fun AlbumItem(

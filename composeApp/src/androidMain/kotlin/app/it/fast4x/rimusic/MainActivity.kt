@@ -3,14 +3,12 @@ package app.it.fast4x.rimusic
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
-import android.app.PictureInPictureParams
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.graphics.drawable.BitmapDrawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -68,7 +66,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -97,8 +94,6 @@ import app.kreate.android.R
 import app.kreate.android.Threads
 import android.graphics.Bitmap
 import androidx.palette.graphics.Palette
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
-import app.kreate.android.me.knighthat.coil.resize
 import com.kieronquinn.monetcompat.core.MonetActivityAccessException
 import com.kieronquinn.monetcompat.core.MonetCompat
 import com.kieronquinn.monetcompat.interfaces.MonetColorsChangedListener
@@ -145,7 +140,6 @@ import app.it.fast4x.rimusic.ui.screens.player.rememberPlayerSheetState
 import app.it.fast4x.rimusic.ui.styling.Appearance
 import app.it.fast4x.rimusic.ui.styling.Dimensions
 import app.it.fast4x.rimusic.ui.styling.LocalAppearance
-import app.it.fast4x.rimusic.ui.styling.applyPitchBlack
 import app.it.fast4x.rimusic.ui.styling.colorPaletteOf
 import app.it.fast4x.rimusic.ui.styling.customColorPalette
 import app.it.fast4x.rimusic.ui.styling.dynamicColorPaletteOf
@@ -223,7 +217,7 @@ import app.it.fast4x.rimusic.utils.showButtonPlayerVideoKey
 import app.it.fast4x.rimusic.utils.showSearchTabKey
 import app.it.fast4x.rimusic.utils.showTotalTimeQueueKey
 import app.it.fast4x.rimusic.utils.textCopyToClipboard
-import app.kreate.android.me.knighthat.coil.thumbnail
+import app.n_zik.android.core.coil.*
 import app.it.fast4x.rimusic.utils.thumbnailRoundnessKey
 import app.it.fast4x.rimusic.utils.transitionEffectKey
 import app.it.fast4x.rimusic.utils.useSystemFontKey
@@ -233,7 +227,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import app.kreate.android.me.knighthat.coil.*
 import me.knighthat.invidious.Invidious
 import me.knighthat.piped.Piped
 import app.kreate.android.me.knighthat.utils.Toaster

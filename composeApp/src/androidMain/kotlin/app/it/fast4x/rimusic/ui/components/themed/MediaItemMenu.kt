@@ -25,14 +25,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,8 +38,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.compositeOver
@@ -76,7 +72,6 @@ import app.it.fast4x.rimusic.enums.MenuStyle
 import app.it.fast4x.rimusic.enums.NavRoutes
 import app.it.fast4x.rimusic.enums.PlaylistSortBy
 import app.it.fast4x.rimusic.enums.SortOrder
-import app.it.fast4x.rimusic.models.Info
 import app.it.fast4x.rimusic.models.Playlist
 import app.it.fast4x.rimusic.models.PlaylistPreview
 import app.it.fast4x.rimusic.models.Song
@@ -112,7 +107,7 @@ import app.it.fast4x.rimusic.utils.rememberPreference
 import app.it.fast4x.rimusic.utils.removeFromPipedPlaylist
 import app.it.fast4x.rimusic.utils.removeYTSongFromPlaylist
 import app.it.fast4x.rimusic.utils.semiBold
-import app.kreate.android.me.knighthat.coil.thumbnail
+import app.n_zik.android.core.coil.thumbnail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf

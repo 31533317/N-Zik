@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
@@ -22,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -38,7 +36,7 @@ import app.it.fast4x.rimusic.typography
 import app.it.fast4x.rimusic.ui.items.AlbumItemListPlaceholder
 import app.it.fast4x.rimusic.ui.styling.Dimensions
 import app.it.fast4x.rimusic.utils.conditional
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.kreate.android.R
 import app.it.fast4x.rimusic.Database
 import app.it.fast4x.rimusic.LocalPlayerServiceBinder
@@ -64,7 +62,6 @@ import app.kreate.android.me.knighthat.utils.Toaster
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import app.it.fast4x.rimusic.utils.preferences
 import app.it.fast4x.rimusic.utils.showButtonPlayerVideoKey

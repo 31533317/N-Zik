@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
+import app.it.fast4x.rimusic.utils.isNetworkAvailable
 import app.kreate.android.R
 import com.my.kizzyrpc.KizzyRPC
 import com.my.kizzyrpc.model.Activity
@@ -35,7 +36,6 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.putJsonArray
 import app.kreate.android.me.knighthat.utils.ImageProcessor
 import app.kreate.android.me.knighthat.utils.Toaster
-import app.kreate.android.me.knighthat.utils.isNetworkAvailable
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jetbrains.annotations.Contract

@@ -1,10 +1,7 @@
-package app.it.fast4x.rimusic.enums
+package app.n_zik.android.core.network
 
 enum class NetworkQuality {
     LOW,
     MEDIUM,
     HIGH
 }
-
-
-

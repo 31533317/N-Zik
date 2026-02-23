@@ -9,7 +9,7 @@ import coil3.SingletonImageLoader
 import coil3.ImageLoader
 
 import app.kreate.android.R
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.it.fast4x.rimusic.service.modern.PlayerServiceModern
 import app.it.fast4x.rimusic.service.MyDownloadHelper
 import app.it.fast4x.rimusic.utils.CaptureCrash

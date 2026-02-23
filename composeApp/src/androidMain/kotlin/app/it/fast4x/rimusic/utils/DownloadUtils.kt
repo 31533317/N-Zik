@@ -108,7 +108,7 @@ fun manageDownload(
         MyDownloadHelper.removeDownload(context = context, mediaItem = mediaItem)
     }
     else {
-        if (isNetworkAvailable(context)) {
+        if (app.it.fast4x.rimusic.utils.isNetworkAvailable(context)) {
             MyDownloadHelper.addDownload(context = context, mediaItem = mediaItem)
         }
     }
@@ -119,8 +119,9 @@ fun manageDownload(
 @UnstableApi
 @Composable
 fun getDownloadState(mediaId: String): Int {
+    val context = LocalContext.current
     val downloader = LocalDownloadHelper.current
-    if (!isNetworkAvailableComposable()) return 3
+    if (!app.it.fast4x.rimusic.utils.isNetworkAvailableComposable()) return 3
 
     val downloadFlow = remember(mediaId) { downloader.getDownload(mediaId) }
     return downloadFlow.collectAsState(initial = null as Download?).value?.state

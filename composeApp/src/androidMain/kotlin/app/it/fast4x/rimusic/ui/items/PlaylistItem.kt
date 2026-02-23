@@ -58,7 +58,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 val HTTP_REGEX = Regex("^https?://.*")
 val FOUR_CORNERS = listOf( Alignment.TopStart, Alignment.TopEnd, Alignment.BottomStart, Alignment.BottomEnd )

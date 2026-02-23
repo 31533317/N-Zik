@@ -12,7 +12,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -64,9 +63,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import androidx.navigation.NavController
 import app.kreate.android.R
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
-import app.kreate.android.me.knighthat.coil.resize
-import app.kreate.android.me.knighthat.coil.*
+import app.n_zik.android.core.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.resize
 
 import app.it.fast4x.rimusic.colorPalette
 import it.fast4x.innertube.Innertube
@@ -82,7 +80,6 @@ import app.it.fast4x.rimusic.models.Playlist
 import app.it.fast4x.rimusic.service.modern.isLocal
 import app.it.fast4x.rimusic.typography
 import app.it.fast4x.rimusic.ui.components.LocalMenuState
-import app.it.fast4x.rimusic.ui.components.ShimmerHost
 import app.it.fast4x.rimusic.ui.components.SwipeablePlaylistItem
 import app.it.fast4x.rimusic.ui.components.themed.AutoResizeText
 import app.it.fast4x.rimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
@@ -95,9 +92,7 @@ import app.it.fast4x.rimusic.ui.components.themed.NonQueuedMediaItemMenu
 import app.it.fast4x.rimusic.ui.components.themed.PlaylistsItemMenu
 import app.it.fast4x.rimusic.ui.components.themed.adaptiveThumbnailContent
 import app.it.fast4x.rimusic.ui.components.themed.Loader
-import app.it.fast4x.rimusic.ui.items.AlbumItemPlaceholder
 import app.it.fast4x.rimusic.ui.items.SongItem
-import app.it.fast4x.rimusic.ui.items.SongItemPlaceholder
 import app.it.fast4x.rimusic.ui.screens.settings.isYouTubeSyncEnabled
 import app.it.fast4x.rimusic.ui.styling.Dimensions
 import app.it.fast4x.rimusic.ui.styling.favoritesIcon

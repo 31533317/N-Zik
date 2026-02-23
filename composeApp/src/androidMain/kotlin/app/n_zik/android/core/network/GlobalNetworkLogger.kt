@@ -1,4 +1,4 @@
-package app.it.fast4x.rimusic.utils
+package app.n_zik.android.core.network
 
 import timber.log.Timber
 
@@ -16,6 +16,3 @@ object GlobalNetworkLogger {
         )
     }
 }
-
-
-

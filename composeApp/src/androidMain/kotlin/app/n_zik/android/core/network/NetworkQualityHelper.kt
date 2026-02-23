@@ -1,12 +1,20 @@
-package app.it.fast4x.rimusic.utils
+package app.n_zik.android.core.network
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.ConnectivityManager.NetworkCallback
+import android.net.Network
 import android.net.NetworkCapabilities
 import android.os.Build
-import app.it.fast4x.rimusic.enums.NetworkQuality
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.produceState
 import app.it.fast4x.rimusic.utils.isConnectionMeteredEnabledKey
 import app.it.fast4x.rimusic.utils.preferences
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import timber.log.Timber
 
 object NetworkQualityHelper {
@@ -95,12 +103,12 @@ object NetworkQualityHelper {
             val capabilities = cm.getNetworkCapabilities(cm.activeNetwork) ?: return NetworkQuality.LOW
             
             // Use our centralized metered check
-            val isMetered = isMetered(context)
+            val metered = isMetered(context)
             val bandwidth = capabilities.linkDownstreamBandwidthKbps
             
             // Update Global Logger State
             GlobalNetworkLogger.lastBandwidth = bandwidth
-            GlobalNetworkLogger.lastIsMetered = isMetered
+            GlobalNetworkLogger.lastIsMetered = metered
 
             var quality = when {
                 bandwidth > 20000 -> NetworkQuality.HIGH
@@ -109,12 +117,12 @@ object NetworkQualityHelper {
             }
 
             // If ANY of the metered conditions are met, cap quality to MEDIUM to save data
-            if (isMetered && quality == NetworkQuality.HIGH) {
+            if (metered && quality == NetworkQuality.HIGH) {
                 quality = NetworkQuality.MEDIUM
             }
 
             // Centralized Log
-            GlobalNetworkLogger.logNetworkState("NetworkHelper", bandwidth, isMetered, "RAW_DETECT", quality.name)
+            GlobalNetworkLogger.logNetworkState("NetworkHelper", bandwidth, metered, "RAW_DETECT", quality.name)
 
             quality
         } catch (e: Exception) {
@@ -122,7 +130,59 @@ object NetworkQualityHelper {
             NetworkQuality.LOW
         }
     }
+
+    /**
+     * Observe connection status as a Flow (Migration from AndroidConnectivityObserver)
+     */
+    fun observeConnection(context: Context): Flow<Boolean> = callbackFlow {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        
+        val callback = object : NetworkCallback() {
+            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                super.onCapabilitiesChanged(network, networkCapabilities)
+                val connected = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                            networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                } else {
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                }
+                trySend(connected)
+            }
+
+            override fun onUnavailable() {
+                super.onUnavailable()
+                trySend(false)
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                trySend(false)
+            }
+
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                trySend(true)
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager.registerDefaultNetworkCallback(callback)
+        } else {
+            // Deprecated way could be added here if needed for API < 24
+            trySend(isNetworkConnected(context))
+        }
+
+        trySend(isNetworkConnected(context))
+
+        awaitClose {
+            connectivityManager.unregisterNetworkCallback(callback)
+        }
+    }.distinctUntilChanged()
+
+    @Composable
+    fun isNetworkAvailableComposable(context: Context): State<Boolean> {
+        return produceState(initialValue = isNetworkConnected(context)) {
+            observeConnection(context).collect { value = it }
+        }
+    }
 }
-
-
-

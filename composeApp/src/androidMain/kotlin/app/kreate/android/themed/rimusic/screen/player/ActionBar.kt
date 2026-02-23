@@ -132,7 +132,7 @@ import app.it.fast4x.rimusic.utils.visualizerEnabledKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.kreate.android.me.knighthat.component.player.PlaybackSpeed
 import app.kreate.android.me.knighthat.utils.Toaster
 

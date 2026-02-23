@@ -1,9 +1,7 @@
-package app.kreate.android.me.knighthat.coil
+package app.n_zik.android.core.coil
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +27,6 @@ import coil3.decode.DataSource
 import coil3.disk.DiskCache
 import coil3.memory.MemoryCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
-import coil3.request.CachePolicy
 import coil3.request.ErrorResult
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
@@ -42,22 +39,20 @@ import app.it.fast4x.rimusic.enums.CoilDiskCacheMaxSize
 import app.it.fast4x.rimusic.enums.ExoPlayerCacheLocation
 import app.it.fast4x.rimusic.enums.ImageQualityFormat
 import app.it.fast4x.rimusic.thumbnailShape
-import app.it.fast4x.rimusic.utils.NetworkQualityHelper
-import app.it.fast4x.rimusic.utils.GlobalNetworkLogger
-import app.it.fast4x.rimusic.enums.NetworkQuality as NZikNetworkQuality
+import app.n_zik.android.core.network.NetworkQualityHelper
+import app.n_zik.android.core.network.GlobalNetworkLogger
+import app.n_zik.android.core.network.NetworkQuality as NZikNetworkQuality
 import app.it.fast4x.rimusic.utils.coilCustomDiskCacheKey
 import app.it.fast4x.rimusic.utils.coilDiskCacheMaxSizeKey
 import app.it.fast4x.rimusic.utils.exoPlayerCacheLocationKey
 import app.it.fast4x.rimusic.utils.getEnum
 import app.it.fast4x.rimusic.utils.imageQualityFormatKey
-import app.it.fast4x.rimusic.utils.isConnectionMeteredEnabledKey
 import app.it.fast4x.rimusic.utils.preferences
 import kotlinx.coroutines.flow.MutableStateFlow
 import okhttp3.OkHttpClient
 import okio.Path.Companion.toOkioPath
 import java.security.MessageDigest
 import java.util.concurrent.ConcurrentHashMap
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalCoilApi::class)

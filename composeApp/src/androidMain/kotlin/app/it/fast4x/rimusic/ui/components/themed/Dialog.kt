@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absoluteOffset
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -71,7 +70,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
@@ -96,7 +94,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
@@ -104,9 +101,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
-import app.kreate.android.me.knighthat.coil.resize
-import app.kreate.android.me.knighthat.coil.thumbnail
+import app.n_zik.android.core.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.resize
+import app.n_zik.android.core.coil.thumbnail
 import it.fast4x.innertube.Innertube
 import it.fast4x.innertube.YtMusic
 import it.fast4x.innertube.models.bodies.SearchBody
@@ -177,7 +174,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import app.kreate.android.me.knighthat.coil.*
 
 
 @Composable

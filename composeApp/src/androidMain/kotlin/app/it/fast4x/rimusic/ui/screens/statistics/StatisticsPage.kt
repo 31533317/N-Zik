@@ -45,7 +45,6 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.offline.Download
 import androidx.navigation.NavController
 import app.kreate.android.R
 import app.it.fast4x.rimusic.Database
@@ -91,19 +90,16 @@ import app.it.fast4x.rimusic.utils.rememberPreference
 import app.it.fast4x.rimusic.utils.semiBold
 import app.it.fast4x.rimusic.utils.showStatsListeningTimeKey
 import app.it.fast4x.rimusic.utils.statisticsCategoryKey
-import app.kreate.android.me.knighthat.coil.thumbnail
+import app.n_zik.android.core.coil.thumbnail
 import app.it.fast4x.rimusic.utils.thumbnailRoundnessKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import app.it.fast4x.rimusic.utils.addNext
 import app.it.fast4x.rimusic.utils.enqueue
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 
 @ExperimentalTextApi

@@ -100,7 +100,7 @@ import app.it.fast4x.rimusic.enums.QueueLoopType
 import app.it.fast4x.rimusic.enums.WallpaperType
 import app.it.fast4x.rimusic.extensions.audiovolume.AudioVolumeObserver
 import app.it.fast4x.rimusic.extensions.audiovolume.OnAudioVolumeChangedListener
-import app.it.fast4x.rimusic.extensions.connectivity.AndroidConnectivityObserverLegacy
+import app.n_zik.android.core.network.NetworkQualityHelper
 import app.it.fast4x.rimusic.extensions.discord.DiscordPresenceManager
 import app.it.fast4x.rimusic.isHandleAudioFocusEnabled
 import app.it.fast4x.rimusic.models.Event
@@ -207,7 +207,6 @@ import kotlin.math.roundToInt
 import kotlin.system.exitProcess
 import android.os.Binder as AndroidBinder
 import androidx.compose.ui.util.fastMap
-import app.it.fast4x.rimusic.utils.NetworkQualityHelper
 import app.it.fast4x.rimusic.utils.isDiscordPresenceEnabledKey
 
 const val LOCAL_KEY_PREFIX = "local:"
@@ -266,7 +265,7 @@ class PlayerServiceModern : MediaLibraryService(),
 
     var currentSongStateDownload = MutableStateFlow(Download.STATE_STOPPED)
 
-    lateinit var connectivityObserver: AndroidConnectivityObserverLegacy
+    private var connectivityJob: Job? = null
     private val isNetworkAvailable = MutableStateFlow(true)
     private val waitingForNetwork = MutableStateFlow(false)
 
@@ -280,15 +279,10 @@ class PlayerServiceModern : MediaLibraryService(),
 
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // Enable Android Auto if disabled, REQUIRE ENABLING DEV MODE IN ANDROID AUTO
-        try {
-            connectivityObserver.unregister()
-        } catch (e: Exception) {
-            // isn't registered
-        }
-        connectivityObserver = AndroidConnectivityObserverLegacy(this@PlayerServiceModern)
-        coroutineScope.launch {
-            connectivityObserver.networkStatus.collect { isAvailable ->
+        // Network status observation
+        connectivityJob?.cancel()
+        connectivityJob = coroutineScope.launch {
+            NetworkQualityHelper.observeConnection(this@PlayerServiceModern).collect { isAvailable ->
                 isNetworkAvailable.value = isAvailable
                 Timber.d("PlayerServiceModern network status: $isAvailable")
                 if (isAvailable && waitingForNetwork.value) {

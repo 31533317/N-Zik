@@ -14,12 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import app.kreate.android.R
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.it.fast4x.rimusic.colorPalette
 import app.it.fast4x.rimusic.enums.NavRoutes
 import app.it.fast4x.rimusic.extensions.pip.isPipSupported
 import app.it.fast4x.rimusic.extensions.pip.rememberPipHandler
-import app.it.fast4x.rimusic.thumbnailShape
 import app.it.fast4x.rimusic.ui.components.themed.DropdownMenu
 import app.it.fast4x.rimusic.ui.screens.settings.isYouTubeLoggedIn
 import app.it.fast4x.rimusic.utils.enablePictureInPictureKey

@@ -16,8 +16,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
-import app.kreate.android.me.knighthat.coil.thumbnail
+import app.n_zik.android.core.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.thumbnail
 import androidx.compose.foundation.clickable
 
 import androidx.compose.foundation.combinedClickable
@@ -63,7 +63,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
 import androidx.compose.runtime.remember
@@ -72,7 +71,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
@@ -100,7 +98,6 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -122,7 +119,6 @@ import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import androidx.palette.graphics.Palette
 import app.kreate.android.R
-import app.kreate.android.drawable.APP_ICON_IMAGE_BITMAP
 import app.kreate.android.screens.player.background.BlurredCover
 import app.kreate.android.themed.rimusic.screen.player.ActionBar
 import com.mikepenz.hypnoticcanvas.shaderBackground
@@ -163,14 +159,9 @@ import app.it.fast4x.rimusic.thumbnailShape
 import app.it.fast4x.rimusic.typography
 import app.it.fast4x.rimusic.ui.components.CustomModalBottomSheet
 import app.it.fast4x.rimusic.ui.components.LocalMenuState
-import app.it.fast4x.rimusic.ui.components.themed.CircularSlider
-import app.it.fast4x.rimusic.ui.components.themed.ConfirmationDialog
-import app.it.fast4x.rimusic.ui.components.themed.DefaultDialog
-import app.it.fast4x.rimusic.ui.components.themed.IconButton
 import app.it.fast4x.rimusic.ui.components.themed.NowPlayingSongIndicator
 import app.it.fast4x.rimusic.ui.components.themed.PlayerMenu
 import app.it.fast4x.rimusic.ui.components.themed.RotateThumbnailCoverAnimationModern
-import app.it.fast4x.rimusic.ui.components.themed.SecondaryTextButton
 import app.it.fast4x.rimusic.ui.components.themed.ThumbnailOffsetDialog
 import app.it.fast4x.rimusic.ui.components.themed.animateBrushRotation
 import app.it.fast4x.rimusic.ui.styling.Dimensions
@@ -192,7 +183,6 @@ import app.it.fast4x.rimusic.utils.clickOnLyricsTextKey
 import app.it.fast4x.rimusic.utils.colorPaletteModeKey
 import app.it.fast4x.rimusic.utils.controlsExpandedKey
 import app.it.fast4x.rimusic.utils.coverThumbnailAnimationKey
-import app.it.fast4x.rimusic.utils.currentWindow
 import app.it.fast4x.rimusic.utils.disablePlayerHorizontalSwipeKey
 import app.it.fast4x.rimusic.utils.disableScrollingTextKey
 import app.it.fast4x.rimusic.utils.discoverKey
@@ -202,7 +192,6 @@ import app.it.fast4x.rimusic.utils.effectRotationKey
 import app.it.fast4x.rimusic.utils.expandedplayerKey
 import app.it.fast4x.rimusic.utils.extraspaceKey
 import app.it.fast4x.rimusic.utils.fadingedgeKey
-import app.it.fast4x.rimusic.utils.formatAsDuration
 import app.it.fast4x.rimusic.utils.formatAsTime
 import app.it.fast4x.rimusic.utils.getBitmapFromUrl
 import app.it.fast4x.rimusic.utils.horizontalFadingEdge
@@ -236,7 +225,6 @@ import app.it.fast4x.rimusic.utils.statsExpandedKey
 import app.it.fast4x.rimusic.utils.statsfornerdsKey
 import app.it.fast4x.rimusic.utils.swipeAnimationsNoThumbnailKey
 import app.it.fast4x.rimusic.utils.textoutlineKey
-import app.kreate.android.me.knighthat.coil.thumbnail
 import app.it.fast4x.rimusic.utils.thumbnailFadeExKey
 import app.it.fast4x.rimusic.utils.thumbnailFadeKey
 import app.it.fast4x.rimusic.utils.thumbnailRoundnessKey

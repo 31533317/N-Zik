@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.it.fast4x.rimusic.Database
 
 import app.it.fast4x.rimusic.LocalPlayerServiceBinder
@@ -30,7 +30,6 @@ import app.it.fast4x.rimusic.enums.CoilDiskCacheMaxSize
 import app.it.fast4x.rimusic.enums.ExoPlayerCacheLocation
 import app.it.fast4x.rimusic.enums.ExoPlayerDiskCacheMaxSize
 import app.it.fast4x.rimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
-import app.it.fast4x.rimusic.enums.NavigationBarPosition
 import app.it.fast4x.rimusic.service.MyDownloadHelper
 import app.it.fast4x.rimusic.ui.components.themed.CacheSpaceIndicator
 import app.it.fast4x.rimusic.ui.components.themed.ConfirmationDialog
@@ -60,7 +59,6 @@ import app.kreate.android.me.knighthat.component.import.ImportDatabase
 import app.kreate.android.me.knighthat.component.import.ImportMigration
 import app.kreate.android.me.knighthat.component.import.ImportSettings
 import app.kreate.android.me.knighthat.utils.Toaster
-import app.kreate.android.me.knighthat.coil.*
 
 
 @SuppressLint("SuspiciousIndentation")

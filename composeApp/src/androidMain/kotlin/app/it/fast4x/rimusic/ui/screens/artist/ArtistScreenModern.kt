@@ -27,7 +27,6 @@ import app.it.fast4x.rimusic.utils.rememberPreference
 import app.it.fast4x.rimusic.utils.transitionEffectKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
-import app.kreate.android.me.knighthat.coil.*
 
 import app.kreate.android.me.knighthat.utils.PropUtils
 import androidx.compose.ui.res.stringResource
@@ -39,7 +38,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 
 import it.fast4x.innertube.models.bodies.QueueBody

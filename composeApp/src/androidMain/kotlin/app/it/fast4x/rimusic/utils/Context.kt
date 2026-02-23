@@ -1,18 +1,16 @@
+@file:UnstableApi
+
 package app.it.fast4x.rimusic.utils
 
 import android.app.Activity
 import android.app.PendingIntent
-import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.PowerManager
 import android.widget.Toast
-import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.media3.common.util.UnstableApi
@@ -20,6 +18,7 @@ import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.offline.DownloadService.sendAddDownload
 import androidx.media3.exoplayer.offline.DownloadService.sendRemoveDownload
+import app.n_zik.android.core.network.isMetered
 
 inline fun <reified T> Context.intent(): Intent =
     Intent(this, T::class.java)
@@ -119,7 +118,7 @@ inline fun <reified T : DownloadService> Context.removeDownload(mediaId: String)
 }
 
 fun Context.isConnectionMetered(): Boolean {
-    return NetworkQualityHelper.isMetered(this)
+    return this.isMetered
 }
 
 fun Context.findActivity(): Activity {

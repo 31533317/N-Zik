@@ -13,12 +13,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -75,8 +73,8 @@ import androidx.compose.ui.util.fastFirst
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import app.kreate.android.R
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
-import app.kreate.android.me.knighthat.coil.resize
+import app.n_zik.android.core.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.resize
 import app.it.fast4x.compose.persist.persist
 import app.it.fast4x.compose.persist.persistList
 import it.fast4x.innertube.Innertube
@@ -86,7 +84,6 @@ import app.it.fast4x.rimusic.Database
 import app.it.fast4x.rimusic.LocalPlayerServiceBinder
 import app.it.fast4x.rimusic.appContext
 import app.it.fast4x.rimusic.cleanPrefix
-import app.kreate.android.me.knighthat.coil.*
 
 import app.it.fast4x.rimusic.colorPalette
 import app.it.fast4x.rimusic.enums.NavRoutes
@@ -97,7 +94,6 @@ import app.it.fast4x.rimusic.models.Song
 import app.it.fast4x.rimusic.service.modern.isLocal
 import app.it.fast4x.rimusic.typography
 import app.it.fast4x.rimusic.ui.components.LocalMenuState
-import app.it.fast4x.rimusic.ui.components.ShimmerHost
 import app.it.fast4x.rimusic.ui.components.SwipeablePlaylistItem
 import app.it.fast4x.rimusic.ui.components.themed.AutoResizeText
 import app.it.fast4x.rimusic.ui.components.themed.ConfirmationDialog
@@ -110,7 +106,6 @@ import app.it.fast4x.rimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import app.it.fast4x.rimusic.ui.components.themed.PlaylistsItemMenu
 import app.it.fast4x.rimusic.ui.components.themed.adaptiveThumbnailContent
 import app.it.fast4x.rimusic.ui.components.themed.Loader
-import app.it.fast4x.rimusic.ui.items.AlbumItemPlaceholder
 
 import app.it.fast4x.rimusic.ui.items.SongItemPlaceholder
 import app.it.fast4x.rimusic.ui.screens.settings.isYouTubeSyncEnabled

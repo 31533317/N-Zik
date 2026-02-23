@@ -42,7 +42,7 @@ import androidx.compose.ui.util.fastJoinToString
 import androidx.compose.ui.util.fastMapNotNull
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.it.fast4x.compose.persist.PersistMapCleanup
 import app.it.fast4x.compose.persist.persist
 import app.it.fast4x.compose.persist.persistList
@@ -64,7 +64,6 @@ import app.it.fast4x.rimusic.utils.transitionEffectKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
-import app.kreate.android.me.knighthat.coil.*
 
 import app.kreate.android.me.knighthat.utils.PropUtils
 

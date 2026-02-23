@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
@@ -46,7 +45,6 @@ import app.it.fast4x.rimusic.thumbnailShape
 import app.it.fast4x.rimusic.typography
 import app.it.fast4x.rimusic.ui.components.LocalMenuState
 import app.it.fast4x.rimusic.ui.components.MenuState
-import app.it.fast4x.rimusic.ui.components.navigation.header.TabToolBar
 import app.it.fast4x.rimusic.ui.components.tab.toolbar.Button
 import app.it.fast4x.rimusic.ui.components.tab.toolbar.Clickable
 import app.it.fast4x.rimusic.ui.components.tab.toolbar.Descriptive
@@ -70,10 +68,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.kreate.android.me.knighthat.component.menu.GridMenu
 import app.kreate.android.me.knighthat.component.menu.ListMenu
-import app.kreate.android.me.knighthat.utils.Toaster
 import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

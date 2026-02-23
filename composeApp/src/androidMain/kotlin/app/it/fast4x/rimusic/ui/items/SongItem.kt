@@ -9,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.LoadingIndicator
 import androidx.compose.ui.graphics.drawscope.Stroke
 import app.it.fast4x.rimusic.utils.getDownloadProgress
 import app.it.fast4x.rimusic.utils.DOWNLOAD_INDICATOR_SIZE_NORMAL
@@ -81,9 +80,9 @@ import app.it.fast4x.rimusic.utils.rememberPreference
 import app.it.fast4x.rimusic.utils.secondary
 import app.it.fast4x.rimusic.utils.semiBold
 import app.it.fast4x.rimusic.utils.shimmerEffect
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
-import app.kreate.android.me.knighthat.coil.thumbnail
-import app.kreate.android.me.knighthat.coil.size
+import app.n_zik.android.core.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.thumbnail
+import app.n_zik.android.core.coil.size
 import app.kreate.android.me.knighthat.utils.Toaster
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged

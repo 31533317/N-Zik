@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -42,10 +41,9 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.it.fast4x.rimusic.Database
 import app.it.fast4x.rimusic.LocalPlayerServiceBinder
-import app.it.fast4x.rimusic.colorPalette
 import app.it.fast4x.rimusic.enums.ThumbnailCoverType
 import app.it.fast4x.rimusic.enums.ThumbnailType
 import app.it.fast4x.rimusic.service.LoginRequiredException
@@ -73,7 +71,6 @@ import app.it.fast4x.rimusic.utils.showlyricsthumbnailKey
 import app.it.fast4x.rimusic.utils.showvisthumbnailKey
 import app.it.fast4x.rimusic.utils.thumbnailTypeKey
 import app.it.fast4x.rimusic.utils.thumbnailpauseKey
-import app.kreate.android.me.knighthat.coil.*
 
 import app.kreate.android.me.knighthat.utils.Toaster
 import timber.log.Timber

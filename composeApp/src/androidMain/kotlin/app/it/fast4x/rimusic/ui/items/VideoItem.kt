@@ -21,8 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.util.UnstableApi
-import app.kreate.android.R
 import it.fast4x.innertube.Innertube
 
 
@@ -38,7 +36,7 @@ import app.it.fast4x.rimusic.colorPalette
 import app.it.fast4x.rimusic.thumbnailShape
 import app.it.fast4x.rimusic.typography
 import app.it.fast4x.rimusic.utils.shimmerEffect
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 @Composable
 fun VideoItem(

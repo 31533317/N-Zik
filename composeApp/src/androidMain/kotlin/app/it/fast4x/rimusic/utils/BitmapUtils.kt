@@ -2,7 +2,7 @@ package app.it.fast4x.rimusic.utils
 
 import android.content.Context
 import android.graphics.Bitmap
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 suspend fun getBitmapFromUrl(context: Context, url: String): Bitmap {
     if (url.isBlank() || url == "null") {

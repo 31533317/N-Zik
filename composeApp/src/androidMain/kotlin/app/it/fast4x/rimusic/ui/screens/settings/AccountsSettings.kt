@@ -54,9 +54,8 @@ import it.fast4x.piped.Piped
 import it.fast4x.piped.models.Instance
 import it.fast4x.piped.models.Session
 import app.it.fast4x.rimusic.appContext
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.it.fast4x.rimusic.colorPalette
-import app.it.fast4x.rimusic.enums.NavigationBarPosition
 import app.it.fast4x.rimusic.enums.ThumbnailRoundness
 import app.it.fast4x.rimusic.extensions.discord.DiscordLoginAndGetToken
 import app.it.fast4x.rimusic.extensions.discord.DiscordPresenceManager
@@ -73,7 +72,6 @@ import app.it.fast4x.rimusic.utils.discordPersonalAccessTokenKey
 import app.it.fast4x.rimusic.utils.enableYouTubeLoginKey
 import app.it.fast4x.rimusic.utils.enableYouTubeSyncKey
 import app.it.fast4x.rimusic.utils.isAtLeastAndroid7
-import app.it.fast4x.rimusic.utils.isAtLeastAndroid81
 import app.it.fast4x.rimusic.utils.isDiscordPresenceEnabledKey
 import app.it.fast4x.rimusic.utils.isPipedCustomEnabledKey
 import app.it.fast4x.rimusic.utils.isPipedEnabledKey
@@ -101,10 +99,6 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.res.painterResource
 import app.it.fast4x.rimusic.typography
 import app.kreate.android.me.knighthat.component.dialog.RestartAppDialog
-import app.it.fast4x.rimusic.ui.screens.settings.isYouTubeLoggedIn
-import app.it.fast4x.rimusic.utils.enablePictureInPictureKey
-import app.it.fast4x.rimusic.utils.rememberPreference
-import app.it.fast4x.rimusic.ytAccountThumbnail
 
 @androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalMaterial3Api::class)

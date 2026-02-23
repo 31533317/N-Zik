@@ -38,7 +38,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
 import app.kreate.android.drawable.APP_ICON_BITMAP
-import app.kreate.android.me.knighthat.coil.resize
+import app.n_zik.android.core.coil.resize
 import app.it.fast4x.rimusic.LocalPlayerServiceBinder
 import app.it.fast4x.rimusic.colorPalette
 import app.it.fast4x.rimusic.extensions.nextvisualizer.painters.Painter
@@ -67,12 +67,10 @@ import app.it.fast4x.rimusic.ui.components.themed.IconButton
 import app.it.fast4x.rimusic.ui.components.themed.SecondaryTextButton
 import app.it.fast4x.rimusic.utils.DisposableListener
 import app.it.fast4x.rimusic.utils.currentVisualizerKey
-import app.it.fast4x.rimusic.utils.currentWindow
 import app.it.fast4x.rimusic.utils.getBitmapFromUrl
 import app.it.fast4x.rimusic.utils.hasPermission
 import app.it.fast4x.rimusic.utils.isCompositionLaunched
 import app.it.fast4x.rimusic.utils.rememberPreference
-import app.kreate.android.me.knighthat.coil.*
 
 import app.it.fast4x.rimusic.utils.semiBold
 import app.it.fast4x.rimusic.utils.visualizerEnabledKey

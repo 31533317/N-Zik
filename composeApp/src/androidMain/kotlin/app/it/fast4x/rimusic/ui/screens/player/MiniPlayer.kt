@@ -104,7 +104,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.kreate.android.me.knighthat.sync.YouTubeSync
 import app.kreate.android.me.knighthat.utils.Toaster
 import kotlin.math.absoluteValue

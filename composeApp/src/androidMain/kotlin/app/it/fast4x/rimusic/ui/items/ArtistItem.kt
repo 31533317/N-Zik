@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,7 +28,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
 import it.fast4x.innertube.Innertube
 
@@ -42,9 +40,8 @@ import app.it.fast4x.rimusic.typography
 import app.it.fast4x.rimusic.utils.conditional
 import app.it.fast4x.rimusic.utils.secondary
 import app.it.fast4x.rimusic.utils.semiBold
-import app.kreate.android.me.knighthat.coil.thumbnail
 import app.it.fast4x.rimusic.utils.shimmerEffect
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 @Composable
 fun ArtistItem(

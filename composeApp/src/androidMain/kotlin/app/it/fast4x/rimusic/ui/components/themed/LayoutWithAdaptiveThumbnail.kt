@@ -26,7 +26,7 @@ import app.it.fast4x.rimusic.ui.styling.shimmer
 import app.it.fast4x.rimusic.utils.isLandscape
 import app.it.fast4x.rimusic.utils.playerThumbnailSizeKey
 import app.it.fast4x.rimusic.utils.rememberPreference
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 
 @Composable

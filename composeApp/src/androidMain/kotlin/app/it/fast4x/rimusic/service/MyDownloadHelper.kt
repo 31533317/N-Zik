@@ -2,7 +2,6 @@ package app.it.fast4x.rimusic.service
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
@@ -41,7 +40,7 @@ import app.it.fast4x.rimusic.utils.getEnum
 import app.it.fast4x.rimusic.utils.isNetworkConnected
 import app.it.fast4x.rimusic.utils.preferences
 import app.it.fast4x.rimusic.utils.removeDownload
-import app.kreate.android.me.knighthat.coil.thumbnail
+import app.n_zik.android.core.coil.thumbnail
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -58,8 +57,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import app.it.fast4x.rimusic.utils.ExternalUris
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
-import app.kreate.android.me.knighthat.coil.thumbnail
+import app.n_zik.android.core.coil.ImageCacheFactory
 
 import app.kreate.android.me.knighthat.utils.Toaster
 import timber.log.Timber

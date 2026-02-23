@@ -30,11 +30,10 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import app.kreate.android.me.knighthat.coil.*
 
 import com.google.gson.annotations.SerializedName
 import app.kreate.android.R
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import app.it.fast4x.rimusic.ui.styling.favoritesIcon
 import app.it.fast4x.rimusic.colorPalette
 import app.it.fast4x.rimusic.typography

@@ -6,14 +6,12 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.media3.common.util.BitmapLoader
 import androidx.media3.common.util.UnstableApi
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
-import coil3.toBitmap
+import app.n_zik.android.core.coil.ImageCacheFactory
 import com.google.common.util.concurrent.ListenableFuture
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.guava.future
-import app.kreate.android.me.knighthat.utils.Toaster
 
 @UnstableApi
 class CoilBitmapLoader(

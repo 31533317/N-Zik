@@ -7,7 +7,7 @@ import android.net.Uri
 import androidx.core.graphics.applyCanvas
 import app.it.fast4x.rimusic.appContext
 import timber.log.Timber
-import app.kreate.android.me.knighthat.coil.ImageCacheFactory
+import app.n_zik.android.core.coil.ImageCacheFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
