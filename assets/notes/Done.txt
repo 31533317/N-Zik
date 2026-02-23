@@ -9,3 +9,4 @@
 9: Fixed nerds stats not updating
 10: Updated NetworkQualityHelper and fixed network quality not updating
 11: Refactored Network Logic
+12: Fixed player spam in error and added the abbility to pause when a song is buffering

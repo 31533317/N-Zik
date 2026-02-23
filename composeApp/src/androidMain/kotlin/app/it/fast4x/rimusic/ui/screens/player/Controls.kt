@@ -236,12 +236,14 @@ fun Controls(
                     )
                 }
                 if (!isShowingLyrics || timelineExpanded) {
-                    GetSeekBar(
-                        position = position,
-                        duration = duration,
-                        media = media,
-                        mediaId = mediaId
-                    )
+                GetSeekBar(
+                    position = position,
+                    duration = duration,
+                    media = media,
+                    mediaId = mediaId,
+                    shouldBePlaying = shouldBePlaying,
+                    isBuffering = isBuffering
+                )
                     Spacer(
                         modifier = Modifier
                             .height(if (playerPlayButtonType != PlayerPlayButtonType.Disabled) 10.dp else 5.dp)
@@ -316,12 +318,14 @@ fun Controls(
                 )
 
                 if (!playerSwapControlsWithTimeline) {
-                    GetSeekBar(
-                        position = position,
-                        duration = duration,
-                        media = media,
-                        mediaId = mediaId
-                    )
+                GetSeekBar(
+                    position = position,
+                    duration = duration,
+                    media = media,
+                    mediaId = mediaId,
+                    shouldBePlaying = shouldBePlaying,
+                    isBuffering = isBuffering
+                )
                     Spacer(
                         modifier = Modifier
                             .weight(0.4f)
@@ -353,12 +357,14 @@ fun Controls(
                         modifier = Modifier
                             .weight(0.5f)
                     )
-                    GetSeekBar(
-                        position = position,
-                        duration = duration,
-                        media = media,
-                        mediaId = mediaId
-                    )
+                GetSeekBar(
+                    position = position,
+                    duration = duration,
+                    media = media,
+                    mediaId = mediaId,
+                    shouldBePlaying = shouldBePlaying,
+                    isBuffering = isBuffering
+                )
                     Spacer(
                         modifier = Modifier
                             .weight(0.4f)
@@ -419,7 +425,9 @@ fun Controls(
                     position = position,
                     duration = duration,
                     media = media,
-                    mediaId = mediaId
+                    mediaId = mediaId,
+                    shouldBePlaying = shouldBePlaying,
+                    isBuffering = isBuffering
                 )
                 Spacer(
                     modifier = Modifier
@@ -460,7 +468,9 @@ fun Controls(
                     position = position,
                     duration = duration,
                     media = media,
-                    mediaId = mediaId
+                    mediaId = mediaId,
+                    shouldBePlaying = shouldBePlaying,
+                    isBuffering = isBuffering
                 )
                 Spacer(
                     modifier = Modifier

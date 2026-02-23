@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -346,30 +347,26 @@ fun Thumbnail(
                     )
                 }
 
-                var errorCounter by remember { mutableIntStateOf(0) }
-
-                if (error != null) {
-                    errorCounter = errorCounter.plus(1)
-                    if (errorCounter < 3) {
-                        Timber.e("Playback error: ${error?.cause?.cause}")
-                        Toaster.e(
+                androidx.compose.runtime.LaunchedEffect(error) {
+                    if (error != null) {
+                        timber.log.Timber.e("Playback error: ${error?.cause?.cause}")
+                        app.kreate.android.me.knighthat.utils.Toaster.e(
                             if (currentWindow.mediaItem.isLocal)
                                 localMusicFileNotFoundError
                             else when (error?.cause?.cause) {
-                                is UnresolvedAddressException, is UnknownHostException -> networkerror
-                                is PlayableFormatNotFoundException -> notfindplayableaudioformaterror
-                                is UnplayableException -> originalvideodeletederror
-                                is LoginRequiredException -> songnotplayabledueserverrestrictionerror
-                                is VideoIdMismatchException -> videoidmismatcherror
-                                is PlayableFormatNonSupported -> formatUnsupported
-                                is NoInternetException -> nointerneterror
-                                is TimeoutException -> timeouterror
-                                is UnknownException -> unknownerror
+                                is java.nio.channels.UnresolvedAddressException, is java.net.UnknownHostException -> networkerror
+                                is app.it.fast4x.rimusic.service.PlayableFormatNotFoundException -> notfindplayableaudioformaterror
+                                is app.it.fast4x.rimusic.service.UnplayableException -> originalvideodeletederror
+                                is app.it.fast4x.rimusic.service.LoginRequiredException -> songnotplayabledueserverrestrictionerror
+                                is app.it.fast4x.rimusic.service.VideoIdMismatchException -> videoidmismatcherror
+                                is app.it.fast4x.rimusic.service.PlayableFormatNonSupported -> formatUnsupported
+                                is app.it.fast4x.rimusic.service.NoInternetException -> nointerneterror
+                                is app.it.fast4x.rimusic.service.TimeoutException -> timeouterror
+                                is app.it.fast4x.rimusic.service.UnknownException -> unknownerror
                                 else -> unknownplaybackerror
                             }
                         )
-                    //    player.seekToNext()
-                    } else errorCounter = 0
+                    }
                 }
             }
         }

@@ -482,15 +482,28 @@ fun ControlsModern(
                   contentDescription = "Background Image",
                   contentScale = ContentScale.Fit
               )
-              Image(
-                  painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
-                  contentDescription = null,
-                  colorFilter = ColorFilter.tint(colorPalette().text),  //ColorFilter.tint(colorPalette().collapsedPlayerProgressBar),
-                  modifier = Modifier
-                      .rotate(rotationAngle)
-                      .align(Alignment.Center)
-                      .size(30.dp)
-              )
+
+              if (isBuffering && shouldBePlaying) {
+                  CircularWavyProgressIndicator(
+                      color = colorPalette().accent,
+                      trackColor = colorPalette().text,
+                      modifier = Modifier
+                          .align(Alignment.Center)
+                          .size(30.dp),
+                      stroke = Stroke(width = with(androidx.compose.ui.platform.LocalDensity.current) { 4.dp.toPx() }),
+                      trackStroke = Stroke(width = with(androidx.compose.ui.platform.LocalDensity.current) { 4.dp.toPx() })
+                  )
+              } else {
+                  Image(
+                      painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
+                      contentDescription = null,
+                      colorFilter = ColorFilter.tint(colorPalette().text),  //ColorFilter.tint(colorPalette().collapsedPlayerProgressBar),
+                      modifier = Modifier
+                          .rotate(rotationAngle)
+                          .align(Alignment.Center)
+                          .size(30.dp)
+                  )
+              }
           }
       }
       else {
@@ -537,7 +550,7 @@ fun ControlsModern(
             )
          */
 
-              if (isBuffering) {
+              if (isBuffering && shouldBePlaying) {
                   CircularWavyProgressIndicator(
                       color = colorPalette().accent,
                       trackColor = colorPalette().text,

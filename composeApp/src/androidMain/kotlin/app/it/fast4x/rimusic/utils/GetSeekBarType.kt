@@ -74,7 +74,9 @@ fun GetSeekBar(
     position: () -> Long,
     duration: () -> Long,
     mediaId: String,
-    media: UiMedia
+    media: UiMedia,
+    shouldBePlaying: Boolean,
+    isBuffering: Boolean
     ) {
     val binder = LocalPlayerServiceBinder.current
     binder?.player ?: return
@@ -93,11 +95,20 @@ fun GetSeekBar(
             .fillMaxWidth()
     ) {
 
-        if (duration() == C.TIME_UNSET)
-            LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
-                color = colorPalette().collapsedPlayerProgressBar
-            )
+        if (duration() == C.TIME_UNSET) {
+            if (shouldBePlaying) {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = colorPalette().collapsedPlayerProgressBar
+                )
+            } else {
+                LinearProgressIndicator(
+                    progress = { 0f },
+                    modifier = Modifier.fillMaxWidth(),
+                    color = colorPalette().collapsedPlayerProgressBar
+                )
+            }
+        }
 
         if (playerTimelineType != PlayerTimelineType.Default
             && playerTimelineType != PlayerTimelineType.Wavy

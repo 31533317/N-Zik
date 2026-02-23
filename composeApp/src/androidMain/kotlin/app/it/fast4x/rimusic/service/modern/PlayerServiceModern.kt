@@ -831,12 +831,14 @@ class PlayerServiceModern : MediaLibraryService(),
 
         val playbackConnectionExeptionList = listOf(
             PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED, //primary error code to manage
-            PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT
+            PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT,
+            PlaybackException.ERROR_CODE_IO_UNSPECIFIED // Often where custom network exceptions end up
         )
 
         // check if error is caused by internet connection
-        val isConnectionError = (error.cause?.cause is PlaybackException)
-                && (error.cause?.cause as PlaybackException).errorCode in playbackConnectionExeptionList
+        val isConnectionError = (error.cause?.cause is PlaybackException && (error.cause?.cause as PlaybackException).errorCode in playbackConnectionExeptionList)
+                || error.cause is java.net.UnknownHostException
+                || error.cause is java.nio.channels.UnresolvedAddressException
 
         if (!isNetworkAvailable.value || isConnectionError) {
             waitingForNetwork.value = true
@@ -854,7 +856,9 @@ class PlayerServiceModern : MediaLibraryService(),
             Timber.e("PlayerServiceModern onPlayerError recovered occurred errorCodeName ${error.errorCodeName} cause ${error.cause?.cause}")
             player.pause()
             player.prepare()
-            player.play()
+            if (player.playWhenReady) {
+                player.play()
+            }
             return
         }
 

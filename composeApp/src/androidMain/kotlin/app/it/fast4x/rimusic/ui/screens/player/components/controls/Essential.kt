@@ -523,7 +523,7 @@ fun ControlsEssential(
                 contentScale = ContentScale.Fit
             )
 
-        if (isBuffering) {
+        if (isBuffering && shouldBePlaying) {
             CircularWavyProgressIndicator(
                 color = colorPalette().accent,
                 trackColor = colorPalette().text,
