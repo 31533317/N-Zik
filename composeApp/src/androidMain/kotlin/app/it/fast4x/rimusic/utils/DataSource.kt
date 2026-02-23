@@ -83,24 +83,12 @@ val Context.okHttpDataSourceFactory
     @OptIn(UnstableApi::class)
     get() = DefaultDataSource.Factory(
         this,
-        OkHttpDataSource.Factory(okHttpClient())
+        OkHttpDataSource.Factory { request -> okHttpClient().newCall(request) }
             .setUserAgent("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Mobile Safari/537.36")
     )
 
 private fun okHttpClient(): OkHttpClient {
-    ProxyPreferences.preference?.let {
-        return OkHttpClient.Builder()
-            .proxy(
-                getProxy(it)
-            )
-            .connectTimeout(Duration.ofSeconds(16))
-            .readTimeout(Duration.ofSeconds(8))
-            .build()
-    }
-    return OkHttpClient.Builder()
-        .connectTimeout(Duration.ofSeconds(16))
-        .readTimeout(Duration.ofSeconds(8))
-        .build()
+    return app.n_zik.android.core.network.NetworkClientFactory.getCachelessClient()
 }
 
 

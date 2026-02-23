@@ -180,18 +180,16 @@ object ImageCacheFactory {
     }
 
     val LOADER: ImageLoader by lazy {
-        val httpClient = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(true)
-            .build()
-
         ImageLoader.Builder(appContext())
             .crossfade(true)
             .memoryCache { MemoryCache.Builder().maxSizePercent(appContext(), 0.15).strongReferencesEnabled(true).build() }
             .diskCache(DISK_CACHE)
             .components {
-                add(OkHttpNetworkFetcherFactory(httpClient))
+                add(OkHttpNetworkFetcherFactory(
+                    callFactory = { request: okhttp3.Request ->
+                        app.n_zik.android.core.network.NetworkClientFactory.getClient().newCall(request)
+                    }
+                ))
             }
             .build()
     }

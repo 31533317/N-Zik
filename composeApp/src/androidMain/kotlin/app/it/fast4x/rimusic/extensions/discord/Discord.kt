@@ -45,7 +45,7 @@ private const val SAMSUNG_USER_AGENT = "Mozilla/5.0 (Linux; Android 14; SM-S921U
      */
 
 suspend fun fetchDiscordUser(token: String): Pair<String, String>? = withContext(Dispatchers.IO) {
-    val client = OkHttpClient()
+    val client = app.n_zik.android.core.network.NetworkClientFactory.getClient()
     val request = Request.Builder()
         .url("https://discord.com/api/v9/users/@me")
         .header("Authorization", token)

@@ -8,3 +8,4 @@
 8: Fixed audio quality not updating
 9: Fixed nerds stats not updating
 10: Updated NetworkQualityHelper and fixed network quality not updating
+11: Refactored Network Logic

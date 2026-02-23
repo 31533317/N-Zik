@@ -69,10 +69,7 @@ class DiscordPresenceManager(
     private var isStopped = false
     private val discordScope = externalScope
     private var refreshJob: Job? = null
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
-        .readTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
-        .build()
+    private val client = app.n_zik.android.core.network.NetworkClientFactory.getClientWithTimeout(10L, 10L)
     @Volatile
     private var smallImage: String? = null
     @Volatile

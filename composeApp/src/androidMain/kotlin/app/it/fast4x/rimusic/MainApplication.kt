@@ -4,27 +4,59 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import android.os.StrictMode
 import android.content.Context
 import coil3.SingletonImageLoader
 import coil3.ImageLoader
 
 import app.kreate.android.R
 import app.n_zik.android.core.coil.ImageCacheFactory
+import app.n_zik.android.core.network.NetworkClientFactory
 import app.it.fast4x.rimusic.service.modern.PlayerServiceModern
 import app.it.fast4x.rimusic.service.MyDownloadHelper
 import app.it.fast4x.rimusic.utils.CaptureCrash
 import app.it.fast4x.rimusic.utils.FileLoggingTree
 import app.it.fast4x.rimusic.utils.logDebugEnabledKey
 import app.it.fast4x.rimusic.utils.preferences
+import app.it.fast4x.rimusic.utils.isProxyEnabledKey
+import app.it.fast4x.rimusic.utils.proxyHostnameKey
+import app.it.fast4x.rimusic.utils.proxyModeKey
+import app.it.fast4x.rimusic.utils.proxyPortKey
+import app.it.fast4x.rimusic.utils.isValidIP
+import app.it.fast4x.rimusic.utils.getEnum
+import it.fast4x.innertube.utils.ProxyPreferenceItem
+import it.fast4x.innertube.utils.ProxyPreferences
 import timber.log.Timber
 import java.io.File
+import java.net.Proxy
 
 class MainApplication : Application(), SingletonImageLoader.Factory {
 
     override fun onCreate() {
         super.onCreate()
-        //DatabaseInitializer()
         Dependencies.init(this)
+
+        val oldPolicy = StrictMode.allowThreadDiskReads()
+        try {
+            var proxy: Proxy? = null
+            if (preferences.getBoolean(isProxyEnabledKey, false)) {
+                val hostName = preferences.getString(proxyHostnameKey, null)
+                val proxyPort = preferences.getInt(proxyPortKey, 8080)
+                val proxyMode = preferences.getEnum(proxyModeKey, Proxy.Type.HTTP)
+                if (isValidIP(hostName)) {
+                    hostName?.let { hName ->
+                        ProxyPreferences.preference = ProxyPreferenceItem(hName, proxyPort, proxyMode)
+                        proxy = it.fast4x.innertube.utils.getProxy(ProxyPreferences.preference!!)
+                    }
+                }
+            }
+            NetworkClientFactory.configure(
+                proxy = proxy,
+                cacheDir = externalCacheDir ?: cacheDir
+            )
+        } finally {
+            StrictMode.setThreadPolicy(oldPolicy)
+        }
 
         createNotificationChannels()
 

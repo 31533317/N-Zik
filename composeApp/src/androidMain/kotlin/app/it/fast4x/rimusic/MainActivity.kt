@@ -146,7 +146,6 @@ import app.it.fast4x.rimusic.ui.styling.dynamicColorPaletteOf
 import app.it.fast4x.rimusic.ui.styling.typographyOf
 import app.it.fast4x.rimusic.utils.InitDownloader
 import app.it.fast4x.rimusic.utils.LocalMonetCompat
-import app.it.fast4x.rimusic.utils.OkHttpRequest
 import app.it.fast4x.rimusic.utils.UiTypeKey
 import app.it.fast4x.rimusic.utils.animatedGradientKey
 import app.it.fast4x.rimusic.utils.applyFontPaddingKey
@@ -247,9 +246,6 @@ class MainActivity :
     PersistMapOwner
 {
     var downloadHelper = MyDownloadHelper
-
-    var client = OkHttpClient()
-    var request = OkHttpRequest(client)
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -718,6 +714,34 @@ class MainActivity :
                                 -> {
                                 this@MainActivity.recreate()
                                 println("MainActivity.recreate()")
+                            }
+
+                            isProxyEnabledKey, proxyHostnameKey, proxyPortKey, proxyModeKey -> {
+                                val isProxyEnabled = sharedPreferences.getBoolean(isProxyEnabledKey, false)
+                                var proxy: Proxy? = null
+                                
+                                if (isProxyEnabled) {
+                                    val hostName = sharedPreferences.getString(proxyHostnameKey, null)
+                                    val proxyPort = sharedPreferences.getInt(proxyPortKey, 8080)
+                                    val proxyMode = sharedPreferences.getEnum(proxyModeKey, Proxy.Type.HTTP)
+                                    if (isValidIP(hostName)) {
+                                        hostName?.let { hName ->
+                                            ProxyPreferences.preference = ProxyPreferenceItem(hName, proxyPort, proxyMode)
+                                            proxy = it.fast4x.innertube.utils.getProxy(ProxyPreferences.preference!!)
+                                        }
+                                    } else {
+                                        Toaster.e("Your Proxy Hostname is invalid, please check it")
+                                    }
+                                } else {
+                                    ProxyPreferences.preference = null
+                                }
+                                
+                                app.n_zik.android.core.network.NetworkClientFactory.configure(
+                                    proxy = proxy,
+                                    cacheDir = this@MainActivity.externalCacheDir ?: this@MainActivity.cacheDir
+                                )
+                                Innertube.proxy = proxy
+                                NewPipe.init(NewPipeDownloaderImpl(proxy ?: Proxy.NO_PROXY))
                             }
 
                             colorPaletteNameKey, colorPaletteModeKey,

@@ -158,7 +158,7 @@ object Updater {
         // Get all releases to find the best one
         val url = "${Repository.GITHUB_API}/repos/${Repository.REPO}/releases"
         val request = Request.Builder().url(url).build()
-        val response = OkHttpClient().newCall(request).execute()
+        val response = app.n_zik.android.core.network.NetworkClientFactory.getClient().newCall(request).execute()
 
         if (!response.isSuccessful) {
             Toaster.e(response.message)
