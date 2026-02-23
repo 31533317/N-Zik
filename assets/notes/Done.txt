@@ -10,3 +10,5 @@
 10: Updated NetworkQualityHelper and fixed network quality not updating
 11: Refactored Network Logic
 12: Fixed player spam in error and added the abbility to pause when a song is buffering
+13: Fixed mini queue not updating
+14: added a smooth tansition for the mini queue

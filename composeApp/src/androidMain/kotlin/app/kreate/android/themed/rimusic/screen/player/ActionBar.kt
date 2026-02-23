@@ -267,7 +267,7 @@ fun BoxScope.ActionBar(
                         mediaItems.clear()
                         mediaItems.addAll( binder.player.mediaItems )
 
-                        pagerStateQueue.requestScrollToPage(
+                        pagerStateQueue.animateScrollToPage(
                             nextIndex.coerceIn( 0, pagerStateQueue.pageCount.coerceAtLeast(1) )
                         )
                     }
