@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.ktor.content.negotiation)
     implementation(libs.ktor.encoding)
     implementation(libs.ktor.serialization)
+    implementation(libs.okhttp3.okhttp)
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.ktor.serialization.json)
     implementation(libs.ktor.serialization.kotlinx.xml)

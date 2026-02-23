@@ -229,6 +229,7 @@ import kotlinx.coroutines.withContext
 import me.knighthat.invidious.Invidious
 import me.knighthat.piped.Piped
 import app.kreate.android.me.knighthat.utils.Toaster
+import it.fast4x.innertube.Innertube.proxy
 import okhttp3.OkHttpClient
 import org.schabi.newpipe.extractor.NewPipe
 import timber.log.Timber
@@ -445,21 +446,21 @@ class MainActivity :
             if (getBoolean(isKeepScreenOnEnabledKey, false)) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
-            if (getBoolean(isProxyEnabledKey, false)) {
+            val proxy = if (getBoolean(isProxyEnabledKey, false)) {
                 val hostName = getString(proxyHostnameKey, null)
                 val proxyPort = getInt(proxyPortKey, 8080)
                 val proxyMode = getEnum(proxyModeKey, Proxy.Type.HTTP)
-                if (isValidIP(hostName)) {
-                    hostName?.let { hName ->
-                        ProxyPreferences.preference =
-                            ProxyPreferenceItem(hName, proxyPort, proxyMode)
-                    }
-                } else
-                    Toaster.e( "Your Proxy Hostname is invalid, please check it" )
-            }
+                if (isValidIP(hostName) && hostName != null) {
+                    it.fast4x.innertube.utils.getProxy(ProxyPreferenceItem(hostName, proxyPort, proxyMode))
+                } else null
+            } else null
 
-            val proxy = Innertube.proxy ?: Proxy.NO_PROXY
-            NewPipe.init( NewPipeDownloaderImpl(proxy) )
+            app.n_zik.android.core.network.NetworkClientFactory.configure(
+                proxy = proxy,
+                cacheDir = this@MainActivity.externalCacheDir ?: this@MainActivity.cacheDir
+            )
+            Innertube.proxy = proxy
+            NewPipe.init(NewPipeDownloaderImpl(app.n_zik.android.core.network.NetworkClientFactory.getClient()))
         }
 
         setContent {
@@ -741,7 +742,7 @@ class MainActivity :
                                     cacheDir = this@MainActivity.externalCacheDir ?: this@MainActivity.cacheDir
                                 )
                                 Innertube.proxy = proxy
-                                NewPipe.init(NewPipeDownloaderImpl(proxy ?: Proxy.NO_PROXY))
+                                NewPipe.init(NewPipeDownloaderImpl(app.n_zik.android.core.network.NetworkClientFactory.getClient()))
                             }
 
                             colorPaletteNameKey, colorPaletteModeKey,
