@@ -368,8 +368,6 @@ fun CheckAvailableNewVersion(
 
 fun isNetworkConnected(context: Context): Boolean = NetworkQualityHelper.isNetworkConnected(context)
 
-fun isNetworkAvailable(context: Context): Boolean = NetworkQualityHelper.isNetworkAvailable(context)
-
 @Composable
 fun isNetworkAvailableComposable(): Boolean {
     val context = LocalContext.current

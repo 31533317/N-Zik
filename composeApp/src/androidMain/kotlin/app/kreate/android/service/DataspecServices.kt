@@ -11,7 +11,7 @@ import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
 import app.kreate.android.R
 import app.kreate.android.Threads
-import app.kreate.android.network.innertube.Store
+import app.n_zik.android.core.network.Store
 import app.kreate.android.utils.CharUtils
 import com.google.gson.Gson
 import com.grack.nanojson.JsonObject

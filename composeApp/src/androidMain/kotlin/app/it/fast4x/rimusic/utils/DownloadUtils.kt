@@ -1,6 +1,7 @@
 package app.it.fast4x.rimusic.utils
 
 
+import app.n_zik.android.core.network.isNetworkAvailable
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -108,7 +109,7 @@ fun manageDownload(
         MyDownloadHelper.removeDownload(context = context, mediaItem = mediaItem)
     }
     else {
-        if (app.it.fast4x.rimusic.utils.isNetworkAvailable(context)) {
+        if (context.isNetworkAvailable) {
             MyDownloadHelper.addDownload(context = context, mediaItem = mediaItem)
         }
     }

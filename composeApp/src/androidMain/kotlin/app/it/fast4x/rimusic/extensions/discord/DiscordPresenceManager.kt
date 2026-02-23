@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
-import app.it.fast4x.rimusic.utils.isNetworkAvailable
+import app.n_zik.android.core.network.isNetworkAvailable
 import app.kreate.android.R
 import com.my.kizzyrpc.KizzyRPC
 import com.my.kizzyrpc.model.Activity
@@ -178,7 +178,7 @@ class DiscordPresenceManager(
      */
 
      internal suspend fun validateToken(token: String): Boolean? = withContext(Dispatchers.IO) {
-        if (!isNetworkAvailable(context)) return@withContext null
+        if (!context.isNetworkAvailable) return@withContext null
         val request = Request.Builder()
             .url("https://discord.com/api/v9/users/@me")
             .header("Authorization", token)
@@ -211,7 +211,7 @@ class DiscordPresenceManager(
         val token = getToken() ?: return
         if (token.isEmpty()) return
 
-        if (!isNetworkAvailable(context)) {
+        if (!context.isNetworkAvailable) {
             return
         }
 
@@ -423,7 +423,7 @@ class DiscordPresenceManager(
         refreshJob = discordScope.launch {
             while (isActive && !isStopped) {
                 delay(15_000L)
-                if (!isNetworkAvailable(context)) {
+if (!context.isNetworkAvailable) {
                     continue
                 }
                 val isPlaying = isPlayingProvider()
