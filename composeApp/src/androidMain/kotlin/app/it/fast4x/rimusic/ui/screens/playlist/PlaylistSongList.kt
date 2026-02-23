@@ -125,7 +125,7 @@ import app.it.fast4x.rimusic.utils.forcePlayAtIndex
 import app.it.fast4x.rimusic.utils.forcePlayFromBeginning
 import app.it.fast4x.rimusic.utils.formatAsDuration
 import app.it.fast4x.rimusic.utils.formatAsTime
-import app.it.fast4x.rimusic.utils.getHttpClient
+import app.n_zik.android.core.network.NetworkClientFactory
 import app.it.fast4x.rimusic.utils.isDownloadedSong
 import app.it.fast4x.rimusic.utils.isLandscape
 import app.it.fast4x.rimusic.utils.isNetworkConnected
@@ -237,7 +237,7 @@ fun PlaylistSongList(
         mutableStateOf(false)
     }
 
-    val translator = Translator(getHttpClient())
+    val translator = Translator(NetworkClientFactory.getKtorClient())
     val languageDestination = languageDestination()
 
     val localPlaylist by remember( saveCheck ) {

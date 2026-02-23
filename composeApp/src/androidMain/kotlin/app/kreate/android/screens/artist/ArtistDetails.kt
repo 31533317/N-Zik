@@ -97,7 +97,7 @@ import app.it.fast4x.rimusic.utils.enqueue
 import app.it.fast4x.rimusic.utils.fadingEdge
 import app.it.fast4x.rimusic.utils.forcePlay
 import app.it.fast4x.rimusic.utils.forcePlayAtIndex
-import app.it.fast4x.rimusic.utils.getHttpClient
+import app.n_zik.android.core.network.NetworkClientFactory
 import app.it.fast4x.rimusic.utils.isLandscape
 import app.it.fast4x.rimusic.utils.languageDestination
 import app.it.fast4x.rimusic.utils.rememberPreference
@@ -190,7 +190,7 @@ fun ArtistDetails(
 
     //<editor-fold defaultstate="collapsed" desc="Translator">
     val translate = Translate.init()
-    val translator = Translator(getHttpClient())
+    val translator = Translator(NetworkClientFactory.getKtorClient())
     val languageDestination = languageDestination()
     //</editor-fold>
 

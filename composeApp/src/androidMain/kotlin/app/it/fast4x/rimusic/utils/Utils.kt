@@ -24,9 +24,7 @@ import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
 import app.kreate.android.R
 import com.zionhuang.innertube.pages.LibraryPage
-import io.ktor.client.HttpClient
 import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.UserAgent
 import io.ktor.http.HttpStatusCode
 import it.fast4x.innertube.Innertube
 import it.fast4x.innertube.YtMusic.addToPlaylist
@@ -34,8 +32,6 @@ import it.fast4x.innertube.YtMusic.likeVideoOrSong
 import it.fast4x.innertube.YtMusic.removelikeVideoOrSong
 import it.fast4x.innertube.models.bodies.ContinuationBody
 import it.fast4x.innertube.requests.playlistPage
-import it.fast4x.innertube.utils.ProxyPreferences
-import it.fast4x.innertube.utils.getProxy
 import it.fast4x.kugou.KuGou
 import it.fast4x.lrclib.LrcLib
 import app.it.fast4x.rimusic.Database
@@ -377,18 +373,6 @@ fun isNetworkAvailableComposable(): Boolean {
 }
 
 
-fun getHttpClient() = HttpClient() {
-    install(UserAgent) {
-        agent = "Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0"
-    }
-    engine {
-        ProxyPreferences.preference?.let{
-            proxy = getProxy(it)
-        }
-
-    }
-}
-
 @Composable
 fun getVersionName(): String {
     val context = LocalContext.current
@@ -622,7 +606,3 @@ suspend fun addToYtLikedSongs(mediaItems: List<MediaItem>){
             }
     }
 }
-
-
-
-

@@ -295,10 +295,6 @@ class PoTokenWebView private constructor(
                 "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.3"
         private const val JS_INTERFACE = "PoTokenWebView"
 
-        private val httpClient = OkHttpClient.Builder()
-            .proxy(Innertube.proxy)
-            .build()
-
         private fun botguardRequest(
             url: String,
             body: String,
@@ -313,7 +309,8 @@ class PoTokenWebView private constructor(
                     "x-user-agent" to "grpc-web-javascript/0.1",
                 ).toHeaders())
                 .url(url)
-            val response = this.httpClient.newCall(requestBuilder.build()).execute()
+            val response = app.n_zik.android.core.network.NetworkClientFactory.getCachelessClient()
+                .newCall(requestBuilder.build()).execute()
             return@runCatching response.body!!.string()
         }
 

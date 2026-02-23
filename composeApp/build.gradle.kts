@@ -72,6 +72,7 @@ kotlin {
             implementation(libs.newpipe.extractor)
             implementation(libs.nanojson)
             implementation(libs.androidx.webkit)
+            implementation(libs.ktor.okhttp)
 
             // Related to built-in game, maybe removed in future?
             implementation(libs.compose.runtime.livedata)
@@ -306,8 +307,8 @@ dependencies {
 
     coreLibraryDesugaring(libs.desugaring.nio)
 
-    testImplementation(libs.junit5.jupiter.api)
-    testRuntimeOnly(libs.junit5.jupiter.engine)
+    testImplementation(libs.bundles.junit5)
+    testRuntimeOnly(libs.junit.platform)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
     implementation(libs.jetbrains.annotations)
@@ -315,4 +316,8 @@ dependencies {
 
     // Debug only
     debugImplementation(libs.ui.tooling.preview.android)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

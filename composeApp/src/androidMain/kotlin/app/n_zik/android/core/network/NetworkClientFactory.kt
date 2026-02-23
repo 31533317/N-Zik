@@ -1,5 +1,7 @@
 package app.n_zik.android.core.network
  
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import java.io.File
@@ -9,6 +11,12 @@ import java.util.concurrent.TimeUnit
 object NetworkClientFactory {
     @Volatile
     private var client: OkHttpClient? = null
+
+    @Volatile
+    private var ktorClient: HttpClient? = null
+
+    @Volatile
+    private var ktorCachelessClient: HttpClient? = null
 
     fun configure(
         proxy: Proxy?,
@@ -34,6 +42,9 @@ object NetworkClientFactory {
                     .proxy(proxy)
                     .build()
             }
+            // Reset Ktor clients to force reconfiguration with new proxy/settings
+            ktorClient = null
+            ktorCachelessClient = null
         }
     }
 
@@ -61,5 +72,25 @@ object NetworkClientFactory {
             .connectTimeout(connect, TimeUnit.SECONDS)
             .readTimeout(read, TimeUnit.SECONDS)
             .build()
+    }
+
+    fun getKtorClient(cacheless: Boolean = true): HttpClient {
+        return if (cacheless) {
+            ktorCachelessClient ?: synchronized(this) {
+                ktorCachelessClient ?: HttpClient(OkHttp) {
+                    engine {
+                        preconfigured = getCachelessClient()
+                    }
+                }.also { ktorCachelessClient = it }
+            }
+        } else {
+            ktorClient ?: synchronized(this) {
+                ktorClient ?: HttpClient(OkHttp) {
+                    engine {
+                        preconfigured = getClient()
+                    }
+                }.also { ktorClient = it }
+            }
+        }
     }
 }
