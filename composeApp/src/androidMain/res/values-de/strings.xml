@@ -24,6 +24,7 @@
   <string name="playlists">Wiedergabelisten</string>
   <string name="favorites">Favoriten</string>
   <string name="quick_picks">Startseite</string>
+  <string name="lucky_shuffle">Ich fühle mich glücklich</string>
   <string name="songs">Titel</string>
   <string name="other_versions">Alternative Versionen</string>
   <string name="album_no_alternative_version">Dieses Album hat keine alternative Version</string>
