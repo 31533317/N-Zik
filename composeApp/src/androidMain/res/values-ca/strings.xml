@@ -24,6 +24,7 @@
   <string name="playlists">Llistes de reproducció</string>
   <string name="favorites">Favorits</string>
   <string name="quick_picks">Seleccions ràpides</string>
+  <string name="lucky_shuffle">I\'m feeling lucky</string>
   <string name="songs">Cançons</string>
   <string name="other_versions">Altres versions</string>
   <string name="album_no_alternative_version">Aquest àlbum no té cap versió alternativa</string>
