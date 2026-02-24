@@ -24,6 +24,7 @@
   <string name="playlists">Плейлисты</string>
   <string name="favorites">Избранное</string>
   <string name="quick_picks">Быстрые ответы</string>
+  <string name="lucky_shuffle">Я чувствую удачу</string>
   <string name="songs">Песни</string>
   <string name="other_versions">Другие версии</string>
   <string name="album_no_alternative_version">Этот альбом не имеет других версий</string>
