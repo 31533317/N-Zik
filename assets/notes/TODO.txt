@@ -19,5 +19,4 @@
 19: Explicit badge not showing in android auto
 20: Notification player show e: e: not needed
 21: On device play doesnt work on android auto, require to play on phone bc its stuck into searching phase
-22: improve artist page on android auto, add songs, album, video, and playlist tabs
-23: fix search on android auto in 3 dots player menu to open artist page like we do in artist page add songs, album, video, and playlist tabs
+22: fix search on android auto in 3 dots player menu to open artist page like we do in artist page add songs, album, video, and playlist tabs

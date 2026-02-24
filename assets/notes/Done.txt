@@ -18,3 +18,4 @@
 18: Fixed source error on adnroid auto
 19: Improved android auto overall UI and features
 20: Added on android auto, add songs, album, video, and playlist tabs in search tab
+21: improve artist page on android auto, add songs, album, video
