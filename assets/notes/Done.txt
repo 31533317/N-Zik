@@ -16,3 +16,4 @@
 16: Fixed top charts country selection
 17: Fixed top charts not updating
 18: Fixed source error on adnroid auto
+19: Improved android auto UI

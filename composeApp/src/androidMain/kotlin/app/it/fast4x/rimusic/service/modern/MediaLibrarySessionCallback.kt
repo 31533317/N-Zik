@@ -49,6 +49,7 @@ import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_PLAYLISTS_Y
 import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_QUICK_PICKS
 import app.it.fast4x.rimusic.utils.MaxTopPlaylistItemsKey
 import app.it.fast4x.rimusic.utils.asSong
+import app.it.fast4x.rimusic.utils.showMonthlyPlaylistsKey
 import app.it.fast4x.rimusic.utils.getEnum
 import app.it.fast4x.rimusic.utils.persistentQueueKey
 import app.it.fast4x.rimusic.utils.preferences
@@ -520,6 +521,7 @@ class MediaLibrarySessionCallback(
 
                 PlayerServiceModern.PLAYLIST -> {
                     val playlists = database.playlistTable.allAsPreview().first()
+                    val showMonthlyPlaylists = context.preferences.getBoolean(showMonthlyPlaylistsKey, true)
                     
                     val localCount = playlists.filter { 
                         !it.playlist.isYoutubePlaylist && 
@@ -532,45 +534,59 @@ class MediaLibrarySessionCallback(
                     val pinnedCount = playlists.filter { it.playlist.name.startsWith(PINNED_PREFIX, true) }.size
                     val monthlyCount = playlists.filter { it.playlist.name.startsWith(MONTHLY_PREFIX, true) }.size
 
-                    listOf(
+                    val playlistItems = mutableListOf<MediaItem>()
+                    
+                    playlistItems.add(
                         MediaItemMapper.browsableMediaItem(
                             ID_PLAYLISTS_PINNED,
                             context.getString(R.string.pinned_playlists),
                             pinnedCount.toString(),
                             MediaItemMapper.drawableUri(context, R.drawable.pin_filled),
                             MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS
-                        ),
+                        )
+                    )
+                    playlistItems.add(
                         MediaItemMapper.browsableMediaItem(
                             ID_PLAYLISTS_LOCAL,
                             context.getString(R.string.playlists),
                             localCount.toString(),
                             MediaItemMapper.drawableUri(context, R.drawable.library),
                             MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS
-                        ),
-                        MediaItemMapper.browsableMediaItem(
-                            ID_PLAYLISTS_MONTHLY,
-                            context.getString(R.string.monthly_playlists),
-                            monthlyCount.toString(),
-                            MediaItemMapper.drawableUri(context, R.drawable.calendar),
-                            MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS
-                        ),
+                        )
+                    )
+                    
+                    if (showMonthlyPlaylists) {
+                        playlistItems.add(
+                            MediaItemMapper.browsableMediaItem(
+                                ID_PLAYLISTS_MONTHLY,
+                                context.getString(R.string.monthly_playlists),
+                                monthlyCount.toString(),
+                                MediaItemMapper.drawableUri(context, R.drawable.calendar),
+                                MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS
+                            )
+                        )
+                    }
+                    
+                    playlistItems.add(
                         MediaItemMapper.browsableMediaItem(
                             ID_PLAYLISTS_YT,
                             context.getString(R.string.yt_playlists),
                             ytCount.toString(),
                             MediaItemMapper.drawableUri(context, R.drawable.ytmusic),
                             MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS
-                        ),
+                        )
+                    )
+                    playlistItems.add(
                         MediaItemMapper.browsableMediaItem(
                             ID_PLAYLISTS_PIPED,
                             context.getString(R.string.piped_playlists),
                             pipedCount.toString(),
                             MediaItemMapper.drawableUri(context, R.drawable.piped_logo),
                             MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS
-                        ),
-
-
+                        )
                     )
+                    
+                    playlistItems
                 }
 
                 ID_PLAYLISTS_LOCAL -> {
