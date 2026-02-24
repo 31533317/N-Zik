@@ -261,7 +261,8 @@ class PlayerServiceModern : MediaLibraryService(),
 
     @kotlin.OptIn(ExperimentalCoroutinesApi::class)
     private val currentSong = currentMediaItem.flatMapLatest { mediaItem ->
-        Database.songTable.findById( mediaItem?.mediaId ?: "" )
+        val songId = mediaItem?.mediaId?.split("/")?.lastOrNull() ?: mediaItem?.mediaId ?: ""
+        Database.songTable.findById( songId )
     }.stateIn(coroutineScope, SharingStarted.Lazily, null)
 
     var currentSongStateDownload = MutableStateFlow(Download.STATE_STOPPED)

@@ -18,3 +18,4 @@
 18: Cache system won't show in android auto and songs tab same in phone one
 19: Explicit badge not showing in android auto
 20: Notification player show e: e: not needed
+21: Optimized transition between section in home songs

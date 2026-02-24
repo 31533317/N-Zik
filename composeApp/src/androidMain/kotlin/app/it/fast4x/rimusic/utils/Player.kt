@@ -43,7 +43,9 @@ fun Player.getGlobalVolume(): Float {
 }
 
 fun Player.isNowPlaying(mediaId: String): Boolean {
-    return mediaId == currentMediaItem?.mediaId
+    val cleanId = mediaId.split("/").lastOrNull() ?: mediaId
+    val cleanCurrentId = currentMediaItem?.mediaId?.split("/")?.lastOrNull() ?: currentMediaItem?.mediaId
+    return cleanId == cleanCurrentId
 }
 
 val Player.currentWindow: Timeline.Window?
@@ -253,10 +255,14 @@ fun Player.findNextMediaItemById(mediaId: String): MediaItem? = runCatching {
 }.getOrNull()
 
 fun Player.findMediaItemIndexById(mediaId: String): Int {
+    // Strip prefix for robust comparison
+    val cleanSearchId = mediaId.split("/").lastOrNull() ?: mediaId
     // Search the entire queue, not just from currentMediaItemIndex
     for (i in 0 until mediaItemCount) {
         try {
-            if (getMediaItemAt(i).mediaId == mediaId) {
+            val item = getMediaItemAt(i)
+            val cleanItemId = item.mediaId.split("/").lastOrNull() ?: item.mediaId
+            if (cleanItemId == cleanSearchId) {
                 return i
             }
         } catch (e: Exception) {

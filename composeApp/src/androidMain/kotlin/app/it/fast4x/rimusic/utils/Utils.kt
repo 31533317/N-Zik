@@ -201,7 +201,7 @@ val Innertube.VideoItem.asSong: Song
 
 val MediaItem.asSong: Song
     get() = Song (
-        id = mediaId,
+        id = mediaId.split("/").lastOrNull() ?: mediaId,
         title = mediaMetadata.title.toString(),
         artistsText = mediaMetadata.artist.toString(),
         durationText = mediaMetadata.extras?.getString("durationText"),

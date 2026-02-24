@@ -207,7 +207,10 @@ fun HomeSongs(
 
         retrievedSongs.flowOn( Dispatchers.IO )
                       .distinctUntilChanged()
-                      .collect { items = it }
+                      .collect { 
+                          items = it
+                          isLoading = false
+                      }
     }
 
     LaunchedEffect(isRecommendationEnabled, items) {
@@ -309,8 +312,6 @@ fun HomeSongs(
                  itemsOnDisplay.clear()
                  itemsOnDisplay.addAll(it)
              }
-
-        isLoading = false
     }
 
     LaunchedEffect( relatedSongs.size, isRecommendationEnabled ) {

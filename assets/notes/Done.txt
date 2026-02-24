@@ -20,3 +20,4 @@
 20: Added on android auto, add songs, album, video, and playlist tabs in search tab
 21: improve artist page on android auto, add songs, album, video
 22: Fixed On device play not working on android auto, require to play on phone bc its stuck into searching phase
+23: Fixed desynchronization of Nzik with Nzik on android auto
