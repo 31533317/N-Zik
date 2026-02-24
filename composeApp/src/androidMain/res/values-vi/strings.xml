@@ -24,6 +24,7 @@
   <string name="playlists">Danh sách phát</string>
   <string name="favorites">Ưa thích</string>
   <string name="quick_picks">Quick Picks</string>
+  <string name="lucky_shuffle">I\'m feeling lucky</string>
   <string name="songs">Bài hát</string>
   <string name="other_versions">Các phiên bản khác</string>
   <string name="album_no_alternative_version">Album này không có bất kì phiên bản nào khác</string>
