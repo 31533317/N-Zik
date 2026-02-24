@@ -1070,4 +1070,5 @@
   <string name="content_type_official">Offiziell</string>
   <string name="content_type_user_generated">Benutzer generiert</string>
   <string name="in_txt">in</string>
+  <string name="other">Andere</string>
 </resources>
