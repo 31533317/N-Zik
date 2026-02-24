@@ -24,6 +24,7 @@
   <string name="playlists">Плейлисти</string>
   <string name="favorites">Вибране</string>
   <string name="quick_picks">Швидке виділення</string>
+  <string name="lucky_shuffle">Мені пощастило</string>
   <string name="songs">Композиції</string>
   <string name="other_versions">Альтернативний варіант</string>
   <string name="album_no_alternative_version">Цей альбом не має альтернативної версії</string>

@@ -24,6 +24,7 @@
   <string name="playlists">Spellistor</string>
   <string name="favorites">Favoriter</string>
   <string name="quick_picks">Snabb plockning</string>
+  <string name="lucky_shuffle">Jag känner mig lycklig</string>
   <string name="songs">Låtar</string>
   <string name="other_versions">Andra versioner</string>
   <string name="album_no_alternative_version">Detta album har ingen alternativ version</string>
