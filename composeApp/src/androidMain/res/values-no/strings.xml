@@ -24,6 +24,7 @@
   <string name="playlists">Spillelister</string>
   <string name="favorites">Favoritter</string>
   <string name="quick_picks">Raske valg</string>
+  <string name="lucky_shuffle">Jeg føler meg heldig</string>
   <string name="songs">Sanger</string>
   <string name="other_versions">Andre versjoner</string>
   <string name="album_no_alternative_version">Dette albumet har ingen alternativ versjon</string>
