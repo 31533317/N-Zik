@@ -1070,4 +1070,5 @@
   <string name="content_type_official">Offisiell</string>
   <string name="content_type_user_generated">Bruker generert</string>
   <string name="in_txt">i</string>
+  <string name="other">Andre</string>
 </resources>

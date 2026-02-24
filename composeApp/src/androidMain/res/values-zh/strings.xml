@@ -1070,4 +1070,5 @@
   <string name="content_type_official">官方的</string>
   <string name="content_type_user_generated">用户已生成</string>
   <string name="in_txt">在</string>
+  <string name="other">Others</string>
 </resources>

@@ -1070,4 +1070,5 @@
   <string name="content_type_official">オフィシャル</string>
   <string name="content_type_user_generated">ユーザーが生成されました</string>
   <string name="in_txt">in</string>
+  <string name="other">その他</string>
 </resources>
