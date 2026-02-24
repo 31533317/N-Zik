@@ -426,17 +426,17 @@ class MediaLibrarySessionCallback(
                     val favoritesCount = database.artistTable.allFollowing().first().size
                     listOf(
                         MediaItemMapper.browsableMediaItem(
+                            ID_ARTISTS_LIBRARY,
+                            context.getString(R.string.library),
+                            libraryCount.toString(),
+                            MediaItemMapper.drawableUri(context, R.drawable.artist),
+                            MediaMetadata.MEDIA_TYPE_FOLDER_ARTISTS
+                        ),
+                        MediaItemMapper.browsableMediaItem(
                             ID_ARTISTS_FAVORITES,
                             context.getString(R.string.favorites),
                             favoritesCount.toString(),
                             MediaItemMapper.drawableUri(context, R.drawable.heart),
-                            MediaMetadata.MEDIA_TYPE_FOLDER_ARTISTS
-                        ),
-                        MediaItemMapper.browsableMediaItem(
-                            ID_ARTISTS_LIBRARY,
-                            context.getString(R.string.library),
-                            libraryCount.toString(),    
-                            MediaItemMapper.drawableUri(context, R.drawable.artist),
                             MediaMetadata.MEDIA_TYPE_FOLDER_ARTISTS
                         )
                     )
@@ -475,17 +475,17 @@ class MediaLibrarySessionCallback(
                     val bookmarkedCount = database.albumTable.allBookmarked().first().size
                     listOf(
                         MediaItemMapper.browsableMediaItem(
-                            ID_ALBUMS_FAVORITES,
-                            context.getString(R.string.favorites),
-                            bookmarkedCount.toString(),
-                            MediaItemMapper.drawableUri(context, R.drawable.heart),
-                            MediaMetadata.MEDIA_TYPE_FOLDER_ALBUMS
-                        ),
-                        MediaItemMapper.browsableMediaItem(
                             ID_ALBUMS_LIBRARY,
                             context.getString(R.string.library),
                             libraryCount.toString(),
                             MediaItemMapper.drawableUri(context, R.drawable.album),
+                            MediaMetadata.MEDIA_TYPE_FOLDER_ALBUMS
+                        ),
+                        MediaItemMapper.browsableMediaItem(
+                            ID_ALBUMS_FAVORITES,
+                            context.getString(R.string.favorites),
+                            bookmarkedCount.toString(),
+                            MediaItemMapper.drawableUri(context, R.drawable.heart),
                             MediaMetadata.MEDIA_TYPE_FOLDER_ALBUMS
                         )
                     )
