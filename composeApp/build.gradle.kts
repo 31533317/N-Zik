@@ -308,6 +308,7 @@ dependencies {
     coreLibraryDesugaring(libs.desugaring.nio)
 
     testImplementation(libs.bundles.junit5)
+    testImplementation(libs.mockk)
     testRuntimeOnly(libs.junit.platform)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
