@@ -1,0 +1,26 @@
+Fixed:
+- Fixed crash in album
+- Fixed crash in podcast
+- Fixed ImageCacheFactory wasn't saving metadata
+- Fixed stats for nerds not updating
+- Fixed audio quality not updating
+- Fixed network quality not updating (Updated NetworkQualityHelper)
+- Fixed player spam in error and added the ability to pause when a song is buffering
+- Fixed mini queue not updating
+- Fixed top charts doesn't display
+- Fixed top charts country selection
+- Fixed top charts not updating
+- Fixed source error on Android Auto
+- Fixed desynchronization of NZik with NZik on Android Auto
+- Fixed On device play not working on Android Auto (stuck in searching phase)
+
+Improved:
+- Optimized ImageCacheFactory performance
+- Improved Android Auto overall UI and features
+- Added Songs, Album, Video, and Playlist tabs in search tab on Android Auto
+- Improved artist page on Android Auto with Songs, Album, Video sections
+- Added smooth transition for the mini queue
+
+Refactored:
+- Refactored Network Logic
+- ImageCacheFactory is finished
