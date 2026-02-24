@@ -24,6 +24,7 @@
   <string name="playlists">Lejátszási listák</string>
   <string name="favorites">Kedvencek</string>
   <string name="quick_picks">Quick Picks</string>
+  <string name="lucky_shuffle">I\'m feeling lucky</string>
   <string name="songs">Dal</string>
   <string name="other_versions">További verziók</string>
   <string name="album_no_alternative_version">Ennek az albumnak nincs alternatív verziója</string>
