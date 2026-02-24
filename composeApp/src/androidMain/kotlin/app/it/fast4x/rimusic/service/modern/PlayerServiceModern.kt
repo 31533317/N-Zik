@@ -212,8 +212,8 @@ import app.it.fast4x.rimusic.utils.isDiscordPresenceEnabledKey
 
 const val LOCAL_KEY_PREFIX = "local:"
 
-val MediaItem.isLocal get() = mediaId.startsWith(LOCAL_KEY_PREFIX)
-val Song.isLocal get() = id.startsWith(LOCAL_KEY_PREFIX)
+val MediaItem.isLocal get() = mediaId.contains(LOCAL_KEY_PREFIX)
+val Song.isLocal get() = id.contains(LOCAL_KEY_PREFIX)
 
 @UnstableApi
 class PlayerServiceModern : MediaLibraryService(),

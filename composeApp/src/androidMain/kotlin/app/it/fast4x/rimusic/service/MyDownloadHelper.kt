@@ -255,6 +255,7 @@ object MyDownloadHelper {
                     delay(delayTime)
                 }
             }
+            getDownloads()
         }
     }
 

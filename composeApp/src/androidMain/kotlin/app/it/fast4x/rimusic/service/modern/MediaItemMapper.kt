@@ -54,27 +54,19 @@ object MediaItemMapper {
     )
 
 
-    fun mapSongToMediaItem(song: Song, path: String): MediaItem =
-        MediaItem.Builder()
-            .setMediaId("$path/${song.id}")
-            .setMediaMetadata(
-                MediaMetadata.Builder()
-                    .setTitle(song.cleanTitle())
-
-                    .setSubtitle(song.cleanArtistsText())
-                    .setArtist(song.cleanArtistsText())
-                    .setArtworkUri(song.thumbnailUrl?.thumbnail(480)?.toUri()) // ENHANCED QUALITY
-                    .setIsPlayable(true)
-                    .setIsBrowsable(false)
-                    .setMediaType(if (path.contains(MediaSessionConstants.ID_SEARCH_VIDEOS)) MediaMetadata.MEDIA_TYPE_VIDEO else MediaMetadata.MEDIA_TYPE_MUSIC)
-                    .setExtras(Bundle().apply {
-                        val isExplicit = song.title.startsWith(EXPLICIT_PREFIX)
-                        putBoolean(EXTRAS_KEY_IS_EXPLICIT, isExplicit)
-                        putBoolean(EXPLICIT_BUNDLE_TAG, isExplicit)
-                    })
-                    .build()
-            )
-            .build()
+    fun mapSongToMediaItem(song: Song, path: String): MediaItem {
+        val baseItem = song.asMediaItem
+        return if (path.contains(MediaSessionConstants.ID_SEARCH_VIDEOS)) {
+            baseItem.buildUpon()
+                .setMediaId("$path/${song.id}")
+                .setMediaMetadata(baseItem.mediaMetadata.buildUpon().setMediaType(MediaMetadata.MEDIA_TYPE_VIDEO).build())
+                .build()
+        } else {
+            baseItem.buildUpon()
+                .setMediaId("$path/${song.id}")
+                .build()
+        }
+    }
 
     fun mapSongToMediaItem(song: Song, isFromPersistentQueue: Boolean = false): MediaItem {
         val bundle = Bundle().apply {
