@@ -1070,4 +1070,5 @@
   <string name="content_type_official">Virallinen</string>
   <string name="content_type_user_generated">Käyttäjä Luotu</string>
   <string name="in_txt">sisään</string>
+  <string name="other">Muut</string>
 </resources>
