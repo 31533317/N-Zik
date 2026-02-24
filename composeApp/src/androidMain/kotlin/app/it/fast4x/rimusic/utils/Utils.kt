@@ -34,6 +34,7 @@ import it.fast4x.innertube.models.bodies.ContinuationBody
 import it.fast4x.innertube.requests.playlistPage
 import it.fast4x.kugou.KuGou
 import it.fast4x.lrclib.LrcLib
+import androidx.media3.session.MediaConstants.EXTRAS_KEY_IS_EXPLICIT
 import app.it.fast4x.rimusic.Database
 import app.it.fast4x.rimusic.EXPLICIT_PREFIX
 import app.it.fast4x.rimusic.MODIFIED_PREFIX
@@ -85,10 +86,10 @@ val Innertube.Podcast.EpisodeItem.asMediaItem: MediaItem
                         //"albumId" to album?.endpoint?.browseId,
                         "durationText" to durationString,
                         "artistNames" to author,
+                        EXTRAS_KEY_IS_EXPLICIT to false,
                         //"artistIds" to authors?.mapNotNull { it.endpoint?.browseId },
                     )
                 )
-
                 .build()
         )
         .build()
@@ -113,6 +114,7 @@ val Innertube.SongItem.asMediaItem: MediaItem
                             ?.mapNotNull { it.name },
                         "artistIds" to authors?.mapNotNull { it.endpoint?.browseId },
                         EXPLICIT_BUNDLE_TAG to explicit,
+                        EXTRAS_KEY_IS_EXPLICIT to explicit,
                         "setVideoId" to setVideoId,
                     )
                 )
@@ -169,7 +171,8 @@ val Song.asMediaItem: MediaItem
                 .setExtras(
                     bundleOf(
                         "durationText" to durationText,
-                        EXPLICIT_BUNDLE_TAG to title.startsWith( EXPLICIT_PREFIX, true )
+                        EXPLICIT_BUNDLE_TAG to title.startsWith( EXPLICIT_PREFIX, true ),
+                        EXTRAS_KEY_IS_EXPLICIT to title.startsWith( EXPLICIT_PREFIX, true )
                     )
                 )
                 .build()
@@ -183,6 +186,15 @@ val Song.asMediaItem: MediaItem
         )
         .setCustomCacheKey(id)
         .build()
+
+val Innertube.VideoItem.asSong: Song
+    get() = Song (
+        id = key,
+        title = info?.name ?: "",
+        artistsText = authors?.joinToString(", ") { it.name ?: "" },
+        durationText = durationText,
+        thumbnailUrl = thumbnail?.url
+    )
 
 val MediaItem.asSong: Song
     get() = Song (
@@ -219,8 +231,9 @@ val MediaItem.isExplicit: Boolean
     get() {
         val isTitleContain = mediaMetadata.title?.startsWith( EXPLICIT_PREFIX, true )
         val isBundleContain = mediaMetadata.extras?.getBoolean( EXPLICIT_BUNDLE_TAG )
+        val isStandardContain = mediaMetadata.extras?.getBoolean("androidx.media3.session.EXTRAS_KEY_IS_EXPLICIT")
 
-        return isTitleContain == true || isBundleContain == true
+        return isTitleContain == true || isBundleContain == true || isStandardContain == true
     }
 
 

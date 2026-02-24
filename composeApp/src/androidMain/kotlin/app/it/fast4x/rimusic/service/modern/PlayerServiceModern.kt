@@ -75,6 +75,7 @@ import androidx.media3.session.MediaNotification
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaStyleNotificationHelper
 import androidx.media3.session.SessionToken
+import app.it.fast4x.rimusic.repository.QuickPicksRepository
 import app.kreate.android.R
 import app.kreate.android.service.createDataSourceFactory
 import app.kreate.android.widget.Widget
@@ -456,6 +457,8 @@ class PlayerServiceModern : MediaLibraryService(),
                     )
                 )
                 .build()
+        
+        mediaLibrarySessionCallback.observeRepository(mediaSession)
 
         player.skipSilenceEnabled = preferences.getBoolean(skipSilenceKey, false)
         player.addListener(this@PlayerServiceModern)
@@ -493,6 +496,8 @@ class PlayerServiceModern : MediaLibraryService(),
         MyDownloadHelper.getDownloadManager(this).addListener(downloadListener)
 
         notificationActionReceiver = NotificationActionReceiver(player)
+
+        QuickPicksRepository.refreshIfNeeded()
 
 
         val filter = IntentFilter().apply {
@@ -648,6 +653,7 @@ class PlayerServiceModern : MediaLibraryService(),
             } catch (e: Exception){
                 Timber.e("PlayerServiceModern onDestroy unregisterReceiver notificationActionReceiver "+e.stackTraceToString())
             }
+            mediaLibrarySessionCallback.release()
             mediaSession.release()
             cache.release()
             //downloadCache.release()

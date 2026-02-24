@@ -30,6 +30,7 @@ import it.fast4x.innertube.models.bodies.SearchBody
 import it.fast4x.innertube.requests.searchPage
 import it.fast4x.innertube.utils.from
 import app.it.fast4x.rimusic.Database
+import app.it.fast4x.rimusic.EXPLICIT_PREFIX
 import app.it.fast4x.rimusic.cleanPrefix
 import app.it.fast4x.rimusic.enums.MaxTopPlaylistItems
 import app.it.fast4x.rimusic.enums.StatisticsType
@@ -39,22 +40,26 @@ import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_CACHED
 import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_DOWNLOADED
 import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_FAVORITES
 import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_ONDEVICE
+import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_QUICK_PICKS
+import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_LUCKY_SHUFFLE
+import app.it.fast4x.rimusic.repository.QuickPicksRepository
 import app.it.fast4x.rimusic.service.modern.MediaSessionConstants.ID_TOP
 import app.it.fast4x.rimusic.utils.MaxTopPlaylistItemsKey
+import app.n_zik.android.core.coil.thumbnail
+import it.fast4x.innertube.models.bodies.NextBody
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.combine
+import app.it.fast4x.rimusic.utils.EXPLICIT_BUNDLE_TAG
 import app.it.fast4x.rimusic.utils.asMediaItem
+import androidx.media3.session.MediaConstants.EXTRAS_KEY_IS_EXPLICIT
 import app.it.fast4x.rimusic.utils.asSong
 import app.it.fast4x.rimusic.utils.getEnum
 import app.it.fast4x.rimusic.utils.persistentQueueKey
 import app.it.fast4x.rimusic.utils.preferences
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.guava.future
-import kotlinx.coroutines.plus
-import kotlinx.coroutines.runBlocking
 import app.kreate.android.me.knighthat.database.ext.FormatWithSong
 
 @UnstableApi
@@ -64,6 +69,7 @@ class MediaLibrarySessionCallback(
     val downloadHelper: MyDownloadHelper
 ) : MediaLibrarySession.Callback {
     private val scope = CoroutineScope(Dispatchers.Main) + Job()
+    private var observationJob: Job? = null
     lateinit var binder: PlayerServiceModern.Binder
     var toggleLike: () -> Unit = {}
     var toggleDownload: () -> Unit = {}
@@ -72,7 +78,41 @@ class MediaLibrarySessionCallback(
     var startRadio: () -> Unit = {}
     var callPause: () -> Unit = {}
     var actionSearch: () -> Unit = {}
+    
     var searchedSongs: List<Song> = emptyList()
+    var searchedArtists: List<Innertube.ArtistItem> = emptyList()
+    var searchedVideos: List<Innertube.VideoItem> = emptyList()
+    var searchedAlbums: List<Innertube.AlbumItem> = emptyList()
+
+    fun observeRepository(session: MediaLibrarySession) {
+        observationJob?.cancel()
+        observationJob = scope.launch {
+            combine(
+                QuickPicksRepository.trendingList,
+                QuickPicksRepository.relatedPage,
+                database.artistTable.allFollowing(),
+                database.albumTable.all(),
+                database.songTable.all(),
+                database.eventTable.findSongsMostPlayedBetween(0L),
+                database.playlistTable.allAsPreview(),
+                downloadHelper.downloads,
+                database.formatTable.allWithSongs()
+            ) { _ -> Unit }.collect {
+                session.notifyChildrenChanged(PlayerServiceModern.ROOT, 0, null)
+                session.notifyChildrenChanged(ID_QUICK_PICKS, 0, null)
+                session.notifyChildrenChanged(PlayerServiceModern.SONG, 0, null)
+                session.notifyChildrenChanged(PlayerServiceModern.ARTIST, 0, null)
+                session.notifyChildrenChanged(PlayerServiceModern.ALBUM, 0, null)
+                session.notifyChildrenChanged(PlayerServiceModern.PLAYLIST, 0, null)
+            }
+        }
+    }
+
+
+    fun release() {
+        observationJob?.cancel()
+        scope.cancel()
+    }
 
     override fun onConnect(
         session: MediaSession,
@@ -116,28 +156,37 @@ class MediaLibrarySessionCallback(
         params: MediaLibraryService.LibraryParams?
     ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
         println("PlayerServiceModern MediaLibrarySessionCallback.onGetSearchResult: $query")
-        runBlocking(Dispatchers.IO) {
-            searchedSongs = Innertube.searchPage(
-                body = SearchBody(
-                    query = query,
-                    params = Innertube.SearchFilter.Song.value
-                ),
-                fromMusicShelfRendererContent = Innertube.SongItem.Companion::from
-            )?.map {
-                it?.items?.map { it.asSong }
-            }?.getOrNull() ?: emptyList()
-
-            val resultList = searchedSongs.map {
-                it.toMediaItem(PlayerServiceModern.SEARCHED)
-            }
-            return@runBlocking Futures.immediateFuture(LibraryResult.ofItemList(ImmutableList.copyOf(resultList), params))
-        }
-
-        return Futures.immediateFuture(LibraryResult.ofItemList(ImmutableList.copyOf(searchedSongs.map {
-            it.toMediaItem(
-                PlayerServiceModern.SEARCHED
+        val results = listOf(
+            browsableMediaItem(
+                "${MediaSessionConstants.ID_SEARCH_SONGS}/$query",
+                context.getString(R.string.songs),
+                null,
+                drawableUri(R.drawable.musical_notes),
+                MediaMetadata.MEDIA_TYPE_FOLDER_MIXED
+            ),
+            browsableMediaItem(
+                "${MediaSessionConstants.ID_SEARCH_ARTISTS}/$query",
+                context.getString(R.string.artists),
+                null,
+                drawableUri(R.drawable.people),
+                MediaMetadata.MEDIA_TYPE_FOLDER_ARTISTS
+            ),
+            browsableMediaItem(
+                "${MediaSessionConstants.ID_SEARCH_ALBUMS}/$query",
+                context.getString(R.string.albums),
+                null,
+                drawableUri(R.drawable.album),
+                MediaMetadata.MEDIA_TYPE_FOLDER_ALBUMS
+            ),
+            browsableMediaItem(
+                "${MediaSessionConstants.ID_SEARCH_VIDEOS}/$query",
+                context.getString(R.string.videos),
+                null,
+                drawableUri(R.drawable.video),
+                MediaMetadata.MEDIA_TYPE_FOLDER_MIXED
             )
-        }), params))
+        )
+        return Futures.immediateFuture(LibraryResult.ofItemList(ImmutableList.copyOf(results), params))
     }
 
     override fun onCustomCommand(
@@ -191,6 +240,13 @@ class MediaLibrarySessionCallback(
             when (parentId) {
                 PlayerServiceModern.ROOT -> listOf(
                     browsableMediaItem(
+                        ID_QUICK_PICKS,
+                        context.getString(R.string.quick_picks),
+                        null,
+                        drawableUri(R.drawable.sparkles),
+                        MediaMetadata.MEDIA_TYPE_FOLDER_MIXED
+                    ),
+                    browsableMediaItem(
                         PlayerServiceModern.SONG,
                         context.getString(R.string.songs),
                         null,
@@ -220,16 +276,27 @@ class MediaLibrarySessionCallback(
                     )
                 )
 
-                PlayerServiceModern.SONG -> database.eventTable
-                                                    .findSongsMostPlayedBetween( StatisticsType.OneMonth.timeStampInMillis() )
-                                                    .first()
-                                                    .ifEmpty {
-                                                        // Only here to avoid empty list
-                                                        database.eventTable
-                                                                .findSongsMostPlayedBetween( 0L )
-                                                                .first()
-                                                    }
-                                                    .map { it.toMediaItem(parentId) }
+                ID_QUICK_PICKS -> {
+                    val luckyItem = MediaItem.Builder()
+                        .setMediaId(ID_LUCKY_SHUFFLE)
+                        .setMediaMetadata(
+                            MediaMetadata.Builder()
+                                .setTitle(context.getString(R.string.lucky_shuffle))
+                                .setArtworkUri(drawableUri(R.drawable.random))
+                                .setIsPlayable(true)
+                                .setIsBrowsable(false)
+                                .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
+                                .build()
+                        )
+                        .build()
+
+                    val trending = QuickPicksRepository.trendingList.value.map { it.toMediaItem(parentId) }
+                    val related = QuickPicksRepository.relatedPage.value?.songs?.map { it.asSong.toMediaItem(parentId) } ?: emptyList()
+
+                    (listOf(luckyItem) + (trending + related).distinctBy { it.mediaId })
+                }
+
+                PlayerServiceModern.SONG -> database.songTable.all().first().map { it.toMediaItem(parentId) }
 
                 PlayerServiceModern.ARTIST -> database.artistTable.allFollowing().first().map { artist ->
                     browsableMediaItem(
@@ -250,7 +317,6 @@ class MediaLibrarySessionCallback(
                         MediaMetadata.MEDIA_TYPE_ALBUM
                     )
                 }
-
 
                 PlayerServiceModern.PLAYLIST -> {
                     val likedSongCount = database.songTable.allFavorites().first().size
@@ -274,104 +340,143 @@ class MediaLibrarySessionCallback(
                             MediaMetadata.MEDIA_TYPE_PLAYLIST
                         ),
                         browsableMediaItem(
-                            "${PlayerServiceModern.PLAYLIST}/$ID_DOWNLOADED",
+                            "${PlayerServiceModern.PLAYLIST}/${ID_DOWNLOADED}",
                             context.getString(R.string.downloaded),
                             downloadedSongCount.toString(),
                             drawableUri(R.drawable.downloaded),
                             MediaMetadata.MEDIA_TYPE_PLAYLIST
                         ),
                         browsableMediaItem(
-                            "${PlayerServiceModern.PLAYLIST}/$ID_TOP",
+                            "${PlayerServiceModern.PLAYLIST}/${ID_TOP}",
                             context.getString(R.string.playlist_top),
-                            context.preferences.getEnum(MaxTopPlaylistItemsKey, MaxTopPlaylistItems.`10`).name,
+                            null,
                             drawableUri(R.drawable.trending),
                             MediaMetadata.MEDIA_TYPE_PLAYLIST
                         ),
                         browsableMediaItem(
-                            "${PlayerServiceModern.PLAYLIST}/$ID_ONDEVICE",
+                            "${PlayerServiceModern.PLAYLIST}/${ID_ONDEVICE}",
                             context.getString(R.string.on_device),
                             onDeviceSongCount.toString(),
                             drawableUri(R.drawable.devices),
                             MediaMetadata.MEDIA_TYPE_PLAYLIST
                         )
-
                     ) + playlists.map { playlist ->
                         browsableMediaItem(
                             "${PlayerServiceModern.PLAYLIST}/${playlist.playlist.id}",
                             playlist.playlist.name,
                             playlist.songCount.toString(),
-                            drawableUri(R.drawable.playlist),
+                            drawableUri(R.drawable.library),
                             MediaMetadata.MEDIA_TYPE_PLAYLIST
                         )
                     }
-
                 }
 
-
-                else -> when {
-
-                    parentId.startsWith("${PlayerServiceModern.ARTIST}/") ->
-                        database.songArtistMapTable
-                                .allSongsBy( parentId.removePrefix("${PlayerServiceModern.ARTIST}/") )
-                                .first()
-                                .map { it.toMediaItem( parentId ) }
-
-                    parentId.startsWith("${PlayerServiceModern.ALBUM}/") -> {
-                        val albumId = parentId.removePrefix("${PlayerServiceModern.ALBUM}/")
-
-                        database.songAlbumMapTable
-                                .allSongsOf( albumId )
-                                .first()
-                                .map { it.toMediaItem( parentId ) }
-                    }
-
-                    parentId.startsWith("${PlayerServiceModern.PLAYLIST}/") -> {
-
-                        when (val playlistId =
-                            parentId.removePrefix("${PlayerServiceModern.PLAYLIST}/")) {
-                            ID_FAVORITES -> database.songTable.allFavorites()
-                            ID_CACHED -> database.formatTable
-                                                 .allWithSongs()
-                                                 .map { list ->
-                                                     list.filter {
-                                                             val contentLength = it.format.contentLength
-                                                             contentLength != null && binder.cache.isCached( it.song.id, 0L, contentLength )
-                                                         }
-                                                         .map( FormatWithSong::song )
-                                                         .reversed()
-                                                 }
-                            ID_TOP ->
-                                database.eventTable
-                                        .findSongsMostPlayedBetween(
-                                            from = 0,
-                                            limit = context.preferences
-                                                .getEnum(MaxTopPlaylistItemsKey, MaxTopPlaylistItems.`10`)
-                                                .toInt()
-                                        )
-                            ID_ONDEVICE -> database.songTable.allOnDevice()
-                            ID_DOWNLOADED -> {
-                                val downloads = downloadHelper.downloads.value
-                                database.songTable
-                                        .all( excludeHidden = true )
-                                        .flowOn( Dispatchers.IO )
-                                        .map { list ->
-                                            list.filter {
-                                                    downloads[it.id]?.state == Download.STATE_COMPLETED
-                                                }
-                                        }
-                            }
-
-                            else -> database.songPlaylistMapTable.allSongsOf( playlistId.toLong() )
-                        }.first().map {
-                            it.toMediaItem(parentId)
+                else -> {
+                    val parts = parentId.split("/")
+                    when (parts[0]) {
+                        MediaSessionConstants.ID_SEARCH_SONGS -> {
+                            val query = parts[1]
+                            searchedSongs = Innertube.searchPage(
+                                body = SearchBody(
+                                    query = query,
+                                    params = Innertube.SearchFilter.Song.value
+                                ),
+                                fromMusicShelfRendererContent = Innertube.SongItem.Companion::from
+                            )?.getOrNull()?.items?.map { it.asSong } ?: emptyList()
+                            searchedSongs.map { it.toMediaItem(parentId) }
                         }
-
-
+                        MediaSessionConstants.ID_SEARCH_ARTISTS -> {
+                            val query = parts[1]
+                            searchedArtists = Innertube.searchPage(
+                                body = SearchBody(
+                                    query = query,
+                                    params = Innertube.SearchFilter.Artist.value
+                                ),
+                                fromMusicShelfRendererContent = Innertube.ArtistItem.Companion::from
+                            )?.getOrNull()?.items?.mapNotNull { it as? Innertube.ArtistItem } ?: emptyList()
+                            searchedArtists.map { artist ->
+                                browsableMediaItem(
+                                    "${PlayerServiceModern.ARTIST}/${artist.key}",
+                                    artist.info?.name ?: "",
+                                    artist.subscribersCountText,
+                                    artist.thumbnail?.url?.toUri(),
+                                    MediaMetadata.MEDIA_TYPE_ARTIST
+                                )
+                            }
+                        }
+                        MediaSessionConstants.ID_SEARCH_ALBUMS -> {
+                            val query = parts[1]
+                            searchedAlbums = Innertube.searchPage(
+                                body = SearchBody(
+                                    query = query,
+                                    params = Innertube.SearchFilter.Album.value
+                                ),
+                                fromMusicShelfRendererContent = Innertube.AlbumItem.Companion::from
+                            )?.getOrNull()?.items?.mapNotNull { it as? Innertube.AlbumItem } ?: emptyList()
+                            searchedAlbums.map { album ->
+                                browsableMediaItem(
+                                    "${PlayerServiceModern.ALBUM}/${album.key}",
+                                    album.info?.name ?: "",
+                                    album.authors?.joinToString(", ") { it.name ?: "" },
+                                    album.thumbnail?.url?.toUri(),
+                                    MediaMetadata.MEDIA_TYPE_ALBUM
+                                )
+                            }
+                        }
+                        MediaSessionConstants.ID_SEARCH_VIDEOS -> {
+                            val query = parts[1]
+                            searchedVideos = Innertube.searchPage(
+                                body = SearchBody(
+                                    query = query,
+                                    params = Innertube.SearchFilter.Video.value
+                                ),
+                                fromMusicShelfRendererContent = Innertube.VideoItem.Companion::from
+                            )?.getOrNull()?.items?.mapNotNull { it as? Innertube.VideoItem } ?: emptyList()
+                            searchedVideos.map { video ->
+                                video.asSong.toMediaItem(parentId)
+                            }
+                        }
+                        PlayerServiceModern.ARTIST -> database.songArtistMapTable.allSongsBy(parts[1]).first().map { it.toMediaItem(parentId) }
+                        PlayerServiceModern.ALBUM -> database.songAlbumMapTable.allSongsOf(parts[1]).first().map { it.toMediaItem(parentId) }
+                        PlayerServiceModern.PLAYLIST -> {
+                            val playlistId = parts[1]
+                            when (playlistId) {
+                                ID_FAVORITES -> database.songTable.allFavorites().map { it.reversed() }
+                                ID_CACHED -> database.formatTable
+                                    .allWithSongs()
+                                    .map { list ->
+                                        list.fastFilter {
+                                            val contentLength = it.format.contentLength
+                                            contentLength != null && binder.cache.isCached(it.song.id, 0L, contentLength)
+                                        }
+                                            .reversed()
+                                            .fastMap(FormatWithSong::song)
+                                    }
+                                ID_TOP -> database.eventTable
+                                    .findSongsMostPlayedBetween(
+                                        from = 0,
+                                        limit = context.preferences
+                                            .getEnum(MaxTopPlaylistItemsKey, MaxTopPlaylistItems.`10`)
+                                            .toInt()
+                                    )
+                                ID_ONDEVICE -> database.songTable.allOnDevice()
+                                ID_DOWNLOADED -> {
+                                    val downloads = downloadHelper.downloads.value
+                                    database.songTable
+                                        .all(excludeHidden = false)
+                                        .map { songs ->
+                                            songs.fastFilter {
+                                                downloads[it.id]?.state == Download.STATE_COMPLETED
+                                            }
+                                                .sortedByDescending { downloads[it.id]?.updateTimeMs ?: 0L }
+                                        }
+                                }
+                                else -> database.songPlaylistMapTable.allSongsOf(playlistId.toLong())
+                            }.first().map { it.toMediaItem(parentId) }
+                        }
+                        else -> emptyList()
                     }
-
-                    else -> emptyList()
                 }
-
             },
             params
         )
@@ -403,6 +508,16 @@ class MediaLibrarySessionCallback(
         startIndex: Int,
         startPositionMs: Long,
     ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> = scope.future {
+        if (mediaItems.firstOrNull()?.mediaId == ID_LUCKY_SHUFFLE) {
+            val allSongs = (QuickPicksRepository.trendingList.value + (QuickPicksRepository.relatedPage.value?.songs?.map { it.asSong } ?: emptyList()))
+                .distinctBy { it.id }
+                .shuffled()
+
+            if (allSongs.isNotEmpty()) {
+                return@future MediaSession.MediaItemsWithStartPosition(allSongs.map { it.toMediaItem() }, 0, 0)
+            }
+        }
+
         var queryList = emptyList<Song>()
         var startIdx = startIndex
 
@@ -411,6 +526,18 @@ class MediaLibrarySessionCallback(
 
             val paths = mediaItems.first().mediaId.split( "/" )
             when( paths.first() ) {
+                ID_QUICK_PICKS -> {
+                    songId = paths[1]
+                    queryList = (QuickPicksRepository.trendingList.value + (QuickPicksRepository.relatedPage.value?.songs?.map { it.asSong } ?: emptyList())).distinctBy { it.id }
+                }
+                MediaSessionConstants.ID_SEARCH_SONGS -> {
+                    songId = paths[2]
+                    queryList = searchedSongs
+                }
+                MediaSessionConstants.ID_SEARCH_VIDEOS -> {
+                    songId = paths[2]
+                    queryList = searchedVideos.map { it.asSong }
+                }
                 PlayerServiceModern.SEARCHED -> {
                     songId = paths[1]
                     queryList = searchedSongs
@@ -443,7 +570,6 @@ class MediaLibrarySessionCallback(
                                                      .fastMap( FormatWithSong::song )
                                              }
                         ID_TOP -> database.eventTable
-                                           // Already in DESC order
                                            .findSongsMostPlayedBetween(
                                                from = 0,
                                                limit = context.preferences
@@ -471,7 +597,6 @@ class MediaLibrarySessionCallback(
             startIdx = queryList.indexOfFirst { it.id == songId }.coerceAtLeast( 0 )
         }
 
-        // Return immediately to keep Android Auto alive.
         return@future MediaSession.MediaItemsWithStartPosition( queryList.map{ it.toMediaItem() }, startIdx, startPositionMs )
     }
 
@@ -547,13 +672,18 @@ class MediaLibrarySessionCallback(
             .setMediaId("$path/$id")
             .setMediaMetadata(
                 MediaMetadata.Builder()
-                    .setTitle(cleanTitle())
+                    .setTitle(if (path.contains(MediaSessionConstants.ID_SEARCH_VIDEOS)) "🎥 " + cleanTitle() else cleanTitle())
                     .setSubtitle(cleanArtistsText())
                     .setArtist(cleanArtistsText())
-                    .setArtworkUri(thumbnailUrl?.toUri())
+                    .setArtworkUri(thumbnailUrl?.thumbnail(480)?.toUri())
                     .setIsPlayable(true)
                     .setIsBrowsable(false)
-                    .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
+                    .setMediaType(if (path.contains(MediaSessionConstants.ID_SEARCH_VIDEOS)) MediaMetadata.MEDIA_TYPE_VIDEO else MediaMetadata.MEDIA_TYPE_MUSIC)
+                    .setExtras(Bundle().apply {
+                        val isExplicit = title.startsWith(EXPLICIT_PREFIX)
+                        putBoolean(EXTRAS_KEY_IS_EXPLICIT, isExplicit)
+                        putBoolean(EXPLICIT_BUNDLE_TAG, isExplicit)
+                    })
                     .build()
             )
             .build()
@@ -590,9 +720,13 @@ class MediaLibrarySessionCallback(
     }
 }
 
-
-
 object MediaSessionConstants {
+    const val ID_QUICK_PICKS = "QUICK_PICKS"
+    const val ID_LUCKY_SHUFFLE = "LUCKY_SHUFFLE"
+    const val ID_SEARCH_SONGS = "SEARCH_SONGS"
+    const val ID_SEARCH_ARTISTS = "SEARCH_ARTISTS"
+    const val ID_SEARCH_ALBUMS = "SEARCH_ALBUMS"
+    const val ID_SEARCH_VIDEOS = "SEARCH_VIDEOS"
     const val ID_FAVORITES = "FAVORITES"
     const val ID_CACHED = "CACHED"
     const val ID_DOWNLOADED = "DOWNLOADED"
@@ -611,6 +745,3 @@ object MediaSessionConstants {
     val CommandStartRadio = SessionCommand(ACTION_START_RADIO, Bundle.EMPTY)
     val CommandSearch = SessionCommand(ACTION_SEARCH, Bundle.EMPTY)
 }
-
-
-
