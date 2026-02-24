@@ -1072,4 +1072,5 @@ Volume BAS : titre précédent</string>
   <string name="content_type_official">Officiel</string>
   <string name="content_type_user_generated">Utilisateur généré</string>
   <string name="in_txt">dans</string>
+  <string name="other">Autres</string>
 </resources>
