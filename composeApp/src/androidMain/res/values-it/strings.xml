@@ -24,6 +24,7 @@
   <string name="playlists">Playlist</string>
   <string name="favorites">Preferiti</string>
   <string name="quick_picks">Scelte Rapide</string>
+  <string name="lucky_shuffle">Mi sento fortunato</string>
   <string name="songs">Brani</string>
   <string name="other_versions">Altre versioni</string>
   <string name="album_no_alternative_version">L\'album non ha versioni alternative</string>
