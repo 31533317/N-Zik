@@ -26,13 +26,15 @@ object MediaItemMapper {
         id: String,
         name: String,
         thumbnailUrl: String?,
-        subtext: String? = null
+        subtext: String? = null,
+        searchPath: String = ""
     ): MediaItem = browsableMediaItem(
         id = "$parentId/$id",
         title = name,
         subtitle = subtext,
         iconUri = thumbnailUrl?.thumbnail(480)?.toUri(), // ENHANCED QUALITY
-        mediaType = MediaMetadata.MEDIA_TYPE_ARTIST
+        mediaType = MediaMetadata.MEDIA_TYPE_ARTIST,
+        path = searchPath.ifEmpty { parentId }
     )
 
     fun mapAlbumToMediaItem(
@@ -40,21 +42,25 @@ object MediaItemMapper {
         id: String,
         title: String,
         authorsText: String?,
-        thumbnailUrl: String?
+        thumbnailUrl: String?,
+        searchPath: String = ""
     ): MediaItem = browsableMediaItem(
         id = "$parentId/$id",
         title = title,
         subtitle = authorsText,
         iconUri = thumbnailUrl?.thumbnail(480)?.toUri(), // ENHANCED QUALITY
-        mediaType = MediaMetadata.MEDIA_TYPE_ALBUM
+        mediaType = MediaMetadata.MEDIA_TYPE_ALBUM,
+        path = searchPath.ifEmpty { parentId }
     )
+
 
     fun mapSongToMediaItem(song: Song, path: String): MediaItem =
         MediaItem.Builder()
             .setMediaId("$path/${song.id}")
             .setMediaMetadata(
                 MediaMetadata.Builder()
-                    .setTitle(if (path.contains(MediaSessionConstants.ID_SEARCH_VIDEOS)) "🎥 " + song.cleanTitle() else song.cleanTitle())
+                    .setTitle(song.cleanTitle())
+
                     .setSubtitle(song.cleanArtistsText())
                     .setArtist(song.cleanArtistsText())
                     .setArtworkUri(song.thumbnailUrl?.thumbnail(480)?.toUri()) // ENHANCED QUALITY
@@ -89,13 +95,16 @@ object MediaItemMapper {
         title: String,
         subtitle: String?,
         iconUri: Uri?,
-        mediaType: Int = MediaMetadata.MEDIA_TYPE_MUSIC
-    ): MediaItem =
-        MediaItem.Builder()
+        mediaType: Int = MediaMetadata.MEDIA_TYPE_MUSIC,
+        path: String = ""
+    ): MediaItem {
+        val cleanTitle = cleanPrefix(title)
+        
+        return MediaItem.Builder()
             .setMediaId(id)
             .setMediaMetadata(
                 MediaMetadata.Builder()
-                    .setTitle(cleanPrefix(title))
+                    .setTitle(cleanTitle)
                     .setSubtitle(subtitle)
                     .setArtist(subtitle)
                     .setArtworkUri(iconUri)
@@ -105,6 +114,8 @@ object MediaItemMapper {
                     .build()
             )
             .build()
+    }
+
 
     fun drawableUri(context: Context, @DrawableRes id: Int): Uri = Uri.Builder()
         .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)

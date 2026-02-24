@@ -1,8 +1,8 @@
 1: back button in add to playlist in sub menu doesnt go back
 2: search bar online doesnt show the text centered and icon centered inside the search bar
 3: if i click on back button accros the app somes menu lost transition ??
-4: Update discord library and improve RPC and token grab
-5: When long pressing an ui or a song the effect of longpress doesnt have corner radius
+4: Update discord library and improve RPC and token grab, bugged pls dont use it
+5: When long pressing an ui or a song the effect of longpress doesnt have corner radius, on multiple UI
 6: Searching online and navigation around resultat make newer results to never load ? id you slide too fast
 7: Add artist video category under artist page, only video works not live performance
 8: I need to finish Player Appearance page UI and make it functional
@@ -10,15 +10,14 @@
 10: STABLE and BETA string in changelog doesnt work properly
 11: Add randomize dice in Artist page
 12: Add a warning message once you go from stable build to beta build that inform the user that the build is unstable
-15: Update innertube api to Riplay cutom one 
-16: Remove old fast4x innertube api and Kreate innertube api
-17: Update YTB sync to use new innertube api also update eevery sync like album artists songs ect...
-18: Source error on Android Auto
-19: Jitter lag in Queue
-20: Fix easter eggs
-21: More of display & as artist
-22: Add back dislike button in player
-23: Update HomeAlbum page
-24: loader is not centered in the middle of the screen due to the bottom floating bar
-25: Cache system won't show in android auto and songs tab
-26: Explicit badge not showing in android auto
+13: Remove old fast4x innertube api and Kreate innertube api
+14: Update YTB sync to use new innertube api also update eevery sync like album artists songs ect...
+15: Fix easter eggs
+16: Add back dislike button in player, android auto and notification still support it
+17: Update HomeAlbum page for sync
+18: Cache system won't show in android auto and songs tab same in phone one
+19: Explicit badge not showing in android auto
+20: Notification player show e: e: not needed
+21: On device play doesnt work on android auto, require to play on phone bc its stuck into searching phase
+22: improve artist page on android auto, add songs, album, video, and playlist tabs
+23: fix search on android auto in 3 dots player menu to open artist page like we do in artist page add songs, album, video, and playlist tabs
