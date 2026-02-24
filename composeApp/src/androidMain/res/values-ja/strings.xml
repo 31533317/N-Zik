@@ -24,6 +24,7 @@
   <string name="playlists">プレイリスト</string>
   <string name="favorites">お気に入り</string>
   <string name="quick_picks">クイックピック</string>
+  <string name="lucky_shuffle">私は幸運を感じています</string>
   <string name="songs">曲</string>
   <string name="other_versions">その他のバージョン</string>
   <string name="album_no_alternative_version">このアルバムには別のバージョンがありません</string>
