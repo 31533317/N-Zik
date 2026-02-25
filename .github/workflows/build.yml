@@ -22,8 +22,8 @@ jobs:
       - name: Grant permission
         run: chmod +x gradlew
 
-      - name: Build Full APK
-        run: ./gradlew assembleFullRelease
+      - name: Build APK
+        run: ./gradlew assembleFull
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
