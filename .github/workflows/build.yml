@@ -1,4 +1,4 @@
-name: Build N-Zik Stable
+name: Build N-Zik Direct
 
 on:
   workflow_dispatch:
@@ -8,10 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout stable
+      - name: Checkout original repo
         uses: actions/checkout@v4
         with:
-          ref: v2.7.0
+          repository: NEVARLeVrai/N-Zik
+          ref: main
           submodules: true
 
       - name: Setup Java 17
